@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">TeknoyBuyAndSellUser</string>
-
+    <string name="app_name">TEKNOY BUY AND SELL</string>
+    <string name="teknoy_bu">TEKNOY BU</string>
+    <string name="y_and_sell">Y AND SELL</string>
+    <string name="regi">REGI</string>
+    <string name="ster">STER</string>
+    <string name="student_id">Student ID</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="user_name">Username</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 </resources>
