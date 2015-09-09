@@ -140,7 +140,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="Register"
-            android:id="@+id/button"
+            android:id="@+id/btnRegister"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/White"
             android:background="@color/Louie"/>
@@ -159,7 +159,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:id="@+id/button2"
+            android:id="@+id/btnCancel"
             android:layout_gravity="center_horizontal"
             android:background="@color/White"/>
     </LinearLayout>

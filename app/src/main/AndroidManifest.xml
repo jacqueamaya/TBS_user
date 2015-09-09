@@ -7,13 +7,15 @@
         android:icon="@mipmap/tbs_logo"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-        <activity
-            android:name=".MainActivity" >
-
+        <activity android:name=".MainActivity" >
         </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".SellForm"
+            android:label="@string/title_activity_sell_form" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SellForm"
-            android:label="@string/title_activity_sell_form" >
+            android:name=".DonateItemFormActivity"
+            android:label="@string/title_activity_donate_item_form" >
         </activity>
     </application>
 
