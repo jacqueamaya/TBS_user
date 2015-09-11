@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Forgot Password?"
-            android:id="@+id/txtForgotPass"
+            android:id="@+id/txtForgotPassword"
             android:textColor="@color/Black"
             android:textSize="14dp"/>
     </LinearLayout>

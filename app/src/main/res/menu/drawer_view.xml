@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/notif_user"
+            android:title="@string/menu_notifications" />
+        <item
+            android:id="@+id/nav_sell_items"
+            android:icon="@drawable/glyph_queue"
+            android:title="@string/menu_sell_items" />
+        <item
+            android:id="@+id/nav_pending_items"
+            android:icon="@drawable/glyph_reserved"
+            android:title="@string/menu_pending_items" />
+        <item
+            android:id="@+id/nav_buy_items"
+            android:icon="@drawable/glyph_buy"
+            android:title="@string/menu_buy_items" />
+        <item
+            android:id="@+id/nav_shopping_cart"
+            android:icon="@drawable/glyph_cart"
+            android:title="@string/menu_shopping_cart" />
+        <item
+            android:id="@+id/nav_donate_items"
+            android:icon="@drawable/glyph_donation"
+            android:title="@string/menu_donate_items" />
+        <item
+            android:id="@+id/nav_stars_collected"
+            android:icon="@drawable/glyph_star"
+            android:title="@string/menu_stars_collected" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/glyph_logout"
+            android:title="@string/menu_logout" />
+    </group>
+
+</menu>

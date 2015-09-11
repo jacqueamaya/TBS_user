@@ -1,9 +1,5 @@
 <resources>
-    <string name="app_name">TEKNOY BUY AND SELL</string>
-    <string name="teknoy_bu">TEKNOY BU</string>
-    <string name="y_and_sell">Y AND SELL</string>
-    <string name="regi">REGI</string>
-    <string name="ster">STER</string>
+    <string name="app_name">TBS User</string>
     <string name="student_id">Student ID</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -22,4 +18,21 @@
     <string name="title_activity_pending_section">PendingSectionActivity</string>
     <string name="title_activity_pending_item">PendingItemActivity</string>
     <string name="title_activity_shopping_cart">ShoppingCartActivity</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- Dashboard -->
+    <string name="menu_notifications">Notifications</string>
+    <string name="menu_sell_items">Sell Items</string>
+    <string name="menu_pending_items">Pending Items</string>
+    <string name="menu_buy_items">Buy Items</string>
+    <string name="menu_shopping_cart">Shopping Cart</string>
+    <string name="menu_donate_items">Donate Items</string>
+    <string name="menu_stars_collected">Stars Collected</string>
+    <string name="menu_logout">Log-out</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
