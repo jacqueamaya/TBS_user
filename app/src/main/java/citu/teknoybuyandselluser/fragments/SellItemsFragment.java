@@ -7,7 +7,14 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import citu.teknoybuyandselluser.CustomListAdapterNotification;
+import citu.teknoybuyandselluser.CustomListAdapterQueue;
+import citu.teknoybuyandselluser.CustomListAdapterSellItems;
 import citu.teknoybuyandselluser.R;
 
 
@@ -45,7 +52,23 @@ public class SellItemsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sell_items, container, false);
+        //return inflater.inflate(R.layout.fragment_sell_items, container, false);
+        View view = null;
+        view = inflater.inflate(R.layout.fragment_sell_items, container, false);
+        List<String> soldItems = new ArrayList<String>();
+        soldItems.add("General Sociology Book");
+        soldItems.add("Rizal Book");
+        soldItems.add("College Algebra book");
+        soldItems.add("Calculator");
+
+        List<String> itemImg = new ArrayList<String>();
+        itemImg.add("");
+
+        ListView lv = (ListView) view.findViewById(R.id.listViewSellItems);
+        CustomListAdapterSellItems listAdapter = new CustomListAdapterSellItems(getActivity().getBaseContext(), R.layout.activity_sell_item , soldItems);
+        lv.setAdapter(listAdapter);
+
+        return view;
     }
 
 }

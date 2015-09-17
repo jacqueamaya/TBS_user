@@ -7,7 +7,13 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import citu.teknoybuyandselluser.CustomListAdapterNotification;
+import citu.teknoybuyandselluser.CustomListAdapterQueue;
 import citu.teknoybuyandselluser.R;
 
 
@@ -44,7 +50,18 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notifications, container, false);
+        //return inflater.inflate(R.layout.fragment_notifications, container, false);
+        View view = null;
+        view = inflater.inflate(R.layout.fragment_notifications, container, false);
+        List<String> notifications = new ArrayList<String>();
+        notifications.add("Janna bought your item");
+        notifications.add("Admin approved your request to sell your book.");
+        notifications.add("Admin approved your request to donate your bag.");
+
+        ListView lv = (ListView) view.findViewById(R.id.listViewNotif);
+        CustomListAdapterNotification listAdapter = new CustomListAdapterNotification(getActivity().getBaseContext(), R.layout.activity_notification_item , notifications);
+        lv.setAdapter(listAdapter);
+        return view;
     }
 
 }
