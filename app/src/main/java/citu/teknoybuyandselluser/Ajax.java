@@ -12,7 +12,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public final class Ajax {
 
@@ -25,15 +27,16 @@ public final class Ajax {
     public static final int HTTP_OK = 200;
     public static final int HTTP_CREATED = 201;
 
+
     public static void get(String url, final Map<String, String> data, final Callbacks callbacks) {
 
     }
 
     public static void post(String url, final Map<String, String> data, final Callbacks callbacks) {
-        new AsyncTask<String, Void, Void>() {
+        new AsyncTask<String, Void, HashMap<String, Object>>() {
 
             @Override
-            protected Void doInBackground(String... params) {
+            protected HashMap<String, Object> doInBackground(String... params) {
 
                 HttpURLConnection connection = null;
                 try {
@@ -47,18 +50,13 @@ public final class Ajax {
                     connection.setUseCaches(false);
 
                     writeToStream(connection.getOutputStream(), serialize(data));
+                    connection.connect();
 
-                    switch (connection.getResponseCode()) {
-                        case HTTP_OK:
-                        case HTTP_CREATED:
-                            String responseBody = readStream(connection.getInputStream());
-                            callbacks.success(responseBody);
-                            Log.v("Ajax","successs   "+ connection.getResponseCode());
-
-                        default:
-                            int statusCode = connection.getResponseCode();
-                            callbacks.error(statusCode, "ERROR " + statusCode, connection.getResponseMessage());
-                    }
+                    String responseBody = readStream(connection.getInputStream());
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("statusCode", connection.getResponseCode());
+                    map.put("responseBody", responseBody);
+                    return map;
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
@@ -68,11 +66,78 @@ public final class Ajax {
                 }
                 return null;
             }
+
+            @Override
+            protected void onPostExecute(HashMap<String, Object> map) {
+                super.onPostExecute(map);
+                if (null == map) {
+                    callbacks.error(0, null, null);
+                } else {
+                    int statusCode = (Integer) map.get("statusCode");
+                    String responseBody = (String) map.get("responseBody");
+
+                    if (statusCode == 200 || statusCode == 201) {
+                        callbacks.success(responseBody);
+                    } else {
+                        callbacks.error(statusCode, responseBody, null);
+                    }
+                }
+            }
         }.execute(url);
     }
 
-    public static void put(String url, Map<String, String> data, Callbacks callbacks) {
+    public static void put(String url, final Map<String, String> data, final Callbacks callbacks) {
+        new AsyncTask<String, Void, HashMap<String, Object>>() {
 
+            @Override
+            protected HashMap<String, Object> doInBackground(String... params) {
+
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(params[0]);
+                    connection = (HttpURLConnection) url.openConnection();
+
+                    connection.setConnectTimeout(CONNECT_TIMEOUT);
+                    connection.setDoOutput(true);
+                    connection.setDoInput(true);
+                    connection.setRequestMethod("PUT");
+                    connection.setUseCaches(false);
+
+                    writeToStream(connection.getOutputStream(), serialize(data));
+                    connection.connect();
+
+                    String responseBody = readStream(connection.getInputStream());
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("statusCode", connection.getResponseCode());
+                    map.put("responseBody", responseBody);
+                    return map;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(HashMap<String, Object> map) {
+                super.onPostExecute(map);
+                if (null == map) {
+                    callbacks.error(0, null, null);
+                } else {
+                    int statusCode = (Integer) map.get("statusCode");
+                    String responseBody = (String) map.get("responseBody");
+
+                    if (statusCode == 200 || statusCode == 201) {
+                        callbacks.success(responseBody);
+                    } else {
+                        callbacks.error(statusCode, responseBody, null);
+                    }
+                }
+            }
+        }.execute(url);
     }
 
     public static void delete(String url, Map<String, String> data, Callbacks callbacks) {

@@ -1,5 +1,6 @@
 package citu.teknoybuyandselluser;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnRegister;
     private Button btnCancel;
 
+    private RadioButton terms;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +50,17 @@ public class MainActivity extends AppCompatActivity {
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
-        btnRegister = (Button) findViewById(R.id.btnRegister);
+        terms = (RadioButton) findViewById(R.id.terms);
+
+       // btnRegister = (Button) findViewById(R.id.btnRegister);
         btnCancel = (Button) findViewById(R.id.btnCancel);
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+       /* btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onRegister(v);
             }
-        });
+        });*/
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,17 +79,26 @@ public class MainActivity extends AppCompatActivity {
         data.put(USERNAME, txtUsername.getText().toString());
         data.put(PASSWORD, txtPassword.getText().toString());
 
-        Server.register(data, new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                Log.v(TAG, "Success :)");
-            }
+        if(terms.isChecked()){
+            Server.register(data, new Ajax.Callbacks() {
+                @Override
+                public void success(String responseBody) {
+                    Log.v(TAG, "Success :)");
+                    Intent intent;
+                    intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
 
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.e(TAG, "Error : " + statusCode);
-            }
-        });
+                @Override
+                public void error(int statusCode, String responseBody, String statusText) {
+                    Log.e(TAG, "Error : " + statusCode);
+                    Toast.makeText(MainActivity.this, responseBody, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            Toast.makeText(MainActivity.this, "Please agree to the terms and conditions.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void onCancel (View view) {

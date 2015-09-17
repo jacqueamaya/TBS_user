@@ -1,6 +1,8 @@
 package citu.teknoybuyandselluser;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,14 +15,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
     private static final String TAG = "LoginActivity";
 
     private EditText txtUsername;
@@ -31,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button  btnLogin;
     //private boolean isUserValid;
-    private String loginMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,25 +50,12 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLogin(v);
-                Toast.makeText(LoginActivity.this, loginMessage, Toast.LENGTH_SHORT).show();
-
-                Intent intent;
-                intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                intent.putExtra("user", "User");
-                startActivity(intent);
-            }
-        });
-
         txtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
                 intent = new Intent(LoginActivity.this, ChangePasswordActivity.class);
-                intent.putExtra("userId", "User ID");
+                //intent.putExtra("userId", "User ID");
                 startActivity(intent);
             }
         });
@@ -79,6 +70,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        /*Intent intent = getIntent();
+        String errorMessage = intent.getStringExtra("error");
+        if(null != errorMessage) {
+            Log.d(TAG, errorMessage);
+            Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
+        }*/
+    }
+
     public void onLogin(View view){
         Map<String,String> data = new HashMap<>();
 
@@ -88,18 +90,35 @@ public class LoginActivity extends AppCompatActivity {
         Server.login(data, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                //Log.v(TAG, "Successful Login :)");
-                //Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
-                loginMessage = "Successful Login";
+                Log.d(TAG, "LOGIN success");
+                Intent intent;
+                intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                startActivity(intent);
             }
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                //Log.e(TAG, "Error : " + statusCode);
-                //Toast.makeText(LoginActivity.this, "Error: " + statusCode, Toast.LENGTH_SHORT).show();
-                loginMessage = "Error : " + statusCode;
+                 Log.d(TAG,"LOGIN error " + responseBody);
+                /*Intent intent;
+                intent = new Intent(LoginActivity.this, LoginActivity.class);
+                intent.putExtra("error", responseBody);
+                startActivity(intent);
+                finish();*/
+                Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
+
             }
         });
+/*
+        Log.d(TAG, "vffff" + Ajax.getResult());
+        if(!success){
+            Log.d(TAG, "error");
+            Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
+        }else{
+            Log.d(TAG, "success");
+            Intent intent;
+            intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            startActivity(intent);
+        } */
     }
 
     @Override

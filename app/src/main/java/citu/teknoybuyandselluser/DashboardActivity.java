@@ -24,9 +24,11 @@ import citu.teknoybuyandselluser.fragments.ShoppingCartFragment;
 import citu.teknoybuyandselluser.fragments.StarsCollectedFragment;
 
 public class DashboardActivity extends AppCompatActivity {
+
     private DrawerLayout mDrawerLayout;
     Toolbar mToolbar;
     ActionBarDrawerToggle mDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
