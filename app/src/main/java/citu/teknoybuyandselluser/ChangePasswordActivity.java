@@ -1,7 +1,8 @@
 package citu.teknoybuyandselluser;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ChangePasswordActivity extends ActionBarActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
 
     public static final String USERNAME = "username";
     public static final String OLD_PASSWORD = "old_password";
@@ -48,6 +49,17 @@ public class ChangePasswordActivity extends ActionBarActivity {
                 onChangePassword(v);
             }
         });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancel(v);
+            }
+        });
+    }
+
+    public void onCancel (View view) {
+        finish();
     }
 
     public void onChangePassword(View view){
@@ -62,6 +74,11 @@ public class ChangePasswordActivity extends ActionBarActivity {
             @Override
             public void success(String responseBody) {
                 loginMessage = "Password changed successfully";
+                Intent intent;
+                intent = new Intent(ChangePasswordActivity.this, LoginActivity.class);
+                intent.putExtra("error", responseBody);
+                startActivity(intent);
+                finish();
             }
 
             @Override

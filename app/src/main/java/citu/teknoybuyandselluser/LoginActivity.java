@@ -34,9 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtSignUp;
     private TextView txtForgotPassword;
 
-    private Button  btnLogin;
-    //private boolean isUserValid;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +44,6 @@ public class LoginActivity extends AppCompatActivity {
 
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
         txtSignUp = (TextView) findViewById(R.id.txtSignup);
-
-        btnLogin = (Button) findViewById(R.id.btnLogin);
 
         txtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
