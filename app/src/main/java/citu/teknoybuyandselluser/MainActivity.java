@@ -33,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText txtUsername;
     private EditText txtPassword;
 
-    private String address;
-    private Button btnRegister;
-    private Button btnCancel;
-
     private RadioButton terms;
 
     @Override
@@ -51,23 +47,6 @@ public class MainActivity extends AppCompatActivity {
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
         terms = (RadioButton) findViewById(R.id.terms);
-
-       // btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnCancel = (Button) findViewById(R.id.btnCancel);
-
-       /* btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRegister(v);
-            }
-        });*/
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCancel(v);
-            }
-        });
     }
 
     public void onRegister (View view) {
