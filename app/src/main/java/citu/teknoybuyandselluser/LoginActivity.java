@@ -1,6 +1,7 @@
 package citu.teknoybuyandselluser;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
-
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     private static final String TAG = "LoginActivity";
@@ -69,6 +70,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, "LOGIN success");
+                SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putString("username", txtUsername.getText().toString());
+                editor.commit();
                 Intent intent;
                 intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 finish();
