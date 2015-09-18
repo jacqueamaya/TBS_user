@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +26,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private EditText txtNewPassword;
     private EditText txtConfirmPassword;
 
-    private Button btnSubmit;
-    private Button btnCancel;
-
-    private String loginMessage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,23 +35,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         txtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
         txtNewPassword = (EditText) findViewById(R.id.txtNewPassword);
         txtConfirmPassword = (EditText) findViewById(R.id.txtConfirmPassword);
-
-        btnSubmit =  (Button) findViewById(R.id.btnSubmit);
-        btnCancel =  (Button) findViewById(R.id.btnCancel);
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onChangePassword(v);
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onCancel(v);
-            }
-        });
     }
 
     public void onCancel (View view) {
@@ -68,24 +47,25 @@ public class ChangePasswordActivity extends AppCompatActivity {
         data.put(USERNAME,txtUsername.getText().toString());
         data.put(OLD_PASSWORD,txtOldPassword.getText().toString());
         data.put(NEW_PASSWORD,txtNewPassword.getText().toString());
-        data.put(CONFIRM_PASSWORD,txtConfirmPassword.getText().toString());
+        data.put(CONFIRM_PASSWORD, txtConfirmPassword.getText().toString());
 
         Server.changePassword(data, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                loginMessage = "Password changed successfully";
+                Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
                 Intent intent;
                 intent = new Intent(ChangePasswordActivity.this, LoginActivity.class);
                 intent.putExtra("error", responseBody);
-                startActivity(intent);
                 finish();
+                startActivity(intent);
             }
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                loginMessage = "Error : " + statusCode;
+                Toast.makeText(ChangePasswordActivity.this, "Error: " + statusCode, Toast.LENGTH_SHORT).show();
             }
         });
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

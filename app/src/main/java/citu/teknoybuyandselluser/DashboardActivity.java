@@ -125,6 +125,7 @@ public class DashboardActivity extends AppCompatActivity {
         } else {
             Intent intent;
             intent = new Intent(DashboardActivity.this, LoginActivity.class);
+            finish();
             startActivity(intent);
         }
 
