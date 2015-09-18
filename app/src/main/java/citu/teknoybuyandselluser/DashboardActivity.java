@@ -3,6 +3,7 @@ package citu.teknoybuyandselluser;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -34,9 +35,8 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Intent intent = getIntent();
-        String user = intent.getStringExtra("user");
-
+        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, MODE_PRIVATE);
+        String user = prefs.getString("username", "No name defined");
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = setupDrawerToggle();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -44,7 +44,7 @@ public class DashboardActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        TextView txtUser = (TextView) findViewById(R.id.txtName);
+        TextView txtUser = (TextView) findViewById(R.id.txtUserName);
         txtUser.setText(user);
 
         final ActionBar ab = getSupportActionBar();
