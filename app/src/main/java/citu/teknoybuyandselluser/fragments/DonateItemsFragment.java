@@ -1,9 +1,11 @@
 package citu.teknoybuyandselluser.fragments;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +62,27 @@ public class DonateItemsFragment extends Fragment {
         itemImg.add("");
 
         ListView lv = (ListView) view.findViewById(R.id.listViewDonateItems);
-        CustomListAdapterSellItems listAdapter = new CustomListAdapterSellItems(getActivity().getBaseContext(), R.layout.activity_sell_item , soldItems);
+        CustomListAdapterSellItems listAdapter = new CustomListAdapterSellItems(getActivity().getBaseContext(), R.layout.activity_donate_item , soldItems);
         lv.setAdapter(listAdapter);
+
+        FloatingActionButton fab= (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = null;
+                Class fragmentClass = null;
+                fragmentClass = DonateItemFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flContent, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
+            }
+        });
 
         return view;
     }

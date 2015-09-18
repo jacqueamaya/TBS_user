@@ -87,11 +87,13 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = new JSONArray(responseBody);
                             JSONObject json = jsonArray.getJSONObject(0);
+                            Log.d(TAG, json.toString());
                             JSONObject jsonUser = json.getJSONObject("student");
 
-                            SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                             editor.putString("first_name", jsonUser.getString("first_name"));
                             editor.putString("last_name", jsonUser.getString("last_name"));
+                            editor.putInt("stars_collected", json.getInt("stars_collected"));
                             editor.apply();
                         } catch (Exception e) {
                             e.printStackTrace();

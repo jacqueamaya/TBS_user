@@ -126,9 +126,6 @@ public class DashboardActivity extends AppCompatActivity {
         } else {
             Intent intent;
             intent = new Intent(DashboardActivity.this, LoginActivity.class);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.clear();
-            editor.commit();
             finish();
             startActivity(intent);
         }
