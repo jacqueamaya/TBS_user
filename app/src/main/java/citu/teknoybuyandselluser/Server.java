@@ -7,9 +7,9 @@ import java.util.Map;
 
 public class Server {
 
-    private static final String URL_REGISTER = "http://192.168.0.12:8000/api/register";
-    private static final String URL_LOGIN = "http://192.168.0.12:8000/api/login";
-    private static final String URL_CHANGE_PASSWORD = "http://192.168.0.12:8000/api/change_password";
+    private static final String URL_REGISTER = "http://192.168.254.8:8000/api/register";
+    private static final String URL_LOGIN = "http://192.168.254.8:8000/api/login";
+    private static final String URL_CHANGE_PASSWORD = "http://192.168.254.8:8000/api/change_password";
 
     public static void register (Map<String, String> data, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(MainActivity.ID_NUMBER) ||
