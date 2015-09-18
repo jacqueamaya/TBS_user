@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView txtSignUp;
     private TextView txtForgotPassword;
+    private TextView txtErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
         txtSignUp = (TextView) findViewById(R.id.txtSignup);
+        txtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
 
         txtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
                 editor.putString("username", txtUsername.getText().toString());
                 editor.commit();
+
+                txtErrorMessage.setText("");
+
                 Intent intent;
                 intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 finish();
@@ -81,9 +86,10 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                 Log.d(TAG,"LOGIN error " + responseBody);
-                Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
-
+                Log.d(TAG, "LOGIN error " + responseBody);
+                //Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
+                txtErrorMessage.setText("");
+                txtErrorMessage.setText("Invalid username or password");
             }
         });
     }

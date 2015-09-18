@@ -55,6 +55,7 @@ public class DashboardActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
+
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -77,8 +78,8 @@ public class DashboardActivity extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the planet to show based on position
         Fragment fragment = null;
-
         Class fragmentClass = null;
+
         switch(menuItem.getItemId()) {
             case R.id.nav_notifications:
                 fragmentClass = NotificationsFragment.class;

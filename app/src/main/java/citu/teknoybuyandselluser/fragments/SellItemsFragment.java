@@ -1,12 +1,15 @@
 package citu.teknoybuyandselluser.fragments;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import citu.teknoybuyandselluser.CustomListAdapterNotification;
 import citu.teknoybuyandselluser.CustomListAdapterQueue;
 import citu.teknoybuyandselluser.CustomListAdapterSellItems;
 import citu.teknoybuyandselluser.R;
+import citu.teknoybuyandselluser.SellForm;
 
 
 /**
@@ -67,6 +71,25 @@ public class SellItemsFragment extends Fragment {
         ListView lv = (ListView) view.findViewById(R.id.listViewSellItems);
         CustomListAdapterSellItems listAdapter = new CustomListAdapterSellItems(getActivity().getBaseContext(), R.layout.activity_sell_item , soldItems);
         lv.setAdapter(listAdapter);
+
+        Button btnAdd = (Button) view.findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = null;
+                Class fragmentClass = null;
+                fragmentClass = SellItemFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flContent, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
+            }
+        });
 
         return view;
     }

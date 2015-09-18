@@ -21,8 +21,17 @@
         android:src="@drawable/tbs_1" />
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="20dp" />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/txtLoginErrorMessage"
+        android:textColor="@color/Red"
+        android:layout_gravity="center_horizontal"
+        />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="250dp"
@@ -114,7 +123,8 @@
             android:text=" Sign up"
             android:id="@+id/txtSignup"
             android:textColor="@color/Black"
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -142,7 +152,8 @@
             android:text="Change Password"
             android:id="@+id/txtForgotPassword"
             android:textColor="@color/Black"
-            android:textSize="14dp"/>
+            android:textSize="14dp"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </LinearLayout>
