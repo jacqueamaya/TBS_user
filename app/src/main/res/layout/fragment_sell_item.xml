@@ -1,142 +1,108 @@
-<FrameLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    tools:context="citu.teknoybuyandselluser.fragments.SellItemFragment"
-    android:orientation="vertical"
-    android:background="@color/White"
-    android:layout_gravity="center_vertical">
+    android:fillViewport="true">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="10dp">
+        android:layout_height="wrap_content">
 
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="18dp">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="35dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="10dp">
 
-            <TableRow>
-                <TextView
-                    android:text="Item"
-                    android:textColor="@color/Black"
-                    android:textSize="16dp"
-                    android:padding="3dip"
-                    android:textStyle="bold"/>
-                <EditText
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtItem"
-                    android:textColor="@color/Louie"
-                    android:textSize="16dp"/>
-            </TableRow>
-            <Space
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_gravity="center_horizontal" />
-            <TableRow>
-                <TextView
-                    android:text="Description"
-                    android:textSize="16dp"
-                    android:textColor="@color/Black"
-                    android:padding="3dip"
-                    android:textStyle="bold"/>
+                android:layout_height="match_parent">
+
                 <EditText
+                    android:id="@+id/inputItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="Item"
+                    android:inputType="textCapSentences"/>
+                <EditText
+                    android:id="@+id/inputDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_below="@id/inputItem"
+                    android:hint="Description"
+                    android:inputType="textCapSentences"/>
+                <EditText
+                    android:id="@+id/inputQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_below="@id/inputDescription"
+                    android:hint="Quantity"
+                    android:inputType="text"/>
+                <EditText
+                    android:id="@+id/inputPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_below="@id/inputQuantity"
+                    android:hint="Price"
+                    android:inputType="textCapSentences"/>
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="150dp"
-                    android:inputType="textMultiLine"
-                    android:ems="20"
-                    android:id="@+id/txtDescription"
-                    android:textColor="@color/Louie"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="0.09" />
-            </TableRow>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_gravity="center_horizontal" />
-            <TableRow>
-                <TextView
-                    android:text="Quantity"
-                    android:textColor="@color/Black"
-                    android:textSize="16dp"
-                    android:padding="3dip"
-                    android:textStyle="bold"/>
-                <EditText
-                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtQuantity"
-                    android:textColor="@color/Louie"
-                    android:textSize="16dp"/>
-            </TableRow>
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_gravity="center_horizontal" />
-            <TableRow>
-                <TextView
-                    android:text="Price"
-                    android:textColor="@color/Black"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_below="@id/inputPrice"
                     android:textSize="16dp"
-                    android:padding="3dip"
-                    android:textStyle="bold"/>
-                <EditText
-                    android:layout_width="00dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtPrice"
-                    android:textColor="@color/Louie"
-                    android:textSize="16dp"/>
-            </TableRow>
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_gravity="center_horizontal" />
-            <TableRow>
-                <TextView
                     android:text="Picture"
-                    android:textColor="@color/Black"
-                    android:textSize="16dp"
-                    android:padding="3dip"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/Gray"
+                    android:id="@+id/txtPicture" />
+
                 <Button
-                    android:layout_width="300dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="33dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/inputPrice"
+                    android:layout_toRightOf="@id/txtPicture"
                     android:text="Browse"
                     android:id="@+id/btnBrowse"
                     android:layout_gravity="left"
                     android:background="@color/MintGreen"
                     android:textColor="@color/White"/>
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center_horizontal" />
-            </TableRow>
-        </TableLayout>
-    </android.support.v7.widget.CardView>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal" />
 
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-        <Button
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="Sell Item"
-            android:id="@+id/btnSellItem"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/White"
-            android:background="@color/Louie"/>
-    </LinearLayout>
-</FrameLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/inputPrice"
+                    android:orientation="vertical"
+                    android:gravity="bottom|center_horizontal">
+
+                    <Button
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:text="Sell Item"
+                        android:id="@+id/btnSellItem"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/White"
+                        android:background="@color/Louie"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
+
+</ScrollView>

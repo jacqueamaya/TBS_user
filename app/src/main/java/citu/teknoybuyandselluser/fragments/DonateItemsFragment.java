@@ -52,17 +52,17 @@ public class DonateItemsFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_donate_items, container, false);
         View view = null;
         view = inflater.inflate(R.layout.fragment_donate_items, container, false);
-        List<String> soldItems = new ArrayList<String>();
-        soldItems.add("Footmop");
-        soldItems.add("Paintbrushes");
-        soldItems.add("College Algebra book");
-        soldItems.add("Physics book");
+        List<String> donatedItems = new ArrayList<String>();
+        donatedItems.add("Footmop");
+        donatedItems.add("Paintbrushes");
+        donatedItems.add("College Algebra book");
+        donatedItems.add("Physics book");
 
         List<String> itemImg = new ArrayList<String>();
         itemImg.add("");
 
         ListView lv = (ListView) view.findViewById(R.id.listViewDonateItems);
-        CustomListAdapterSellItems listAdapter = new CustomListAdapterSellItems(getActivity().getBaseContext(), R.layout.activity_donate_item , soldItems);
+        CustomListAdapterSellItems listAdapter = new CustomListAdapterSellItems(getActivity().getBaseContext(), R.layout.activity_donate_item , donatedItems);
         lv.setAdapter(listAdapter);
 
         FloatingActionButton fab= (FloatingActionButton) view.findViewById(R.id.fab);
