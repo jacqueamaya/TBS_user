@@ -1,6 +1,7 @@
 package citu.teknoybuyandselluser.fragments;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import citu.teknoybuyandselluser.LoginActivity;
@@ -25,6 +27,7 @@ public class StarsCollectedFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "user";
     private TextView txtNumberStars;
+    private Button btnClaimAward;
 
     /**
      * Use this factory method to create a new instance of
@@ -54,6 +57,24 @@ public class StarsCollectedFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_stars_collected, container, false);
         txtNumberStars = (TextView) view.findViewById(R.id.txtNumberStars);
         txtNumberStars.setText(getStars()+" stars");
+        btnClaimAward = (Button) view.findViewById(R.id.btnClaimAward);
+        btnClaimAward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = null;
+                Class fragmentClass = null;
+                fragmentClass = AllDonationsFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.flContent, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
+            }
+        });
         return view;
     }
 
