@@ -69,9 +69,9 @@ public class SellItemFragment extends Fragment {
         View view = null;
         view = inflater.inflate(R.layout.fragment_sell_item, container, false);
 
-        txtItem = (EditText) view.findViewById(R.id.txtItem);
-        txtDescription = (EditText) view.findViewById(R.id.txtDescription);
-        txtPrice = (EditText) view.findViewById(R.id.txtPrice);
+        txtItem = (EditText) view.findViewById(R.id.inputItem);
+        txtDescription = (EditText) view.findViewById(R.id.inputDescription);
+        txtPrice = (EditText) view.findViewById(R.id.inputPrice);
 
         Button btnSell = (Button) view.findViewById(R.id.btnSellItem);
         btnSell.setOnClickListener(new View.OnClickListener() {
@@ -85,14 +85,11 @@ public class SellItemFragment extends Fragment {
 
     public void onSell(View view) {
         Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = this.getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "No name defined");
-        txtItem.setText(user);
         data.put(OWNER, user);
         data.put(NAME, txtItem.getText().toString());
         data.put(DESCRIPTION, txtDescription.getText().toString());
-        data.put(STATUS, "Pending");
-        data.put(PURPOSE, "Sell");
         data.put(PRICE, txtPrice.getText().toString());
 
         Server.sellItem(data, new Ajax.Callbacks() {
@@ -104,8 +101,8 @@ public class SellItemFragment extends Fragment {
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "LOGIN error " + responseBody);
-                Toast.makeText(getActivity().getBaseContext(), "Sell Item ERROR: " + responseBody, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Sell Item error " + statusCode + " " + responseBody + " " + statusText);
+                Toast.makeText(getActivity().getBaseContext(), "Sell Item ERROR: " + statusCode + " " + responseBody + " " + statusText, Toast.LENGTH_SHORT).show();
             }
         });
     }

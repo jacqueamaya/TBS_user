@@ -41,23 +41,13 @@
                     android:hint="Description"
                     android:inputType="textCapSentences"/>
                 <EditText
-                    android:id="@+id/inputQuantity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_below="@id/inputDescription"
-                    android:hint="Quantity"
-                    android:inputType="text"/>
-                <EditText
                     android:id="@+id/inputPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_below="@id/inputQuantity"
+                    android:layout_below="@id/inputDescription"
                     android:hint="Price"
                     android:inputType="textCapSentences"/>
                 <TextView
@@ -96,7 +86,6 @@
                         android:layout_height="wrap_content"
                         android:text="Sell Item"
                         android:id="@+id/btnSellItem"
-                        android:layout_gravity="center_horizontal"
                         android:textColor="@color/White"
                         android:background="@color/Louie"/>
                 </LinearLayout>

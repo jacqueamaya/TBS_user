@@ -58,8 +58,6 @@ public class Server {
         if ( ! data.containsKey(SellItemFragment.OWNER) ||
                 ! data.containsKey(SellItemFragment.NAME) ||
                 ! data.containsKey(SellItemFragment.DESCRIPTION) ||
-                ! data.containsKey(SellItemFragment.STATUS) ||
-                ! data.containsKey(SellItemFragment.PURPOSE) ||
                 ! data.containsKey(SellItemFragment.PRICE)) {
             throw new RuntimeException("Missing data.");
         }
