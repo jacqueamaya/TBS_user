@@ -19,6 +19,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
+import citu.teknoybuyandselluser.DashboardActivity;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
@@ -57,6 +58,7 @@ public class AllDonationsFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_all_donations, container, false);
 
         view = inflater.inflate(R.layout.fragment_all_donations, container, false);
+        ((DashboardActivity) getActivity()).setActionBarTitle("All Donations");
 
         SharedPreferences prefs = getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");

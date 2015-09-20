@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import citu.teknoybuyandselluser.Ajax;
+import citu.teknoybuyandselluser.DashboardActivity;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
@@ -67,6 +68,8 @@ public class DonateItemFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_donate_item, container, false);
         View view = null;
         view = inflater.inflate(R.layout.fragment_donate_item, container, false);
+
+        ((DashboardActivity) getActivity()).setActionBarTitle("Donate Item");
 
         txtItem = (EditText) view.findViewById(R.id.txtItem);
         txtDescription = (EditText) view.findViewById(R.id.txtDescription);

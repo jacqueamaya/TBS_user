@@ -58,6 +58,10 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
+    public void setActionBarTitle(String title){
+        mToolbar.setTitle(title);
+    }
+
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open,  R.string.drawer_close);
     }
@@ -164,11 +168,8 @@ public class DashboardActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }*/
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

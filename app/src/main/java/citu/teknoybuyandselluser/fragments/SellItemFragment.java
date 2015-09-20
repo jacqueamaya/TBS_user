@@ -69,6 +69,8 @@ public class SellItemFragment extends Fragment {
         View view = null;
         view = inflater.inflate(R.layout.fragment_sell_item, container, false);
 
+        ((DashboardActivity) getActivity()).setActionBarTitle("Sell Item");
+
         txtItem = (EditText) view.findViewById(R.id.inputItem);
         txtDescription = (EditText) view.findViewById(R.id.inputDescription);
         txtPrice = (EditText) view.findViewById(R.id.inputPrice);
