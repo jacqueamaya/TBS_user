@@ -86,7 +86,7 @@ public class SellItemFragment extends Fragment {
     public void onSell(View view) {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "No name defined");
+        String user = prefs.getString("username", "");
         data.put(OWNER, user);
         data.put(NAME, txtItem.getText().toString());
         data.put(DESCRIPTION, txtDescription.getText().toString());

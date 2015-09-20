@@ -1,19 +1,30 @@
 package citu.teknoybuyandselluser.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.CustomListAdapterQueue;
+import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
+import citu.teknoybuyandselluser.Server;
+import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.models.Item;
 
 
 /**
@@ -25,6 +36,8 @@ public class PendingItemsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "user";
+    private static final String TAG = "PendingItemsFragment";
+    private View view = null;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -50,20 +63,36 @@ public class PendingItemsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_pending_items, container, false);
-        View view = null;
+
         view = inflater.inflate(R.layout.fragment_pending_items, container, false);
-        List<String> soldItems = new ArrayList<String>();
-        soldItems.add("PE T-shirt");
-        soldItems.add("Rizal Book");
-        soldItems.add("Uniform");
-        soldItems.add("Calculator");
+        SharedPreferences prefs = getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        String user = prefs.getString("username", "");
+        Server.getPendingItems(user, new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                ArrayList<Item> pendingItems = new ArrayList<Item>();
+                Log.v(TAG, responseBody);
+                JSONArray jsonArray = null;
 
-        List<String> itemImg = new ArrayList<String>();
-        itemImg.add("");
+                try {
+                    jsonArray = new JSONArray(responseBody);
+                    pendingItems = Item.allItems(jsonArray);
 
-        ListView lv = (ListView) view.findViewById(R.id.listViewPending);
-        CustomListAdapterQueue listAdapter = new CustomListAdapterQueue(getActivity().getBaseContext(), R.layout.activity_pending_item, soldItems);
-        lv.setAdapter(listAdapter);
+                    ListView lv = (ListView) view.findViewById(R.id.listViewPending);
+                    ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, pendingItems);
+                    lv.setAdapter(listAdapter);
+
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                Log.v(TAG, "Request error");
+                // Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }

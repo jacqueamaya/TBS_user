@@ -47,8 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         txtSignUp = (TextView) findViewById(R.id.txtSignup);
         txtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
 
-
-
         txtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
