@@ -2,7 +2,6 @@ package citu.teknoybuyandselluser.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import citu.teknoybuyandselluser.Ajax;
-import citu.teknoybuyandselluser.DashboardActivity;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
@@ -27,10 +25,10 @@ import citu.teknoybuyandselluser.Server;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SellItemFragment#newInstance} factory method to
+ * Use the {@link DonateItemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SellItemFragment extends Fragment {
+public class DonateItemFragment extends Fragment {
     public static final String OWNER = "owner";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
@@ -51,11 +49,11 @@ public class SellItemFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param user Parameter 1.
-     * @return A new instance of fragment SellItemFragment.
+     * @return A new instance of fragment DonateItemFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SellItemFragment newInstance(String user) {
-        SellItemFragment fragment = new SellItemFragment();
+    public static DonateItemFragment newInstance(String user) {
+        DonateItemFragment fragment = new DonateItemFragment();
         Bundle args = new Bundle();
         args.putString("userId", user);
         fragment.setArguments(args);
@@ -66,14 +64,15 @@ public class SellItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        //return inflater.inflate(R.layout.fragment_donate_item, container, false);
         View view = null;
-        view = inflater.inflate(R.layout.fragment_sell_item, container, false);
+        view = inflater.inflate(R.layout.fragment_donate_item, container, false);
 
         txtItem = (EditText) view.findViewById(R.id.txtItem);
         txtDescription = (EditText) view.findViewById(R.id.txtDescription);
         txtPrice = (EditText) view.findViewById(R.id.txtPrice);
 
-        Button btnSell = (Button) view.findViewById(R.id.btnSellItem);
+        Button btnSell = (Button) view.findViewById(R.id.btnDonateItem);
         btnSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,5 +108,4 @@ public class SellItemFragment extends Fragment {
             }
         });
     }
-
 }

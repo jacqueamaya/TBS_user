@@ -22,14 +22,64 @@ public final class Ajax {
     public static final String REQUEST_METHOD_POST = "POST";
     public static final String REQUEST_METHOD_PUT = "PUT";
     public static final String REQUEST_METHOD_DELETE = "DELETE";
+    private static final String TAG = "Ajax";
 
     public static final int CONNECT_TIMEOUT = 10000;
     public static final int HTTP_OK = 200;
     public static final int HTTP_CREATED = 201;
 
 
-    public static void get(String url, final Map<String, String> data, final Callbacks callbacks) {
+    public static void get(String url, final Callbacks callbacks) {
+        new AsyncTask<String, Void, HashMap<String, Object>>() {
 
+            @Override
+            protected HashMap<String, Object> doInBackground(String... params) {
+
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(params[0]);
+                    Log.v(TAG,"URL: "+url);
+                    connection = (HttpURLConnection) url.openConnection();
+
+                    connection.setConnectTimeout(CONNECT_TIMEOUT);
+                    connection.setDoInput(true);
+                    connection.setRequestMethod(REQUEST_METHOD_GET);
+                    connection.setUseCaches(false);
+
+                    String responseBody = readStream(connection.getInputStream());
+                    Log.v("Ajax","response body: "+responseBody);
+                    Log.v("Ajax","response code: "+connection.getResponseCode());
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("statusCode", connection.getResponseCode());
+                    map.put("responseBody", responseBody);
+                    return map;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(HashMap<String, Object> map) {
+                super.onPostExecute(map);
+                if (null == map) {
+                    callbacks.error(0, null, null);
+                } else {
+                    int statusCode = (Integer) map.get("statusCode");
+                    String responseBody = (String) map.get("responseBody");
+
+                    if (statusCode == 200) {
+                        callbacks.success(responseBody);
+                    } else {
+                        callbacks.error(statusCode, responseBody, null);
+                    }
+                }
+            }
+        }.execute(url);
     }
 
     public static void post(String url, final Map<String, String> data, final Callbacks callbacks) {
@@ -46,7 +96,7 @@ public final class Ajax {
                     connection.setConnectTimeout(CONNECT_TIMEOUT);
                     connection.setDoOutput(true);
                     connection.setDoInput(true);
-                    connection.setRequestMethod("POST");
+                    connection.setRequestMethod(REQUEST_METHOD_POST);
                     connection.setUseCaches(false);
 
                     writeToStream(connection.getOutputStream(), serialize(data));
@@ -100,7 +150,7 @@ public final class Ajax {
                     connection.setConnectTimeout(CONNECT_TIMEOUT);
                     connection.setDoOutput(true);
                     connection.setDoInput(true);
-                    connection.setRequestMethod("PUT");
+                    connection.setRequestMethod(REQUEST_METHOD_PUT);
                     connection.setUseCaches(false);
 
                     writeToStream(connection.getOutputStream(), serialize(data));

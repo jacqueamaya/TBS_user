@@ -71,7 +71,7 @@ public class DonateItemsFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = null;
                 Class fragmentClass = null;
-                fragmentClass = SellItemFragment.class;
+                fragmentClass = DonateItemFragment.class;
                 try {
                     fragment = (Fragment) fragmentClass.newInstance();
                 } catch (Exception e) {

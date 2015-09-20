@@ -12,12 +12,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
-    public static final String MY_PREFS_NAME = "MyPrefsFile";
+    public static final String MY_PREFS_NAME = "MyPreferences";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     private static final String TAG = "LoginActivity";
@@ -28,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtSignUp;
     private TextView txtForgotPassword;
     private TextView txtErrorMessage;
+
+    private String strUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
         txtSignUp = (TextView) findViewById(R.id.txtSignup);
         txtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
+
+
 
         txtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,18 +72,39 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLogin(View view){
         Map<String,String> data = new HashMap<>();
-
-        data.put(USERNAME,txtUsername.getText().toString());
+        strUsername = txtUsername.getText().toString();
+        data.put(USERNAME,strUsername);
         data.put(PASSWORD,txtPassword.getText().toString());
 
         Server.login(data, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, "LOGIN success");
-                SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                editor.putString("username", txtUsername.getText().toString());
-                editor.commit();
 
+                Server.getUser(strUsername, new Ajax.Callbacks(){
+                    @Override
+                    public void success(String responseBody) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(responseBody);
+                            JSONObject json = jsonArray.getJSONObject(0);
+                            Log.d(TAG, json.toString());
+                            JSONObject jsonUser = json.getJSONObject("student");
+
+                            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                            editor.putString("first_name", jsonUser.getString("first_name"));
+                            editor.putString("last_name", jsonUser.getString("last_name"));
+                            editor.putInt("stars_collected", json.getInt("stars_collected"));
+                            editor.apply();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void error(int statusCode, String responseBody, String statusText) {
+                        Log.d(TAG, "Error: " + statusCode + " " + responseBody);
+                    }
+                });
                 txtErrorMessage.setText("");
 
                 Intent intent;

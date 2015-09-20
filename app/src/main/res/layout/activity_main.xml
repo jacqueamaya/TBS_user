@@ -166,6 +166,7 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:id="@+id/btnCancel"
+            android:onClick="onCancel"
             android:layout_gravity="center_horizontal"
             android:background="@color/White"/>
     </LinearLayout>

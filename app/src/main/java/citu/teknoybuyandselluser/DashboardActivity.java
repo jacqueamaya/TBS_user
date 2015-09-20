@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -27,16 +28,15 @@ import citu.teknoybuyandselluser.fragments.StarsCollectedFragment;
 public class DashboardActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-    Toolbar mToolbar;
-    ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar mToolbar;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, MODE_PRIVATE);
-        String user = prefs.getString("username", "No name defined");
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = setupDrawerToggle();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -45,7 +45,7 @@ public class DashboardActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         TextView txtUser = (TextView) findViewById(R.id.txtUserName);
-        txtUser.setText(user);
+        txtUser.setText(getUserPreferences());
 
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.sandwich);
@@ -134,6 +134,16 @@ public class DashboardActivity extends AppCompatActivity {
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         mDrawerLayout.closeDrawers();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    public String getUserPreferences() {
+        prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, MODE_PRIVATE);
+        return prefs.getString("first_name", "No FirstName") + " " + prefs.getString("last_name", "No LastName");
     }
 
     @Override
