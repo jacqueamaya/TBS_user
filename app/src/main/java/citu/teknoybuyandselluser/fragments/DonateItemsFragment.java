@@ -2,21 +2,34 @@ package citu.teknoybuyandselluser.fragments;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.CustomListAdapterQueue;
 import citu.teknoybuyandselluser.CustomListAdapterSellItems;
+import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
+import citu.teknoybuyandselluser.Server;
+import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.models.Item;
 
 
 /**
@@ -28,6 +41,8 @@ public class DonateItemsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "user";
+    private static final String TAG = "DonateItemsFragment";
+    private View view = null;
 
     /**
      * Use this factory method to create a new instance of
@@ -50,20 +65,43 @@ public class DonateItemsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_donate_items, container, false);
-        View view = null;
+
         view = inflater.inflate(R.layout.fragment_donate_items, container, false);
-        List<String> donatedItems = new ArrayList<String>();
-        donatedItems.add("Footmop");
-        donatedItems.add("Paintbrushes");
-        donatedItems.add("College Algebra book");
-        donatedItems.add("Physics book");
 
-        List<String> itemImg = new ArrayList<String>();
-        itemImg.add("");
+        SharedPreferences prefs = getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        String user = prefs.getString("username", "");
 
-        ListView lv = (ListView) view.findViewById(R.id.listViewDonateItems);
-        CustomListAdapterSellItems listAdapter = new CustomListAdapterSellItems(getActivity().getBaseContext(), R.layout.activity_donate_item , donatedItems);
-        lv.setAdapter(listAdapter);
+        Server.getItemsToDonate(user, new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                ArrayList<Item> ownedItems = new ArrayList<Item>();
+                Log.v(TAG, responseBody);
+                JSONArray jsonArray = null;
+
+                try {
+                    jsonArray = new JSONArray(responseBody);
+                    if(jsonArray.length()==0){
+                        TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
+                        txtMessage.setText("You have no donated items.");
+                        txtMessage.setVisibility(View.VISIBLE);
+                    } else {
+                        ownedItems = Item.allItems(jsonArray);
+
+                        ListView lv = (ListView) view.findViewById(R.id.listViewSellItems);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, ownedItems);
+                        lv.setAdapter(listAdapter);
+                    }
+
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                Log.v(TAG, "Request error");
+            }
+        });
 
         FloatingActionButton fab= (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

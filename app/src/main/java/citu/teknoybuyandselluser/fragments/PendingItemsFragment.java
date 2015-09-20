@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,11 +77,17 @@ public class PendingItemsFragment extends Fragment {
 
                 try {
                     jsonArray = new JSONArray(responseBody);
-                    pendingItems = Item.allItems(jsonArray);
+                    if(jsonArray.length()==0){
+                        TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
+                        txtMessage.setText("You have no pending items.");
+                        txtMessage.setVisibility(View.VISIBLE);
+                    } else {
+                        pendingItems = Item.allItems(jsonArray);
 
-                    ListView lv = (ListView) view.findViewById(R.id.listViewPending);
-                    ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, pendingItems);
-                    lv.setAdapter(listAdapter);
+                        ListView lv = (ListView) view.findViewById(R.id.listViewPending);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, pendingItems);
+                        lv.setAdapter(listAdapter);
+                    }
 
                 } catch (JSONException e1) {
                     e1.printStackTrace();
@@ -90,7 +97,6 @@ public class PendingItemsFragment extends Fragment {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.v(TAG, "Request error");
-                // Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
             }
         });
 

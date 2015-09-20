@@ -15,10 +15,11 @@ public class Server {
     private static final String URL_USER = "http://192.168.0.12:8000/api-x/profile";
     private static final String URL_SELL_ITEM = "http://192.168.0.12:8000/api/sell_item";
     private static final String URL_NOTIFICATION = "http://192.168.0.12:8000/api-x/notifications";
+    private static final String URL_ITEMS_TO_SELL = "http://192.168.0.12:8000/api-x/items_to_sell";
     private static final String URL_PENDING_ITEMS = "http://192.168.0.12:8000/api-x/pending_items";
     private static final String URL_AVAILABLE_ITEMS = "http://192.168.0.12:8000/api-x/available_items";
-    private static final String URL_OWNED_ITEMS = "http://192.168.0.12:8000/api-x/owned_items";
-    private static final String URL_DONATED_ITEMS = "http://192.168.0.12:8000/api-x/donated_items";
+    private static final String URL_ITEMS_TO_DONATE = "http://192.168.0.12:8000/api-x/items_to_donate";
+    private static final String URL_ALL_DONATIONS = "http://192.168.0.12:8000/api-x/all_donations";
 
     public static void register (Map<String, String> data, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(MainActivity.ID_NUMBER) ||
@@ -77,6 +78,13 @@ public class Server {
         Ajax.get(URL_NOTIFICATION + "/?username=" + username, callbacks);
     }
 
+    public static void getItemsToSell (String username, Ajax.Callbacks callbacks) {
+        if ( username == null) {
+            throw new RuntimeException("Missing data.");
+        }
+        Ajax.get(URL_ITEMS_TO_SELL + "/?username=" + username, callbacks);
+    }
+
     public static void getPendingItems (String username, Ajax.Callbacks callbacks) {
         if ( username == null) {
             throw new RuntimeException("Missing data.");
@@ -88,14 +96,14 @@ public class Server {
         Ajax.get(URL_AVAILABLE_ITEMS, callbacks);
     }
 
-    public static void getOwnedItems (String username, Ajax.Callbacks callbacks) {
+    public static void getItemsToDonate (String username, Ajax.Callbacks callbacks) {
         if ( username == null) {
             throw new RuntimeException("Missing data.");
         }
-        Ajax.get(URL_OWNED_ITEMS + "/?username=" + username, callbacks);
+        Ajax.get(URL_ITEMS_TO_DONATE + "/?username=" + username, callbacks);
     }
 
-    public static void getDonatedItems (Ajax.Callbacks callbacks) {
-        Ajax.get(URL_DONATED_ITEMS, callbacks);
+    public static void getAllDonations (Ajax.Callbacks callbacks) {
+        Ajax.get(URL_ALL_DONATIONS, callbacks);
     }
 }

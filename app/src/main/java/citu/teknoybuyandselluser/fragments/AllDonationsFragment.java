@@ -17,10 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import citu.teknoybuyandselluser.Ajax;
-import citu.teknoybuyandselluser.CustomListAdapterQueue;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
@@ -30,28 +28,24 @@ import citu.teknoybuyandselluser.models.Item;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BuyItemsFragment#newInstance} factory method to
+ * Use the {@link AllDonationsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BuyItemsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "user";
-    private static final String TAG = "BuyItemsFragment";
+public class AllDonationsFragment extends Fragment {
+    private static final String TAG = "AllDonationsFragment";
     private View view = null;
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param user Parameter 1.
-     * @return A new instance of fragment BuyItemsFragment.
+     * @param user Parameter 1
+     * @return A new instance of fragment AllDonationsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BuyItemsFragment newInstance(String user) {
-        BuyItemsFragment fragment = new BuyItemsFragment();
+    public static AllDonationsFragment newInstance(String user) {
+        AllDonationsFragment fragment = new AllDonationsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, user);
+        args.putString("user", user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,31 +54,31 @@ public class BuyItemsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_buy_items, container, false);
+        //return inflater.inflate(R.layout.fragment_all_donations, container, false);
 
-        view = inflater.inflate(R.layout.fragment_buy_items, container, false);
+        view = inflater.inflate(R.layout.fragment_all_donations, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
-        Server.getAvailableItems(new Ajax.Callbacks() {
+        Server.getAllDonations(new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> availableItems = new ArrayList<Item>();
+                ArrayList<Item> allDonations = new ArrayList<Item>();
                 Log.v(TAG, responseBody);
                 JSONArray jsonArray = null;
 
                 try {
                     jsonArray = new JSONArray(responseBody);
-                    if(jsonArray.length()==0){
+                    if (jsonArray.length() == 0) {
                         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
                         txtMessage.setText("No available items to buy.");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
-                        availableItems = Item.allItems(jsonArray);
+                        allDonations = Item.allItems(jsonArray);
 
-                        ListView lv = (ListView) view.findViewById(R.id.listViewBuyItems);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, availableItems);
+                        ListView lv = (ListView) view.findViewById(R.id.listViewDonations);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, allDonations);
                         lv.setAdapter(listAdapter);
                     }
 
