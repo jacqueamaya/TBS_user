@@ -74,7 +74,7 @@ public class AllDonationsFragment extends Fragment {
                     jsonArray = new JSONArray(responseBody);
                     if (jsonArray.length() == 0) {
                         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                        txtMessage.setText("No available items to buy.");
+                        txtMessage.setText("No available donations");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
                         allDonations = Item.allItems(jsonArray);

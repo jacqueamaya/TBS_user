@@ -82,7 +82,7 @@ public class DonateItemsFragment extends Fragment {
                     jsonArray = new JSONArray(responseBody);
                     if(jsonArray.length()==0){
                         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                        txtMessage.setText("You have no available items to be sold.");
+                        txtMessage.setText("You have no available items to be donated");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
                         donatedItems = Item.allItems(jsonArray);

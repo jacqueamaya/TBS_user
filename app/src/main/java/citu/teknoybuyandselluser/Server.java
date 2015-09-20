@@ -14,6 +14,7 @@ public class Server {
     private static final String URL_CHANGE_PASSWORD = "http://192.168.0.12:8000/api/change_password";
     private static final String URL_USER = "http://192.168.0.12:8000/api-x/profile";
     private static final String URL_SELL_ITEM = "http://192.168.0.12:8000/api/sell_item";
+    private static final String URL_DONATE_ITEM = "http://192.168.0.12:8000/api/donate_item";
     private static final String URL_NOTIFICATION = "http://192.168.0.12:8000/api-x/user_notifications";
     private static final String URL_ITEMS_TO_SELL = "http://192.168.0.12:8000/api-x/items_to_sell";
     private static final String URL_PENDING_ITEMS = "http://192.168.0.12:8000/api-x/pending_items";
@@ -69,6 +70,16 @@ public class Server {
         }
 
         Ajax.post(URL_SELL_ITEM, data, callbacks);
+    }
+
+    public static void donateItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+        if ( ! data.containsKey(SellItemFragment.OWNER) ||
+                ! data.containsKey(SellItemFragment.NAME) ||
+                ! data.containsKey(SellItemFragment.DESCRIPTION)) {
+            throw new RuntimeException("Missing data.");
+        }
+
+        Ajax.post(URL_DONATE_ITEM, data, callbacks);
     }
 
     public static void getNotifications (String username, Ajax.Callbacks callbacks) {

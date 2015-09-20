@@ -88,26 +88,22 @@ public class DonateItemFragment extends Fragment {
     public void onSell(View view) {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = this.getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "No name defined");
-        txtItem.setText(user);
+        String user = prefs.getString("username", "");
         data.put(OWNER, user);
         data.put(NAME, txtItem.getText().toString());
         data.put(DESCRIPTION, txtDescription.getText().toString());
-        data.put(STATUS, "Pending");
-        data.put(PURPOSE, "Sell");
-        data.put(PRICE, txtPrice.getText().toString());
 
-        Server.sellItem(data, new Ajax.Callbacks() {
+        Server.donateItem(data, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                Log.d(TAG, "Sell Item success");
-                Toast.makeText(getActivity().getBaseContext(), "Sell Item success", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Donate Item success");
+                Toast.makeText(getActivity().getBaseContext(), "Donate Item success", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "LOGIN error " + responseBody);
-                Toast.makeText(getActivity().getBaseContext(), "Sell Item ERROR: " + responseBody, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Donate Item error " + responseBody);
+                Toast.makeText(getActivity().getBaseContext(), "Donate Item ERROR: " + responseBody, Toast.LENGTH_SHORT).show();
             }
         });
     }

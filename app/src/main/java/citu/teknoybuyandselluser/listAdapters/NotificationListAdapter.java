@@ -57,10 +57,10 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
             }
             String message;
             switch(items.get(position).getNotification_type()){
-                case "sell": message = "<b>Admin</b> approved your request to <b>sell</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date: "+notif_date+"</small>";
+                case "sell": message = "<b>"+items.get(position).getMakerFirstName()+"</b> approved your request to <b>sell</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date: "+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "donate": message = "<b>Admin</b> approved your request to <b>donate</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                case "donate": message = "<b>"+items.get(position).getMakerFirstName()+"</b> approved your request to <b>donate</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
                 case "buy": message = "<b>"+items.get(position).getMakerFirstName()+" "+items.get(position).getMakerLastName()+"</b> (ID: "+items.get(position).getMakerIdNumber()+") wants to <b>buy</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";

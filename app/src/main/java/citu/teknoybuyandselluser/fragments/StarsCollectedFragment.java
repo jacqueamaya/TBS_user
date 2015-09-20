@@ -56,7 +56,12 @@ public class StarsCollectedFragment extends Fragment {
         View view = null;
         view = inflater.inflate(R.layout.fragment_stars_collected, container, false);
         txtNumberStars = (TextView) view.findViewById(R.id.txtNumberStars);
-        txtNumberStars.setText(getStars()+" stars");
+        if(getStars() < 2) {
+            txtNumberStars.setText(getStars()+" star");
+        } else {
+            txtNumberStars.setText(getStars()+" stars");
+        }
+
         btnClaimAward = (Button) view.findViewById(R.id.btnClaimAward);
         btnClaimAward.setOnClickListener(new View.OnClickListener() {
             @Override

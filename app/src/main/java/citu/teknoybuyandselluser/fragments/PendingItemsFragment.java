@@ -79,7 +79,7 @@ public class PendingItemsFragment extends Fragment {
                     jsonArray = new JSONArray(responseBody);
                     if(jsonArray.length()==0){
                         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                        txtMessage.setText("You have no pending items.");
+                        txtMessage.setText("You have no pending items");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
                         pendingItems = Item.allItems(jsonArray);
