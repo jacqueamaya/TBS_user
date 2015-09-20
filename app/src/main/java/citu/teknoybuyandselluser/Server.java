@@ -14,7 +14,7 @@ public class Server {
     private static final String URL_CHANGE_PASSWORD = "http://192.168.0.12:8000/api/change_password";
     private static final String URL_USER = "http://192.168.0.12:8000/api-x/profile";
     private static final String URL_SELL_ITEM = "http://192.168.0.12:8000/api/sell_item";
-    private static final String URL_NOTIFICATION = "http://192.168.0.12:8000/api-x/notifications";
+    private static final String URL_NOTIFICATION = "http://192.168.0.12:8000/api-x/user_notifications";
     private static final String URL_ITEMS_TO_SELL = "http://192.168.0.12:8000/api-x/items_to_sell";
     private static final String URL_PENDING_ITEMS = "http://192.168.0.12:8000/api-x/pending_items";
     private static final String URL_AVAILABLE_ITEMS = "http://192.168.0.12:8000/api-x/available_items";

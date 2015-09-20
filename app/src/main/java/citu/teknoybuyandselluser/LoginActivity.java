@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonUser = json.getJSONObject("student");
 
                             SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                            editor.putString("username", strUsername);
                             editor.putString("first_name", jsonUser.getString("first_name"));
                             editor.putString("last_name", jsonUser.getString("last_name"));
                             editor.putInt("stars_collected", json.getInt("stars_collected"));

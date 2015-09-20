@@ -74,7 +74,7 @@ public class DonateItemsFragment extends Fragment {
         Server.getItemsToDonate(user, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> ownedItems = new ArrayList<Item>();
+                ArrayList<Item> donatedItems = new ArrayList<Item>();
                 Log.v(TAG, responseBody);
                 JSONArray jsonArray = null;
 
@@ -82,13 +82,13 @@ public class DonateItemsFragment extends Fragment {
                     jsonArray = new JSONArray(responseBody);
                     if(jsonArray.length()==0){
                         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                        txtMessage.setText("You have no donated items.");
+                        txtMessage.setText("You have no available items to be sold.");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
-                        ownedItems = Item.allItems(jsonArray);
+                        donatedItems = Item.allItems(jsonArray);
 
-                        ListView lv = (ListView) view.findViewById(R.id.listViewSellItems);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, ownedItems);
+                        ListView lv = (ListView) view.findViewById(R.id.listViewDonateItems);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, donatedItems);
                         lv.setAdapter(listAdapter);
                     }
 
