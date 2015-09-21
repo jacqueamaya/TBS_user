@@ -57,7 +57,7 @@ public class Item {
         return stars_required;
     }
 
-    public static Item getItems(JSONObject jsonObject){
+    public static Item getItem(JSONObject jsonObject){
         Item item = new Item();
         JSONObject jsonItem;
 
@@ -85,7 +85,7 @@ public class Item {
                 continue;
             }
 
-            Item item = Item.getItems(jsonItem);
+            Item item = Item.getItem(jsonItem);
             if (item != null) {
                 items.add(item);
             }
