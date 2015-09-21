@@ -1,9 +1,7 @@
 package citu.teknoybuyandselluser.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -17,10 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import citu.teknoybuyandselluser.Ajax;
-import citu.teknoybuyandselluser.CustomListAdapterQueue;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;

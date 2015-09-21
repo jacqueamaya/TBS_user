@@ -1,9 +1,7 @@
 package citu.teknoybuyandselluser.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -17,11 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import citu.teknoybuyandselluser.Ajax;
-import citu.teknoybuyandselluser.CustomListAdapterNotification;
-import citu.teknoybuyandselluser.CustomListAdapterQueue;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
@@ -67,14 +62,6 @@ public class NotificationsFragment extends Fragment {
         //return inflater.inflate(R.layout.fragment_notifications, container, false);
 
         view = inflater.inflate(R.layout.fragment_notifications, container, false);
-        /*List<String> notifications = new ArrayList<String>();
-        notifications.add("Janna bought your item");
-        notifications.add("Admin approved your request to sell your book.");
-        notifications.add("Admin approved your request to donate your bag.");
-
-        ListView lv = (ListView) view.findViewById(R.id.listViewNotif);
-        CustomListAdapterNotification listAdapter = new CustomListAdapterNotification(getActivity().getBaseContext(), R.layout.activity_notification_item , notifications);
-        lv.setAdapter(listAdapter);*/
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");

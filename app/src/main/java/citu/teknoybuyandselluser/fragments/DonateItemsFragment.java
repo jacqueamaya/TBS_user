@@ -1,10 +1,8 @@
 package citu.teknoybuyandselluser.fragments;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
@@ -17,14 +15,10 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import citu.teknoybuyandselluser.Ajax;
-import citu.teknoybuyandselluser.CustomListAdapterQueue;
-import citu.teknoybuyandselluser.CustomListAdapterSellItems;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;

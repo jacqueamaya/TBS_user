@@ -23,24 +23,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SellForm"
-            android:label="@string/title_activity_sell_form" >
-        </activity>
-        <activity
-            android:name=".DonateItemFormActivity"
-            android:label="@string/title_activity_donate_item_form" >
-        </activity>
-        <activity
             android:name=".ChangePasswordActivity"
             android:label="@string/title_activity_change_password" >
         </activity>
         <activity
             android:name=".DashboardActivity"
             android:label="@string/title_activity_dashboard" >
-        </activity>
-        <activity
-            android:name=".DonateItemActivity"
-            android:label="@string/title_activity_donate_item" >
         </activity>
     </application>
 

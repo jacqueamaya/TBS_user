@@ -1,15 +1,15 @@
 package citu.teknoybuyandselluser.fragments;
 
-import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,10 +17,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import citu.teknoybuyandselluser.Ajax;
-import citu.teknoybuyandselluser.CustomListAdapterQueue;
+import citu.teknoybuyandselluser.DashboardActivity;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
@@ -39,6 +38,18 @@ public class BuyItemsFragment extends Fragment {
     private static final String ARG_PARAM1 = "user";
     private static final String TAG = "BuyItemsFragment";
     private View view = null;
+
+    private static final String ITEM_NAME = "item_name";
+    private static final String DESCRIPTION = "description";
+    private static final String PRICE = "price";
+    private static final String PICTURE = "picture";
+    private static final String STARS_REQUIRED = "stars_required";
+
+    private String itemName;
+    private String description;
+    private float price;
+    private String picture;
+    private int stars_required;
 
     /**
      * Use this factory method to create a new instance of
@@ -76,7 +87,7 @@ public class BuyItemsFragment extends Fragment {
 
                 try {
                     jsonArray = new JSONArray(responseBody);
-                    if(jsonArray.length()==0){
+                    if (jsonArray.length() == 0) {
                         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
                         txtMessage.setText("No available items to buy.");
                         txtMessage.setVisibility(View.VISIBLE);
@@ -86,6 +97,27 @@ public class BuyItemsFragment extends Fragment {
                         ListView lv = (ListView) view.findViewById(R.id.listViewBuyItems);
                         ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, availableItems);
                         lv.setAdapter(listAdapter);
+                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Item item = (Item) parent.getItemAtPosition(position);
+                                Log.d(TAG, item.getItemName());
+                                itemName = item.getItemName();
+                                description = item.getDescription();
+                                price = item.getPrice();
+                                picture = item.getPicture();
+                                stars_required = item.getStars_required();
+
+                                Fragment fragment = null;
+                                fragment = BuyItemFragment.newInstance(itemName, description, price, picture, stars_required);
+                                ((DashboardActivity) getActivity()).setActionBarTitle(itemName);
+
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.replace(R.id.flContent, fragment);
+                                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                                ft.commit();
+                            }
+                        });
                     }
 
                 } catch (JSONException e1) {
@@ -102,4 +134,14 @@ public class BuyItemsFragment extends Fragment {
         return view;
     }
 
+    public void setFragmentArguments(Fragment fragment){
+        Bundle bundle = new Bundle();
+        bundle.putString(ITEM_NAME, itemName);
+        bundle.putString(DESCRIPTION, description);
+        bundle.putFloat(PRICE, price);
+        bundle.putString(PICTURE, picture);
+        bundle.putInt(STARS_REQUIRED, stars_required);
+        fragment.setArguments(bundle);
+        Log.d(TAG, "" + bundle);
+    }
 }
