@@ -1,15 +1,15 @@
 package citu.teknoybuyandselluser.fragments;
 
-import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,19 +35,25 @@ import citu.teknoybuyandselluser.models.Item;
 public class AllDonationsFragment extends Fragment {
     private static final String TAG = "AllDonationsFragment";
     private View view = null;
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param user Parameter 1
-     * @return A new instance of fragment AllDonationsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AllDonationsFragment newInstance(String user) {
+
+    private static final String ITEM_NAME = "item_name";
+    private static final String DESCRIPTION = "description";
+    private static final String PICTURE = "picture";
+    private static final String STARS_REQUIRED = "stars_required";
+
+    private String itemName;
+    private String description;
+    private String picture;
+    private int stars_required;
+
+    public static AllDonationsFragment newInstance(String itemName, String description, String picture, int stars_required) {
         AllDonationsFragment fragment = new AllDonationsFragment();
-        Bundle args = new Bundle();
-        args.putString("user", user);
-        fragment.setArguments(args);
+        Bundle bundle = new Bundle();
+        bundle.putString(ITEM_NAME, itemName);
+        bundle.putString(DESCRIPTION, description);
+        bundle.putString(PICTURE, picture);
+        bundle.putInt(STARS_REQUIRED, stars_required);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -63,7 +69,7 @@ public class AllDonationsFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
-        Server.getAllDonations(new Ajax.Callbacks() {
+        Server.getAllDonations(user, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 ArrayList<Item> allDonations = new ArrayList<Item>();
@@ -82,6 +88,25 @@ public class AllDonationsFragment extends Fragment {
                         ListView lv = (ListView) view.findViewById(R.id.listViewDonations);
                         ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, allDonations);
                         lv.setAdapter(listAdapter);
+                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Item item = (Item) parent.getItemAtPosition(position);
+                                itemName = item.getItemName();
+                                description = item.getDescription();
+                                picture = item.getPicture();
+                                stars_required = item.getStars_required();
+
+                                Fragment fragment = null;
+                                fragment = DonatedItemFragment.newInstance(itemName, description, picture, stars_required);
+                                ((DashboardActivity) getActivity()).setActionBarTitle(itemName);
+
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.replace(R.id.flContent, fragment);
+                                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                                ft.commit();
+                            }
+                        });
                     }
 
                 } catch (JSONException e1) {

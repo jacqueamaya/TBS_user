@@ -30,6 +30,70 @@
             android:name=".DashboardActivity"
             android:label="@string/title_activity_dashboard" >
         </activity>
+        <activity
+            android:name=".NavigationDrawerActivity"
+            android:label="@string/title_activity_navigation_drawer" >
+        </activity>
+        <activity
+            android:name=".NotificationsActivity"
+            android:label="@string/title_activity_notifications" >
+        </activity>
+        <activity
+            android:name=".SellItemsActivity"
+            android:label="@string/title_activity_sell_items" >
+        </activity>
+        <activity
+            android:name=".PendingItemsActivity"
+            android:label="@string/title_activity_pending_items" >
+        </activity>
+        <activity
+            android:name=".BuyItemsActivity"
+            android:label="@string/title_activity_buy_items" >
+        </activity>
+        <activity
+            android:name=".ShoppingCartActivity"
+            android:label="@string/title_activity_shopping_cart" >
+        </activity>
+        <activity
+            android:name=".DonateItemsActivity"
+            android:label="@string/title_activity_donate_items" >
+        </activity>
+        <activity
+            android:name=".StarsCollectedActivity"
+            android:label="@string/title_activity_stars_collected" >
+        </activity>
+        <activity
+            android:name=".SellItemActivity"
+            android:label="@string/title_activity_sell_item" >
+        </activity>
+        <activity
+            android:name=".SellItemDetailsActivity"
+            android:label="@string/title_activity_sell_item_details" >
+        </activity>
+        <activity
+            android:name=".BuyItemActivity"
+            android:label="@string/title_activity_buy_item" >
+        </activity>
+        <activity
+            android:name=".ReservedItemActivity"
+            android:label="@string/title_activity_reserved_item" >
+        </activity>
+        <activity
+            android:name=".DonateItemActivity"
+            android:label="@string/title_activity_donate_item" >
+        </activity>
+        <activity
+            android:name=".DonateItemDetailsActivity"
+            android:label="@string/title_activity_donate_item_details" >
+        </activity>
+        <activity
+            android:name=".AllDonationsActivity"
+            android:label="@string/title_activity_all_donations" >
+        </activity>
+        <activity
+            android:name=".DonatedItemActivity"
+            android:label="@string/title_activity_donated_item" >
+        </activity>
     </application>
 
 </manifest>

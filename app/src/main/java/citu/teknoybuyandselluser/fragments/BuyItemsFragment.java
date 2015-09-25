@@ -39,12 +39,7 @@ public class BuyItemsFragment extends Fragment {
     private static final String TAG = "BuyItemsFragment";
     private View view = null;
 
-    private static final String ITEM_NAME = "item_name";
-    private static final String DESCRIPTION = "description";
-    private static final String PRICE = "price";
-    private static final String PICTURE = "picture";
-    private static final String STARS_REQUIRED = "stars_required";
-
+    private int item_id;
     private String itemName;
     private String description;
     private float price;
@@ -78,7 +73,7 @@ public class BuyItemsFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
-        Server.getAvailableItems(new Ajax.Callbacks() {
+        Server.getAvailableItems(user, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 ArrayList<Item> availableItems = new ArrayList<Item>();
@@ -102,6 +97,8 @@ public class BuyItemsFragment extends Fragment {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Item item = (Item) parent.getItemAtPosition(position);
                                 Log.d(TAG, item.getItemName());
+
+                                item_id = item.getId();
                                 itemName = item.getItemName();
                                 description = item.getDescription();
                                 price = item.getPrice();
@@ -109,7 +106,7 @@ public class BuyItemsFragment extends Fragment {
                                 stars_required = item.getStars_required();
 
                                 Fragment fragment = null;
-                                fragment = BuyItemFragment.newInstance(itemName, description, price, picture, stars_required);
+                                fragment = BuyItemFragment.newInstance(item_id, itemName, description, price, picture, stars_required);
                                 ((DashboardActivity) getActivity()).setActionBarTitle(itemName);
 
                                 FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -132,16 +129,5 @@ public class BuyItemsFragment extends Fragment {
         });
 
         return view;
-    }
-
-    public void setFragmentArguments(Fragment fragment){
-        Bundle bundle = new Bundle();
-        bundle.putString(ITEM_NAME, itemName);
-        bundle.putString(DESCRIPTION, description);
-        bundle.putFloat(PRICE, price);
-        bundle.putString(PICTURE, picture);
-        bundle.putInt(STARS_REQUIRED, stars_required);
-        fragment.setArguments(bundle);
-        Log.d(TAG, "" + bundle);
     }
 }

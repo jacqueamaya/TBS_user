@@ -7,8 +7,6 @@
         <item name="colorPrimary">#FFFFE0</item>
         <item name="colorPrimaryDark">#FFD700</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
-        <!--item name="app:backgroundTint">Louie</item>
-        <item name="colorAccent">#FF4081</item>-->
         <item name="colorAccent">#89343B</item>
     </style>
 

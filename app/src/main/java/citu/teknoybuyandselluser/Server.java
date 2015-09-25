@@ -8,19 +8,22 @@ import java.util.Map;
 import citu.teknoybuyandselluser.fragments.SellItemFragment;
 
 public class Server {
-
-    private static final String URL_REGISTER = "http://192.168.0.12:8000/api/register";
-    private static final String URL_LOGIN = "http://192.168.0.12:8000/api/login";
-    private static final String URL_CHANGE_PASSWORD = "http://192.168.0.12:8000/api/change_password";
-    private static final String URL_USER = "http://192.168.0.12:8000/api-x/profile";
-    private static final String URL_SELL_ITEM = "http://192.168.0.12:8000/api/sell_item";
-    private static final String URL_DONATE_ITEM = "http://192.168.0.12:8000/api/donate_item";
-    private static final String URL_NOTIFICATION = "http://192.168.0.12:8000/api-x/user_notifications";
-    private static final String URL_ITEMS_TO_SELL = "http://192.168.0.12:8000/api-x/items_to_sell";
-    private static final String URL_PENDING_ITEMS = "http://192.168.0.12:8000/api-x/pending_items";
-    private static final String URL_AVAILABLE_ITEMS = "http://192.168.0.12:8000/api-x/available_items";
-    private static final String URL_ITEMS_TO_DONATE = "http://192.168.0.12:8000/api-x/items_to_donate";
-    private static final String URL_ALL_DONATIONS = "http://192.168.0.12:8000/api-x/all_donations";
+    private static final String URL = "192.168.0.12:8000";
+    private static final String URL_REGISTER = "http://"+URL+"/api/register";
+    private static final String URL_LOGIN = "http://"+URL+"/api/login";
+    private static final String URL_CHANGE_PASSWORD = "http://"+URL+"/api/change_password";
+    private static final String URL_USER = "http://"+URL+"/api-x/profile";
+    private static final String URL_SELL_ITEM = "http://"+URL+"/api/sell_item";
+    private static final String URL_BUY_ITEM = "http://"+URL+"/api/buy_item";
+    private static final String URL_CANCEL_BUY_ITEM = "http://"+URL+"/api/cancel_reserved_item";
+    private static final String URL_DONATE_ITEM = "http://"+URL+"/api/donate_item";
+    private static final String URL_NOTIFICATION = "http://"+URL+"/api-x/user_notifications";
+    private static final String URL_ITEMS_TO_SELL = "http://"+URL+"/api-x/items_to_sell";
+    private static final String URL_PENDING_ITEMS = "http://"+URL+"/api-x/pending_items";
+    private static final String URL_AVAILABLE_ITEMS = "http://"+URL+"/api-x/available_items";
+    private static final String URL_ITEMS_TO_DONATE = "http://"+URL+"/api-x/items_to_donate";
+    private static final String URL_ALL_DONATIONS = "http://"+URL+"/api-x/all_donations";
+    private static final String URL_RESERVED_ITEMS = "http://"+URL+"/api-x/reservation_requests";
 
     public static void register (Map<String, String> data, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(MainActivity.ID_NUMBER) ||
@@ -72,6 +75,25 @@ public class Server {
         Ajax.post(URL_SELL_ITEM, data, callbacks);
     }
 
+    public static void buyItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+        if ( ! data.containsKey("buyer") ||
+                ! data.containsKey("item_id")) {
+            throw new RuntimeException("Missing data.");
+        }
+
+        Ajax.post(URL_BUY_ITEM, data, callbacks);
+    }
+
+    public static void cancelBuyItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+        if ( ! data.containsKey("buyer") ||
+                ! data.containsKey("item_id") ||
+                ! data.containsKey("reservation_id")) {
+            throw new RuntimeException("Missing data.");
+        }
+
+        Ajax.post(URL_CANCEL_BUY_ITEM, data, callbacks);
+    }
+
     public static void donateItem (Map<String, String> data, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(SellItemFragment.OWNER) ||
                 ! data.containsKey(SellItemFragment.NAME) ||
@@ -103,8 +125,8 @@ public class Server {
         Ajax.get(URL_PENDING_ITEMS + "/?username=" + username, callbacks);
     }
 
-    public static void getAvailableItems (Ajax.Callbacks callbacks) {
-        Ajax.get(URL_AVAILABLE_ITEMS, callbacks);
+    public static void getAvailableItems (String username, Ajax.Callbacks callbacks) {
+        Ajax.get(URL_AVAILABLE_ITEMS + "/?username=" + username, callbacks);
     }
 
     public static void getItemsToDonate (String username, Ajax.Callbacks callbacks) {
@@ -114,7 +136,11 @@ public class Server {
         Ajax.get(URL_ITEMS_TO_DONATE + "/?username=" + username, callbacks);
     }
 
-    public static void getAllDonations (Ajax.Callbacks callbacks) {
-        Ajax.get(URL_ALL_DONATIONS, callbacks);
+    public static void getAllDonations (String username, Ajax.Callbacks callbacks) {
+        Ajax.get(URL_ALL_DONATIONS + "/?username=" + username, callbacks);
+    }
+
+    public static void getAllReservations (String username, Ajax.Callbacks callbacks) {
+        Ajax.get(URL_RESERVED_ITEMS + "/?username=" + username, callbacks);
     }
 }

@@ -35,7 +35,6 @@ import citu.teknoybuyandselluser.models.Item;
  */
 public class SellItemsFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "user";
     private static final String TAG = "SellItemsFragment";
     private View view = null;
 

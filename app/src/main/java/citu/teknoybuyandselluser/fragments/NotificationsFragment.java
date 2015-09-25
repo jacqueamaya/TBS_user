@@ -82,7 +82,7 @@ public class NotificationsFragment extends Fragment {
                         notifications = Notification.allNotifications(jsonArray);
 
                         ListView lv = (ListView) view.findViewById(R.id.listViewNotif);
-                        NotificationListAdapter listAdapter = new NotificationListAdapter(getActivity().getBaseContext(), R.layout.activity_notification_item, notifications);
+                        NotificationListAdapter listAdapter = new NotificationListAdapter(getActivity().getBaseContext(), R.layout.item_notification, notifications);
                         lv.setAdapter(listAdapter);
                     }
 

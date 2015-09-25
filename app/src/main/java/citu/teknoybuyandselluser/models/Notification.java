@@ -9,23 +9,13 @@ import java.util.ArrayList;
 
 public class Notification {
     private static final String TAG = "Notification";
-    private String makerFirstName;
-    private String makerLastName;
-    private String makerIdNumber;
+    private String makerUserName;
     private String itemName;
     private String notification_type;
     private String notification_date;
 
-    public String getMakerFirstName() {
-        return makerFirstName;
-    }
-
-    public String getMakerLastName() {
-        return makerLastName;
-    }
-
-    public String getMakerIdNumber() {
-        return makerIdNumber;
+    public String getMakerUserName() {
+        return makerUserName;
     }
 
     public String getItemName() {
@@ -46,26 +36,20 @@ public class Notification {
 
         try {
             n.notification_type=jsonObject.getString("notification_type");
-            n.notification_date = jsonObject.getString("notification_date");
+            n.notification_date=jsonObject.getString("notification_date");
 
             if(!jsonObject.isNull("item")){
                 item = jsonObject.getJSONObject("item");
 
                 n.itemName = item.getString("name");
             }
+
             if(!jsonObject.isNull("maker")){
                 maker = jsonObject.getJSONObject("maker");
-                if(!maker.isNull("student")){
-                    maker_student = maker.getJSONObject("student");
-
-                    n.makerFirstName = maker_student.getString("first_name");
-                    n.makerLastName =  maker_student.getString("last_name");
-                    n.makerIdNumber = maker_student.getString("id_number");
-                } else {
-                    n.makerFirstName = "Admin";
-                    n.makerLastName =  "";
-                    n.makerIdNumber = "";
+                if(maker.getString("username") != "admin") {
+                    n.makerUserName = maker.getString("username");
                 }
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -43,6 +43,12 @@ public class LoginActivity extends AppCompatActivity {
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
 
+        SharedPreferences sp = this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        if(sp.getString(USERNAME, null) != null) {
+            txtUsername.setText(sp.getString(USERNAME, null));
+            txtPassword.setText(sp.getString(PASSWORD, null));
+        }
+
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
         txtSignUp = (TextView) findViewById(R.id.txtSignup);
         txtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
@@ -107,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 txtErrorMessage.setText("");
 
                 Intent intent;
-                intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                intent = new Intent(LoginActivity.this, NotificationsActivity.class);
                 finish();
                 startActivity(intent);
             }
@@ -116,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.d(TAG, "LOGIN error " + responseBody);
                 //Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
-                txtErrorMessage.setText("");
+                txtPassword.setText("");
                 txtErrorMessage.setText("Invalid username or password");
             }
         });

@@ -11,6 +11,8 @@ import java.util.ArrayList;
  */
 public class Item {
     private static final String TAG = "Item";
+
+    private int id;
     private String owner;
     private String itemName;
     private String description;
@@ -20,6 +22,10 @@ public class Item {
     private float price;
     private String picture;
     private int stars_required;
+
+    public int getId() {
+        return id;
+    }
 
     public String getOwner() {
         return owner;
@@ -59,15 +65,17 @@ public class Item {
 
     public static Item getItem(JSONObject jsonObject){
         Item item = new Item();
-        JSONObject jsonItem;
 
         try {
+            item.id = jsonObject.getInt("id");
             item.itemName = jsonObject.getString("name");
             item.description = jsonObject.getString("description");
             item.category = jsonObject.getJSONObject("category").getString("category_name");
             item.status = jsonObject.getString("status");
             item.purpose = jsonObject.getString("purpose");
             item.price = (float)jsonObject.getDouble("price");
+            item.stars_required = jsonObject.getInt("stars_required");
+            item.picture = jsonObject.getString("picture");
         } catch (JSONException e) {
             e.printStackTrace();
         }

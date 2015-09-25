@@ -1,9 +1,7 @@
 package citu.teknoybuyandselluser.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -33,9 +31,6 @@ public class DonateItemFragment extends Fragment {
     public static final String OWNER = "owner";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
-    public static final String CATEGORY = "category";
-    public static final String STATUS = "status";
-    public static final String PURPOSE = "purpose";
     public static final String PRICE = "price";
     public static final String PICTURE = "picture";
     public static final String STARS_REQUIRED = "stars_required";
@@ -45,14 +40,7 @@ public class DonateItemFragment extends Fragment {
     private EditText txtItem;
     private EditText txtDescription;
     private EditText txtPrice;
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param user Parameter 1.
-     * @return A new instance of fragment DonateItemFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    
     public static DonateItemFragment newInstance(String user) {
         DonateItemFragment fragment = new DonateItemFragment();
         Bundle args = new Bundle();
@@ -64,8 +52,6 @@ public class DonateItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_donate_item, container, false);
         View view = null;
         view = inflater.inflate(R.layout.fragment_donate_item, container, false);
 
@@ -75,17 +61,17 @@ public class DonateItemFragment extends Fragment {
         txtDescription = (EditText) view.findViewById(R.id.txtDescription);
         txtPrice = (EditText) view.findViewById(R.id.txtPrice);
 
-        Button btnSell = (Button) view.findViewById(R.id.btnDonateItem);
-        btnSell.setOnClickListener(new View.OnClickListener() {
+        Button btnDonate = (Button) view.findViewById(R.id.btnDonateItem);
+        btnDonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSell(v);
+                onDonate(v);
             }
         });
         return view;
     }
 
-    public void onSell(View view) {
+    public void onDonate(View view) {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = this.getActivity().getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");

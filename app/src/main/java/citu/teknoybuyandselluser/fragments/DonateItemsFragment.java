@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
+import citu.teknoybuyandselluser.DashboardActivity;
 import citu.teknoybuyandselluser.LoginActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
@@ -32,20 +34,20 @@ import citu.teknoybuyandselluser.models.Item;
  * create an instance of this fragment.
  */
 public class DonateItemsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "user";
     private static final String TAG = "DonateItemsFragment";
     private View view = null;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param user Parameter 1.
-     * @return A new instance of fragment DonateItemsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    private static final String ITEM_NAME = "item_name";
+    private static final String DESCRIPTION = "description";
+    private static final String PICTURE = "picture";
+    private static final String STARS_REQUIRED = "stars_required";
+
+    private String itemName;
+    private String description;
+    private String picture;
+    private int stars_required;
+
     public static DonateItemsFragment newInstance(String user) {
         DonateItemsFragment fragment = new DonateItemsFragment();
         Bundle args = new Bundle();
@@ -57,8 +59,6 @@ public class DonateItemsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_donate_items, container, false);
 
         view = inflater.inflate(R.layout.fragment_donate_items, container, false);
 
@@ -84,6 +84,25 @@ public class DonateItemsFragment extends Fragment {
                         ListView lv = (ListView) view.findViewById(R.id.listViewDonateItems);
                         ItemsListAdapter listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.activity_item, donatedItems);
                         lv.setAdapter(listAdapter);
+                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Item item = (Item) parent.getItemAtPosition(position);
+                                itemName = item.getItemName();
+                                description = item.getDescription();
+                                picture = item.getPicture();
+                                stars_required = item.getStars_required();
+
+                                Fragment fragment = null;
+                                fragment = DonateItemDetailsFragment.newInstance(itemName, description, picture, stars_required);
+                                ((DashboardActivity) getActivity()).setActionBarTitle(itemName);
+
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.replace(R.id.flContent, fragment);
+                                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                                ft.commit();
+                            }
+                        });
                     }
 
                 } catch (JSONException e1) {

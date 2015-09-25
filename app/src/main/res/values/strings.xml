@@ -25,9 +25,39 @@
     <string name="menu_shopping_cart">Shopping Cart</string>
     <string name="menu_donate_items">Donate Items</string>
     <string name="menu_stars_collected">Stars Collected</string>
-    <string name="menu_logout">Log-out</string>
+    <string name="menu_logout">Log Out</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_donate_item">DonateItemActivity</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="with_discount">With Discount</string>
+    <string name="without_discount">Without Discount</string>
+    <string name="item_details">Details</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_notifications">Notifications</string>
+    <string name="title_activity_sell_items">Sell Items</string>
+    <string name="title_activity_pending_items">Pending Items</string>
+    <string name="title_activity_buy_items">Buy Items</string>
+    <string name="title_activity_shopping_cart">Shopping Cart</string>
+    <string name="title_activity_donate_items">Donate Items</string>
+    <string name="title_activity_stars_collected">Stars Collected</string>
+    <string name="title_activity_sell_item">Sell Item</string>
+    <string name="title_activity_sell_item_details">Sell Item Details</string>
+    <string name="title_activity_buy_item">Buy Item</string>
+    <string name="title_activity_reserved_item">ReservedItemActivity</string>
+    <string name="title_activity_donate_item">Donate Item</string>
+    <string name="title_activity_donate_item_details">DonateItemDetailsActivity</string>
+    <string name="title_activity_all_donations">All Donations</string>
+    <string name="title_activity_donated_item">DonatedItemActivity</string>
 </resources>
