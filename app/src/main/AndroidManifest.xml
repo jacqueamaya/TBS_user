@@ -31,10 +31,6 @@
             android:label="@string/title_activity_dashboard" >
         </activity>
         <activity
-            android:name=".NavigationDrawerActivity"
-            android:label="@string/title_activity_navigation_drawer" >
-        </activity>
-        <activity
             android:name=".NotificationsActivity"
             android:label="@string/title_activity_notifications" >
         </activity>
