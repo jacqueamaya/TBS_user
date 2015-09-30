@@ -20,7 +20,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.fragments.DonatedItemFragment;
 import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
@@ -28,10 +27,11 @@ public class AllDonationsActivity extends BaseActivity {
 
     private static final String TAG = "All Donations";
 
+    private int mItemId;
+    private int mStarsRequired;
     private String mItemName;
     private String mDescription;
     private String mPicture;
-    private int mStarsRequired;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class AllDonationsActivity extends BaseActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Item item = (Item) parent.getItemAtPosition(position);
+                                mItemId = item.getId();
                                 mItemName = item.getItemName();
                                 mDescription = item.getDescription();
                                 mPicture = item.getPicture();
@@ -72,6 +73,7 @@ public class AllDonationsActivity extends BaseActivity {
 
                                 Intent intent;
                                 intent = new Intent(AllDonationsActivity.this, DonatedItemActivity.class);
+                                intent.putExtra(Constants.ID, mItemId);
                                 intent.putExtra(Constants.ITEM_NAME, mItemName);
                                 intent.putExtra(Constants.DESCRIPTION, mDescription);
                                 intent.putExtra(Constants.PICTURE, mPicture);

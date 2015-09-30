@@ -19,20 +19,12 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.fragments.BuyItemFragment;
 import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
 public class BuyItemsActivity extends BaseActivity {
 
     private static final String TAG = "BuyItems";
-    private static final String ITEM_NAME = "item_name";
-    private static final String DESCRIPTION = "description";
-    private static final String PRICE = "price";
-    private static final String PICTURE = "picture";
-    private static final String STARS_REQUIRED = "stars_required";
-    private static final String BUYER = "buyer";
-    private static final String ID = "item_id";
 
     private int mItemId;
     private int mStarsRequired;
@@ -83,12 +75,12 @@ public class BuyItemsActivity extends BaseActivity {
 
                                 Intent intent;
                                 intent  = new Intent(BuyItemsActivity.this, BuyItemActivity.class);
-                                intent.putExtra(ID, mItemId);
-                                intent.putExtra(ITEM_NAME, mItemName);
-                                intent.putExtra(DESCRIPTION, mDescription);
-                                intent.putExtra(PRICE, mPrice);
-                                intent.putExtra(PICTURE, mPicture);
-                                intent.putExtra(STARS_REQUIRED, mStarsRequired);
+                                intent.putExtra(Constants.ID, mItemId);
+                                intent.putExtra(Constants.ITEM_NAME, mItemName);
+                                intent.putExtra(Constants.DESCRIPTION, mDescription);
+                                intent.putExtra(Constants.PRICE, mPrice);
+                                intent.putExtra(Constants.PICTURE, mPicture);
+                                intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
 
                                 startActivity(intent);
                             }

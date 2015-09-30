@@ -19,7 +19,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.fragments.ReservedItemFragment;
 import citu.teknoybuyandselluser.listAdapters.ReservedItemsAdapter;
 import citu.teknoybuyandselluser.models.ReservedItem;
 

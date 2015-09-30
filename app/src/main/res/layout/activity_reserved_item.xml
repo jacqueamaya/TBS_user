@@ -150,6 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:background="@color/Louie"
+                    android:onClick="onCancelReservedItem"
                     android:text="Cancel"
                     android:textColor="@color/White" />
 

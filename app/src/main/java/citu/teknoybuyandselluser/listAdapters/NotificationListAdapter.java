@@ -51,7 +51,6 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
         {
             try {
                 notif_date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(items.get(position).getNotification_date());
-               // String notificationDate = new SimpleDateFormat("yyyy-MM-dd").format(notif_date);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -64,6 +63,24 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
                     text.setText(Html.fromHtml(message));
                     break;
                 case "buy": message = "<b>"+items.get(position).getMakerUserName()+"</b> wants to <b>buy</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                    text.setText(Html.fromHtml(message));
+                    break;
+                case "get": message = "<b>"+items.get(position).getMakerUserName()+"</b> wants to <b>get</b> your donated item: <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                    text.setText(Html.fromHtml(message));
+                    break;
+                case "cancel": message = "<b>"+items.get(position).getMakerUserName()+" canceled</b> his/her reservation for your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                    text.setText(Html.fromHtml(message));
+                    break;
+                case "approve": message = "<b>"+items.get(position).getMakerUserName()+" approved</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                    text.setText(Html.fromHtml(message));
+                    break;
+                case "disapprove": message = "<b>"+items.get(position).getMakerUserName()+" disapproved</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                    text.setText(Html.fromHtml(message));
+                    break;
+                case "available": message = "<b>"+items.get(position).getItemName()+"</b> is now <b>available</b>.<br><small> Date:"+notif_date+"</small>";
+                    text.setText(Html.fromHtml(message));
+                    break;
+                case "sold": message = "Your item: <b>"+items.get(position).getItemName()+"</b> is now <b>sold</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
                 default: message = "<i>This is a default notification message</i>";

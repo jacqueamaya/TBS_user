@@ -60,4 +60,5 @@
     <string name="title_activity_donate_item_details">DonateItemDetailsActivity</string>
     <string name="title_activity_all_donations">All Donations</string>
     <string name="title_activity_donated_item">DonatedItemActivity</string>
+    <string name="title_activity_pending_item">PendingItemActivity</string>
 </resources>

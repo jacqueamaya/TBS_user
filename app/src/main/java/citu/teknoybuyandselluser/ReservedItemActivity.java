@@ -1,12 +1,20 @@
 package citu.teknoybuyandselluser;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReservedItemActivity extends BaseActivity {
 
@@ -47,7 +55,12 @@ public class ReservedItemActivity extends BaseActivity {
 
         txtItem.setText(mItemName);
         txtDescription.setText(mDescription);
-        txtPrice.setText("Php "+mPrice);
+        if(mPrice != 0) {
+            txtPrice.setText("Php "+mPrice);
+        } else {
+            txtPrice.setText("(Donated)");
+        }
+
         txtReservedDate.setText(mReservedDate);
 
         setTitle(mItemName);
@@ -78,5 +91,27 @@ public class ReservedItemActivity extends BaseActivity {
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
         return menuItem.getItemId() != R.id.nav_shopping_cart;
+    }
+
+    public void onCancelReservedItem(View v) {
+        Map<String, String> data = new HashMap<>();
+        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        String user = prefs.getString("username", "");
+        data.put(Constants.BUYER, user);
+        data.put(Constants.ID, "" + mItemId);
+        data.put(Constants.RESERVATION_ID, "" + mReservationId);
+
+        Server.cancelBuyItem(data, new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                Log.d(TAG, "Cancel Item Reservation success");
+                Toast.makeText(ReservedItemActivity.this, "Your reservation for " + mItemName + " has been canceled.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                Log.d(TAG, "Cancel Item Reservation error " + statusCode + " " + responseBody + " " + statusText);
+            }
+        });
     }
 }

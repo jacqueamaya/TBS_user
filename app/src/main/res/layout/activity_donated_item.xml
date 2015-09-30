@@ -104,7 +104,7 @@
                         android:textStyle="normal" />
 
                     <ImageView
-                        android:id="@+id/imgDeny"
+                        android:id="@+id/btnGetItem"
                         android:layout_width="wrap_content"
                         android:layout_height="70dp"
                         android:layout_below="@+id/txtDetails"

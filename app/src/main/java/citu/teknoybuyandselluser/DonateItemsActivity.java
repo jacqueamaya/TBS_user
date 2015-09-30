@@ -20,8 +20,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.fragments.DonateItemDetailsFragment;
-import citu.teknoybuyandselluser.fragments.DonateItemFragment;
 import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 

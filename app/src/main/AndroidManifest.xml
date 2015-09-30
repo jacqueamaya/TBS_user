@@ -90,6 +90,10 @@
             android:name=".DonatedItemActivity"
             android:label="@string/title_activity_donated_item" >
         </activity>
+        <activity
+            android:name=".PendingItemActivity"
+            android:label="@string/title_activity_pending_item" >
+        </activity>
     </application>
 
 </manifest>

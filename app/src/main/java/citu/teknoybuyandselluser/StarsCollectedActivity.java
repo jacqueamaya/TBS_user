@@ -13,8 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import citu.teknoybuyandselluser.fragments.AllDonationsFragment;
-
 public class StarsCollectedActivity extends BaseActivity {
 
     private static final String TAG = "StarsCollected";

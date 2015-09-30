@@ -22,10 +22,8 @@
         <RelativeLayout
             android:id="@+id/flContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
@@ -54,7 +52,7 @@
 
                         <EditText
                             android:id="@+id/txtItem"
-                            android:layout_width="300dp"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/Louie"
                             android:textSize="16dp" />
@@ -70,6 +68,7 @@
 
                         <TextView
                             android:padding="3dip"
+                            android:singleLine="true"
                             android:text="Description"
                             android:textColor="@color/Black"
                             android:textSize="16dp"
@@ -78,7 +77,7 @@
                         <EditText
                             android:id="@+id/txtDescription"
                             android:layout_width="wrap_content"
-                            android:layout_height="150dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_weight="0.09"
                             android:ems="20"
@@ -96,6 +95,32 @@
 
                         <TextView
                             android:padding="3dip"
+                            android:text="Price"
+                            android:textColor="@color/Black"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/txtPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:textColor="@color/Louie"
+                            android:textSize="16dp" />
+
+                    </TableRow>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="3dip"
                             android:text="Picture"
                             android:textColor="@color/Black"
                             android:textSize="16dp"
@@ -105,7 +130,7 @@
                             android:id="@+id/btnBrowse"
                             android:layout_width="300dp"
                             android:layout_height="33dp"
-                            android:layout_gravity="left"
+                            android:layout_gravity="start"
                             android:background="@color/MintGreen"
                             android:text="Browse"
                             android:textColor="@color/White" />
@@ -114,6 +139,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="70dp"
                             android:layout_gravity="center_horizontal" />
+
                     </TableRow>
 
                 </TableLayout>
@@ -131,15 +157,24 @@
                 android:layout_below="@+id/card_view"
                 android:layout_centerHorizontal="true"
                 android:orientation="horizontal"
-                android:paddingTop="@dimen/activity_vertical_margin">
+                android:paddingTop="16dp">
 
                 <Button
-                    android:id="@+id/btnDonateItem"
-                    android:layout_width="250dp"
-                    android:onClick="onDonate"
+                    android:id="@+id/btnSaveItem"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/Louie"
-                    android:text="Donate Item"
+                    android:onClick="onEditItem"
+                    android:text="Save"
+                    android:textColor="@color/White" />
+
+                <Button
+                    android:id="@+id/btnDeleteItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Gray"
+                    android:onClick="onDeleteItem"
+                    android:text="Delete"
                     android:textColor="@color/White" />
 
             </LinearLayout>

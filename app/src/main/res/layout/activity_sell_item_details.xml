@@ -140,29 +140,6 @@
 
                 </TableLayout>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_horizontal" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tableLayout"
-                    android:layout_centerHorizontal="true"
-                    android:orientation="horizontal"
-                    android:paddingTop="16dp">
-
-                    <Button
-                        android:id="@+id/btnSaveItem"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:background="@color/Louie"
-                        android:text="Save"
-                        android:textColor="@color/White" />
-
-                </LinearLayout>
-
             </android.support.v7.widget.CardView>
 
         </RelativeLayout>

@@ -17,14 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import citu.teknoybuyandselluser.fragments.BuyItemsFragment;
-import citu.teknoybuyandselluser.fragments.DonateItemsFragment;
-import citu.teknoybuyandselluser.fragments.NotificationsFragment;
-import citu.teknoybuyandselluser.fragments.PendingItemsFragment;
-import citu.teknoybuyandselluser.fragments.SellItemsFragment;
-import citu.teknoybuyandselluser.fragments.ShoppingCartFragment;
-import citu.teknoybuyandselluser.fragments.StarsCollectedFragment;
-
 public class DashboardActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
@@ -93,7 +85,7 @@ public class DashboardActivity extends AppCompatActivity {
         // Create a new fragment and specify the planet to show based on position
         Fragment fragment = null;
         Class fragmentClass = null;
-
+/*
         switch(menuItem.getItemId()) {
             case R.id.nav_notifications:
                 fragmentClass = NotificationsFragment.class;
@@ -120,6 +112,7 @@ public class DashboardActivity extends AppCompatActivity {
                 fragmentClass = NotificationsFragment.class;
 
         }
+*/
         if(menuItem.getItemId() != (R.id.nav_logout)) {
             try {
                 //Toast.makeText(this, "" + fragmentClass.toString(), Toast.LENGTH_SHORT).show();

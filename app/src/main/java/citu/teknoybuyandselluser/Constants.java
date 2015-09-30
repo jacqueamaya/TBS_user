@@ -14,5 +14,6 @@ public class Constants {
     public static final String PICTURE = "picture";
     public static final String RESERVED_DATE = "reserved_date";
     public static final String RESERVATION_ID = "reservation_id";
+    public static final String REQUEST_ID = "request_id";
     public static final String STARS_REQUIRED = "stars_required";
 }

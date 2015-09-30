@@ -1,11 +1,6 @@
 package citu.teknoybuyandselluser;
 
-import android.os.Looper;
-import android.util.Log;
-
 import java.util.Map;
-
-import citu.teknoybuyandselluser.fragments.SellItemFragment;
 
 public class Server {
     private static final String URL = "192.168.0.12:8000";
@@ -14,8 +9,11 @@ public class Server {
     private static final String URL_CHANGE_PASSWORD = "http://"+URL+"/api/change_password";
     private static final String URL_USER = "http://"+URL+"/api-x/profile";
     private static final String URL_SELL_ITEM = "http://"+URL+"/api/sell_item";
+    private static final String URL_EDIT_ITEM = "http://"+URL+"/api/edit_item";
+    private static final String URL_DELETE_ITEM = "http://"+URL+"/api/delete_item";
     private static final String URL_BUY_ITEM = "http://"+URL+"/api/buy_item";
     private static final String URL_CANCEL_BUY_ITEM = "http://"+URL+"/api/cancel_reserved_item";
+    private static final String URL_GET_ITEM = "http://"+URL+"/api/get_donated_item";
     private static final String URL_DONATE_ITEM = "http://"+URL+"/api/donate_item";
     private static final String URL_NOTIFICATION = "http://"+URL+"/api-x/user_notifications";
     private static final String URL_ITEMS_TO_SELL = "http://"+URL+"/api-x/items_to_sell";
@@ -65,19 +63,40 @@ public class Server {
     }
 
     public static void sellItem (Map<String, String> data, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(SellItemFragment.OWNER) ||
-                ! data.containsKey(SellItemFragment.NAME) ||
-                ! data.containsKey(SellItemFragment.DESCRIPTION) ||
-                ! data.containsKey(SellItemFragment.PRICE)) {
+        if ( ! data.containsKey(Constants.OWNER) ||
+                ! data.containsKey(Constants.NAME) ||
+                ! data.containsKey(Constants.DESCRIPTION) ||
+                ! data.containsKey(Constants.PRICE)) {
             throw new RuntimeException("Missing data.");
         }
 
         Ajax.post(URL_SELL_ITEM, data, callbacks);
     }
 
+    public static void editItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+        if ( ! data.containsKey(Constants.OWNER) ||
+                ! data.containsKey(Constants.ID) ||
+                ! data.containsKey(Constants.NAME) ||
+                ! data.containsKey(Constants.DESCRIPTION) ||
+                ! data.containsKey(Constants.PRICE)) {
+            throw new RuntimeException("Missing data.");
+        }
+
+        Ajax.post(URL_EDIT_ITEM, data, callbacks);
+    }
+
+    public static void deleteItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+        if ( ! data.containsKey(Constants.OWNER) ||
+                ! data.containsKey(Constants.ID)) {
+            throw new RuntimeException("Missing data.");
+        }
+
+        Ajax.post(URL_DELETE_ITEM, data, callbacks);
+    }
+
     public static void buyItem (Map<String, String> data, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey("buyer") ||
-                ! data.containsKey("item_id")) {
+        if ( ! data.containsKey(Constants.BUYER) ||
+                ! data.containsKey(Constants.ID)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -85,19 +104,28 @@ public class Server {
     }
 
     public static void cancelBuyItem (Map<String, String> data, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey("buyer") ||
-                ! data.containsKey("item_id") ||
-                ! data.containsKey("reservation_id")) {
+        if ( ! data.containsKey(Constants.BUYER) ||
+                ! data.containsKey(Constants.ID) ||
+                ! data.containsKey(Constants.RESERVATION_ID)) {
             throw new RuntimeException("Missing data.");
         }
 
         Ajax.post(URL_CANCEL_BUY_ITEM, data, callbacks);
     }
 
+    public static void getItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+        if ( ! data.containsKey(Constants.BUYER) ||
+                ! data.containsKey(Constants.ID)) {
+            throw new RuntimeException("Missing data.");
+        }
+
+        Ajax.post(URL_GET_ITEM, data, callbacks);
+    }
+
     public static void donateItem (Map<String, String> data, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(SellItemFragment.OWNER) ||
-                ! data.containsKey(SellItemFragment.NAME) ||
-                ! data.containsKey(SellItemFragment.DESCRIPTION)) {
+        if ( ! data.containsKey(Constants.OWNER) ||
+                ! data.containsKey(Constants.NAME) ||
+                ! data.containsKey(Constants.DESCRIPTION)) {
             throw new RuntimeException("Missing data.");
         }
 
