@@ -22,17 +22,18 @@ public class Server {
     private static final String URL_ITEMS_TO_DONATE = "http://"+URL+"/api-x/items_to_donate";
     private static final String URL_ALL_DONATIONS = "http://"+URL+"/api-x/all_donations";
     private static final String URL_RESERVED_ITEMS = "http://"+URL+"/api-x/reservation_requests";
+    private static final String URL_UPLOAD = "https://api.imgur.com/3/image";
 
     public static void register (Map<String, String> data, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(MainActivity.ID_NUMBER) ||
-             ! data.containsKey(MainActivity.FIRST_NAME) ||
-             ! data.containsKey(MainActivity.LAST_NAME) ||
-             ! data.containsKey(MainActivity.USERNAME) ||
-             ! data.containsKey(MainActivity.PASSWORD)) {
+                ! data.containsKey(MainActivity.FIRST_NAME) ||
+                ! data.containsKey(MainActivity.LAST_NAME) ||
+                ! data.containsKey(MainActivity.USERNAME) ||
+                ! data.containsKey(MainActivity.PASSWORD)) {
             throw new RuntimeException("Missing data.");
         }
 
-         Ajax.post(URL_REGISTER, data, callbacks);
+        Ajax.post(URL_REGISTER, data, callbacks);
     }
 
     public static void login (Map<String, String> data, Ajax.Callbacks callbacks) {
@@ -170,5 +171,9 @@ public class Server {
 
     public static void getAllReservations (String username, Ajax.Callbacks callbacks) {
         Ajax.get(URL_RESERVED_ITEMS + "/?username=" + username, callbacks);
+    }
+
+    public static void upload (String data, Ajax.Callbacks callbacks) {
+        Ajax.upload(URL_UPLOAD, data, callbacks);
     }
 }

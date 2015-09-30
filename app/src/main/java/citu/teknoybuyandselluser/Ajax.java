@@ -136,6 +136,64 @@ public final class Ajax {
         }.execute(url);
     }
 
+    public static void upload(String url, final String data, final Callbacks callbacks) {
+        new AsyncTask<String, Void, HashMap<String, Object>>() {
+
+            @Override
+            protected HashMap<String, Object> doInBackground(String... params) {
+
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(params[0]);
+                    connection = (HttpURLConnection) url.openConnection();
+                    Log.v(TAG,"Connection: "+connection);
+
+                    connection.setConnectTimeout(CONNECT_TIMEOUT);
+                    connection.setDoOutput(true);
+                    connection.setDoInput(true);
+                    connection.setRequestMethod(REQUEST_METHOD_POST);
+                    connection.setRequestProperty("Authorization", "Client-ID " + "6d3df1a4f2dfb26");
+                    connection.setUseCaches(false);
+
+                    Log.v(TAG, "DATA: " + data);
+                    writeToStream(connection.getOutputStream(), data);
+                    connection.connect();
+
+                    String responseBody = readStream(connection.getInputStream());
+                    Log.v(TAG, "Response: " + responseBody);
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("statusCode", connection.getResponseCode());
+                    map.put("responseBody", responseBody);
+                    return map;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(HashMap<String, Object> map) {
+                super.onPostExecute(map);
+                if (null == map) {
+                    callbacks.error(0, null, null);
+                } else {
+                    int statusCode = (Integer) map.get("statusCode");
+                    String responseBody = (String) map.get("responseBody");
+
+                    if (statusCode == 200 || statusCode == 201) {
+                        callbacks.success(responseBody);
+                    } else {
+                        callbacks.error(statusCode, responseBody, null);
+                    }
+                }
+            }
+        }.execute(url);
+    }
+
     public static void put(String url, final Map<String, String> data, final Callbacks callbacks) {
         new AsyncTask<String, Void, HashMap<String, Object>>() {
 

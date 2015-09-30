@@ -106,25 +106,32 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/btnBrowse"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
-                        android:paddingTop="16dp">
+                        android:paddingTop="260dp"
+                        android:weightSum="1">
 
-                        <Button
-                            android:id="@+id/btnSellItem"
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"
-                            android:background="@color/Louie"
-                            android:onClick="onSell"
-                            android:text="Sell Item"
-                            android:textColor="@color/White" />
-
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/item"
+                            android:id="@+id/thumbnail"/>
                     </LinearLayout>
 
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/btnSellItem"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:background="@color/Louie"
+                android:onClick="onSell"
+                android:text="Sell Item"
+                android:textColor="@color/White"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
 
