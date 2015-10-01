@@ -60,7 +60,7 @@ public class SellItemActivity extends BaseActivity {
         txtPrice = (EditText) findViewById(R.id.inputPrice);
 
         btn = (Button) findViewById(R.id.btnBrowse);
-        imgpreview =  (ImageView) findViewById(R.id.thumbnail);
+        imgpreview =  (ImageView) findViewById(R.id.preview);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,8 +86,6 @@ public class SellItemActivity extends BaseActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-
-
 
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
@@ -213,7 +211,6 @@ public class SellItemActivity extends BaseActivity {
                 });
 
             }
-
         }
     }
     public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {

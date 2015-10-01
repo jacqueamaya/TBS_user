@@ -3,7 +3,7 @@ package citu.teknoybuyandselluser;
 import java.util.Map;
 
 public class Server {
-    private static final String URL = "192.168.0.12:8000";
+    private static final String URL = "tbs-admin.herokuapp.com";
     private static final String URL_REGISTER = "http://"+URL+"/api/register";
     private static final String URL_LOGIN = "http://"+URL+"/api/login";
     private static final String URL_CHANGE_PASSWORD = "http://"+URL+"/api/change_password";
@@ -23,6 +23,7 @@ public class Server {
     private static final String URL_ALL_DONATIONS = "http://"+URL+"/api-x/all_donations";
     private static final String URL_RESERVED_ITEMS = "http://"+URL+"/api-x/reservation_requests";
     private static final String URL_UPLOAD = "https://api.imgur.com/3/image";
+    private static final String URL_CATEGORIZE = "http://"+URL+"/api-x/categorize";
 
     public static void register (Map<String, String> data, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(MainActivity.ID_NUMBER) ||
@@ -175,5 +176,9 @@ public class Server {
 
     public static void upload (String data, Ajax.Callbacks callbacks) {
         Ajax.upload(URL_UPLOAD, data, callbacks);
+    }
+
+    public static void categorize (String category, Ajax.Callbacks callbacks) {
+        Ajax.get(URL_CATEGORIZE + "/?category=" + category, callbacks);
     }
 }
