@@ -30,124 +30,122 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                card_view:cardCornerRadius="10dp">
 
-            <RelativeLayout
+                <TableLayout
+                    android:id="@+id/tableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="18dp">
+
+                    <TableRow>
+
+                        <TextView
+                            android:padding="3dip"
+                            android:text="Item"
+                            android:textColor="@color/Black"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/txtItem"
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/Louie"
+                            android:textSize="16dp" />
+
+                    </TableRow>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TableRow>
+
+                        <TextView
+                            android:padding="3dip"
+                            android:text="Description"
+                            android:textColor="@color/Black"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/txtDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="0.09"
+                            android:ems="20"
+                            android:inputType="textMultiLine"
+                            android:textColor="@color/Louie" />
+
+                    </TableRow>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TableRow>
+
+                        <TextView
+                            android:padding="3dip"
+                            android:text="Picture"
+                            android:textColor="@color/Black"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/btnBrowse"
+                            android:layout_width="300dp"
+                            android:layout_height="33dp"
+                            android:layout_gravity="left"
+                            android:background="@color/MintGreen"
+                            android:text="Browse"
+                            android:textColor="@color/White" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center_horizontal" />
+                    </TableRow>
+
+                </TableLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/shoppingcart"
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:tint="@color/Louie"
-                    android:src="@drawable/shop_24dp" />
-
-                <EditText
-                    android:id="@+id/inputItem"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_toRightOf="@id/shoppingcart"
-                    android:hint="Item"
-                    android:textColorHint="@color/SlateGray"
-                    android:inputType="textCapSentences" />
-
-                <ImageView
-                    android:id="@+id/description"
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_below="@id/shoppingcart"
-                    android:tint="@color/Louie"
-                    android:src="@drawable/edit_24dp" />
-                <EditText
-                    android:id="@+id/inputDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/inputItem"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_toRightOf="@+id/description"
-                    android:hint="Description"
-                    android:textColorHint="@color/SlateGray"
-                    android:inputType="textCapSentences" />
-
-                <ImageView
-                    android:id="@+id/picture"
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_below="@id/description"
-                    android:tint="@color/Louie"
-                    android:src="@drawable/thumb_24dp" />
-                <TextView
-                    android:id="@+id/txtPicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/inputDescription"
-                    android:layout_marginLeft="23dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_toRightOf="@id/picture"
-                    android:text="Picture"
-                    android:textColor="@color/SlateGray"
-                    android:textSize="16dp" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_view"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/activity_vertical_margin">
 
                 <Button
-                    android:id="@+id/btnBrowse"
-                    android:layout_width="150dp"
-                    android:layout_height="33dp"
-                    android:layout_below="@id/inputDescription"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="27dp"
-                    android:layout_toRightOf="@id/txtPicture"
-                    android:background="@drawable/roundedbutton"
-                    android:text="Browse"
+                    android:id="@+id/btnDonateItem"
+                    android:layout_width="250dp"
+                    android:onClick="onDonate"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Louie"
+                    android:text="Donate Item"
                     android:textColor="@color/White" />
 
-                <ImageView
-                    android:id="@+id/preview"
-                    android:layout_height="130dp"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_below="@id/picture"
-                    android:tint="@color/Louie"
-                    android:src="@drawable/thumbsq_24dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/btnBrowse"
-                    android:gravity="center|bottom"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/btnDonateItem"
-                        android:layout_height="50dp"
-                        android:layout_width="match_parent"
-                        android:layout_marginBottom="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:onClick="onDonate"
-                        android:layout_below="@id/description"
-                        android:text="Donate Item"
-                        android:background="@drawable/roundedbutton"
-                        android:textColor="@color/White"
-                        android:src="@drawable/button_sell" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
+
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

@@ -3,7 +3,7 @@ package citu.teknoybuyandselluser;
 import java.util.Map;
 
 public class Server {
-    private static final String URL = "192.168.254.6:8000";
+    private static final String URL = "192.168.0.12:8000";
     private static final String URL_REGISTER = "http://"+URL+"/api/register";
     private static final String URL_LOGIN = "http://"+URL+"/api/login";
     private static final String URL_CHANGE_PASSWORD = "http://"+URL+"/api/change_password";

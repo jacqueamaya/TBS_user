@@ -30,19 +30,17 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="35dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true"
+                app:contentPadding="8dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/shoppingcart"
-                        android:layout_height="40dp"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:tint="@color/Louie"
-                        android:src="@drawable/shop_24dp" />
 
                     <EditText
                         android:id="@+id/inputItem"
@@ -51,20 +49,9 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="30dp"
-                        android:layout_toRightOf="@id/shoppingcart"
                         android:hint="Item"
-                        android:textColorHint="@color/SlateGray"
                         android:inputType="textCapSentences" />
 
-                    <ImageView
-                        android:id="@+id/description"
-                        android:layout_height="40dp"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_below="@id/shoppingcart"
-                        android:tint="@color/Louie"
-                        android:src="@drawable/edit_24dp" />
                     <EditText
                         android:id="@+id/inputDescription"
                         android:layout_width="match_parent"
@@ -72,21 +59,10 @@
                         android:layout_below="@id/inputItem"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_toRightOf="@+id/description"
+                        android:layout_marginTop="20dp"
                         android:hint="Description"
-                        android:textColorHint="@color/SlateGray"
                         android:inputType="textCapSentences" />
 
-                    <ImageView
-                        android:id="@+id/price"
-                        android:layout_height="40dp"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_below="@id/description"
-                        android:tint="@color/Louie"
-                        android:src="@drawable/money_24dp" />
                     <EditText
                         android:id="@+id/inputPrice"
                         android:layout_width="match_parent"
@@ -94,20 +70,10 @@
                         android:layout_below="@id/inputDescription"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_toRightOf="@id/price"
+                        android:layout_marginTop="20dp"
                         android:hint="Price"
-                        android:textColorHint="@color/SlateGray"
                         android:inputType="textCapSentences" />
-                    <ImageView
-                        android:id="@+id/picture"
-                        android:layout_height="40dp"
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_below="@id/price"
-                        android:tint="@color/Louie"
-                        android:src="@drawable/thumb_24dp" />
+
                     <TextView
                         android:id="@+id/txtPicture"
                         android:layout_width="wrap_content"
@@ -115,38 +81,31 @@
                         android:layout_below="@id/inputPrice"
                         android:layout_marginLeft="23dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_toRightOf="@id/picture"
+                        android:layout_marginTop="20dp"
                         android:text="Picture"
-                        android:textColor="@color/SlateGray"
+                        android:textColor="@color/Gray"
                         android:textSize="16dp" />
 
                     <Button
                         android:id="@+id/btnBrowse"
-                        android:layout_width="150dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="33dp"
                         android:layout_below="@id/inputPrice"
                         android:layout_gravity="left"
-                        android:layout_marginTop="27dp"
+                        android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/txtPicture"
-                        android:background="@drawable/roundedbutton"
+                        android:background="@color/MintGreen"
                         android:text="Browse"
                         android:textColor="@color/White" />
 
-                    <ImageView
-                        android:id="@+id/preview"
-                        android:layout_height="130dp"
+                    <Space
                         android:layout_width="match_parent"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_below="@id/picture"
-                        android:tint="@color/Louie"
-                        android:src="@drawable/thumbsq_24dp" />
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_horizontal" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-<<<<<<< Updated upstream
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
                         android:paddingTop="260dp"
@@ -157,31 +116,10 @@
                             android:layout_height="100dp"
                             android:src="@drawable/item"
                             android:id="@+id/thumbnail"/>
-=======
-                        android:layout_below="@+id/btnBrowse"
-                        android:gravity="center|bottom"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/btnSellItem"
-                            android:layout_height="50dp"
-                            android:layout_width="match_parent"
-                            android:layout_marginBottom="30dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:onClick="onSell"
-                            android:layout_below="@id/price"
-                            android:text="Sell Item"
-                            android:background="@drawable/roundedbutton"
-                            android:textColor="@color/White"
-                            android:src="@drawable/button_sell" />
-
->>>>>>> Stashed changes
                     </LinearLayout>
 
                 </RelativeLayout>
 
-<<<<<<< Updated upstream
             </android.support.v7.widget.CardView>
 
             <Button
@@ -195,8 +133,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true" />
 
-=======
->>>>>>> Stashed changes
         </RelativeLayout>
 
     </RelativeLayout>
