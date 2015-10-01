@@ -50,7 +50,7 @@ public class PendingItemsActivity extends BaseActivity {
                     jsonArray = new JSONArray(responseBody);
                     if (jsonArray.length() == 0) {
                         TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
-                        txtMessage.setText("You have no pending items");
+                        txtMessage.setText("No pending items");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
                         pendingItems = Item.allItems(jsonArray);

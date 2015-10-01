@@ -55,7 +55,7 @@ public class ShoppingCartActivity extends BaseActivity {
                     Log.d(TAG, jsonArray.toString());
                     if (jsonArray.length() == 0) {
                         TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
-                        txtMessage.setText("You have not reserved an item");
+                        txtMessage.setText("No reserved items");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
                         reservations = ReservedItem.allReservedItems(jsonArray);

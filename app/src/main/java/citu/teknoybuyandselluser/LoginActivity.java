@@ -47,6 +47,10 @@ public class LoginActivity extends AppCompatActivity {
         if(sp.getString(USERNAME, null) != null) {
             txtUsername.setText(sp.getString(USERNAME, null));
             txtPassword.setText(sp.getString(PASSWORD, null));
+            /*Intent intent;
+            intent = new Intent(LoginActivity.this, NotificationsActivity.class);
+            txtPassword.setText("");
+            startActivity(intent);*/
         }
 
         txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
@@ -83,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         Server.login(data, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                Log.d(TAG, "LOGIN success");
+                Log.d(TAG, "LOGIN success" + responseBody);
 
                 Server.getUser(strUsername, new Ajax.Callbacks(){
                     @Override

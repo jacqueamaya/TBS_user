@@ -82,6 +82,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     intent = new Intent(this, StarsCollectedActivity.class);
                     break;
                 case R.id.nav_logout:
+                    //SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.MY_PREFS_NAME, MODE_PRIVATE);
+                    //editor.clear().commit();
                     intent = new Intent(this, LoginActivity.class);
                     break;
                 default:

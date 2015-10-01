@@ -52,7 +52,7 @@ public class DonateItemsActivity extends BaseActivity {
                     jsonArray = new JSONArray(responseBody);
                     if (jsonArray.length() == 0) {
                         TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
-                        txtMessage.setText("You have no available items to be donated");
+                        txtMessage.setText("No available items to donate");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
                         donatedItems = Item.allItems(jsonArray);

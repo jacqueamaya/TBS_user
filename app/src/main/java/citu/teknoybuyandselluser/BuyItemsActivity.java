@@ -53,7 +53,7 @@ public class BuyItemsActivity extends BaseActivity {
                     jsonArray = new JSONArray(responseBody);
                     if (jsonArray.length() == 0) {
                         TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
-                        txtMessage.setText("No available items to buy.");
+                        txtMessage.setText("No available items to buy");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
                         availableItems = Item.allItems(jsonArray);
