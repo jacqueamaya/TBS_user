@@ -155,17 +155,16 @@
 
                     <Button
                         android:id="@+id/btnSellItem"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="30dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/roundedbutton"
+                        android:background="@drawable/positivebutton"
                         android:onClick="onSell"
                         android:src="@drawable/button_sell"
                         android:text="Sell Item"
                         android:textColor="@color/White" />
-
                 </LinearLayout>
 
             </RelativeLayout>
