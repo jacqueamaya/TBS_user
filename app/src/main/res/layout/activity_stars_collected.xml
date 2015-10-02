@@ -80,7 +80,29 @@
                 android:layout_gravity="center"
                 android:background="@color/Star"
                 android:text="Claim Award"
-                android:textColor="@color/White" />
+                android:textColor="@color/White"/>
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:background="@color/Louie"
+                android:text="Delete"
+                android:textColor="@color/White"
+                android:onClick="deleteDialogBox"/>
+
+            <Button
+                android:id="@+id/btnBuy"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:background="@color/White"
+                android:text="Buy Item"
+                android:textColor="@color/Louie"
+                android:onClick="buyDialogBox"/>
 
         </LinearLayout>
 
