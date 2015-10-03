@@ -15,8 +15,12 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,10 +68,20 @@ public class MainActivity extends AppCompatActivity {
             Server.register(data, new Ajax.Callbacks() {
                 @Override
                 public void success(String responseBody) {
-                    Log.v(TAG, "Success :)");
-                    Intent intent;
-                    intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    Log.v(TAG, responseBody);
+                    try {
+                        JSONObject json = new JSONObject(responseBody);
+                        String response = json.getString("statusText");
+                        if(response.equals("User created")) {
+                            Intent intent;
+                            intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
