@@ -88,46 +88,56 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, "LOGIN success" + responseBody);
+                try {
+                    JSONObject json = new JSONObject(responseBody);
+                    String response = json.getString("statusText");
+                    Log.d(TAG, response);
+                    if(response.equals("Successful Login")) {
+                        Server.getUser(strUsername, new Ajax.Callbacks() {
+                            @Override
+                            public void success(String responseBody) {
+                                JSONArray jsonArray = null;
+                                try {
+                                    jsonArray = new JSONArray(responseBody);
+                                    JSONObject json = jsonArray.getJSONObject(0);
+                                    JSONObject jsonUser = json.getJSONObject("student");
 
-                Server.getUser(strUsername, new Ajax.Callbacks(){
-                    @Override
-                    public void success(String responseBody) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(responseBody);
-                            JSONObject json = jsonArray.getJSONObject(0);
-                            Log.d(TAG, json.toString());
-                            JSONObject jsonUser = json.getJSONObject("student");
+                                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                                    editor.putString("username", strUsername);
+                                    editor.putString("first_name", jsonUser.getString("first_name"));
+                                    editor.putString("last_name", jsonUser.getString("last_name"));
+                                    editor.putInt("stars_collected", json.getInt("stars_collected"));
+                                    editor.apply();
 
-                            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                            editor.putString("username", strUsername);
-                            editor.putString("first_name", jsonUser.getString("first_name"));
-                            editor.putString("last_name", jsonUser.getString("last_name"));
-                            editor.putInt("stars_collected", json.getInt("stars_collected"));
-                            editor.apply();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                                    Intent intent;
+                                    intent = new Intent(LoginActivity.this, NotificationsActivity.class);
+                                    finish();
+                                    startActivity(intent);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void error(int statusCode, String responseBody, String statusText) {
+                                Log.d(TAG, "Error: " + statusCode + " " + responseBody);
+                            }
+                        });
+                    } else {
+                        //Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+                        txtErrorMessage.setText(response);
+                        txtPassword.setText("");
                     }
-
-                    @Override
-                    public void error(int statusCode, String responseBody, String statusText) {
-                        Log.d(TAG, "Error: " + statusCode + " " + responseBody);
-                    }
-                });
-                txtErrorMessage.setText("");
-
-                Intent intent;
-                intent = new Intent(LoginActivity.this, NotificationsActivity.class);
-                finish();
-                startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.d(TAG, "LOGIN error " + responseBody);
-                //Toast.makeText(LoginActivity.this, "Error: Invalid username or password", Toast.LENGTH_SHORT).show();
                 txtPassword.setText("");
-                txtErrorMessage.setText("Invalid username or password");
+                txtErrorMessage.setText("Cannot connect to server");
             }
         });
     }
