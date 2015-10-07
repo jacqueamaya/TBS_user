@@ -150,7 +150,17 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/btnBrowse"
                     android:gravity="center|bottom"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:id="@+id/progressUpload"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="0.68"
+                        android:indeterminate="true" />
 
                     <Button
                         android:id="@+id/btnSellItem"
