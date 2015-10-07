@@ -16,4 +16,17 @@ public class Constants {
     public static final String RESERVATION_ID = "reservation_id";
     public static final String STARS_REQUIRED = "stars_required";
     public static final String IMAGE_URL = "url";
+    public static final int USER_IMAGES[] =
+            {
+                    R.drawable.user_1,
+                    R.drawable.user_2,
+                    R.drawable.user_3,
+                    R.drawable.user_4,
+                    R.drawable.user_5,
+                    R.drawable.user_6,
+                    R.drawable.user_7,
+                    R.drawable.user_8,
+                    R.drawable.user_9,
+                    R.drawable.user_10
+            };
 }

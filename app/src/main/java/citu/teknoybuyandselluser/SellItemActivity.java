@@ -1,5 +1,6 @@
 package citu.teknoybuyandselluser;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,14 +38,15 @@ import citu.teknoybuyandselluser.models.ImageInfo;
 
 public class SellItemActivity extends BaseActivity {
 
-    private static final String TAG = "Sell Item";
+    private static final String TAG = "SellItemActivity";
 
-    private EditText txtItem;
-    private EditText txtDescription;
-    private EditText txtPrice;
+    private EditText mTxtItem;
+    private EditText mTxtDescription;
+    private EditText mTxtPrice;
+    private Button mBtnBrowse;
+    private ImageView mImgPreview;
+    private ProgressDialog mProgressDialog;
 
-    private Button btn;
-    private ImageView imgpreview;
     Uri imageUri;
     Bitmap scaledBitmap = null;
     ImageInfo imgInfo;
@@ -55,13 +57,15 @@ public class SellItemActivity extends BaseActivity {
         setContentView(R.layout.activity_sell_item);
         setupUI();
 
-        txtItem = (EditText) findViewById(R.id.inputItem);
-        txtDescription = (EditText) findViewById(R.id.inputDescription);
-        txtPrice = (EditText) findViewById(R.id.inputPrice);
+        mTxtItem = (EditText) findViewById(R.id.inputItem);
+        mTxtDescription = (EditText) findViewById(R.id.inputDescription);
+        mTxtPrice = (EditText) findViewById(R.id.inputPrice);
 
-        btn = (Button) findViewById(R.id.btnBrowse);
-        imgpreview =  (ImageView) findViewById(R.id.preview);
-        btn.setOnClickListener(new View.OnClickListener() {
+        mProgressDialog = new ProgressDialog(this);
+
+        mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
+        mImgPreview =  (ImageView) findViewById(R.id.preview);
+        mBtnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectImage();
@@ -197,7 +201,7 @@ public class SellItemActivity extends BaseActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        imgpreview.setImageBitmap(scaledBitmap);
+                        mImgPreview.setImageBitmap(scaledBitmap);
                         ImageInfo image = new ImageInfo();
                         imgInfo = image.getImageInfo(json);
 
@@ -259,20 +263,28 @@ public class SellItemActivity extends BaseActivity {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
-        Log.v(TAG,imgInfo.getLink());
 
         data.put(Constants.OWNER, user);
-        data.put(Constants.NAME, txtItem.getText().toString());
-        data.put(Constants.DESCRIPTION, txtDescription.getText().toString());
-        data.put(Constants.PRICE, txtPrice.getText().toString());
-        data.put(Constants.IMAGE_URL,imgInfo.getLink());
+        data.put(Constants.NAME, mTxtItem.getText().toString());
+        data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
+        data.put(Constants.PRICE, mTxtPrice.getText().toString());
+        data.put(Constants.IMAGE_URL, imgInfo.getLink());
 
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Please wait. . .");
 
-        Server.sellItem(data, new Ajax.Callbacks() {
+        Server.sellItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                Log.d(TAG, "Sell Item success");
-                Toast.makeText(SellItemActivity.this, "Sell Item success", Toast.LENGTH_SHORT).show();
+                JSONObject json = null;
+                try {
+                    json = new JSONObject(responseBody);
+                    String response = json.getString("statusText");
+                    Log.d(TAG, response);
+                    Toast.makeText(SellItemActivity.this, response, Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

@@ -58,25 +58,29 @@
                     android:textSize="20dp"
                     android:textStyle="normal" />
 
-                <RadioButton
-                    android:id="@+id/rdo1"
+                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtPrice"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/imgItem"
-                    android:text="@string/without_discount" />
+                    android:layout_toRightOf="@+id/imgItem">
 
-                <RadioButton
-                    android:id="@+id/rdo2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/rdo1"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_toRightOf="@id/imgItem"
-                    android:text="@string/with_discount" />
+                    <RadioButton
+                        android:id="@+id/rdo1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/without_discount" />
+
+                    <RadioButton
+                        android:id="@+id/rdo2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/with_discount" />
+
+                </RadioGroup>
 
                 <TextView
                     android:id="@+id/lblDetails"

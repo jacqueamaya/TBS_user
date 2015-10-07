@@ -1,9 +1,9 @@
 package citu.teknoybuyandselluser;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,11 +27,11 @@ public class BuyItemActivity extends BaseActivity {
     private String mItemName;
     private String mPicture;
 
-    private TextView txtItem;
-    private TextView txtDescription;
-    private TextView txtPrice;
-
-    private ImageView btnBuyItem;
+    private TextView mTxtItem;
+    private TextView mTxtDescription;
+    private TextView mTxtPrice;
+    private ProgressDialog mProgressDialog;
+    private ImageView mBtnBuyItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +46,20 @@ public class BuyItemActivity extends BaseActivity {
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
 
-        txtItem = (TextView) findViewById(R.id.txtItem);
-        txtDescription = (TextView) findViewById(R.id.txtDescription);
-        txtPrice = (TextView) findViewById(R.id.txtPrice);
-        btnBuyItem = (ImageView) findViewById(R.id.btnBuyItem);
+        mTxtItem = (TextView) findViewById(R.id.txtItem);
+        mTxtDescription = (TextView) findViewById(R.id.txtDescription);
+        mTxtPrice = (TextView) findViewById(R.id.txtPrice);
+        mBtnBuyItem = (ImageView) findViewById(R.id.btnBuyItem);
 
-        txtItem.setText(mItemName);
-        txtDescription.setText(mDescription);
-        txtPrice.setText("Php " + mPrice);
+        mProgressDialog = new ProgressDialog(this);
+
+        mTxtItem.setText(mItemName);
+        mTxtDescription.setText(mDescription);
+        mTxtPrice.setText("Php " + mPrice);
 
         setTitle(mItemName);
 
-        btnBuyItem.setOnClickListener(new View.OnClickListener() {
+        mBtnBuyItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBuy(v);
@@ -99,7 +101,10 @@ public class BuyItemActivity extends BaseActivity {
         data.put(Constants.BUYER, user);
         data.put(Constants.ID, "" + mItemId);
 
-        Server.buyItem(data, new Ajax.Callbacks() {
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Please wait. . .");
+
+        Server.buyItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, "Buy Item success");

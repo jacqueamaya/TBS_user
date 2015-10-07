@@ -6,9 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,20 +23,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public static final String NEW_PASSWORD = "new_password";
     public static final String CONFIRM_PASSWORD = "confirm_password";
 
-    private EditText txtUsername;
-    private EditText txtOldPassword;
-    private EditText txtNewPassword;
-    private EditText txtConfirmPassword;
+    private EditText mTxtUsername;
+    private EditText mTxtOldPassword;
+    private EditText mTxtNewPassword;
+    private EditText mTxtConfirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        txtUsername = (EditText) findViewById(R.id.txtUsername);
-        txtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
-        txtNewPassword = (EditText) findViewById(R.id.txtNewPassword);
-        txtConfirmPassword = (EditText) findViewById(R.id.txtConfirmPassword);
+        mTxtUsername = (EditText) findViewById(R.id.txtUsername);
+        mTxtOldPassword = (EditText) findViewById(R.id.txtOldPassword);
+        mTxtNewPassword = (EditText) findViewById(R.id.txtNewPassword);
+        mTxtConfirmPassword = (EditText) findViewById(R.id.txtConfirmPassword);
     }
 
     public void onCancel (View view) {
@@ -44,20 +46,29 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void onChangePassword(View view){
         Map<String,String> data = new HashMap<>();
 
-        data.put(USERNAME,txtUsername.getText().toString());
-        data.put(OLD_PASSWORD,txtOldPassword.getText().toString());
-        data.put(NEW_PASSWORD,txtNewPassword.getText().toString());
-        data.put(CONFIRM_PASSWORD, txtConfirmPassword.getText().toString());
+        data.put(USERNAME, mTxtUsername.getText().toString());
+        data.put(OLD_PASSWORD, mTxtOldPassword.getText().toString());
+        data.put(NEW_PASSWORD, mTxtNewPassword.getText().toString());
+        data.put(CONFIRM_PASSWORD, mTxtConfirmPassword.getText().toString());
 
         Server.changePassword(data, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
-                Intent intent;
-                intent = new Intent(ChangePasswordActivity.this, LoginActivity.class);
-                intent.putExtra("error", responseBody);
-                finish();
-                startActivity(intent);
+                JSONObject json = null;
+                try {
+                    json = new JSONObject(responseBody);
+                    String response = json.getString("statusText");
+                    if(response.equals("Password changed")) {
+                        Intent intent;
+                        intent = new Intent(ChangePasswordActivity.this, LoginActivity.class);
+                        intent.putExtra("error", responseBody);
+                        finish();
+                        startActivity(intent);
+                    }
+                    Toast.makeText(ChangePasswordActivity.this, response, Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

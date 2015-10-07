@@ -8,9 +8,9 @@ import android.widget.EditText;
 
 public class SellItemDetailsActivity extends BaseActivity {
 
-    private EditText txtItem;
-    private EditText txtDescription;
-    private EditText txtPrice;
+    private EditText mTxtItem;
+    private EditText mTxtDescription;
+    private EditText mTxtPrice;
 
     private int mStarsRequired;
     private float mPrice;
@@ -29,13 +29,13 @@ public class SellItemDetailsActivity extends BaseActivity {
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
 
-        txtItem = (EditText) findViewById(R.id.txtItem);
-        txtDescription = (EditText) findViewById(R.id.txtDescription);
-        txtPrice = (EditText) findViewById(R.id.txtPrice);
+        mTxtItem = (EditText) findViewById(R.id.txtItem);
+        mTxtDescription = (EditText) findViewById(R.id.txtDescription);
+        mTxtPrice = (EditText) findViewById(R.id.txtPrice);
 
-        txtItem.setText(mItemName);
-        txtDescription.setText(mDescription);
-        txtPrice.setText("" + mPrice);
+        mTxtItem.setText(mItemName);
+        mTxtDescription.setText(mDescription);
+        mTxtPrice.setText("" + mPrice);
 
         setTitle(mItemName);
     }

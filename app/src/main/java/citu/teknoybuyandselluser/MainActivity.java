@@ -1,16 +1,15 @@
 package citu.teknoybuyandselluser;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -20,7 +19,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private EditText txtStudentId;
-    private EditText txtFirstName;
-    private EditText txtLastName;
-    private EditText txtUsername;
-    private EditText txtPassword;
+    private EditText mTxtStudentId;
+    private EditText mTxtFirstName;
+    private EditText mTxtLastName;
+    private EditText mTxtUsername;
+    private EditText mTxtPassword;
+    private ProgressDialog mProgressDialog;
 
     private RadioButton terms;
 
@@ -46,11 +45,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtStudentId = (EditText) findViewById(R.id.txtStudentID);
-        txtFirstName = (EditText) findViewById(R.id.txtFirstName);
-        txtLastName = (EditText) findViewById(R.id.txtLastName);
-        txtUsername = (EditText) findViewById(R.id.txtUsername);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
+        mTxtStudentId = (EditText) findViewById(R.id.txtStudentID);
+        mTxtFirstName = (EditText) findViewById(R.id.txtFirstName);
+        mTxtLastName = (EditText) findViewById(R.id.txtLastName);
+        mTxtUsername = (EditText) findViewById(R.id.txtUsername);
+        mTxtPassword = (EditText) findViewById(R.id.txtPassword);
+
+        mProgressDialog = new ProgressDialog(this);
 
         terms = (RadioButton) findViewById(R.id.terms);
     }
@@ -58,14 +59,17 @@ public class MainActivity extends AppCompatActivity {
     public void onRegister (View view) {
         Map<String, String> data = new HashMap<>();
 
-        data.put(ID_NUMBER, txtStudentId.getText().toString());
-        data.put(FIRST_NAME, txtFirstName.getText().toString());
-        data.put(LAST_NAME, txtLastName.getText().toString());
-        data.put(USERNAME, txtUsername.getText().toString());
-        data.put(PASSWORD, txtPassword.getText().toString());
+        data.put(ID_NUMBER, mTxtStudentId.getText().toString());
+        data.put(FIRST_NAME, mTxtFirstName.getText().toString());
+        data.put(LAST_NAME, mTxtLastName.getText().toString());
+        data.put(USERNAME, mTxtUsername.getText().toString());
+        data.put(PASSWORD, mTxtPassword.getText().toString());
 
-        if(terms.isChecked()){
-            Server.register(data, new Ajax.Callbacks() {
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Please wait. . .");
+
+        if(terms.isChecked()) {
+            Server.register(data, mProgressDialog, new Ajax.Callbacks() {
                 @Override
                 public void success(String responseBody) {
                     Log.v(TAG, responseBody);
@@ -76,9 +80,8 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent;
                             intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
-                        } else {
-                            Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
+                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, responseBody, Toast.LENGTH_SHORT).show();
                 }
             });
-        }else{
+        } else {
             Toast.makeText(MainActivity.this, "Please agree to the terms and conditions.", Toast.LENGTH_SHORT).show();
         }
 

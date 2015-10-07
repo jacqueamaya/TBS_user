@@ -1,15 +1,14 @@
 package citu.teknoybuyandselluser;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +23,11 @@ public class DonatedItemActivity extends BaseActivity {
 
     private static final String TAG = "Get Donated Item";
 
-    private TextView txtTitle;
-    private TextView txtDescription;
-    private TextView txtNumStars;
-    private ImageView btnGetItem;
+    private TextView mTxtTitle;
+    private TextView mTxtDescription;
+    private TextView mTxtNumStars;
+    private ImageView mBtnGetItem;
+    private ProgressDialog mProgressDialog;
 
     private int mItemId;
     private int mStarsRequired;
@@ -48,16 +48,18 @@ public class DonatedItemActivity extends BaseActivity {
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
 
-        txtTitle = (TextView) findViewById(R.id.txtTitle);
-        txtDescription = (TextView) findViewById(R.id.txtDetails);
-        txtNumStars = (TextView) findViewById(R.id.txtNumStars);
-        btnGetItem = (ImageView) findViewById(R.id.btnGetItem);
+        mTxtTitle = (TextView) findViewById(R.id.txtTitle);
+        mTxtDescription = (TextView) findViewById(R.id.txtDetails);
+        mTxtNumStars = (TextView) findViewById(R.id.txtNumStars);
+        mBtnGetItem = (ImageView) findViewById(R.id.btnGetItem);
 
-        txtTitle.setText(mItemName);
-        txtDescription.setText(mDescription);
-        txtNumStars.setText("" + mStarsRequired);
+        mProgressDialog = new ProgressDialog(this);
 
-        btnGetItem.setOnClickListener(new View.OnClickListener() {
+        mTxtTitle.setText(mItemName);
+        mTxtDescription.setText(mDescription);
+        mTxtNumStars.setText("" + mStarsRequired);
+
+        mBtnGetItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onGetItem(v);
@@ -101,7 +103,10 @@ public class DonatedItemActivity extends BaseActivity {
         data.put(Constants.BUYER, user);
         data.put(Constants.ID, "" + mItemId);
 
-        Server.getItem(data, new Ajax.Callbacks() {
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Please wait. . .");
+
+        Server.getItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 try {

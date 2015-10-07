@@ -1,5 +1,7 @@
 package citu.teknoybuyandselluser;
 
+import android.app.ProgressDialog;
+
 import java.util.Map;
 
 public class Server {
@@ -25,7 +27,7 @@ public class Server {
     private static final String URL_UPLOAD = "https://api.imgur.com/3/image";
     private static final String URL_CATEGORIZE = "http://"+URL+"/api-x/categorize";
 
-    public static void register (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void register (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(MainActivity.ID_NUMBER) ||
                 ! data.containsKey(MainActivity.FIRST_NAME) ||
                 ! data.containsKey(MainActivity.LAST_NAME) ||
@@ -34,16 +36,16 @@ public class Server {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_REGISTER, data, callbacks);
+        Ajax.post(URL_REGISTER, progressDialog, data, callbacks);
     }
 
-    public static void login (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void login (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if (  ! data.containsKey(LoginActivity.USERNAME) ||
                 ! data.containsKey(LoginActivity.PASSWORD)) {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_LOGIN, data, callbacks);
+        Ajax.post(URL_LOGIN, progressDialog, data, callbacks);
     }
 
     public static void changePassword (Map<String, String> data, Ajax.Callbacks callbacks) {
@@ -64,7 +66,7 @@ public class Server {
         Ajax.get(URL_USER + "/?username=" + username, callbacks);
     }
 
-    public static void sellItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void sellItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(Constants.OWNER) ||
                 ! data.containsKey(Constants.NAME) ||
                 ! data.containsKey(Constants.DESCRIPTION) ||
@@ -72,10 +74,10 @@ public class Server {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_SELL_ITEM, data, callbacks);
+        Ajax.post(URL_SELL_ITEM, progressDialog, data, callbacks);
     }
 
-    public static void editItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void editItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(Constants.OWNER) ||
                 ! data.containsKey(Constants.ID) ||
                 ! data.containsKey(Constants.NAME) ||
@@ -84,54 +86,54 @@ public class Server {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_EDIT_ITEM, data, callbacks);
+        Ajax.post(URL_EDIT_ITEM, progressDialog, data, callbacks);
     }
 
-    public static void deleteItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void deleteItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(Constants.OWNER) ||
                 ! data.containsKey(Constants.ID)) {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_DELETE_ITEM, data, callbacks);
+        Ajax.post(URL_DELETE_ITEM, progressDialog, data, callbacks);
     }
 
-    public static void buyItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void buyItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(Constants.BUYER) ||
                 ! data.containsKey(Constants.ID)) {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_BUY_ITEM, data, callbacks);
+        Ajax.post(URL_BUY_ITEM, progressDialog, data, callbacks);
     }
 
-    public static void cancelBuyItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void cancelBuyItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(Constants.BUYER) ||
                 ! data.containsKey(Constants.ID) ||
                 ! data.containsKey(Constants.RESERVATION_ID)) {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_CANCEL_BUY_ITEM, data, callbacks);
+        Ajax.post(URL_CANCEL_BUY_ITEM, progressDialog, data, callbacks);
     }
 
-    public static void getItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void getItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(Constants.BUYER) ||
                 ! data.containsKey(Constants.ID)) {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_GET_ITEM, data, callbacks);
+        Ajax.post(URL_GET_ITEM, progressDialog, data, callbacks);
     }
 
-    public static void donateItem (Map<String, String> data, Ajax.Callbacks callbacks) {
+    public static void donateItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(Constants.OWNER) ||
                 ! data.containsKey(Constants.NAME) ||
                 ! data.containsKey(Constants.DESCRIPTION)) {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.post(URL_DONATE_ITEM, data, callbacks);
+        Ajax.post(URL_DONATE_ITEM, progressDialog, data, callbacks);
     }
 
     public static void getNotifications (String username, Ajax.Callbacks callbacks) {

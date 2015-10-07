@@ -1,5 +1,6 @@
 package citu.teknoybuyandselluser;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,53 +26,51 @@ public class LoginActivity extends AppCompatActivity {
     public static final String PASSWORD = "password";
     private static final String TAG = "LoginActivity";
 
-    private EditText txtUsername;
-    private EditText txtPassword;
+    private EditText mTxtUsername;
+    private EditText mTxtPassword;
+    private TextView mTxtSignUp;
+    private TextView mTxtForgotPassword;
+    private TextView mTxtErrorMessage;
+    private ProgressDialog mLoginProgress;
 
-    private TextView txtSignUp;
-    private TextView txtForgotPassword;
-    private TextView txtErrorMessage;
-
-    private String strUsername;
+    private String mStrUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        txtUsername = (EditText) findViewById(R.id.txtUsername);
-        txtPassword = (EditText) findViewById(R.id.txtPassword);
+        mTxtUsername = (EditText) findViewById(R.id.txtUsername);
+        mTxtPassword = (EditText) findViewById(R.id.txtPassword);
+
+        mLoginProgress = new ProgressDialog(this);
 
         SharedPreferences sp = this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         if(sp.getString(USERNAME, null) != null) {
-            txtUsername.setText(sp.getString(USERNAME, null));
-            txtPassword.setText(sp.getString(PASSWORD, null));
-            /*Intent intent;
-            intent = new Intent(LoginActivity.this, NotificationsActivity.class);
-            txtPassword.setText("");
-            startActivity(intent);*/
+            mTxtUsername.setText(sp.getString(USERNAME, null));
+            mTxtPassword.setText(sp.getString(PASSWORD, null));
         }
 
-        txtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
-        txtSignUp = (TextView) findViewById(R.id.txtSignup);
-        txtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
+        mTxtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
+        mTxtSignUp = (TextView) findViewById(R.id.txtSignup);
+        mTxtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
 
-        txtForgotPassword.setOnClickListener(new View.OnClickListener() {
+        mTxtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
                 intent = new Intent(LoginActivity.this, ChangePasswordActivity.class);
-                txtPassword.setText("");
+                mTxtPassword.setText("");
                 startActivity(intent);
             }
         });
 
-        txtSignUp.setOnClickListener(new View.OnClickListener() {
+        mTxtSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
                 intent = new Intent(LoginActivity.this, MainActivity.class);
-                txtPassword.setText("");
+                mTxtPassword.setText("");
                 startActivity(intent);
             }
         });
@@ -80,39 +78,48 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLogin(View view){
         Map<String,String> data = new HashMap<>();
-        strUsername = txtUsername.getText().toString();
-        data.put(USERNAME,strUsername);
-        data.put(PASSWORD,txtPassword.getText().toString());
+        mStrUsername = mTxtUsername.getText().toString();
+        data.put(USERNAME, mStrUsername);
+        data.put(PASSWORD, mTxtPassword.getText().toString());
 
-        Server.login(data, new Ajax.Callbacks() {
+        mLoginProgress.setIndeterminate(true);
+        mLoginProgress.setMessage("Please wait. . .");
+
+        Server.login(data, mLoginProgress, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                Log.d(TAG, "LOGIN success" + responseBody);
+                Log.d(TAG, "LOGIN: " + responseBody);
                 try {
                     JSONObject json = new JSONObject(responseBody);
                     String response = json.getString("statusText");
-                    Log.d(TAG, response);
                     if(response.equals("Successful Login")) {
-                        Server.getUser(strUsername, new Ajax.Callbacks() {
+                        Server.getUser(mStrUsername, new Ajax.Callbacks() {
                             @Override
                             public void success(String responseBody) {
                                 JSONArray jsonArray = null;
                                 try {
                                     jsonArray = new JSONArray(responseBody);
-                                    JSONObject json = jsonArray.getJSONObject(0);
-                                    JSONObject jsonUser = json.getJSONObject("student");
+                                    if(jsonArray.length() != 0) {
+                                        JSONObject json = jsonArray.getJSONObject(0);
+                                        JSONObject jsonUser = json.getJSONObject("student");
 
-                                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                                    editor.putString("username", strUsername);
-                                    editor.putString("first_name", jsonUser.getString("first_name"));
-                                    editor.putString("last_name", jsonUser.getString("last_name"));
-                                    editor.putInt("stars_collected", json.getInt("stars_collected"));
-                                    editor.apply();
+                                        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                                        editor.putString("username", mStrUsername);
+                                        editor.putString("first_name", jsonUser.getString("first_name"));
+                                        editor.putString("last_name", jsonUser.getString("last_name"));
+                                        editor.putInt("stars_collected", json.getInt("stars_collected"));
+                                        editor.apply();
 
-                                    Intent intent;
-                                    intent = new Intent(LoginActivity.this, NotificationsActivity.class);
-                                    finish();
-                                    startActivity(intent);
+                                        mTxtErrorMessage.setText("");
+
+                                        Intent intent;
+                                        intent = new Intent(LoginActivity.this, NotificationsActivity.class);
+                                        finish();
+                                        startActivity(intent);
+                                    } else {
+                                        mTxtPassword.setText("");
+                                        mTxtErrorMessage.setText("User not found");
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -125,8 +132,8 @@ public class LoginActivity extends AppCompatActivity {
                         });
                     } else {
                         //Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
-                        txtErrorMessage.setText(response);
-                        txtPassword.setText("");
+                        mTxtErrorMessage.setText(response);
+                        mTxtPassword.setText("");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,9 +142,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "LOGIN error " + responseBody);
-                txtPassword.setText("");
-                txtErrorMessage.setText("Cannot connect to server");
+                mTxtPassword.setText("");
+                mTxtErrorMessage.setText("Cannot connect to server");
             }
         });
     }

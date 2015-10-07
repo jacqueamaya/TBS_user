@@ -1,5 +1,6 @@
 package citu.teknoybuyandselluser;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -82,8 +83,12 @@ public final class Ajax {
         }.execute(url);
     }
 
-    public static void post(String url, final Map<String, String> data, final Callbacks callbacks) {
+    public static void post(String url, final ProgressDialog progressDialog, final Map<String, String> data, final Callbacks callbacks) {
         new AsyncTask<String, Void, HashMap<String, Object>>() {
+            @Override
+            protected void onPreExecute() {
+                progressDialog.show();
+            }
 
             @Override
             protected HashMap<String, Object> doInBackground(String... params) {
@@ -119,6 +124,7 @@ public final class Ajax {
 
             @Override
             protected void onPostExecute(HashMap<String, Object> map) {
+                progressDialog.dismiss();
                 super.onPostExecute(map);
                 if (null == map) {
                     callbacks.error(0, null, null);

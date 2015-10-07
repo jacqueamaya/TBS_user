@@ -1,13 +1,10 @@
 package citu.teknoybuyandselluser;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,8 +17,8 @@ public class StarsCollectedActivity extends BaseActivity {
 
     private static final String TAG = "StarsCollected";
 
-    private TextView txtNumberStars;
-    private Button btnClaimAward;
+    private TextView mTxtNumberStars;
+    private Button mBtnClaimAward;
 
 
     public void deleteDialogBox(View view){
@@ -66,15 +63,15 @@ public class StarsCollectedActivity extends BaseActivity {
         setContentView(R.layout.activity_stars_collected);
         setupUI();
 
-        txtNumberStars = (TextView) findViewById(R.id.txtNumberStars);
+        mTxtNumberStars = (TextView) findViewById(R.id.txtNumberStars);
         if(getStars() < 2) {
-            txtNumberStars.setText(getStars()+" star");
+            mTxtNumberStars.setText(getStars() + " star");
         } else {
-            txtNumberStars.setText(getStars()+" stars");
+            mTxtNumberStars.setText(getStars() + " stars");
         }
 
-        btnClaimAward = (Button) findViewById(R.id.btnClaimAward);
-        btnClaimAward.setOnClickListener(new View.OnClickListener() {
+        mBtnClaimAward = (Button) findViewById(R.id.btnClaimAward);
+        mBtnClaimAward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;

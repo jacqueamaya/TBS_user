@@ -10,22 +10,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
  * Created by Jacquelyn on 9/24/2015.
  */
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
-    private SharedPreferences prefs;
+    private SharedPreferences mSharedPreferences;
+    private ImageView mImgUser;
 
     protected void setupUI(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mImgUser = (ImageView) findViewById(R.id.imgUser);
+        mImgUser.setImageResource(Constants.USER_IMAGES[(int) (Math.random()*10)]);
 
         if(null == toolbar) {
             throw new RuntimeException("No toolbar found");
@@ -82,8 +85,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     intent = new Intent(this, StarsCollectedActivity.class);
                     break;
                 case R.id.nav_logout:
-                    //SharedPreferences.Editor editor = getSharedPreferences(LoginActivity.MY_PREFS_NAME, MODE_PRIVATE);
-                    //editor.clear().commit();
                     intent = new Intent(this, LoginActivity.class);
                     break;
                 default:
@@ -122,8 +123,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     public String getUserPreferences() {
-        prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, MODE_PRIVATE);
-        return prefs.getString("first_name", "No FirstName") + " " + prefs.getString("last_name", "No LastName");
+        mSharedPreferences = getSharedPreferences(LoginActivity.MY_PREFS_NAME, MODE_PRIVATE);
+        return mSharedPreferences.getString("first_name", "No FirstName") + " " + mSharedPreferences.getString("last_name", "No LastName");
     }
 
     public abstract boolean checkItemClicked(MenuItem menuItem);

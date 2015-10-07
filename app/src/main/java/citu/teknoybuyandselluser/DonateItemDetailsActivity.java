@@ -1,18 +1,16 @@
 package citu.teknoybuyandselluser;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class DonateItemDetailsActivity extends BaseActivity {
 
-    private TextView txtTitle;
-    private TextView txtDescription;
-    private TextView txtNumStars;
+    private TextView mTxtTitle;
+    private TextView mTxtDescription;
+    private TextView mTxtNumStars;
 
     private int mStarsRequired;
     private String mDescription;
@@ -32,13 +30,13 @@ public class DonateItemDetailsActivity extends BaseActivity {
         mPicture = intent.getStringExtra(Constants.PICTURE);
         mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
 
-        txtTitle = (TextView) findViewById(R.id.txtTitle);
-        txtDescription = (TextView) findViewById(R.id.txtDetails);
-        txtNumStars = (TextView) findViewById(R.id.txtNumStars);
+        mTxtTitle = (TextView) findViewById(R.id.txtTitle);
+        mTxtDescription = (TextView) findViewById(R.id.txtDetails);
+        mTxtNumStars = (TextView) findViewById(R.id.txtNumStars);
 
-        txtTitle.setText(mItemName);
-        txtDescription.setText(mDescription);
-        txtNumStars.setText("" + mStarsRequired);
+        mTxtTitle.setText(mItemName);
+        mTxtDescription.setText(mDescription);
+        mTxtNumStars.setText("" + mStarsRequired);
 
         setTitle(mItemName);
     }

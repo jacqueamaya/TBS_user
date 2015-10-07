@@ -1,9 +1,9 @@
 package citu.teknoybuyandselluser;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,9 +22,10 @@ public class PendingItemActivity extends BaseActivity {
 
     private static final String TAG = "Pending Item";
 
-    private EditText txtItem;
-    private EditText txtDescription;
-    private EditText txtPrice;
+    private EditText mTxtItem;
+    private EditText mTxtDescription;
+    private EditText mTxtPrice;
+    private ProgressDialog mProgressDialog;
 
     private int mItemId;
     private int mStarsRequired;
@@ -43,18 +47,20 @@ public class PendingItemActivity extends BaseActivity {
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
 
-        txtItem = (EditText) findViewById(R.id.txtItem);
-        txtDescription = (EditText) findViewById(R.id.txtDescription);
-        txtPrice = (EditText) findViewById(R.id.txtPrice);
+        mTxtItem = (EditText) findViewById(R.id.txtItem);
+        mTxtDescription = (EditText) findViewById(R.id.txtDescription);
+        mTxtPrice = (EditText) findViewById(R.id.txtPrice);
 
-        txtItem.setText(mItemName);
-        txtDescription.setText(mDescription);
+        mProgressDialog = new ProgressDialog(this);
+
+        mTxtItem.setText(mItemName);
+        mTxtDescription.setText(mDescription);
         if(mPrice == 0.0) {
-            txtPrice.setText("(To Donate)");
-            txtPrice.setEnabled(false);
+            mTxtPrice.setText("(To Donate)");
+            mTxtPrice.setEnabled(false);
         } else {
-            txtPrice.setText("" + mPrice);
-            txtPrice.setEnabled(true);
+            mTxtPrice.setText("" + mPrice);
+            mTxtPrice.setEnabled(true);
         }
 
         setTitle(mItemName);
@@ -93,15 +99,26 @@ public class PendingItemActivity extends BaseActivity {
         String user = prefs.getString("username", "");
         data.put(Constants.OWNER, user);
         data.put(Constants.ID, "" + mItemId);
-        data.put(Constants.NAME, txtItem.getText().toString());
-        data.put(Constants.DESCRIPTION, txtDescription.getText().toString());
-        data.put(Constants.PRICE, txtPrice.getText().toString());
+        data.put(Constants.NAME, mTxtItem.getText().toString());
+        data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
+        data.put(Constants.PRICE, mTxtPrice.getText().toString());
 
-        Server.editItem(data, new Ajax.Callbacks() {
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Please wait. . .");
+
+        Server.editItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                Log.d(TAG, "Edit Item success");
-                Toast.makeText(PendingItemActivity.this, "Edit Item success", Toast.LENGTH_SHORT).show();
+                JSONObject json = null;
+                try {
+                    json = new JSONObject(responseBody);
+                    int status = json.getInt("status");
+                    if(status == 201) {
+                        Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -120,7 +137,10 @@ public class PendingItemActivity extends BaseActivity {
         data.put(Constants.OWNER, user);
         data.put(Constants.ID, "" + mItemId);
 
-        Server.deleteItem(data, new Ajax.Callbacks() {
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Please wait. . .");
+
+        Server.deleteItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, "Delete Item success");

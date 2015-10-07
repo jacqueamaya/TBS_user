@@ -1,15 +1,14 @@
 package citu.teknoybuyandselluser;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +27,11 @@ public class ReservedItemActivity extends BaseActivity {
     private String mPicture;
     private String mReservedDate;
 
-    private TextView txtItem;
-    private TextView txtDescription;
-    private TextView txtPrice;
-    private TextView txtReservedDate;
+    private TextView mTxtItem;
+    private TextView mTxtDescription;
+    private TextView mTxtPrice;
+    private TextView mTxtReservedDate;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +48,22 @@ public class ReservedItemActivity extends BaseActivity {
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mReservedDate = intent.getStringExtra(Constants.RESERVED_DATE);
 
-        txtItem = (TextView) findViewById(R.id.txtItem);
-        txtDescription = (TextView) findViewById(R.id.txtDescription);
-        txtPrice = (TextView) findViewById(R.id.txtPrice);
-        txtReservedDate = (TextView) findViewById(R.id.txtReservedDate);
+        mTxtItem = (TextView) findViewById(R.id.txtItem);
+        mTxtDescription = (TextView) findViewById(R.id.txtDescription);
+        mTxtPrice = (TextView) findViewById(R.id.txtPrice);
+        mTxtReservedDate = (TextView) findViewById(R.id.txtReservedDate);
 
-        txtItem.setText(mItemName);
-        txtDescription.setText(mDescription);
+        mProgressDialog = new ProgressDialog(this);
+
+        mTxtItem.setText(mItemName);
+        mTxtDescription.setText(mDescription);
         if(mPrice != 0) {
-            txtPrice.setText("Php "+mPrice);
+            mTxtPrice.setText("Php " + mPrice);
         } else {
-            txtPrice.setText("(Donated)");
+            mTxtPrice.setText("(Donated)");
         }
 
-        txtReservedDate.setText(mReservedDate);
+        mTxtReservedDate.setText(mReservedDate);
 
         setTitle(mItemName);
     }
@@ -101,7 +103,10 @@ public class ReservedItemActivity extends BaseActivity {
         data.put(Constants.ID, "" + mItemId);
         data.put(Constants.RESERVATION_ID, "" + mReservationId);
 
-        Server.cancelBuyItem(data, new Ajax.Callbacks() {
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Please wait. . .");
+
+        Server.cancelBuyItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, "Cancel Item Reservation success");

@@ -44,7 +44,7 @@
                     android:tint="@color/Louie" />
 
                 <EditText
-                    android:id="@+id/inputItem"
+                    android:id="@+id/txtItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -66,10 +66,10 @@
                     android:tint="@color/Louie" />
 
                 <EditText
-                    android:id="@+id/inputDescription"
+                    android:id="@+id/txtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/inputItem"
+                    android:layout_below="@id/txtItem"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="25dp"
@@ -92,7 +92,7 @@
                     android:id="@+id/txtPicture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/inputDescription"
+                    android:layout_below="@id/txtDescription"
                     android:layout_marginLeft="23dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="30dp"
@@ -105,7 +105,7 @@
                     android:id="@+id/btnBrowse"
                     android:layout_width="150dp"
                     android:layout_height="33dp"
-                    android:layout_below="@id/inputDescription"
+                    android:layout_below="@id/txtDescription"
                     android:layout_gravity="left"
                     android:layout_marginTop="27dp"
                     android:layout_toRightOf="@id/txtPicture"
@@ -120,8 +120,7 @@
                     android:layout_below="@id/picture"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="50dp"
-                    android:src="@drawable/thumbsq_24dp"
-                    android:tint="@color/Louie" />
+                    android:src="@drawable/thumbsq_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
