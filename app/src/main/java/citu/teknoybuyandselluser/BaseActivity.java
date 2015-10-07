@@ -28,7 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mImgUser = (ImageView) findViewById(R.id.imgUser);
-        mImgUser.setImageResource(Constants.USER_IMAGES[(int) (Math.random()*10)]);
+        mImgUser.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
 
         if(null == toolbar) {
             throw new RuntimeException("No toolbar found");

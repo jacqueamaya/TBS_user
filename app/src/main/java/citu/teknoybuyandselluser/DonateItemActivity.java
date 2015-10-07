@@ -186,31 +186,6 @@ public class DonateItemActivity extends BaseActivity {
                     e.printStackTrace();
                 }
 
-                Server.upload(image, new Ajax.Callbacks() {
-                    @Override
-                    public void success(String responseBody) {
-                        Log.v(TAG, "successfully posted");
-                        Log.v(TAG, responseBody);
-
-                        JSONObject json = null;
-                        try {
-                            json = new JSONObject(responseBody);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        mImgPreview.setImageBitmap(scaledBitmap);
-                        ImageInfo image = new ImageInfo();
-                        imgInfo = image.getImageInfo(json);
-
-                    }
-
-                    @Override
-                    public void error(int statusCode, String responseBody, String statusText) {
-                        Log.v(TAG, "Request error");
-                    }
-
-                });
-
             }
         }
     }

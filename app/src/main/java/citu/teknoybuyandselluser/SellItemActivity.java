@@ -5,16 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,10 +23,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,16 +35,12 @@ public class SellItemActivity extends BaseActivity {
     private EditText mTxtItem;
     private EditText mTxtDescription;
     private EditText mTxtPrice;
-    private Button mBtnBrowse;
-    private ImageView mImgPreview;
     private ProgressDialog mProgressDialog;
 
-    Uri imageUri;
-    Bitmap scaledBitmap = null;
-    private Button btn;
-    private ImageView imgpreview;
-    private ProgressBar progress;
-    ImageInfo imgInfo;
+    private Button mBtnBrowse;
+    private ImageView mImgPreview;
+    private ProgressBar mProgressBar;
+    ImageInfo mImgInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,28 +52,20 @@ public class SellItemActivity extends BaseActivity {
         mTxtDescription = (EditText) findViewById(R.id.inputDescription);
         mTxtPrice = (EditText) findViewById(R.id.inputPrice);
 
-<<<<<<< HEAD
         mProgressDialog = new ProgressDialog(this);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
+        mProgressBar.setVisibility(View.INVISIBLE);
 
         mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
         mImgPreview =  (ImageView) findViewById(R.id.preview);
         mBtnBrowse.setOnClickListener(new View.OnClickListener() {
-=======
-        progress = (ProgressBar) findViewById(R.id.progressUpload);
-        progress.setVisibility(View.INVISIBLE);
-
-        btn = (Button) findViewById(R.id.btnBrowse);
-        imgpreview =  (ImageView) findViewById(R.id.preview);
-        btn.setOnClickListener(new View.OnClickListener() {
->>>>>>> origin/master
             @Override
             public void onClick(View view) {
                 selectImage();
             }
         });
-
     }
-
 
     private void selectImage() {
         Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -107,7 +84,7 @@ public class SellItemActivity extends BaseActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Server.upload(picturePath,progress, new Ajax.Callbacks() {
+                Server.upload(picturePath, mProgressBar, new Ajax.Callbacks() {
                     @Override
                     public void success(String responseBody) {
                         Log.v(TAG, "successfully posted");
@@ -117,21 +94,14 @@ public class SellItemActivity extends BaseActivity {
                         try {
                             json = new JSONObject(responseBody);
                             ImageInfo image = new ImageInfo();
-                            imgInfo = image.getImageInfo(json);
+                            mImgInfo = image.getImageInfo(json);
                             Picasso.with(SellItemActivity.this)
-                                    .load(imgInfo.getLink())
+                                    .load(mImgInfo.getLink())
                                     .placeholder(R.drawable.thumbsq_24dp)
-                                    .into(imgpreview);
+                                    .into(mImgPreview);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-<<<<<<< HEAD
-                        mImgPreview.setImageBitmap(scaledBitmap);
-                        ImageInfo image = new ImageInfo();
-                        imgInfo = image.getImageInfo(json);
-
-=======
->>>>>>> origin/master
                     }
 
                     @Override
@@ -144,9 +114,6 @@ public class SellItemActivity extends BaseActivity {
             }
         }
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -184,7 +151,7 @@ public class SellItemActivity extends BaseActivity {
         data.put(Constants.NAME, mTxtItem.getText().toString());
         data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
         data.put(Constants.PRICE, mTxtPrice.getText().toString());
-        data.put(Constants.IMAGE_URL, imgInfo.getLink());
+        data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");

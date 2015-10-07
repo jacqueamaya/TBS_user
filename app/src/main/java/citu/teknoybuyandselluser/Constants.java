@@ -16,6 +16,7 @@ public class Constants {
     public static final String RESERVATION_ID = "reservation_id";
     public static final String STARS_REQUIRED = "stars_required";
     public static final String IMAGE_URL = "url";
+    public static final int INDEX_USER_IMAGE = (int) (Math.random()*10);
     public static final int USER_IMAGES[] =
             {
                     R.drawable.user_1,
