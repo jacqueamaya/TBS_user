@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +29,7 @@ public class DonatedItemActivity extends BaseActivity {
     private TextView mTxtDescription;
     private TextView mTxtNumStars;
     private ImageView mBtnGetItem;
+    private ImageView mImgThumbnail;
     private ProgressDialog mProgressDialog;
 
     private int mItemId;
@@ -47,17 +50,23 @@ public class DonatedItemActivity extends BaseActivity {
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
+        mPicture = intent.getStringExtra(Constants.PICTURE);
 
         mTxtTitle = (TextView) findViewById(R.id.txtTitle);
         mTxtDescription = (TextView) findViewById(R.id.txtDetails);
         mTxtNumStars = (TextView) findViewById(R.id.txtNumStars);
         mBtnGetItem = (ImageView) findViewById(R.id.btnGetItem);
+        mImgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
 
         mProgressDialog = new ProgressDialog(this);
 
         mTxtTitle.setText(mItemName);
         mTxtDescription.setText(mDescription);
         mTxtNumStars.setText("" + mStarsRequired);
+
+        Picasso.with(this)
+                .load(mPicture)
+                .into(mImgThumbnail);
 
         mBtnGetItem.setOnClickListener(new View.OnClickListener() {
             @Override

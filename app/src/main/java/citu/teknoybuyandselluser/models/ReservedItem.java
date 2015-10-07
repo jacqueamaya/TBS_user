@@ -17,6 +17,16 @@ public class ReservedItem {
     private int reservationId;
     private String itemName;
     private float price;
+    private String picture;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     private String status;
     private String reserved_date;
     private String description;
@@ -49,7 +59,7 @@ public class ReservedItem {
         return reserved_date;
     }
 
-    public static ReservedItem getReservedItems(JSONObject jsonObject){
+    public static ReservedItem getReservedItem(JSONObject jsonObject){
         ReservedItem ri = new ReservedItem();
         Item item;
         DateFormat df=null;
@@ -71,6 +81,7 @@ public class ReservedItem {
                 ri.itemId = item.getId();
                 ri.itemName = item.getItemName();
                 ri.price = item.getPrice();
+                ri.picture = item.getPicture();
                 ri.description = item.getDescription();
             }
         } catch (JSONException e) {
@@ -90,7 +101,7 @@ public class ReservedItem {
                 continue;
             }
 
-            ReservedItem ri = ReservedItem.getReservedItems(reservedObject);
+            ReservedItem ri = ReservedItem.getReservedItem(reservedObject);
             if (ri != null) {
                 reserved.add(ri);
             }

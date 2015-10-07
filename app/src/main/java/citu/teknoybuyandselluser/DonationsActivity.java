@@ -1,11 +1,8 @@
 package citu.teknoybuyandselluser;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,7 +20,7 @@ import java.util.ArrayList;
 import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
-public class AllDonationsActivity extends BaseActivity {
+public class DonationsActivity extends BaseActivity {
 
     private static final String TAG = "All Donations";
 
@@ -36,7 +33,7 @@ public class AllDonationsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_donations);
+        setContentView(R.layout.activity_donations);
         setupUI();
 
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
@@ -59,7 +56,7 @@ public class AllDonationsActivity extends BaseActivity {
                         allDonations = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewDonations);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(AllDonationsActivity.this, R.layout.activity_item, allDonations);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.individual_item, allDonations);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -72,7 +69,7 @@ public class AllDonationsActivity extends BaseActivity {
                                 mStarsRequired = item.getStars_required();
 
                                 Intent intent;
-                                intent = new Intent(AllDonationsActivity.this, DonatedItemActivity.class);
+                                intent = new Intent(DonationsActivity.this, DonatedItemActivity.class);
                                 intent.putExtra(Constants.ID, mItemId);
                                 intent.putExtra(Constants.ITEM_NAME, mItemName);
                                 intent.putExtra(Constants.DESCRIPTION, mDescription);

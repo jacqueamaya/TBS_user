@@ -30,11 +30,18 @@
             android:paddingTop="@dimen/activity_vertical_margin">
 
             <ImageView
+                android:id="@+id/preview"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/thumbsq_24dp" />
+
+            <ImageView
                 android:id="@+id/shoppingcart"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
+                android:layout_below="@+id/preview"
                 android:src="@drawable/shop_24dp"
                 android:tint="@color/Louie" />
 
@@ -45,6 +52,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="40dp"
+                android:layout_below="@+id/preview"
                 android:text="Item"
                 android:layout_toRightOf="@id/shoppingcart"
                 android:textSize="20sp" />

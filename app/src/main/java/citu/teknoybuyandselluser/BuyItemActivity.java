@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +34,7 @@ public class BuyItemActivity extends BaseActivity {
     private TextView mTxtPrice;
     private ProgressDialog mProgressDialog;
     private ImageView mBtnBuyItem;
+    private ImageView mImgItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +48,23 @@ public class BuyItemActivity extends BaseActivity {
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
+        mPicture = intent.getStringExtra(Constants.PICTURE);
 
         mTxtItem = (TextView) findViewById(R.id.txtItem);
         mTxtDescription = (TextView) findViewById(R.id.txtDescription);
         mTxtPrice = (TextView) findViewById(R.id.txtPrice);
         mBtnBuyItem = (ImageView) findViewById(R.id.btnBuyItem);
+        mImgItem = (ImageView) findViewById(R.id.imgItem);
 
         mProgressDialog = new ProgressDialog(this);
 
         mTxtItem.setText(mItemName);
         mTxtDescription.setText(mDescription);
         mTxtPrice.setText("Php " + mPrice);
+
+        Picasso.with(this)
+                .load(mPicture)
+                .into(mImgItem);
 
         setTitle(mItemName);
 

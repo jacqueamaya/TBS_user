@@ -10,7 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +28,7 @@ public class PendingItemActivity extends BaseActivity {
     private EditText mTxtItem;
     private EditText mTxtDescription;
     private EditText mTxtPrice;
+    private ImageView mImgPreview;
     private ProgressDialog mProgressDialog;
 
     private int mItemId;
@@ -46,10 +50,12 @@ public class PendingItemActivity extends BaseActivity {
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
+        mPicture = intent.getStringExtra(Constants.PICTURE);
 
         mTxtItem = (EditText) findViewById(R.id.txtItem);
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
         mTxtPrice = (EditText) findViewById(R.id.txtPrice);
+        mImgPreview = (ImageView) findViewById(R.id.preview);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -62,6 +68,11 @@ public class PendingItemActivity extends BaseActivity {
             mTxtPrice.setText("" + mPrice);
             mTxtPrice.setEnabled(true);
         }
+
+        Picasso.with(this)
+                .load(mPicture)
+                .into(mImgPreview);
+
 
         setTitle(mItemName);
     }

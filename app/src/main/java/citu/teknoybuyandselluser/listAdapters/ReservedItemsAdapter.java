@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +22,6 @@ import citu.teknoybuyandselluser.models.ReservedItem;
  * Created by Jacquelyn on 9/23/2015.
  */
 public class ReservedItemsAdapter extends ArrayAdapter<ReservedItem>{
-    private static final String TAG = "ReservedItemListAdapter";
     private Context mContext;
     private int id;
     private ArrayList<ReservedItem> items ;
@@ -44,9 +46,17 @@ public class ReservedItemsAdapter extends ArrayAdapter<ReservedItem>{
         }
 
         TextView text = (TextView) mView.findViewById(R.id.textViewItem);
+        ImageView image = (ImageView) mView.findViewById(R.id.image);
 
         if(items.get(position) != null )
         {
+            Picasso.with(mContext)
+                    .load(items.get(position).getPicture())
+                    .placeholder(R.drawable.notif_user)
+                    .resize(50,50)
+                    .centerCrop()
+                    .into(image);
+
             String message;
             message = "<b>"+items.get(position).getItemName()+"</b>";
             text.setText(Html.fromHtml(message));

@@ -83,7 +83,7 @@
             android:label="@string/title_activity_donate_item_details" >
         </activity>
         <activity
-            android:name=".AllDonationsActivity"
+            android:name=".DonationsActivity"
             android:label="@string/title_activity_all_donations" >
         </activity>
         <activity

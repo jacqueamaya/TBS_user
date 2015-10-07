@@ -75,7 +75,7 @@ public class StarsCollectedActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent;
-                intent = new Intent(StarsCollectedActivity.this, AllDonationsActivity.class);
+                intent = new Intent(StarsCollectedActivity.this, DonationsActivity.class);
                 startActivity(intent);
             }
         });

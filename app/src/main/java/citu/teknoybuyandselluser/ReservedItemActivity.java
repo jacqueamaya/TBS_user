@@ -9,8 +9,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +34,7 @@ public class ReservedItemActivity extends BaseActivity {
     private TextView mTxtDescription;
     private TextView mTxtPrice;
     private TextView mTxtReservedDate;
+    private ImageView mImgPreview;
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -46,12 +50,14 @@ public class ReservedItemActivity extends BaseActivity {
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
+        mPicture = intent.getStringExtra(Constants.PICTURE);
         mReservedDate = intent.getStringExtra(Constants.RESERVED_DATE);
 
         mTxtItem = (TextView) findViewById(R.id.txtItem);
         mTxtDescription = (TextView) findViewById(R.id.txtDescription);
         mTxtPrice = (TextView) findViewById(R.id.txtPrice);
         mTxtReservedDate = (TextView) findViewById(R.id.txtReservedDate);
+        mImgPreview = (ImageView) findViewById(R.id.preview);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -62,6 +68,10 @@ public class ReservedItemActivity extends BaseActivity {
         } else {
             mTxtPrice.setText("(Donated)");
         }
+
+        Picasso.with(this)
+                .load(mPicture)
+                .into(mImgPreview);
 
         mTxtReservedDate.setText(mReservedDate);
 

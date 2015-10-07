@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class DonateItemDetailsActivity extends BaseActivity {
 
     private TextView mTxtTitle;
     private TextView mTxtDescription;
     private TextView mTxtNumStars;
+    private ImageView mImgThumbnail;
 
     private int mStarsRequired;
     private String mDescription;
@@ -33,10 +37,15 @@ public class DonateItemDetailsActivity extends BaseActivity {
         mTxtTitle = (TextView) findViewById(R.id.txtTitle);
         mTxtDescription = (TextView) findViewById(R.id.txtDetails);
         mTxtNumStars = (TextView) findViewById(R.id.txtNumStars);
+        mImgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
 
         mTxtTitle.setText(mItemName);
         mTxtDescription.setText(mDescription);
         mTxtNumStars.setText("" + mStarsRequired);
+
+        Picasso.with(this)
+                .load(mPicture)
+                .into(mImgThumbnail);
 
         setTitle(mItemName);
     }

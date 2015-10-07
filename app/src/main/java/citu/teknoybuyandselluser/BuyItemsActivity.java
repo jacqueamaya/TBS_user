@@ -1,7 +1,5 @@
 package citu.teknoybuyandselluser;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,7 +57,7 @@ public class BuyItemsActivity extends BaseActivity {
                         availableItems = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewBuyItems);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.activity_item, availableItems);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.individual_item, availableItems);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
