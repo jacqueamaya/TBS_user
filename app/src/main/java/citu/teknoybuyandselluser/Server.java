@@ -1,5 +1,9 @@
 package citu.teknoybuyandselluser;
 
+import android.content.Context;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
 import java.util.Map;
 
 public class Server {
@@ -174,8 +178,8 @@ public class Server {
         Ajax.get(URL_RESERVED_ITEMS + "/?username=" + username, callbacks);
     }
 
-    public static void upload (String data, Ajax.Callbacks callbacks) {
-        Ajax.upload(URL_UPLOAD, data, callbacks);
+    public static void upload (String imagePath,ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.upload(URL_UPLOAD, imagePath,progress, callbacks);
     }
 
     public static void categorize (String category, Ajax.Callbacks callbacks) {
