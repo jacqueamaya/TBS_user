@@ -1,5 +1,7 @@
 package citu.teknoybuyandselluser;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,10 +9,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -109,40 +113,19 @@ public class SellItemsActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        /*MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_sell_items, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
-        ComponentName componentName = getComponentName();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
-        searchView.setIconifiedByDefault(false);
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        //searchView.setOnQueryTextListener(this);
 
-        SearchView.OnQueryTextListener textChangeListener = new SearchView.OnQueryTextListener()
-        {
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                // this is your adapter that will be filtered
-                listAdapter.getFilter().filter(newText);
-                Log.d(TAG, "on text chnge text: "+newText);
-                return true;
-            }
-            @Override
-            public boolean onQueryTextSubmit(String query)
-            {
-                // this is your adapter that will be filtered
-                listAdapter.getFilter().filter(query);
-                Log.d(TAG, "on query submit: "+query);
-                return true;
-            }
-        };
-        searchView.setOnQueryTextListener(textChangeListener);
-
-        return super.onCreateOptionsMenu(menu);*/
-        getMenuInflater().inflate(R.menu.menu_sell_items, menu);
         return true;
     }
 

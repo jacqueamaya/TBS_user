@@ -6,13 +6,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -22,6 +27,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import citu.teknoybuyandselluser.models.ImageInfo;
 
 public class PendingItemActivity extends BaseActivity {
 
@@ -39,6 +46,10 @@ public class PendingItemActivity extends BaseActivity {
     private String mDescription;
     private String mItemName;
     private String mPicture;
+
+    private Button mBtnBrowse;
+    private ProgressBar mProgressBar;
+    private ImageInfo mImgInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +86,19 @@ public class PendingItemActivity extends BaseActivity {
                 .load(mPicture)
                 .into(mImgPreview);
 
-
         setTitle(mItemName);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
+        mProgressBar.setVisibility(View.INVISIBLE);
+
+        mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
+        mImgPreview =  (ImageView) findViewById(R.id.preview);
+        mBtnBrowse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        });
     }
 
     @Override
@@ -110,11 +132,13 @@ public class PendingItemActivity extends BaseActivity {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
+
         data.put(Constants.OWNER, user);
         data.put(Constants.ID, "" + mItemId);
         data.put(Constants.NAME, mTxtItem.getText().toString());
         data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
         data.put(Constants.PRICE, mTxtPrice.getText().toString());
+        data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
@@ -183,5 +207,53 @@ public class PendingItemActivity extends BaseActivity {
         });
         AlertDialog alert = deleteItem.create();
         alert.show();
+    }
+
+    private void selectImage() {
+        Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+                Server.upload(picturePath, mProgressBar, new Ajax.Callbacks() {
+                    @Override
+                    public void success(String responseBody) {
+                        Log.v(TAG, "successfully posted");
+                        Log.v(TAG, responseBody);
+
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject(responseBody);
+                            ImageInfo image = new ImageInfo();
+                            mImgInfo = image.getImageInfo(json);
+                            Picasso.with(PendingItemActivity.this)
+                                    .load(mImgInfo.getLink())
+                                    .placeholder(R.drawable.thumbsq_24dp)
+                                    .into(mImgPreview);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void error(int statusCode, String responseBody, String statusText) {
+                        Log.v(TAG, "Request error");
+                    }
+
+                });
+
+            }
+        }
     }
 }

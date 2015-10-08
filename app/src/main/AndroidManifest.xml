@@ -37,7 +37,15 @@
         </activity>
         <activity
             android:name=".SellItemsActivity"
-            android:label="@string/title_activity_sell_items" >
+            android:label="@string/title_activity_sell_items"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation"
+            android:windowSoftInputMode="stateHidden"
+            android:launchMode="singleTask" >
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable">
+            </meta-data>
         </activity>
         <activity
             android:name=".PendingItemsActivity"
