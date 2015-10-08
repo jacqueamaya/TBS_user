@@ -32,75 +32,102 @@
                 android:id="@+id/preview"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:src="@drawable/thumbsq_24dp" />
-
-            <ImageView
-                android:id="@+id/shoppingcart"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
-                android:layout_below="@+id/preview"
-                android:src="@drawable/shop_24dp"
-                android:tint="@color/Louie" />
+                android:src="@drawable/thumbsq_24dp"/>
 
-            <TextView
-                android:id="@+id/txtItem"
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_below="@+id/preview"
-                android:text="Item"
-                android:layout_toRightOf="@id/shoppingcart"
-                android:textSize="20sp" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="140dp">
 
-            <ImageView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_below="@id/shoppingcart"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/edit_24dp"
-                android:tint="@color/Louie" />
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dip" >
 
-            <TextView
-                android:id="@+id/txtDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtItem"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="35dp"
-                android:layout_toRightOf="@+id/description"
-                android:text="Description"
-                android:textColorHint="@color/SlateGray"
-                android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/shoppingcart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/preview"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/shop_24dp"
+                    android:tint="@color/Louie" />
 
-            <ImageView
-                android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_below="@id/description"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="25dp"
-                android:src="@drawable/money_24dp"
-                android:tint="@color/Louie" />
+                <TextView
+                    android:id="@+id/txtItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/preview"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_toRightOf="@id/shoppingcart"
+                    android:text="Item"
+                    android:textSize="20sp" />
+                </TableRow>
 
-            <TextView
-                android:id="@+id/txtPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtDescription"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="45dp"
-                android:layout_toRightOf="@+id/price"
-                android:text="Price"
-                android:textColorHint="@color/SlateGray"
-                android:textSize="20sp" />
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dip" >
+
+                <ImageView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/shoppingcart"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/edit_24dp"
+                    android:tint="@color/Louie" />
+
+                <TextView
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtItem"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_toRightOf="@+id/description"
+                    android:text="Description"
+                    android:textColorHint="@color/SlateGray"
+                    android:textSize="20sp" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dip" >
+                <ImageView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/description"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:src="@drawable/money_24dp"
+                    android:tint="@color/Louie" />
+
+                <TextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtDescription"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="45dp"
+                    android:layout_toRightOf="@+id/price"
+                    android:text="Price"
+                    android:textColorHint="@color/SlateGray"
+                    android:textSize="20sp" />
+                </TableRow>
+            </TableLayout>
 
         </RelativeLayout>
 
