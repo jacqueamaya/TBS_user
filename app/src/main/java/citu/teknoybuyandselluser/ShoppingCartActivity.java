@@ -59,7 +59,7 @@ public class ShoppingCartActivity extends BaseActivity {
                         reservations = ReservedItem.allReservedItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewReservations);
-                        ReservedItemsAdapter listAdapter = new ReservedItemsAdapter(ShoppingCartActivity.this, R.layout.individual_item, reservations);
+                        ReservedItemsAdapter listAdapter = new ReservedItemsAdapter(ShoppingCartActivity.this, R.layout.list_item, reservations);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override

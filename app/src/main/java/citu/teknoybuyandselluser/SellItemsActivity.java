@@ -23,7 +23,7 @@ import citu.teknoybuyandselluser.models.Item;
 
 public class SellItemsActivity extends BaseActivity {
 
-    private static final String TAG = "SellItems";
+    private static final String TAG = "SellItemsActivity";
 
     private int mStarsRequired;
     private float mPrice;
@@ -31,8 +31,12 @@ public class SellItemsActivity extends BaseActivity {
     private String mItemName;
     private String mPicture;
 
+    private ItemsListAdapter listAdapter;
+    private ListView mListView;
+    private ArrayList<Item> mOwnedItems = new ArrayList<Item>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell_items);
         setupUI();
@@ -43,7 +47,6 @@ public class SellItemsActivity extends BaseActivity {
         Server.getItemsToSell(user, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> ownedItems = new ArrayList<Item>();
                 Log.v(TAG, responseBody);
                 JSONArray jsonArray = null;
 
@@ -54,12 +57,12 @@ public class SellItemsActivity extends BaseActivity {
                         txtMessage.setText("No available items to sell");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
-                        ownedItems = Item.allItems(jsonArray);
+                        mOwnedItems = Item.allItems(jsonArray);
 
-                        ListView lv = (ListView) findViewById(R.id.listViewSellItems);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(SellItemsActivity.this, R.layout.individual_item, ownedItems);
-                        lv.setAdapter(listAdapter);
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        mListView = (ListView) findViewById(R.id.listViewSellItems);
+                        listAdapter = new ItemsListAdapter(SellItemsActivity.this, R.layout.list_item, mOwnedItems);
+                        mListView.setAdapter(listAdapter);
+                        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Item item = (Item) parent.getItemAtPosition(position);
@@ -70,13 +73,12 @@ public class SellItemsActivity extends BaseActivity {
                                 mStarsRequired = item.getStars_required();
 
                                 Intent intent;
-                                intent  = new Intent(SellItemsActivity.this, SellItemDetailsActivity.class);
+                                intent = new Intent(SellItemsActivity.this, SellItemDetailsActivity.class);
                                 intent.putExtra(Constants.ITEM_NAME, mItemName);
                                 intent.putExtra(Constants.DESCRIPTION, mDescription);
                                 intent.putExtra(Constants.PRICE, mPrice);
                                 intent.putExtra(Constants.PICTURE, mPicture);
                                 intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
-
                                 startActivity(intent);
                             }
                         });
@@ -107,6 +109,39 @@ public class SellItemsActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        /*MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_sell_items, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+
+        ComponentName componentName = getComponentName();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
+        searchView.setIconifiedByDefault(false);
+
+        SearchView.OnQueryTextListener textChangeListener = new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                // this is your adapter that will be filtered
+                listAdapter.getFilter().filter(newText);
+                Log.d(TAG, "on text chnge text: "+newText);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                // this is your adapter that will be filtered
+                listAdapter.getFilter().filter(query);
+                Log.d(TAG, "on query submit: "+query);
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(textChangeListener);
+
+        return super.onCreateOptionsMenu(menu);*/
         getMenuInflater().inflate(R.menu.menu_sell_items, menu);
         return true;
     }
@@ -119,7 +154,7 @@ public class SellItemsActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
             return true;
         }
 

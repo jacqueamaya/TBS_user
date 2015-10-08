@@ -73,7 +73,7 @@
                 android:layout_below="@id/txtItem"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="35dp"
                 android:layout_toRightOf="@+id/description"
                 android:text="Description"
                 android:textColorHint="@color/SlateGray"

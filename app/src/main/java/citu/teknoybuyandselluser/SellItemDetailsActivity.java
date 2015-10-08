@@ -2,18 +2,19 @@ package citu.teknoybuyandselluser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 public class SellItemDetailsActivity extends BaseActivity {
 
-    private EditText mTxtItem;
-    private EditText mTxtDescription;
-    private EditText mTxtPrice;
+    private TextView mTxtItem;
+    private TextView mTxtDescription;
+    private TextView mTxtPrice;
     private ImageView mImgPreview;
 
     private int mStarsRequired;
@@ -34,14 +35,15 @@ public class SellItemDetailsActivity extends BaseActivity {
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.PICTURE);
 
-        mTxtItem = (EditText) findViewById(R.id.txtItem);
-        mTxtDescription = (EditText) findViewById(R.id.txtDescription);
-        mTxtPrice = (EditText) findViewById(R.id.txtPrice);
+        mTxtItem = (TextView) findViewById(R.id.txtItem);
+        mTxtDescription = (TextView) findViewById(R.id.txtDescription);
+        mTxtPrice = (TextView) findViewById(R.id.txtPrice);
         mImgPreview = (ImageView) findViewById(R.id.preview);
 
         mTxtItem.setText(mItemName);
         mTxtDescription.setText(mDescription);
         mTxtPrice.setText("" + mPrice);
+        Log.d("SellItemDetailsActivity", mPicture);
 
         Picasso.with(this)
                 .load(mPicture)

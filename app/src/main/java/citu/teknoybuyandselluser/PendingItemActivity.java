@@ -1,7 +1,9 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -140,29 +142,46 @@ public class PendingItemActivity extends BaseActivity {
         });
     }
 
-    public void onDeleteItem(View view) {
-        Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
-        Log.d(TAG, "user: " + user);
-        data.put(Constants.OWNER, user);
-        data.put(Constants.ID, "" + mItemId);
-
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Please wait. . .");
-
-        Server.deleteItem(data, mProgressDialog, new Ajax.Callbacks() {
+    public void onDeleteItem(View view){
+        AlertDialog.Builder deleteItem= new AlertDialog.Builder(this);
+        deleteItem.setTitle("Delete Item");
+        deleteItem.setIcon(R.drawable.ic_delete_black_24dp);
+        deleteItem.setMessage("Are you sure you want to delete this item?");
+        deleteItem.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
-            public void success(String responseBody) {
-                Log.d(TAG, "Delete Item success");
-                Toast.makeText(PendingItemActivity.this, "Delete Item success", Toast.LENGTH_SHORT).show();
-            }
+            public void onClick(DialogInterface arg0, int arg1) {
+                Map<String, String> data = new HashMap<>();
+                SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+                String user = prefs.getString("username", "");
+                Log.d(TAG, "user: " + user);
+                data.put(Constants.OWNER, user);
+                data.put(Constants.ID, "" + mItemId);
 
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "Delete Item error " + statusCode + " " + responseBody + " " + statusText);
-                Toast.makeText(PendingItemActivity.this, "Delete Item ERROR: " + mItemId + statusText, Toast.LENGTH_SHORT).show();
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setMessage("Please wait. . .");
+
+                Server.deleteItem(data, mProgressDialog, new Ajax.Callbacks() {
+                    @Override
+                    public void success(String responseBody) {
+                        Log.d(TAG, "Delete Item success");
+                        Toast.makeText(PendingItemActivity.this, "Delete Item success", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void error(int statusCode, String responseBody, String statusText) {
+                        Log.d(TAG, "Delete Item error " + statusCode + " " + responseBody + " " + statusText);
+                        Toast.makeText(PendingItemActivity.this, "Delete Item ERROR: " + mItemId + statusText, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+        deleteItem.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = deleteItem.create();
+        alert.show();
     }
 }

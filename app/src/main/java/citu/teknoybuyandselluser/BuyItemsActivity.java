@@ -57,7 +57,7 @@ public class BuyItemsActivity extends BaseActivity {
                         availableItems = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewBuyItems);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.individual_item, availableItems);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override

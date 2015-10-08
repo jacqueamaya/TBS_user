@@ -3,8 +3,8 @@ package citu.teknoybuyandselluser;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +56,7 @@ public class DonateItemsActivity extends BaseActivity {
                         donatedItems = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewDonateItems);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(DonateItemsActivity.this, R.layout.individual_item, donatedItems);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(DonateItemsActivity.this, R.layout.list_item, donatedItems);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override

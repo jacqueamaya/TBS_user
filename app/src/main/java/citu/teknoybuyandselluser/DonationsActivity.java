@@ -56,7 +56,7 @@ public class DonationsActivity extends BaseActivity {
                         allDonations = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewDonations);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.individual_item, allDonations);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override

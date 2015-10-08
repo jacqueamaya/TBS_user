@@ -63,4 +63,5 @@ public class ItemsListAdapter extends ArrayAdapter<Item>{
 
         return mView;
     }
+
 }

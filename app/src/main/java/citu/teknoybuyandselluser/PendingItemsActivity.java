@@ -56,7 +56,7 @@ public class PendingItemsActivity extends BaseActivity {
                         pendingItems = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewPending);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(PendingItemsActivity.this, R.layout.individual_item, pendingItems);
+                        ItemsListAdapter listAdapter = new ItemsListAdapter(PendingItemsActivity.this, R.layout.list_item, pendingItems);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override

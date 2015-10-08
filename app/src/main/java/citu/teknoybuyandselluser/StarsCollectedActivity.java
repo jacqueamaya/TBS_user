@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class StarsCollectedActivity extends BaseActivity {
 
@@ -21,24 +20,6 @@ public class StarsCollectedActivity extends BaseActivity {
     private Button mBtnClaimAward;
 
 
-    public void deleteDialogBox(View view){
-        AlertDialog.Builder deleteItem= new AlertDialog.Builder(this);
-        deleteItem.setTitle("Delete Item");
-        deleteItem.setIcon(R.drawable.ic_delete_black_24dp);
-        deleteItem.setMessage("Are you sure you want to delete this item?");
-        deleteItem.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                Toast.makeText(StarsCollectedActivity.this,"Item successfully deleted.", Toast.LENGTH_LONG).show();
-            }
-        });
-        deleteItem.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) { finish(); }
-        });
-        AlertDialog alert = deleteItem.create();
-        alert.show();
-    }
     public void buyDialogBox(View view){
 
         AlertDialog.Builder buyItem= new AlertDialog.Builder(this);
