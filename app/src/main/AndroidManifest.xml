@@ -21,6 +21,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".ChangePasswordActivity"
@@ -57,6 +58,7 @@
         <activity
             android:name=".StarsCollectedActivity"
             android:label="@string/title_activity_stars_collected" >
+
         </activity>
         <activity
             android:name=".SellItemActivity"
