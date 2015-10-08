@@ -22,7 +22,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,9 +50,8 @@ public class DonateItemActivity extends BaseActivity {
     private ImageView mImgPreview;
     private ProgressDialog mProgressDialog;
 
-    Uri imageUri;
-    Bitmap scaledBitmap = null;
-    ImageInfo imgInfo;
+    private ProgressBar mProgressBar;
+    ImageInfo mImgInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,9 @@ public class DonateItemActivity extends BaseActivity {
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
 
         mProgressDialog = new ProgressDialog(this);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
+        mProgressBar.setVisibility(View.INVISIBLE);
 
         mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
         mImgPreview =  (ImageView) findViewById(R.id.preview);
@@ -89,119 +94,35 @@ public class DonateItemActivity extends BaseActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
+                Server.upload(picturePath, mProgressBar, new Ajax.Callbacks() {
+                    @Override
+                    public void success(String responseBody) {
+                        Log.v(TAG, "successfully posted");
+                        Log.v(TAG, responseBody);
 
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                Bitmap bmp = BitmapFactory.decodeFile(picturePath, options);
-                //final Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                int actualHeight = options.outHeight;
-                int actualWidth = options.outWidth;
-                float maxHeight = 816.0f;
-                float maxWidth = 612.0f;
-                float imgRatio = actualWidth / actualHeight;
-                float maxRatio = maxWidth / maxHeight;
-
-                if (actualHeight > maxHeight || actualWidth > maxWidth) {
-                    if (imgRatio < maxRatio) {
-                        imgRatio = maxHeight / actualHeight;
-                        actualWidth = (int) (imgRatio * actualWidth);
-                        actualHeight = (int) maxHeight;
-                    } else if (imgRatio > maxRatio) {
-                        imgRatio = maxWidth / actualWidth;
-                        actualHeight = (int) (imgRatio * actualHeight);
-                        actualWidth = (int) maxWidth;
-                    } else {
-                        actualHeight = (int) maxHeight;
-                        actualWidth = (int) maxWidth;
-
+                        JSONObject json;
+                        try {
+                            json = new JSONObject(responseBody);
+                            ImageInfo image = new ImageInfo();
+                            mImgInfo = image.getImageInfo(json);
+                            Picasso.with(DonateItemActivity.this)
+                                    .load(mImgInfo.getLink())
+                                    .placeholder(R.drawable.thumbsq_24dp)
+                                    .into(mImgPreview);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-                options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
-                options.inJustDecodeBounds = false;
-                options.inPurgeable = true;
-                options.inInputShareable = true;
-                options.inTempStorage = new byte[16 * 1024];
 
-                try {
-//          load the bitmap from its path
-                    bmp = BitmapFactory.decodeFile(picturePath, options);
-                } catch (OutOfMemoryError exception) {
-                    exception.printStackTrace();
-
-                }
-                try {
-                    scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight,Bitmap.Config.ARGB_8888);
-                } catch (OutOfMemoryError exception) {
-                    exception.printStackTrace();
-                }
-                float ratioX = actualWidth / (float) options.outWidth;
-                float ratioY = actualHeight / (float) options.outHeight;
-                float middleX = actualWidth / 2.0f;
-                float middleY = actualHeight / 2.0f;
-
-                Matrix scaleMatrix = new Matrix();
-                scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
-
-                Canvas canvas = new Canvas(scaledBitmap);
-                canvas.setMatrix(scaleMatrix);
-                canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 2, middleY - bmp.getHeight() / 2, new Paint(Paint.FILTER_BITMAP_FLAG));
-
-                ExifInterface exif;
-                try {
-                    exif = new ExifInterface(picturePath);
-
-                    int orientation = exif.getAttributeInt(
-                            ExifInterface.TAG_ORIENTATION, 0);
-                    Log.d("EXIF", "Exif: " + orientation);
-                    Matrix matrix = new Matrix();
-                    if (orientation == 6) {
-                        matrix.postRotate(90);
-                        Log.d("EXIF", "Exif: " + orientation);
-                    } else if (orientation == 3) {
-                        matrix.postRotate(180);
-                        Log.d("EXIF", "Exif: " + orientation);
-                    } else if (orientation == 8) {
-                        matrix.postRotate(270);
-                        Log.d("EXIF", "Exif: " + orientation);
+                    @Override
+                    public void error(int statusCode, String responseBody, String statusText) {
+                        Log.v(TAG, "Request error");
                     }
-                    scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0,
-                            scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix,
-                            true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
-                Log.v(TAG, "path of image from gallery......******************........." + picturePath + "");
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-                //thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] b = baos.toByteArray();
-                String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-                String image = null;
-                try {
-                    //image = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(Base64.encode(baos.toByteArray(), Base64.DEFAULT).toString(), "UTF-8");
-                    image = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(imageEncoded,"UTF-8");
-                    Log.v(TAG,image);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                });
 
             }
         }
-    }
-    public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            final int heightRatio = Math.round((float) height/ (float) reqHeight);
-            final int widthRatio = Math.round((float) width / (float) reqWidth);
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;      }       final float totalPixels = width * height;       final float totalReqPixelsCap = reqWidth * reqHeight * 2;       while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
-            inSampleSize++;
-        }
-
-        return inSampleSize;
     }
 
     @Override
@@ -239,7 +160,7 @@ public class DonateItemActivity extends BaseActivity {
         data.put(Constants.OWNER, user);
         data.put(Constants.NAME, mTxtItem.getText().toString());
         data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
-        data.put(Constants.IMAGE_URL, imgInfo.getLink());
+        data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
@@ -247,7 +168,7 @@ public class DonateItemActivity extends BaseActivity {
         Server.donateItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                JSONObject json = null;
+                JSONObject json;
                 try {
                     json = new JSONObject(responseBody);
                     String response = json.getString("statusText");
