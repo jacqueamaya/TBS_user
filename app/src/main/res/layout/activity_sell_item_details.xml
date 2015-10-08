@@ -121,11 +121,12 @@
                     android:layout_below="@id/txtDescription"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="45dp"
+                    android:layout_marginTop="35dp"
                     android:layout_toRightOf="@+id/price"
                     android:text="Price"
                     android:textColorHint="@color/SlateGray"
                     android:textSize="20sp" />
+
                 </TableRow>
             </TableLayout>
 
