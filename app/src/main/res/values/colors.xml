@@ -136,4 +136,15 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
+
+    <!--Tabs Color Scheme -->
+    <color name="colorPrimary">#FFCD28</color>
+    <color name="colorPrimaryDark">#FFCD28</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#89343B</color>
+    <!--Tabs Color Scheme -->
+
+
 </resources>

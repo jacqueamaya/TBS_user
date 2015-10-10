@@ -2,12 +2,23 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="android:windowActionBar">false</item>
         <item name="colorPrimary">#FFFFE0</item>
         <item name="colorPrimaryDark">#FFD700</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
         <item name="colorAccent">#89343B</item>
+    </style>
+
+    <!-- Tab theme -->
+    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
+    </style>
+
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 </resources>

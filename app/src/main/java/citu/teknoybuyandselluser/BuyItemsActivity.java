@@ -1,9 +1,16 @@
 package citu.teknoybuyandselluser;
 
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +23,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.R;
+import citu.teknoybuyandselluser.fragments.OneFragment;
+import citu.teknoybuyandselluser.fragments.TwoFragment;
+import citu.teknoybuyandselluser.fragments.ThreeFragment;
+import citu.teknoybuyandselluser.fragments.FourFragment;
+import citu.teknoybuyandselluser.fragments.FiveFragment;
+
 
 public class BuyItemsActivity extends BaseActivity {
+
+    //Tab Layout//
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     private static final String TAG = "BuyItems";
 
@@ -36,6 +56,19 @@ public class BuyItemsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_items);
         setupUI();
+
+        //Tabs
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        //End of Tabs
 
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
@@ -96,6 +129,46 @@ public class BuyItemsActivity extends BaseActivity {
             }
         });
     }
+    //Tabs
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new OneFragment(), "Uniforms");
+        adapter.addFragment(new TwoFragment(), "Books");
+        adapter.addFragment(new ThreeFragment(), "Gadgets");
+        adapter.addFragment(new FourFragment(), "Notes");
+        adapter.addFragment(new FiveFragment(), "Others");
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+    //End of Tabs
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
