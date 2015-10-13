@@ -17,7 +17,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.listAdapters.ReservedItemsAdapter;
+import citu.teknoybuyandselluser.adapters.ReservedItemsAdapter;
 import citu.teknoybuyandselluser.models.ReservedItem;
 
 public class ShoppingCartActivity extends BaseActivity {

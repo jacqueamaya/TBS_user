@@ -18,7 +18,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
 public class DonateItemsActivity extends BaseActivity {
