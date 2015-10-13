@@ -64,4 +64,13 @@
     <string name="title_activity_pending_item">PendingItemActivity</string>
     <string name="title_activity_terms_conditions">TermsConditionsActivity</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
+
+
+
+    <string-array name="country_arrays">
+        <item>Price</item>
+        <item>Name</item>
+        <item>Date</item>
+    </string-array>
+
 </resources>
