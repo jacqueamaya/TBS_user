@@ -2,7 +2,6 @@ package citu.teknoybuyandselluser;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,7 +15,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.listAdapters.NotificationListAdapter;
+import citu.teknoybuyandselluser.adapters.NotificationListAdapter;
 import citu.teknoybuyandselluser.models.Notification;
 
 public class NotificationsActivity extends BaseActivity {

@@ -1,4 +1,4 @@
-package citu.teknoybuyandselluser.listAdapters;
+package citu.teknoybuyandselluser.adapters;
 
 import android.content.Context;
 import android.text.Html;
@@ -56,31 +56,49 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
             }
             String message;
             switch(items.get(position).getNotification_type()){
-                case "sell": message = "<b>"+items.get(position).getMakerUserName()+"</b> approved your request to <b>sell</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date: "+notif_date+"</small>";
+                case "sell":
+                case "Sell":
+                    message = "<b>"+items.get(position).getMakerUserName()+"</b> approved your request to <b>sell</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date: "+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "donate": message = "<b>"+items.get(position).getMakerUserName()+"</b> approved your request to <b>donate</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                case "donate":
+                case "Donate":
+                    message = "<b>"+items.get(position).getMakerUserName()+"</b> approved your request to <b>donate</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "buy": message = "<b>"+items.get(position).getMakerUserName()+"</b> wants to <b>buy</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                case "buy":
+                case "Buy":
+                    message = "<b>"+items.get(position).getMakerUserName()+"</b> wants to <b>buy</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "get": message = "<b>"+items.get(position).getMakerUserName()+"</b> wants to <b>get</b> your donated item: <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                case "get":
+                case "Get":
+                    message = "<b>"+items.get(position).getMakerUserName()+"</b> wants to <b>get</b> your donated item: <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "cancel": message = "<b>"+items.get(position).getMakerUserName()+" canceled</b> his/her reservation for your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                case "cancel":
+                case "Cancel":
+                    message = "<b>"+items.get(position).getMakerUserName()+" canceled</b> his/her reservation for your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "approve": message = "<b>"+items.get(position).getMakerUserName()+" approved</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                case "approve":
+                case "Approve":
+                    message = "<b>"+items.get(position).getMakerUserName()+" approved</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "disapprove": message = "<b>"+items.get(position).getMakerUserName()+" disapproved</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                case "disapprove":
+                case "Disapprove":
+                    message = "<b>"+items.get(position).getMakerUserName()+" disapproved</b> your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "available": message = "<b>"+items.get(position).getItemName()+"</b> is now <b>available</b>.<br><small> Date:"+notif_date+"</small>";
+                case "available":
+                case "Available":
+                    message = "<b>"+items.get(position).getItemName()+"</b> is now <b>available</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
-                case "sold": message = "Your item: <b>"+items.get(position).getItemName()+"</b> is now <b>sold</b>.<br><small> Date:"+notif_date+"</small>";
+                case "sold":
+                case "Sold":
+                    message = "Your item: <b>"+items.get(position).getItemName()+"</b> is now <b>sold</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
                 default: message = "<i>This is a default notification message</i>";

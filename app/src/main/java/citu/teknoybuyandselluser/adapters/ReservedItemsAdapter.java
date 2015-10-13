@@ -1,4 +1,4 @@
-package citu.teknoybuyandselluser.listAdapters;
+package citu.teknoybuyandselluser.adapters;
 
 import android.content.Context;
 import android.text.Html;
@@ -15,19 +15,19 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import citu.teknoybuyandselluser.R;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.ReservedItem;
 
 /**
- * Created by Jacquelyn on 9/20/2015.
+ * Created by Jacquelyn on 9/23/2015.
  */
-public class ItemsListAdapter extends ArrayAdapter<Item>{
+public class ReservedItemsAdapter extends ArrayAdapter<ReservedItem>{
     private Context mContext;
     private int id;
-    private ArrayList<Item> items ;
+    private ArrayList<ReservedItem> items ;
     private String notificationDate;
     private Date reserved_date;
 
-    public ItemsListAdapter(Context context, int textViewResourceId, ArrayList<Item> list)
+    public ReservedItemsAdapter(Context context, int textViewResourceId, ArrayList<ReservedItem> list)
     {
         super(context, textViewResourceId, list);
         mContext = context;
@@ -63,5 +63,4 @@ public class ItemsListAdapter extends ArrayAdapter<Item>{
 
         return mView;
     }
-
 }

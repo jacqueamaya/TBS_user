@@ -85,6 +85,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     intent = new Intent(this, StarsCollectedActivity.class);
                     break;
                 case R.id.nav_logout:
+                    mSharedPreferences.edit().clear().apply();
                     intent = new Intent(this, LoginActivity.class);
                     break;
                 default:
@@ -124,7 +125,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
     public String getUserPreferences() {
         mSharedPreferences = getSharedPreferences(LoginActivity.MY_PREFS_NAME, MODE_PRIVATE);
-        return mSharedPreferences.getString("first_name", "No FirstName") + " " + mSharedPreferences.getString("last_name", "No LastName");
+        return mSharedPreferences.getString(Constants.FIRST_NAME, "No FirstName") + " " + mSharedPreferences.getString(Constants.LAST_NAME, "No LastName");
     }
 
     public abstract boolean checkItemClicked(MenuItem menuItem);

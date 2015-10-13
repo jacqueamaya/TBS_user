@@ -47,8 +47,10 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences sp = this.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         if(sp.getString(USERNAME, null) != null) {
-            mTxtUsername.setText(sp.getString(USERNAME, null));
-            mTxtPassword.setText(sp.getString(PASSWORD, null));
+            Intent intent;
+            intent = new Intent(LoginActivity.this, NotificationsActivity.class);
+            finish();
+            startActivity(intent);
         }
 
         mTxtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
@@ -104,10 +106,10 @@ public class LoginActivity extends AppCompatActivity {
                                         JSONObject jsonUser = json.getJSONObject("student");
 
                                         SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                                        editor.putString("username", mStrUsername);
-                                        editor.putString("first_name", jsonUser.getString("first_name"));
-                                        editor.putString("last_name", jsonUser.getString("last_name"));
-                                        editor.putInt("stars_collected", json.getInt("stars_collected"));
+                                        editor.putString(Constants.USERNAME, mStrUsername);
+                                        editor.putString(Constants.FIRST_NAME, jsonUser.getString("first_name"));
+                                        editor.putString(Constants.LAST_NAME, jsonUser.getString("last_name"));
+                                        editor.putInt(Constants.STARS_COLLECTED, json.getInt("stars_collected"));
                                         editor.apply();
 
                                         mTxtErrorMessage.setText("");

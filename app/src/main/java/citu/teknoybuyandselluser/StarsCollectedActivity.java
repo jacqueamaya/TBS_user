@@ -19,25 +19,6 @@ public class StarsCollectedActivity extends BaseActivity {
     private TextView mTxtNumberStars;
     private Button mBtnClaimAward;
 
-
-    public void buyDialogBox(View view){
-
-        AlertDialog.Builder buyItem= new AlertDialog.Builder(this);
-        buyItem.setTitle("Collected stars");
-        buyItem.setIcon(R.drawable.ic_star_black_24dp);
-        buyItem.setMessage("You only have 50 stars left.")
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        AlertDialog alert = buyItem.create();
-        alert.show();
-
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +26,7 @@ public class StarsCollectedActivity extends BaseActivity {
         setupUI();
 
         mTxtNumberStars = (TextView) findViewById(R.id.txtNumberStars);
-        if(getStars() < 2) {
+        if (getStars() < 2) {
             mTxtNumberStars.setText(getStars() + " star");
         } else {
             mTxtNumberStars.setText(getStars() + " stars");
@@ -89,8 +70,8 @@ public class StarsCollectedActivity extends BaseActivity {
         return menuItem.getItemId() != R.id.nav_stars_collected;
     }
 
-    public int getStars(){
+    private int getStars() {
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        return prefs.getInt("stars_collected", 0);
+        return prefs.getInt(Constants.STARS_COLLECTED, 0);
     }
 }

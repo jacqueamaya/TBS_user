@@ -1,4 +1,4 @@
-package citu.teknoybuyandselluser.listAdapters;
+package citu.teknoybuyandselluser.adapters;
 
 import android.content.Context;
 import android.text.Html;
@@ -16,19 +16,18 @@ import java.util.Date;
 
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.models.Item;
-import citu.teknoybuyandselluser.models.ReservedItem;
 
 /**
- * Created by Jacquelyn on 9/23/2015.
+ * Created by Jacquelyn on 9/20/2015.
  */
-public class ReservedItemsAdapter extends ArrayAdapter<ReservedItem>{
+public class ItemsListAdapter extends ArrayAdapter<Item>{
     private Context mContext;
     private int id;
-    private ArrayList<ReservedItem> items ;
+    private ArrayList<Item> items ;
     private String notificationDate;
     private Date reserved_date;
 
-    public ReservedItemsAdapter(Context context, int textViewResourceId, ArrayList<ReservedItem> list)
+    public ItemsListAdapter(Context context, int textViewResourceId, ArrayList<Item> list)
     {
         super(context, textViewResourceId, list);
         mContext = context;
@@ -52,7 +51,7 @@ public class ReservedItemsAdapter extends ArrayAdapter<ReservedItem>{
         {
             Picasso.with(mContext)
                     .load(items.get(position).getPicture())
-                    .placeholder(R.drawable.notif_user)
+                    .placeholder(R.drawable.thumbsq_24dp)
                     .resize(50,50)
                     .centerCrop()
                     .into(image);
@@ -64,4 +63,5 @@ public class ReservedItemsAdapter extends ArrayAdapter<ReservedItem>{
 
         return mView;
     }
+
 }
