@@ -1,7 +1,6 @@
 package citu.teknoybuyandselluser;
 
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +21,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
 public class SellItemsActivity extends BaseActivity {
@@ -78,6 +77,7 @@ public class SellItemsActivity extends BaseActivity {
 
                                 Intent intent;
                                 intent = new Intent(SellItemsActivity.this, SellItemDetailsActivity.class);
+                                intent.putExtra(Constants.ID, item.getId());
                                 intent.putExtra(Constants.ITEM_NAME, mItemName);
                                 intent.putExtra(Constants.DESCRIPTION, mDescription);
                                 intent.putExtra(Constants.PRICE, mPrice);
