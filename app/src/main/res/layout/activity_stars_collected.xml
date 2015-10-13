@@ -56,19 +56,19 @@
                         android:id="@+id/txtYouHave"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="30dp"
+                        android:paddingTop="30sp"
                         android:text="You have"
                         android:textColor="@color/Black"
-                        android:textSize="30sp"/>
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/txtNumberStars"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtYouHave"
-                        android:text="0"
+                        android:text="5000 stars"
                         android:textColor="@color/Black"
-                        android:textSize="50sp" />
+                        android:textSize="30sp" />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -84,29 +84,7 @@
                 android:layout_gravity="center"
                 android:background="@color/Star"
                 android:text="Claim Award"
-                android:textColor="@color/White"/>
-
-            <Button
-                android:id="@+id/btnDelete"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@color/Louie"
-                android:onClick="deleteDialogBox"
-                android:text="Delete"
-                android:textColor="@color/White"/>
-
-            <Button
-                android:id="@+id/btnBuy"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@color/White"
-                android:onClick="buyDialogBox"
-                android:text="Buy Item"
-                android:textColor="@color/Louie"/>
+                android:textColor="@color/White" />
 
         </LinearLayout>
 
