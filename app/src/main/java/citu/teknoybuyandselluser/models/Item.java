@@ -20,6 +20,7 @@ public class Item {
     private String status;
     private String purpose;
     private float price;
+    private float discountedPrice;
     private String picture;
     private int stars_required;
 
@@ -63,6 +64,10 @@ public class Item {
         return stars_required;
     }
 
+    public float getDiscountedPrice() {
+        return discountedPrice;
+    }
+
     public static Item getItem(JSONObject jsonObject){
         Item item = new Item();
 
@@ -74,6 +79,7 @@ public class Item {
             item.status = jsonObject.getString("status");
             item.purpose = jsonObject.getString("purpose");
             item.price = (float)jsonObject.getDouble("price");
+            item.price = (float)jsonObject.getDouble("discounted_price");
             item.stars_required = jsonObject.getInt("stars_required");
             item.picture = jsonObject.getString("picture");
         } catch (JSONException e) {

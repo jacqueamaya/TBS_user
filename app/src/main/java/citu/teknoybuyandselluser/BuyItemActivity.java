@@ -90,6 +90,12 @@ public class BuyItemActivity extends BaseActivity {
 
         setTitle(mItemName);
 
+        data = new HashMap<>();
+
+        String user = mPreferences.getString("username", "");
+        data.put(Constants.BUYER, user);
+        data.put(Constants.ID, "" + mItemId);
+
         mBtnBuyItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,16 +132,10 @@ public class BuyItemActivity extends BaseActivity {
     }
 
     public void onBuy(View view) {
-        data = new HashMap<>();
-
-        String user = mPreferences.getString("username", "");
-        data.put(Constants.BUYER, user);
-        data.put(Constants.ID, "" + mItemId);
-
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
         if (mRdWithDiscount.isChecked()) {
-            if(mStarsToUse != 0) {
+            if (mStarsToUse != 0) {
                 buyWithDiscountDialogBox();
             } else {
                 Toast.makeText(BuyItemActivity.this, "Number of stars to use is not defined.", Toast.LENGTH_SHORT).show();
@@ -151,7 +151,7 @@ public class BuyItemActivity extends BaseActivity {
             public void success(String responseBody) {
                 try {
                     JSONObject json = new JSONObject(responseBody);
-                    if(json.getInt("status") == 201) {
+                    if (json.getInt("status") == 201) {
                         Log.d(TAG, "Buy Item success");
                         Toast.makeText(BuyItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
                     } else {
@@ -179,7 +179,7 @@ public class BuyItemActivity extends BaseActivity {
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            buyItem();
+                            dialog.dismiss();
                         }
                     });
         } else if (mStarsToUse > 150) {
@@ -192,22 +192,23 @@ public class BuyItemActivity extends BaseActivity {
                     });
         } else {
             buyItem.setMessage("Discount:\t" + calculateDiscount() + "%\n" +
-                "Original Price:\t" + mPrice + "\n" +
-                "Discounted Price: \t" + calculateDiscountedPrice() + "\n" +
-                "Stars Remaining: " + getStarsRemaining())
-                .setCancelable(true)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        mPreferences.edit().putInt("stars_collected", getStarsRemaining()).apply();
-                        buyItem();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                    "Original Price:\t" + mPrice + "\n" +
+                    "Discounted Price: \t" + calculateDiscountedPrice() + "\n" +
+                    "Stars Remaining: " + getStarsRemaining())
+                    .setCancelable(true)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            mPreferences.edit().putInt("stars_collected", getStarsRemaining()).apply();
+                            data.put(Constants.DISCOUNTED_PRICE, "" + calculateDiscountedPrice());
+                            buyItem();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
         }
         AlertDialog alert = buyItem.create();
         alert.show();
@@ -222,11 +223,11 @@ public class BuyItemActivity extends BaseActivity {
         return getStars() - mStarsToUse;
     }
 
-    private double calculateDiscount() {
+    private float calculateDiscount() {
         return mStarsToUse / 1000;
     }
 
-    private double calculateDiscountedPrice() {
+    private float calculateDiscountedPrice() {
         return mPrice * (1 - calculateDiscount());
     }
 

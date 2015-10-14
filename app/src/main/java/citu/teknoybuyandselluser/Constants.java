@@ -17,6 +17,7 @@ public class Constants {
     public static final String NAME = "name";
     public static final String OWNER = "owner";
     public static final String PRICE = "price";
+    public static final String DISCOUNTED_PRICE = "discounted_price";
     public static final String PICTURE = "picture";
     public static final String RESERVED_DATE = "reserved_date";
     public static final String RESERVATION_ID = "reservation_id";
