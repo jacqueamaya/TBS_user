@@ -25,7 +25,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-import citu.teknoybuyandselluser.listAdapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.fragments.OneFragment;
@@ -90,7 +90,8 @@ public class BuyItemsActivity extends BaseActivity {
                         availableItems = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewBuyItems);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
+                        ItemsListAdapter listAdapter;
+                        listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
