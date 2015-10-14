@@ -42,6 +42,8 @@
                     android:layout_marginLeft="23dp"
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@id/imgItem"
+                    android:layout_toEndOf="@+id/imgItem"
+                    android:text="Item Name"
                     android:textColor="@color/Black"
                     android:textSize="25dp"
                     android:textStyle="bold" />
@@ -54,33 +56,59 @@
                     android:layout_marginLeft="23dp"
                     android:layout_marginRight="16dp"
                     android:layout_toRightOf="@id/imgItem"
+                    android:text="Php 0.0"
                     android:textColor="@color/Gray"
                     android:textSize="20dp"
                     android:textStyle="normal" />
 
                 <RadioGroup
+                    android:id="@+id/rdGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtPrice"
                     android:layout_toRightOf="@+id/imgItem">
 
                     <RadioButton
-                        android:id="@+id/rdo1"
+                        android:id="@+id/rdWithoutDiscount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
+                        android:onClick="hideInputStars"
                         android:text="@string/without_discount" />
 
                     <RadioButton
-                        android:id="@+id/rdo2"
+                        android:id="@+id/rdWithDiscount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="0dp"
+                        android:onClick="showInputStars"
                         android:text="@string/with_discount" />
 
                 </RadioGroup>
+
+                <TextView
+                    android:id="@+id/lblStarsToUse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rdGroup"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/imgItem"
+                    android:textColor="@color/Black"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/txtStarsToUse"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rdGroup"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@id/lblStarsToUse"
+                    android:layout_toRightOf="@id/lblStarsToUse"
+                    android:inputType="number"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/lblDetails"
@@ -88,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgItem"
                     android:layout_marginRight="18dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="40dp"
                     android:text="@string/item_details"
                     android:textColor="@color/Black"
                     android:textSize="16dp"
@@ -100,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lblDetails"
                     android:layout_marginTop="10dp"
+                    android:text="This section contains the details of the selected item."
                     android:textColor="@color/Gray"
                     android:textSize="16dp"
                     android:textStyle="normal" />
