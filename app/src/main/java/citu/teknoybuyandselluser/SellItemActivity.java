@@ -165,6 +165,7 @@ public class SellItemActivity extends BaseActivity {
                     String response = json.getString("statusText");
                     Log.d(TAG, response);
                     Toast.makeText(SellItemActivity.this, response, Toast.LENGTH_SHORT).show();
+                    finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
