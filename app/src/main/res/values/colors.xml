@@ -138,8 +138,8 @@
     <color name="Black">#000000</color>
 
     <!--Tabs Color Scheme -->
-    <color name="colorPrimary">#FFCD28</color>
-    <color name="colorPrimaryDark">#FFCD28</color>
+    <color name="colorPrimary">#FFD700</color>
+    <color name="colorPrimaryDark">#FFD700</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
