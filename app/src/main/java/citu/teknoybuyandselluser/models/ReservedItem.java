@@ -17,6 +17,12 @@ public class ReservedItem {
     private int reservationId;
     private String itemName;
     private float price;
+
+    public float getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    private float discountedPrice;
     private String picture;
 
     public String getPicture() {
@@ -81,6 +87,7 @@ public class ReservedItem {
                 ri.itemId = item.getId();
                 ri.itemName = item.getItemName();
                 ri.price = item.getPrice();
+                ri.discountedPrice = item.getDiscountedPrice();
                 ri.picture = item.getPicture();
                 ri.description = item.getDescription();
             }
