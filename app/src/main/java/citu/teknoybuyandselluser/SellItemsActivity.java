@@ -31,8 +31,6 @@ public class SellItemsActivity extends BaseActivity {
     private String mPicture;
 
     private ItemsListAdapter listAdapter;
-    private ListView mListView;
-    private ArrayList<Item> mOwnedItems = new ArrayList<Item>();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -48,6 +46,8 @@ public class SellItemsActivity extends BaseActivity {
             public void success(String responseBody) {
                 Log.v(TAG, responseBody);
                 JSONArray jsonArray = null;
+                ArrayList<Item> mOwnedItems = new ArrayList<Item>();
+                ListView mListView;
 
                 try {
                     jsonArray = new JSONArray(responseBody);
@@ -57,6 +57,7 @@ public class SellItemsActivity extends BaseActivity {
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
                         mOwnedItems = Item.allItems(jsonArray);
+                        Log.d(TAG, mOwnedItems.toString());
 
                         mListView = (ListView) findViewById(R.id.listViewSellItems);
                         listAdapter = new ItemsListAdapter(SellItemsActivity.this, R.layout.list_item, mOwnedItems);
@@ -64,7 +65,7 @@ public class SellItemsActivity extends BaseActivity {
                         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = (Item) parent.getItemAtPosition(position);
+                                Item item = listAdapter.getDisplayView().get(position);
                                 mItemName = item.getItemName();
                                 mDescription = item.getDescription();
                                 mPrice = item.getPrice();
@@ -95,7 +96,7 @@ public class SellItemsActivity extends BaseActivity {
             }
         });
 
-        FloatingActionButton fab= (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -30,7 +30,7 @@ import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
 
 
-public class BuyItemsActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class BuyItemsActivity extends BaseActivity {
 
     private Spinner spinnerSortBy;
     private Toolbar toolbar;
@@ -46,6 +46,7 @@ public class BuyItemsActivity extends BaseActivity implements SearchView.OnQuery
     private String mPicture;
     private String user;
     private String categories[];
+    private String sortBy[];
 
     private ItemsListAdapter listAdapter;
     private ArrayList<Item> availableItems;
@@ -65,12 +66,26 @@ public class BuyItemsActivity extends BaseActivity implements SearchView.OnQuery
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         txtCategory = (TextView) findViewById(R.id.txtCategory);
+        spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
+        sortBy = getResources().getStringArray(R.array.sort_by);
         getItems();
 
         txtCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getCategories(v);
+            }
+        });
+
+        spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, sortBy[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -89,6 +104,7 @@ public class BuyItemsActivity extends BaseActivity implements SearchView.OnQuery
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         txtCategory.setText(categories[which]);
+                                        listAdapter.getFilter().filter(txtCategory.getText().toString());
                                     }
                                 })
                                 .create()
@@ -115,15 +131,23 @@ public class BuyItemsActivity extends BaseActivity implements SearchView.OnQuery
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_buy_items, menu);
 
-        SearchManager searchManager = (SearchManager)
-                getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
-        searchView.setSearchableInfo(searchManager.
-                getSearchableInfo(getComponentName()));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
 
         return true;
     }
@@ -152,8 +176,6 @@ public class BuyItemsActivity extends BaseActivity implements SearchView.OnQuery
         Log.d(TAG, txtCategory.getText().toString());
         if (txtCategory.getText().toString().equals("Categories")) {
             getAllItems();
-        } else {
-            listAdapter.getFilter().filter(txtCategory.getText().toString());
         }
     }
 
@@ -180,7 +202,7 @@ public class BuyItemsActivity extends BaseActivity implements SearchView.OnQuery
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = (Item) parent.getItemAtPosition(position);
+                                Item item = listAdapter.getDisplayView().get(position);
 
                                 mItemId = item.getId();
                                 mItemName = item.getItemName();
@@ -213,18 +235,5 @@ public class BuyItemsActivity extends BaseActivity implements SearchView.OnQuery
                 Log.v(TAG, "Request error");
             }
         });
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        if(!availableItems.isEmpty()) {
-            listAdapter.getFilter().filter(newText);
-        }
-        return true;
     }
 }

@@ -2,13 +2,16 @@ package citu.teknoybuyandselluser.adapters;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -23,49 +26,58 @@ import citu.teknoybuyandselluser.models.Item;
 /**
  * Created by Jacquelyn on 9/20/2015.
  */
-public class ItemsListAdapter extends ArrayAdapter<Item> implements Filterable{
+public class ItemsListAdapter extends BaseAdapter implements Filterable {
     private Context mContext;
     private int id;
-    private ArrayList<Item> items ;
     private String notificationDate;
     private Date reserved_date;
 
-    private List<Item> mOriginalValues;
-    private List<Item> mDisplayedValues;
+    private ArrayList<Item> mOriginalValues;
+    private ArrayList<Item> mDisplayedValues;
 
-    public ItemsListAdapter(Context context, int textViewResourceId, ArrayList<Item> list)
-    {
-        super(context, textViewResourceId, list);
+    public ItemsListAdapter(Context context, int textViewResourceId, ArrayList<Item> list) {
         mContext = context;
         id = textViewResourceId;
-        items = list ;
+        mOriginalValues = list;
+        mDisplayedValues = list;
     }
 
     @Override
-    public View getView(int position, View v, ViewGroup parent)
-    {
-        View mView = v ;
-        if(mView == null){
-            LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public int getCount() {
+        return mDisplayedValues.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View v, ViewGroup parent) {
+        View mView = v;
+        if (mView == null) {
+            LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             mView = vi.inflate(id, null);
         }
 
         TextView text = (TextView) mView.findViewById(R.id.textViewItem);
         ImageView image = (ImageView) mView.findViewById(R.id.image);
 
-        if(items.get(position) != null )
-        {
-            Picasso.with(mContext)
-                    .load(items.get(position).getPicture())
-                    .placeholder(R.drawable.thumbsq_24dp)
-                    .resize(50,50)
-                    .centerCrop()
-                    .into(image);
+        Picasso.with(mContext)
+                .load(mDisplayedValues.get(position).getPicture())
+                .placeholder(R.drawable.thumbsq_24dp)
+                .resize(50, 50)
+                .centerCrop()
+                .into(image);
 
-            String message;
-            message = "<b>"+items.get(position).getItemName()+"</b>";
-            text.setText(Html.fromHtml(message));
-        }
+        String message;
+        message = "<b>" + mDisplayedValues.get(position).getItemName() + "</b>";
+        text.setText(Html.fromHtml(message));
 
         return mView;
     }
@@ -81,23 +93,15 @@ public class ItemsListAdapter extends ArrayAdapter<Item> implements Filterable{
                     mOriginalValues = new ArrayList<Item>(mDisplayedValues); // saves the original data in mOriginalValues
                 }
 
-                /********
-                 *
-                 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
-                 *  else does the Filtering and returns FilteredArrList(Filtered)
-                 *
-                 ********/
                 if (constraint == null || constraint.length() == 0) {
-
                     // set the Original result to return
                     results.count = mOriginalValues.size();
                     results.values = mOriginalValues;
                 } else {
-                    constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < mOriginalValues.size(); i++) {
                         String name = mOriginalValues.get(i).getItemName();
-                        String data = mOriginalValues.get(i).getCategory();
-                        if (data.equals(constraint.toString()) || name.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        String category = mOriginalValues.get(i).getCategory();
+                        if (category.equals(constraint.toString()) || name.toLowerCase().contains(constraint.toString().toLowerCase())) {
                             FilteredArrList.add(mOriginalValues.get(i));
                         }
                     }
@@ -114,6 +118,10 @@ public class ItemsListAdapter extends ArrayAdapter<Item> implements Filterable{
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public List<Item> getDisplayView() {
+        return mDisplayedValues;
     }
 
 }

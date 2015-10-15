@@ -11,13 +11,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 public class SellItemDetailsActivity extends BaseActivity {
+    private static final String TAG = "SellItemDetails";
 
     private TextView mTxtItem;
     private TextView mTxtDescription;
     private TextView mTxtPrice;
     private ImageView mImgPreview;
 
-    private int mStarsRequired;
     private float mPrice;
     private String mDescription;
     private String mItemName;
@@ -43,10 +43,10 @@ public class SellItemDetailsActivity extends BaseActivity {
         mTxtItem.setText(mItemName);
         mTxtDescription.setText(mDescription);
         mTxtPrice.setText("" + mPrice);
-        Log.d("SellItemDetailsActivity", mPicture);
 
         Picasso.with(this)
                 .load(mPicture)
+                .placeholder(R.drawable.thumb_24dp)
                 .into(mImgPreview);
 
         setTitle(mItemName);

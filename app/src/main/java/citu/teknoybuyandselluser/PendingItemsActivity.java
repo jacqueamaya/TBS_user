@@ -31,6 +31,8 @@ public class PendingItemsActivity extends BaseActivity {
     private String mItemName;
     private String mPicture;
 
+    private ItemsListAdapter listAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +58,12 @@ public class PendingItemsActivity extends BaseActivity {
                         pendingItems = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewPending);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(PendingItemsActivity.this, R.layout.list_item, pendingItems);
+                        listAdapter = new ItemsListAdapter(PendingItemsActivity.this, R.layout.list_item, pendingItems);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = (Item) parent.getItemAtPosition(position);
+                                Item item = listAdapter.getDisplayView().get(position);
                                 mItemId = item.getId();
                                 mItemName = item.getItemName();
                                 mDescription = item.getDescription();
