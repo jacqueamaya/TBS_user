@@ -1,15 +1,18 @@
 package citu.teknoybuyandselluser;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -20,7 +23,7 @@ import java.util.ArrayList;
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
-public class DonationsActivity extends BaseActivity {
+public class DonationsActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "All Donations";
 
@@ -29,6 +32,8 @@ public class DonationsActivity extends BaseActivity {
     private String mItemName;
     private String mDescription;
     private String mPicture;
+
+    private ItemsListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,7 @@ public class DonationsActivity extends BaseActivity {
                         allDonations = Item.allItems(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewDonations);
-                        ItemsListAdapter listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
+                        listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -95,7 +100,19 @@ public class DonationsActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_all_donations, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_buy_items, menu);
+
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+
         return true;
     }
 
@@ -107,7 +124,7 @@ public class DonationsActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
             return true;
         }
 
@@ -117,5 +134,17 @@ public class DonationsActivity extends BaseActivity {
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
         return menuItem.getItemId() != R.id.nav_stars_collected;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        listAdapter.getFilter().filter(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        listAdapter.getFilter().filter(newText);
+        return true;
     }
 }

@@ -30,7 +30,7 @@ import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
 
 
-public class BuyItemsActivity extends BaseActivity {
+public class BuyItemsActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
     private Spinner spinnerSortBy;
     private Toolbar toolbar;
@@ -48,6 +48,7 @@ public class BuyItemsActivity extends BaseActivity {
     private String categories[];
 
     private ItemsListAdapter listAdapter;
+    private ArrayList<Item> availableItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,17 +80,22 @@ public class BuyItemsActivity extends BaseActivity {
             @Override
             public void success(String responseBody) {
                 try {
-                    categories = Category.getAllCategories(new JSONArray(responseBody));
-                    new AlertDialog.Builder(BuyItemsActivity.this)
-                            .setTitle("Categories")
-                            .setItems(categories, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    txtCategory.setText(categories[which]);
-                                }
-                            })
-                            .create()
-                            .show();
+                    JSONArray json = new JSONArray(responseBody);
+                    if (json.length() != 0) {
+                        categories = Category.getAllCategories(new JSONArray(responseBody));
+                        new AlertDialog.Builder(BuyItemsActivity.this)
+                                .setTitle("Categories")
+                                .setItems(categories, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        txtCategory.setText(categories[which]);
+                                    }
+                                })
+                                .create()
+                                .show();
+                    } else {
+                        Toast.makeText(BuyItemsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -106,7 +112,6 @@ public class BuyItemsActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_buy_items, menu);
 
@@ -118,7 +123,7 @@ public class BuyItemsActivity extends BaseActivity {
         searchView.setSearchableInfo(searchManager.
                 getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
-        //searchView.setOnQueryTextListener(this);
+        searchView.setOnQueryTextListener(this);
 
         return true;
     }
@@ -131,7 +136,7 @@ public class BuyItemsActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
             return true;
         }
 
@@ -156,7 +161,7 @@ public class BuyItemsActivity extends BaseActivity {
         Server.getAvailableItems(user, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> availableItems = new ArrayList<Item>();
+                availableItems = new ArrayList<Item>();
                 Log.v(TAG, responseBody);
                 JSONArray jsonArray = null;
 
@@ -210,4 +215,16 @@ public class BuyItemsActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if(!availableItems.isEmpty()) {
+            listAdapter.getFilter().filter(newText);
+        }
+        return true;
+    }
 }
