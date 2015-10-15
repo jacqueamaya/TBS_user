@@ -174,6 +174,7 @@ public class DonateItemActivity extends BaseActivity {
                     String response = json.getString("statusText");
                     Log.d(TAG, response);
                     Toast.makeText(DonateItemActivity.this, response, Toast.LENGTH_SHORT).show();
+                    finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

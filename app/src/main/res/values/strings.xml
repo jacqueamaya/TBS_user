@@ -67,7 +67,7 @@
 
 
 
-    <string-array name="country_arrays">
+    <string-array name="sort_by">
         <item>Price</item>
         <item>Name</item>
         <item>Date</item>

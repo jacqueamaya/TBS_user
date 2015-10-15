@@ -1,12 +1,8 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
@@ -17,30 +13,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
-import citu.teknoybuyandselluser.R;
-import citu.teknoybuyandselluser.fragments.OneFragment;
-import citu.teknoybuyandselluser.fragments.TwoFragment;
-import citu.teknoybuyandselluser.fragments.ThreeFragment;
-import citu.teknoybuyandselluser.fragments.FourFragment;
-import citu.teknoybuyandselluser.fragments.FiveFragment;
 
 
 public class BuyItemsActivity extends BaseActivity {
 
-    //Tab Layout//
+    private Spinner spinnerSortBy;
     private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private TextView txtCategory;
 
     private static final String TAG = "BuyItems";
 
@@ -50,6 +41,10 @@ public class BuyItemsActivity extends BaseActivity {
     private String mDescription;
     private String mItemName;
     private String mPicture;
+    private String user;
+    private String categories[];
+
+    private ItemsListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,119 +52,53 @@ public class BuyItemsActivity extends BaseActivity {
         setContentView(R.layout.activity_buy_items);
         setupUI();
 
-        //Tabs
+        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        user = prefs.getString("username", "");
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        getItems();
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        //End of Tabs
+        txtCategory = (TextView) findViewById(R.id.txtCategory);
+        txtCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCategories(v);
+            }
+        });
+    }
 
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
-
-        Server.getAvailableItems(user, new Ajax.Callbacks() {
+    public void getCategories(View view) {
+        Server.getCategories(new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> availableItems = new ArrayList<Item>();
-                Log.v(TAG, responseBody);
-                JSONArray jsonArray = null;
-
                 try {
-                    jsonArray = new JSONArray(responseBody);
-                    if (jsonArray.length() == 0) {
-                        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
-                        txtMessage.setText("No available items to buy");
-                        txtMessage.setVisibility(View.VISIBLE);
-                    } else {
-                        availableItems = Item.allItems(jsonArray);
-
-                        ListView lv = (ListView) findViewById(R.id.listViewBuyItems);
-                        ItemsListAdapter listAdapter;
-                        listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
-                        lv.setAdapter(listAdapter);
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = (Item) parent.getItemAtPosition(position);
-
-                                mItemId = item.getId();
-                                mItemName = item.getItemName();
-                                mDescription = item.getDescription();
-                                mPrice = item.getPrice();
-                                mPicture = item.getPicture();
-                                mStarsRequired = item.getStars_required();
-
-                                Intent intent;
-                                intent  = new Intent(BuyItemsActivity.this, BuyItemActivity.class);
-                                intent.putExtra(Constants.ID, mItemId);
-                                intent.putExtra(Constants.ITEM_NAME, mItemName);
-                                intent.putExtra(Constants.DESCRIPTION, mDescription);
-                                intent.putExtra(Constants.PRICE, mPrice);
-                                intent.putExtra(Constants.PICTURE, mPicture);
-                                intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
-
-                                startActivity(intent);
-                            }
-                        });
-                    }
-
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
+                    categories = Category.getAllCategories(new JSONArray(responseBody));
+                    new AlertDialog.Builder(BuyItemsActivity.this)
+                            .setTitle("Categories")
+                            .setItems(categories, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    txtCategory.setText(categories[which]);
+                                }
+                            })
+                            .create()
+                            .show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                Log.v(TAG, "Request error");
+                categories = null;
+                Toast.makeText(BuyItemsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    //Tabs
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OneFragment(), "Uniforms");
-        adapter.addFragment(new TwoFragment(), "Books");
-        adapter.addFragment(new ThreeFragment(), "Gadgets");
-        adapter.addFragment(new FourFragment(), "Notes");
-        adapter.addFragment(new FiveFragment(), "Others");
-        viewPager.setAdapter(adapter);
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-    //End of Tabs
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -197,4 +126,71 @@ public class BuyItemsActivity extends BaseActivity {
     public boolean checkItemClicked(MenuItem menuItem) {
         return menuItem.getItemId() != R.id.nav_buy_items;
     }
+
+    public void getItems() {
+        if (txtCategory.getText().toString().equals("Categories")) {
+            getAllItems();
+        } else {
+            listAdapter.getFilter().filter(txtCategory.getText().toString());
+        }
+    }
+
+    public void getAllItems() {
+        Server.getAvailableItems(user, new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                ArrayList<Item> availableItems = new ArrayList<Item>();
+                Log.v(TAG, responseBody);
+                JSONArray jsonArray = null;
+
+                try {
+                    jsonArray = new JSONArray(responseBody);
+                    if (jsonArray.length() == 0) {
+                        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
+                        txtMessage.setText("No available items to buy");
+                        txtMessage.setVisibility(View.VISIBLE);
+                    } else {
+                        availableItems = Item.allItems(jsonArray);
+
+                        ListView lv = (ListView) findViewById(R.id.listViewBuyItems);
+                        listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
+                        lv.setAdapter(listAdapter);
+                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Item item = (Item) parent.getItemAtPosition(position);
+
+                                mItemId = item.getId();
+                                mItemName = item.getItemName();
+                                mDescription = item.getDescription();
+                                mPrice = item.getPrice();
+                                mPicture = item.getPicture();
+                                mStarsRequired = item.getStars_required();
+
+                                Intent intent;
+                                intent = new Intent(BuyItemsActivity.this, BuyItemActivity.class);
+                                intent.putExtra(Constants.ID, mItemId);
+                                intent.putExtra(Constants.ITEM_NAME, mItemName);
+                                intent.putExtra(Constants.DESCRIPTION, mDescription);
+                                intent.putExtra(Constants.PRICE, mPrice);
+                                intent.putExtra(Constants.PICTURE, mPicture);
+                                intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
+
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                Log.v(TAG, "Request error");
+            }
+        });
+    }
+
 }
