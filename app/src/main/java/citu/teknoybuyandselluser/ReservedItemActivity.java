@@ -82,13 +82,6 @@ public class ReservedItemActivity extends BaseActivity {
         setTitle(mItemName);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_reserved_item, menu);
-        return true;
-    }
-
     public void onCancelReservedItem(View v) {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
@@ -112,5 +105,10 @@ public class ReservedItemActivity extends BaseActivity {
                 Log.d(TAG, "Cancel Item Reservation error " + statusCode + " " + responseBody + " " + statusText);
             }
         });
+    }
+
+    @Override
+    public boolean checkItemClicked(MenuItem menuItem) {
+        return menuItem.getItemId() != R.id.nav_shopping_cart;
     }
 }
