@@ -22,10 +22,6 @@
             android:label="@string/title_activity_change_password" >
         </activity>
         <activity
-            android:name=".DashboardActivity"
-            android:label="@string/title_activity_dashboard" >
-        </activity>
-        <activity
             android:name=".NotificationsActivity"
             android:label="@string/title_activity_notifications" >
         </activity>
