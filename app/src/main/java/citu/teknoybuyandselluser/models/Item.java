@@ -1,5 +1,7 @@
 package citu.teknoybuyandselluser.models;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,9 +81,10 @@ public class Item {
             item.status = jsonObject.getString("status");
             item.purpose = jsonObject.getString("purpose");
             item.price = (float)jsonObject.getDouble("price");
-            item.price = (float)jsonObject.getDouble("discounted_price");
+            item.discountedPrice = (float)jsonObject.optDouble("discounted_price");
             item.stars_required = jsonObject.getInt("stars_required");
             item.picture = jsonObject.getString("picture");
+            Log.v(TAG,jsonObject.getString("picture"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
