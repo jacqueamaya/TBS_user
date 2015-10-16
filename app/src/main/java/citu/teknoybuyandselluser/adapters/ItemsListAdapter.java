@@ -27,6 +27,7 @@ import citu.teknoybuyandselluser.models.Item;
  * Created by Jacquelyn on 9/20/2015.
  */
 public class ItemsListAdapter extends BaseAdapter implements Filterable {
+    private static final String TAG = "ItemListAdapter";
     private Context mContext;
     private int id;
     private String notificationDate;
@@ -59,6 +60,7 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View v, ViewGroup parent) {
+        Item item  = mDisplayedValues.get(position);
         View mView = v;
         if (mView == null) {
             LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -68,15 +70,16 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
         TextView text = (TextView) mView.findViewById(R.id.textViewItem);
         ImageView image = (ImageView) mView.findViewById(R.id.image);
 
+        Log.v(TAG,"URL picture: "+item.getPicture());
         Picasso.with(mContext)
-                .load(mDisplayedValues.get(position).getPicture())
+                .load(item.getPicture())
                 .placeholder(R.drawable.thumbsq_24dp)
                 .resize(50, 50)
                 .centerCrop()
                 .into(image);
 
         String message;
-        message = "<b>" + mDisplayedValues.get(position).getItemName() + "</b>";
+        message = "<b>" + item.getItemName() + "</b>";
         text.setText(Html.fromHtml(message));
 
         return mView;
