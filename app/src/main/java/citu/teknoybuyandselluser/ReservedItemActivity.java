@@ -98,6 +98,7 @@ public class ReservedItemActivity extends BaseActivity {
             public void success(String responseBody) {
                 Log.d(TAG, "Cancel Item Reservation success");
                 Toast.makeText(ReservedItemActivity.this, "Your reservation for " + mItemName + " has been canceled.", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override

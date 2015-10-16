@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -59,7 +60,9 @@ public class DonateItemsActivity extends BaseActivity {
     public void getDonateItems(){
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
-        Server.getItemsToDonate(user, new Ajax.Callbacks() {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
+        progressBar.setVisibility(View.GONE);
+        Server.getItemsToDonate(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 ArrayList<Item> donatedItems = new ArrayList<Item>();

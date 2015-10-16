@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -25,12 +24,17 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import citu.teknoybuyandselluser.models.ReservedItem;
+
 public class BuyItemActivity extends BaseActivity {
 
     private static final String TAG = "Buy Item";
+    private static final int DIVISOR = 1000;
 
     private int mItemId;
     private int mStarsToUse;
+    private double mDiscount;
+    private double mDiscountedPrice;
     private float mPrice;
     private String mDescription;
     private String mItemName;
@@ -113,6 +117,7 @@ public class BuyItemActivity extends BaseActivity {
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
         if (mRdWithDiscount.isChecked()) {
+            mStarsToUse = Integer.parseInt(mTxtStarsToUse.getText().toString());
             if (mStarsToUse != 0) {
                 buyWithDiscountDialogBox();
             } else {
@@ -132,6 +137,7 @@ public class BuyItemActivity extends BaseActivity {
                     if (json.getInt("status") == 201) {
                         Log.d(TAG, "Buy Item success");
                         Toast.makeText(BuyItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
                         Toast.makeText(BuyItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
                     }
@@ -148,7 +154,6 @@ public class BuyItemActivity extends BaseActivity {
     }
 
     public void buyWithDiscountDialogBox() {
-        mStarsToUse = Integer.parseInt(mTxtStarsToUse.getText().toString());
         final AlertDialog.Builder buyItem = new AlertDialog.Builder(this);
         buyItem.setTitle("Buy With Discount");
         buyItem.setIcon(R.drawable.ic_star_black_24dp);
@@ -169,15 +174,19 @@ public class BuyItemActivity extends BaseActivity {
                         }
                     });
         } else {
-            buyItem.setMessage("Discount:\t" + calculateDiscount() + "%\n" +
+            ReservedItem ri = new ReservedItem();
+            ri.setStarsToUse(mStarsToUse);
+            calculateDiscount();
+            calculateDiscountedPrice();
+            buyItem.setMessage("Discount:\t" + (mDiscount*100) + "%\n" +
                     "Original Price:\t" + mPrice + "\n" +
-                    "Discounted Price: \t" + calculateDiscountedPrice() + "\n" +
+                    "Discounted Price: \t" + mDiscountedPrice + "\n" +
                     "Stars Remaining: " + getStarsRemaining())
                     .setCancelable(true)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             mPreferences.edit().putInt("stars_collected", getStarsRemaining()).apply();
-                            data.put(Constants.DISCOUNTED_PRICE, "" + calculateDiscountedPrice());
+                            data.put(Constants.DISCOUNTED_PRICE, "" + mDiscountedPrice);
                             buyItem();
                         }
                     })
@@ -201,12 +210,12 @@ public class BuyItemActivity extends BaseActivity {
         return getStars() - mStarsToUse;
     }
 
-    private float calculateDiscount() {
-        return mStarsToUse / 1000;
+    private void calculateDiscount() {
+        mDiscount = (double) mStarsToUse/DIVISOR;
     }
 
-    private float calculateDiscountedPrice() {
-        return mPrice * (1 - calculateDiscount());
+    private void calculateDiscountedPrice() {
+        mDiscountedPrice = mPrice*(1-mDiscount);
     }
 
     public void showInputStars(View view) {

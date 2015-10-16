@@ -41,11 +41,11 @@ public class Server {
         Ajax.put(Constants.URL_CHANGE_PASSWORD, data, callbacks);
     }
 
-    public static void getUser (String username, Ajax.Callbacks callbacks) {
+    public static void getUser (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         if ( username == null) {
             throw new RuntimeException("Missing data.");
         }
-        Ajax.get(Constants.URL_USER + "/?username=" + username, callbacks);
+        Ajax.get(Constants.URL_USER + "/?username=" + username, progress, callbacks);
     }
 
     public static void sellItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
@@ -118,55 +118,55 @@ public class Server {
         Ajax.post(Constants.URL_DONATE_ITEM, progressDialog, data, callbacks);
     }
 
-    public static void getNotifications (String username, Ajax.Callbacks callbacks) {
+    public static void getNotifications (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         if ( username == null) {
             throw new RuntimeException("Missing data.");
         }
-        Ajax.get(Constants.URL_NOTIFICATION + "/?username=" + username, callbacks);
+        Ajax.get(Constants.URL_NOTIFICATION + "/?username=" + username, progress, callbacks);
     }
 
-    public static void getItemsToSell (String username, Ajax.Callbacks callbacks) {
+    public static void getItemsToSell (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         if ( username == null) {
             throw new RuntimeException("Missing data.");
         }
-        Ajax.get(Constants.URL_ITEMS_TO_SELL + "/?username=" + username, callbacks);
+        Ajax.get(Constants.URL_ITEMS_TO_SELL + "/?username=" + username, progress, callbacks);
     }
 
-    public static void getPendingItems (String username, Ajax.Callbacks callbacks) {
+    public static void getPendingItems (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         if ( username == null) {
             throw new RuntimeException("Missing data.");
         }
-        Ajax.get(Constants.URL_PENDING_ITEMS + "/?username=" + username, callbacks);
+        Ajax.get(Constants.URL_PENDING_ITEMS + "/?username=" + username, progress, callbacks);
     }
 
-    public static void getAvailableItems (String username, Ajax.Callbacks callbacks) {
-        Ajax.get(Constants.URL_AVAILABLE_ITEMS + "/?username=" + username, callbacks);
+    public static void getAvailableItems (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_AVAILABLE_ITEMS + "/?username=" + username, progress, callbacks);
     }
 
-    public static void getItemsToDonate (String username, Ajax.Callbacks callbacks) {
+    public static void getItemsToDonate (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         if ( username == null) {
             throw new RuntimeException("Missing data.");
         }
-        Ajax.get(Constants.URL_ITEMS_TO_DONATE + "/?username=" + username, callbacks);
+        Ajax.get(Constants.URL_ITEMS_TO_DONATE + "/?username=" + username, progress, callbacks);
     }
 
-    public static void getAllDonations (String username, Ajax.Callbacks callbacks) {
-        Ajax.get(Constants.URL_ALL_DONATIONS + "/?username=" + username, callbacks);
+    public static void getAllDonations (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_ALL_DONATIONS + "/?username=" + username, progress, callbacks);
     }
 
-    public static void getAllReservations (String username, Ajax.Callbacks callbacks) {
-        Ajax.get(Constants.URL_RESERVED_ITEMS + "/?username=" + username, callbacks);
+    public static void getAllReservations (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_RESERVED_ITEMS + "/?username=" + username, progress, callbacks);
     }
 
     public static void upload (String imagePath,ProgressBar progress, Ajax.Callbacks callbacks) {
         Ajax.upload(Constants.URL_UPLOAD, imagePath, progress, callbacks);
     }
 
-    public static void categorize (String category, Ajax.Callbacks callbacks) {
-        Ajax.get(Constants.URL_CATEGORIZE + "/?category=" + category, callbacks);
+    public static void categorize (String category, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_CATEGORIZE + "/?category=" + category, progress, callbacks);
     }
 
-    public static void getCategories (Ajax.Callbacks callbacks) {
-        Ajax.get(Constants.URL_CATEGORIES, callbacks);
+    public static void getCategories (ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_CATEGORIES, progress, callbacks);
     }
 }

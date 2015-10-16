@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class DonationsActivity extends BaseActivity {
     private static final String TAG = "All Donations";
 
     private TextView txtCategory;
+    private ProgressBar progressBar;
 
     private int mItemId;
     private int mStarsRequired;
@@ -57,29 +59,31 @@ public class DonationsActivity extends BaseActivity {
         setupUI();
 
         txtCategory = (TextView) findViewById(R.id.txtCategory);
+        progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
+        progressBar.setVisibility(View.GONE);
+
         sortBy = getResources().getStringArray(R.array.sort_by);
 
         getItems();
         getCategories();
 
-        final AlertDialog displayCategories = new AlertDialog.Builder(DonationsActivity.this)
-                .setTitle("Categories")
-                .setItems(categories, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        txtCategory.setText(categories[which]);
-                        category = txtCategory.getText().toString();
-                        if (category.equals("All")) {
-                            category = "";
-                        }
-                        listAdapter.getFilter().filter(category);
-                    }
-                })
-                .create();
-
         txtCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog displayCategories = new AlertDialog.Builder(DonationsActivity.this)
+                        .setTitle("Categories")
+                        .setItems(categories, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtCategory.setText(categories[which]);
+                                category = txtCategory.getText().toString();
+                                if (category.equals("All")) {
+                                    category = "";
+                                }
+                                listAdapter.getFilter().filter(category);
+                            }
+                        })
+                        .create();
                 displayCategories.show();
             }
         });
@@ -88,7 +92,8 @@ public class DonationsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getAllItems();
+        txtCategory.setText("Categories");
+        getItems();
     }
 
     @Override
@@ -148,7 +153,8 @@ public class DonationsActivity extends BaseActivity {
     public void getAllItems() {
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
-        Server.getAllDonations(user, new Ajax.Callbacks() {
+
+        Server.getAllDonations(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 allDonations = new ArrayList<Item>();
@@ -167,6 +173,7 @@ public class DonationsActivity extends BaseActivity {
                         txtMessage.setVisibility(View.GONE);
                         allDonations = Item.allItems(jsonArray);
                         listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
+                        listAdapter.sortItems("price");
                         lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
 
@@ -215,12 +222,14 @@ public class DonationsActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.v(TAG, "Request error");
+                Toast.makeText(DonationsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     public void getCategories() {
-        Server.getCategories(new Ajax.Callbacks() {
+        progressBar.setVisibility(View.GONE);
+        Server.getCategories(progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 try {

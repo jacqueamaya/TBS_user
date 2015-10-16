@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -92,10 +93,12 @@ public class LoginActivity extends AppCompatActivity {
             public void success(String responseBody) {
                 Log.d(TAG, "LOGIN: " + responseBody);
                 try {
+                    ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetUser);
+                    progressBar.setVisibility(View.GONE);
                     JSONObject json = new JSONObject(responseBody);
                     String response = json.getString("statusText");
                     if(response.equals("Successful Login")) {
-                        Server.getUser(mStrUsername, new Ajax.Callbacks() {
+                        Server.getUser(mStrUsername, progressBar, new Ajax.Callbacks() {
                             @Override
                             public void success(String responseBody) {
                                 JSONArray jsonArray = null;

@@ -13,17 +13,16 @@ import java.util.Date;
 
 public class ReservedItem {
     private static final String TAG = "ReservedIten";
+
     private int itemId;
     private int reservationId;
-    private String itemName;
+    private int starsToUse;
     private float price;
-
-    public float getDiscountedPrice() {
-        return discountedPrice;
-    }
-
-    private float discountedPrice;
+    private String description;
+    private String itemName;
     private String picture;
+    private String reserved_date;
+    private String status;
 
     public String getPicture() {
         return picture;
@@ -32,10 +31,6 @@ public class ReservedItem {
     public void setPicture(String picture) {
         this.picture = picture;
     }
-
-    private String status;
-    private String reserved_date;
-    private String description;
 
     public String getDescription() {
         return description;
@@ -65,6 +60,14 @@ public class ReservedItem {
         return reserved_date;
     }
 
+    public int getStarsToUse() {
+        return starsToUse;
+    }
+
+    public void setStarsToUse(int starsToUse) {
+        this.starsToUse = starsToUse;
+    }
+
     public static ReservedItem getReservedItem(JSONObject jsonObject){
         ReservedItem ri = new ReservedItem();
         Item item;
@@ -87,7 +90,6 @@ public class ReservedItem {
                 ri.itemId = item.getId();
                 ri.itemName = item.getItemName();
                 ri.price = item.getPrice();
-                ri.discountedPrice = item.getDiscountedPrice();
                 ri.picture = item.getPicture();
                 ri.description = item.getDescription();
             }

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -21,6 +22,8 @@ import citu.teknoybuyandselluser.models.Notification;
 public class NotificationsActivity extends BaseActivity {
     private static final String TAG = "Notifications";
 
+    private ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +32,11 @@ public class NotificationsActivity extends BaseActivity {
 
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
-        Server.getNotifications(user, new Ajax.Callbacks() {
+
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
+        progressBar.setVisibility(View.GONE);
+
+        Server.getNotifications(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 ArrayList<Notification> notifications = new ArrayList<Notification>();

@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -27,7 +27,7 @@ public class ShoppingCartActivity extends BaseActivity {
     private int mItemId;
     private int mReservationId;
     private float mPrice;
-    private float mDiscountedPrice;
+    private float mStarsToUse;
     private String mDescription;
     private String mItemName;
     private String mPicture;
@@ -57,7 +57,10 @@ public class ShoppingCartActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
-        Server.getAllReservations(user, new Ajax.Callbacks() {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
+        progressBar.setVisibility(View.GONE);
+
+        Server.getAllReservations(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, responseBody);
@@ -88,7 +91,7 @@ public class ShoppingCartActivity extends BaseActivity {
                                 mItemName = item.getItemName();
                                 mDescription = item.getDescription();
                                 mPrice = item.getPrice();
-                                mDiscountedPrice = item.getDiscountedPrice();
+                                mStarsToUse = item.getStarsToUse();
                                 mPicture = item.getPicture();
                                 mReservedDate = item.getReserved_date();
 
@@ -99,7 +102,7 @@ public class ShoppingCartActivity extends BaseActivity {
                                 intent.putExtra(Constants.ITEM_NAME, mItemName);
                                 intent.putExtra(Constants.DESCRIPTION, mDescription);
                                 intent.putExtra(Constants.PRICE, mPrice);
-                                intent.putExtra(Constants.DISCOUNTED_PRICE, mDiscountedPrice);
+                                intent.putExtra(Constants.DISCOUNTED_PRICE, mStarsToUse);
                                 intent.putExtra(Constants.PICTURE, mPicture);
                                 intent.putExtra(Constants.RESERVED_DATE, mReservedDate);
 

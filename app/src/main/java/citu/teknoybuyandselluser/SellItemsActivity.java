@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -66,7 +67,10 @@ public class SellItemsActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
-        Server.getItemsToSell(user, new Ajax.Callbacks() {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
+        progressBar.setVisibility(View.GONE);
+
+        Server.getItemsToSell(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 Log.v(TAG, responseBody);

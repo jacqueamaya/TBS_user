@@ -22,9 +22,10 @@ public class Category {
     }
 
     public static String[] getAllCategories(JSONArray jsonArray){
-        String[] categories = new String[jsonArray.length()];
+        String[] categories = new String[jsonArray.length() + 1];
+        categories[0] = "All";
 
-        for (int i = 0; i < categories.length; i++) {
+        for (int i = 1; i < categories.length; i++) {
             try {
                 JSONObject category = jsonArray.getJSONObject(i);
                 categories[i] = category.getString("category_name");

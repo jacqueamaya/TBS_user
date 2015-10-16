@@ -37,7 +37,6 @@ public class SellItemActivity extends BaseActivity {
     private EditText mTxtPrice;
     private ProgressDialog mProgressDialog;
 
-    private Button mBtnBrowse;
     private ImageView mImgPreview;
     private ProgressBar mProgressBar;
     ImageInfo mImgInfo;
@@ -57,7 +56,7 @@ public class SellItemActivity extends BaseActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
+        Button mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
         mImgPreview =  (ImageView) findViewById(R.id.preview);
         mBtnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -116,7 +116,11 @@ public class PendingItemActivity extends BaseActivity {
         data.put(Constants.NAME, mTxtItem.getText().toString());
         data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
         data.put(Constants.PRICE, mTxtPrice.getText().toString());
-        data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+        if(mImgInfo == null) {
+            data.put(Constants.IMAGE_URL, mPicture);
+        } else {
+            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+        }
 
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
@@ -127,10 +131,7 @@ public class PendingItemActivity extends BaseActivity {
                 JSONObject json = null;
                 try {
                     json = new JSONObject(responseBody);
-                    int status = json.getInt("status");
-                    if(status == 201) {
-                        Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

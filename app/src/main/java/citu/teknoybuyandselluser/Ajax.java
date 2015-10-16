@@ -40,7 +40,6 @@ public final class Ajax {
     public static final String REQUEST_METHOD_GET = "GET";
     public static final String REQUEST_METHOD_POST = "POST";
     public static final String REQUEST_METHOD_PUT = "PUT";
-    public static final String REQUEST_METHOD_DELETE = "DELETE";
     private static final String TAG = "Ajax";
 
     public static final int CONNECT_TIMEOUT = 10000;
@@ -48,8 +47,13 @@ public final class Ajax {
     public static final int HTTP_CREATED = 201;
 
 
-    public static void get(String url, final Callbacks callbacks) {
+    public static void get(String url, final ProgressBar progressBar, final Callbacks callbacks) {
         new AsyncTask<String, Void, HashMap<String, Object>>() {
+            @Override
+            protected void onPreExecute() {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setProgress(0);
+            }
 
             @Override
             protected HashMap<String, Object> doInBackground(String... params) {
@@ -84,6 +88,8 @@ public final class Ajax {
 
             @Override
             protected void onPostExecute(HashMap<String, Object> map) {
+                progressBar.setProgress(100);
+                progressBar.setVisibility(View.GONE);
                 super.onPostExecute(map);
                 if (null == map) {
                     callbacks.error(0, null, null);
@@ -91,7 +97,7 @@ public final class Ajax {
                     int statusCode = (Integer) map.get("statusCode");
                     String responseBody = (String) map.get("responseBody");
 
-                    if (statusCode == 200) {
+                    if (statusCode == HTTP_OK) {
                         callbacks.success(responseBody);
                     } else {
                         callbacks.error(statusCode, responseBody, null);
@@ -150,7 +156,7 @@ public final class Ajax {
                     int statusCode = (Integer) map.get("statusCode");
                     String responseBody = (String) map.get("responseBody");
 
-                    if (statusCode == 200 || statusCode == 201) {
+                    if (statusCode == HTTP_OK || statusCode == HTTP_CREATED) {
                         callbacks.success(responseBody);
                     } else {
                         callbacks.error(statusCode, responseBody, null);
@@ -212,7 +218,7 @@ public final class Ajax {
             @Override
             protected void onPostExecute(HashMap<String, Object> map) {
                 progressBar.setProgress(100);
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
                 super.onPostExecute(map);
                 if (null == map) {
                     callbacks.error(0, null, null);
@@ -220,7 +226,7 @@ public final class Ajax {
                     int statusCode = (Integer) map.get("statusCode");
                     String responseBody = (String) map.get("responseBody");
 
-                    if (statusCode == 200 || statusCode == 201) {
+                    if (statusCode == HTTP_OK || statusCode == HTTP_CREATED) {
                         callbacks.success(responseBody);
                     } else {
                         callbacks.error(statusCode, responseBody, null);
@@ -274,7 +280,7 @@ public final class Ajax {
                     int statusCode = (Integer) map.get("statusCode");
                     String responseBody = (String) map.get("responseBody");
 
-                    if (statusCode == 200 || statusCode == 201) {
+                    if (statusCode == HTTP_OK || statusCode == HTTP_CREATED) {
                         callbacks.success(responseBody);
                     } else {
                         callbacks.error(statusCode, responseBody, null);

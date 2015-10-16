@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ public class BuyItemsActivity extends BaseActivity {
     private TextView txtCategory;
 
     private static final String TAG = "BuyItems";
+
+    private ProgressBar progressBar;
 
     private int mItemId;
     private int mStarsRequired;
@@ -64,28 +67,30 @@ public class BuyItemsActivity extends BaseActivity {
         user = prefs.getString("username", "");
 
         txtCategory = (TextView) findViewById(R.id.txtCategory);
+        progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
+        progressBar.setVisibility(View.GONE);
+
         sortBy = getResources().getStringArray(R.array.sort_by);
         getItems();
         getCategories();
 
-        final AlertDialog displayCategories = new AlertDialog.Builder(BuyItemsActivity.this)
-                .setTitle("Categories")
-                .setItems(categories, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        txtCategory.setText(categories[which]);
-                        category = txtCategory.getText().toString();
-                        if (category.equals("All")) {
-                            category = "";
-                        }
-                        listAdapter.getFilter().filter(category);
-                    }
-                })
-                .create();
-
         txtCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog displayCategories = new AlertDialog.Builder(BuyItemsActivity.this)
+                        .setTitle("Categories")
+                        .setItems(categories, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                txtCategory.setText(categories[which]);
+                                category = txtCategory.getText().toString();
+                                if (category.equals("All")) {
+                                    category = "";
+                                }
+                                listAdapter.getFilter().filter(category);
+                            }
+                        })
+                        .create();
                 displayCategories.show();
             }
         });
@@ -146,7 +151,7 @@ public class BuyItemsActivity extends BaseActivity {
     }
 
     public void getAllItems() {
-        Server.getAvailableItems(user, new Ajax.Callbacks() {
+        Server.getAvailableItems(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 availableItems = new ArrayList<Item>();
@@ -165,6 +170,7 @@ public class BuyItemsActivity extends BaseActivity {
                         txtMessage.setVisibility(View.GONE);
                         availableItems = Item.allItems(jsonArray);
                         listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
+                        listAdapter.sortItems("price");
                         lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
 
@@ -222,7 +228,8 @@ public class BuyItemsActivity extends BaseActivity {
     }
 
     public void getCategories() {
-        Server.getCategories(new Ajax.Callbacks() {
+        progressBar.setVisibility(View.GONE);
+        Server.getCategories(progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 try {
@@ -248,6 +255,7 @@ public class BuyItemsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getAllItems();
+        txtCategory.setText("Categories");
+        getItems();
     }
 }
