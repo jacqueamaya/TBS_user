@@ -66,11 +66,27 @@ public class BuyItemsActivity extends BaseActivity {
         txtCategory = (TextView) findViewById(R.id.txtCategory);
         sortBy = getResources().getStringArray(R.array.sort_by);
         getItems();
+        getCategories();
+
+        final AlertDialog displayCategories = new AlertDialog.Builder(BuyItemsActivity.this)
+                .setTitle("Categories")
+                .setItems(categories, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        txtCategory.setText(categories[which]);
+                        category = txtCategory.getText().toString();
+                        if (category.equals("All")) {
+                            category = "";
+                        }
+                        listAdapter.getFilter().filter(category);
+                    }
+                })
+                .create();
 
         txtCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCategories(v);
+                displayCategories.show();
             }
         });
     }
@@ -124,7 +140,6 @@ public class BuyItemsActivity extends BaseActivity {
     }
 
     public void getItems() {
-        Log.d(TAG, txtCategory.getText().toString());
         if (txtCategory.getText().toString().equals("Categories")) {
             getAllItems();
         }
@@ -139,17 +154,20 @@ public class BuyItemsActivity extends BaseActivity {
                 JSONArray jsonArray = null;
 
                 try {
+                    TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
+                    ListView lv = (ListView) findViewById(R.id.listViewBuyItems);
                     jsonArray = new JSONArray(responseBody);
                     if (jsonArray.length() == 0) {
-                        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
                         txtMessage.setText("No available items to buy");
                         txtMessage.setVisibility(View.VISIBLE);
+                        lv.setVisibility(View.GONE);
                     } else {
+                        txtMessage.setVisibility(View.GONE);
                         availableItems = Item.allItems(jsonArray);
-
-                        ListView lv = (ListView) findViewById(R.id.listViewBuyItems);
                         listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
+                        lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
+
                         Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
                         spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
@@ -203,7 +221,7 @@ public class BuyItemsActivity extends BaseActivity {
         });
     }
 
-    public void getCategories(View view) {
+    public void getCategories() {
         Server.getCategories(new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
@@ -211,21 +229,6 @@ public class BuyItemsActivity extends BaseActivity {
                     JSONArray json = new JSONArray(responseBody);
                     if (json.length() != 0) {
                         categories = Category.getAllCategories(new JSONArray(responseBody));
-                        new AlertDialog.Builder(BuyItemsActivity.this)
-                                .setTitle("Categories")
-                                .setItems(categories, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        txtCategory.setText(categories[which]);
-                                        category = txtCategory.getText().toString();
-                                        if (category.equals("All")) {
-                                            category = "";
-                                        }
-                                        listAdapter.getFilter().filter(category);
-                                    }
-                                })
-                                .create()
-                                .show();
                     } else {
                         Toast.makeText(BuyItemsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
                     }
@@ -240,5 +243,11 @@ public class BuyItemsActivity extends BaseActivity {
                 Toast.makeText(BuyItemsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllItems();
     }
 }

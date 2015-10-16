@@ -38,10 +38,20 @@ public class PendingItemsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_items);
         setupUI();
+        getPendingItems();
     }
     @Override
     protected void onResume() {
         super.onResume();
+        getPendingItems();
+    }
+
+    @Override
+    public boolean checkItemClicked(MenuItem menuItem) {
+        return menuItem.getItemId() != R.id.nav_pending_items;
+    }
+
+    public void getPendingItems() {
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
@@ -53,16 +63,18 @@ public class PendingItemsActivity extends BaseActivity {
                 JSONArray jsonArray = null;
 
                 try {
+                    TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
+                    ListView lv = (ListView) findViewById(R.id.listViewPending);
                     jsonArray = new JSONArray(responseBody);
                     if (jsonArray.length() == 0) {
-                        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
                         txtMessage.setText("No pending items");
                         txtMessage.setVisibility(View.VISIBLE);
+                        lv.setVisibility(View.GONE);
                     } else {
+                        txtMessage.setVisibility(View.GONE);
                         pendingItems = Item.allItems(jsonArray);
-
-                        ListView lv = (ListView) findViewById(R.id.listViewPending);
                         listAdapter = new ItemsListAdapter(PendingItemsActivity.this, R.layout.list_item, pendingItems);
+                        lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -99,10 +111,5 @@ public class PendingItemsActivity extends BaseActivity {
                 Log.v(TAG, "Request error");
             }
         });
-    }
-
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_pending_items;
     }
 }

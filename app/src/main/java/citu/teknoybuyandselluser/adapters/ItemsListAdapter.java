@@ -45,12 +45,6 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
         mDisplayedValues = list;
     }
 
-    public void updateView(ArrayList allEntries) {
-        this.mOriginalValues = allEntries;
-        this.mDisplayedValues = allEntries;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
         return mDisplayedValues.size();
@@ -142,27 +136,31 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
     }
 
     public void sortItems(String sortBy) {
-        if(sortBy.equals("price")) {
-            Comparator<Item> priceComparator = new Comparator<Item>() {
-                public int compare(Item obj1,Item obj2) {
-                    return obj1.getPrice() < obj2.getPrice() ? -1 : obj1.getPrice() > obj2.getPrice() ? 1 : 0;
-                }
-            };
-            Collections.sort(mDisplayedValues, priceComparator);
-        } else if (sortBy.equals("name")) {
-            Comparator<Item> nameComparator = new Comparator<Item>() {
-                public int compare(Item obj1,Item obj2) {
-                    return obj1.getItemName().compareTo(obj2.getItemName());
-                }
-            };
-            Collections.sort(mDisplayedValues, nameComparator);
-        } else {
-            Comparator<Item> dateComparator = new Comparator<Item>() {
-                public int compare(Item obj1,Item obj2) {
-                    return obj1.getItemName().compareTo(obj2.getItemName());
-                }
-            };
-            Collections.sort(mDisplayedValues, dateComparator);
+        switch (sortBy) {
+            case "price":
+                Comparator<Item> priceComparator = new Comparator<Item>() {
+                    public int compare(Item obj1, Item obj2) {
+                        return obj1.getPrice() < obj2.getPrice() ? -1 : obj1.getPrice() > obj2.getPrice() ? 1 : 0;
+                    }
+                };
+                Collections.sort(mDisplayedValues, priceComparator);
+                break;
+            case "name":
+                Comparator<Item> nameComparator = new Comparator<Item>() {
+                    public int compare(Item obj1, Item obj2) {
+                        return obj1.getItemName().compareTo(obj2.getItemName());
+                    }
+                };
+                Collections.sort(mDisplayedValues, nameComparator);
+                break;
+            default:
+                Comparator<Item> dateComparator = new Comparator<Item>() {
+                    public int compare(Item obj1, Item obj2) {
+                        return obj1.getDateApproved().compareTo(obj2.getDateApproved());
+                    }
+                };
+                Collections.sort(mDisplayedValues, dateComparator);
+                break;
         }
         notifyDataSetChanged();
     }

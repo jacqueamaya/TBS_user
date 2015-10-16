@@ -39,6 +39,21 @@ public class ShoppingCartActivity extends BaseActivity {
         setContentView(R.layout.activity_shopping_cart);
         setupUI();
 
+        getReservedItems();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getReservedItems();
+    }
+
+    @Override
+    public boolean checkItemClicked(MenuItem menuItem) {
+        return menuItem.getItemId() != R.id.nav_shopping_cart;
+    }
+
+    public void getReservedItems() {
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
@@ -50,17 +65,19 @@ public class ShoppingCartActivity extends BaseActivity {
                 JSONArray jsonArray = null;
 
                 try {
+                    ListView lv = (ListView) findViewById(R.id.listViewReservations);
+                    TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
                     jsonArray = new JSONArray(responseBody);
                     Log.d(TAG, jsonArray.toString());
                     if (jsonArray.length() == 0) {
-                        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
                         txtMessage.setText("No reserved items");
                         txtMessage.setVisibility(View.VISIBLE);
+                        lv.setVisibility(View.GONE);
                     } else {
+                        txtMessage.setVisibility(View.GONE);
                         reservations = ReservedItem.allReservedItems(jsonArray);
-
-                        ListView lv = (ListView) findViewById(R.id.listViewReservations);
                         ReservedItemsAdapter listAdapter = new ReservedItemsAdapter(ShoppingCartActivity.this, R.layout.list_item, reservations);
+                        lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -100,10 +117,5 @@ public class ShoppingCartActivity extends BaseActivity {
                 Log.v(TAG, "Request error");
             }
         });
-    }
-
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_shopping_cart;
     }
 }

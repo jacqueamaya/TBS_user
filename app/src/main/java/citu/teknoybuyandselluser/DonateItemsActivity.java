@@ -38,9 +38,27 @@ public class DonateItemsActivity extends BaseActivity {
         setContentView(R.layout.activity_donate_items);
         setupUI();
 
+        getDonateItems();
+
+        FloatingActionButton fab= (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(DonateItemsActivity.this, DonateItemActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public boolean checkItemClicked(MenuItem menuItem) {
+        return menuItem.getItemId() != R.id.nav_donate_items;
+    }
+
+    public void getDonateItems(){
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
-
         Server.getItemsToDonate(user, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
@@ -49,16 +67,18 @@ public class DonateItemsActivity extends BaseActivity {
                 JSONArray jsonArray = null;
 
                 try {
+                    TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
+                    ListView lv = (ListView) findViewById(R.id.listViewDonateItems);
                     jsonArray = new JSONArray(responseBody);
                     if (jsonArray.length() == 0) {
-                        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
                         txtMessage.setText("No available items to donate");
                         txtMessage.setVisibility(View.VISIBLE);
+                        lv.setVisibility(View.GONE);
                     } else {
+                        txtMessage.setVisibility(View.GONE);
                         donatedItems = Item.allItems(jsonArray);
-
-                        ListView lv = (ListView) findViewById(R.id.listViewDonateItems);
                         listAdapter = new ItemsListAdapter(DonateItemsActivity.this, R.layout.list_item, donatedItems);
+                        lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -90,20 +110,11 @@ public class DonateItemsActivity extends BaseActivity {
                 Log.v(TAG, "Request error");
             }
         });
-
-        FloatingActionButton fab= (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(DonateItemsActivity.this, DonateItemActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_donate_items;
+    protected void onResume() {
+        super.onResume();
+        getDonateItems();
     }
 }

@@ -40,7 +40,6 @@ public class DonationsActivity extends BaseActivity {
     private String mItemName;
     private String mDescription;
     private String mPicture;
-    private String mUser;
 
     private String categories[];
     private String sortBy[];
@@ -57,33 +56,39 @@ public class DonationsActivity extends BaseActivity {
         setContentView(R.layout.activity_donations);
         setupUI();
 
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        mUser = prefs.getString("username", "");
-
         txtCategory = (TextView) findViewById(R.id.txtCategory);
-        Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
         sortBy = getResources().getStringArray(R.array.sort_by);
+
         getItems();
+        getCategories();
+
+        final AlertDialog displayCategories = new AlertDialog.Builder(DonationsActivity.this)
+                .setTitle("Categories")
+                .setItems(categories, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        txtCategory.setText(categories[which]);
+                        category = txtCategory.getText().toString();
+                        if (category.equals("All")) {
+                            category = "";
+                        }
+                        listAdapter.getFilter().filter(category);
+                    }
+                })
+                .create();
 
         txtCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCategories(v);
+                displayCategories.show();
             }
         });
+    }
 
-        spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String lowerCaseSort = sortBy[position].toLowerCase();
-                Log.d(TAG, lowerCaseSort);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllItems();
     }
 
     @Override
@@ -135,14 +140,15 @@ public class DonationsActivity extends BaseActivity {
     }
 
     public void getItems() {
-        Log.d(TAG, txtCategory.getText().toString());
         if (txtCategory.getText().toString().equals("Categories")) {
             getAllItems();
         }
     }
 
     public void getAllItems() {
-        Server.getAllDonations(mUser, new Ajax.Callbacks() {
+        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        String user = prefs.getString("username", "");
+        Server.getAllDonations(user, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 allDonations = new ArrayList<Item>();
@@ -150,17 +156,35 @@ public class DonationsActivity extends BaseActivity {
                 JSONArray jsonArray = null;
 
                 try {
+                    ListView lv = (ListView) findViewById(R.id.listViewDonations);
+                    TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
                     jsonArray = new JSONArray(responseBody);
                     if (jsonArray.length() == 0) {
-                        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
                         txtMessage.setText("No available donations");
                         txtMessage.setVisibility(View.VISIBLE);
+                        lv.setVisibility(View.GONE);
                     } else {
+                        txtMessage.setVisibility(View.GONE);
                         allDonations = Item.allItems(jsonArray);
-
-                        ListView lv = (ListView) findViewById(R.id.listViewDonations);
                         listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
+                        lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
+
+                        Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
+                        spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                String lowerCaseSort = sortBy[position].toLowerCase();
+                                Log.d(TAG, lowerCaseSort);
+                                listAdapter.sortItems(lowerCaseSort);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -195,7 +219,7 @@ public class DonationsActivity extends BaseActivity {
         });
     }
 
-    public void getCategories(View view) {
+    public void getCategories() {
         Server.getCategories(new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
@@ -203,22 +227,6 @@ public class DonationsActivity extends BaseActivity {
                     JSONArray json = new JSONArray(responseBody);
                     if (json.length() != 0) {
                         categories = Category.getAllCategories(new JSONArray(responseBody));
-                        new AlertDialog.Builder(DonationsActivity.this)
-                                .setTitle("Categories")
-                                .setItems(categories, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        txtCategory.setText(categories[which]);
-                                        category = txtCategory.getText().toString();
-                                        if (category.equals("All")) {
-                                            getAllItems();
-                                        } else {
-                                            listAdapter.getFilter().filter(category);
-                                        }
-                                    }
-                                })
-                                .create()
-                                .show();
                     } else {
                         Toast.makeText(DonationsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
                     }

@@ -6,7 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Jacquelyn on 9/20/2015.
@@ -25,6 +28,7 @@ public class Item {
     private float discountedPrice;
     private String picture;
     private int stars_required;
+    private String dateApproved;
 
     public int getId() {
         return id;
@@ -70,8 +74,14 @@ public class Item {
         return discountedPrice;
     }
 
+    public String getDateApproved() {
+        return dateApproved;
+    }
+
     public static Item getItem(JSONObject jsonObject){
         Item item = new Item();
+        Date date = null;
+        SimpleDateFormat df = null;
 
         try {
             item.id = jsonObject.getInt("id");
@@ -84,7 +94,14 @@ public class Item {
             item.discountedPrice = (float)jsonObject.optDouble("discounted_price");
             item.stars_required = jsonObject.getInt("stars_required");
             item.picture = jsonObject.getString("picture");
-            Log.v(TAG,jsonObject.getString("picture"));
+
+            try {
+                df = new SimpleDateFormat("yyyy-MM-dd");
+                date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(jsonObject.getString("date_approved"));
+                item.dateApproved = df.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
