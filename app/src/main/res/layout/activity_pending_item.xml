@@ -163,28 +163,31 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/frameLayout"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal"
                     android:paddingBottom="20dp"
                     android:paddingTop="16dp">
 
                     <Button
                         android:id="@+id/btnSaveItem"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="40dp"
-                        android:background="@color/Louie"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/positivebutton"
                         android:onClick="onEditItem"
                         android:text="Save"
                         android:textColor="@color/White" />
 
                     <Button
                         android:id="@+id/btnDeleteItem"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:background="@color/White"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/negativebutton"
                         android:onClick="onDeleteItem"
                         android:text="Delete"
-                        android:textColor="@color/Black" />
+                        android:textColor="@color/Louie" />
 
                 </LinearLayout>
 
