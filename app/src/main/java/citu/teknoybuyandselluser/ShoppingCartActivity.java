@@ -27,6 +27,7 @@ public class ShoppingCartActivity extends BaseActivity {
     private int mItemId;
     private int mReservationId;
     private float mPrice;
+    private float mDiscountedPrice;
     private String mDescription;
     private String mItemName;
     private String mPicture;
@@ -70,6 +71,7 @@ public class ShoppingCartActivity extends BaseActivity {
                                 mItemName = item.getItemName();
                                 mDescription = item.getDescription();
                                 mPrice = item.getPrice();
+                                mDiscountedPrice = item.getDiscountedPrice();
                                 mPicture = item.getPicture();
                                 mReservedDate = item.getReserved_date();
 
@@ -80,6 +82,7 @@ public class ShoppingCartActivity extends BaseActivity {
                                 intent.putExtra(Constants.ITEM_NAME, mItemName);
                                 intent.putExtra(Constants.DESCRIPTION, mDescription);
                                 intent.putExtra(Constants.PRICE, mPrice);
+                                intent.putExtra(Constants.DISCOUNTED_PRICE, mDiscountedPrice);
                                 intent.putExtra(Constants.PICTURE, mPicture);
                                 intent.putExtra(Constants.RESERVED_DATE, mReservedDate);
 

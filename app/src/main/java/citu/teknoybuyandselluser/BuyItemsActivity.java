@@ -3,6 +3,7 @@ package citu.teknoybuyandselluser;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -32,8 +34,6 @@ import citu.teknoybuyandselluser.models.Item;
 
 public class BuyItemsActivity extends BaseActivity {
 
-    private Spinner spinnerSortBy;
-    private Toolbar toolbar;
     private TextView txtCategory;
 
     private static final String TAG = "BuyItems";
@@ -51,6 +51,9 @@ public class BuyItemsActivity extends BaseActivity {
     private ItemsListAdapter listAdapter;
     private ArrayList<Item> availableItems;
 
+    private String searchQuery = "";
+    private String category = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +63,8 @@ public class BuyItemsActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString("username", "");
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         txtCategory = (TextView) findViewById(R.id.txtCategory);
-        spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
+        Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
         sortBy = getResources().getStringArray(R.array.sort_by);
         getItems();
 
@@ -80,47 +78,14 @@ public class BuyItemsActivity extends BaseActivity {
         spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, sortBy[position]);
+                String lowerCaseSort = sortBy[position].toLowerCase();
+                Log.d(TAG, lowerCaseSort);
+                listAdapter.sortItems(lowerCaseSort);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-    }
-
-    public void getCategories(View view) {
-        Server.getCategories(new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                try {
-                    JSONArray json = new JSONArray(responseBody);
-                    if (json.length() != 0) {
-                        categories = Category.getAllCategories(new JSONArray(responseBody));
-                        new AlertDialog.Builder(BuyItemsActivity.this)
-                                .setTitle("Categories")
-                                .setItems(categories, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        txtCategory.setText(categories[which]);
-                                        listAdapter.getFilter().filter(txtCategory.getText().toString());
-                                    }
-                                })
-                                .create()
-                                .show();
-                    } else {
-                        Toast.makeText(BuyItemsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                categories = null;
-                Toast.makeText(BuyItemsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -134,17 +99,26 @@ public class BuyItemsActivity extends BaseActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        int id = searchView.getContext()
+                .getResources()
+                .getIdentifier("android:id/search_src_text", null, null);
+        TextView textView = (TextView) searchView.findViewById(id);
+        textView.setTextColor(Color.BLACK);
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchQuery = query;
+                listAdapter.getFilter().filter(searchQuery + "," + category);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                searchQuery = newText;
+                listAdapter.getFilter().filter(searchQuery + "," + category);
                 return true;
             }
         });
@@ -154,17 +128,9 @@ public class BuyItemsActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_search || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -233,6 +199,46 @@ public class BuyItemsActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.v(TAG, "Request error");
+            }
+        });
+    }
+
+    public void getCategories(View view) {
+        Server.getCategories(new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                try {
+                    JSONArray json = new JSONArray(responseBody);
+                    if (json.length() != 0) {
+                        categories = Category.getAllCategories(new JSONArray(responseBody));
+                        new AlertDialog.Builder(BuyItemsActivity.this)
+                                .setTitle("Categories")
+                                .setItems(categories, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        txtCategory.setText(categories[which]);
+                                        category = txtCategory.getText().toString();
+                                        if (category.equals("All")) {
+                                            getAllItems();
+                                        } else {
+                                            listAdapter.getFilter().filter(category);
+                                        }
+                                    }
+                                })
+                                .create()
+                                .show();
+                    } else {
+                        Toast.makeText(BuyItemsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                categories = null;
+                Toast.makeText(BuyItemsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }

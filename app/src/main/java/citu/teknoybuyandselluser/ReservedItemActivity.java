@@ -24,6 +24,7 @@ public class ReservedItemActivity extends BaseActivity {
 
     private int mItemId;
     private int mReservationId;
+    private float mDiscountedPrice;
     private float mPrice;
     private String mDescription;
     private String mItemName;
@@ -50,6 +51,7 @@ public class ReservedItemActivity extends BaseActivity {
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
+        mDiscountedPrice = intent.getFloatExtra(Constants.DISCOUNTED_PRICE, 0);
         mPicture = intent.getStringExtra(Constants.PICTURE);
         mReservedDate = intent.getStringExtra(Constants.RESERVED_DATE);
 
@@ -65,9 +67,9 @@ public class ReservedItemActivity extends BaseActivity {
         mTxtDescription.setText(mDescription);
         if(mPrice != 0) {
             mTxtPrice.setText("Php " + mPrice);
-        } /*else if (mDiscountedPrice != 0) {
+        } else if (mDiscountedPrice != 0) {
             mTxtPrice.setText("Php " + mDiscountedPrice + " (discounted)");
-        }*/ else {
+        } else {
             mTxtPrice.setText("(Donated)");
         }
 

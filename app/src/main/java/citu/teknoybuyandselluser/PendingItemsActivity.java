@@ -38,9 +38,13 @@ public class PendingItemsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_items);
         setupUI();
-
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
         SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
+
         Server.getPendingItems(user, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {

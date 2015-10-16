@@ -167,6 +167,7 @@ public class PendingItemActivity extends BaseActivity {
                     public void success(String responseBody) {
                         Log.d(TAG, "Delete Item success");
                         Toast.makeText(PendingItemActivity.this, "Delete Item success", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
 
                     @Override

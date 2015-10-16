@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +42,12 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
         id = textViewResourceId;
         mOriginalValues = list;
         mDisplayedValues = list;
+    }
+
+    public void updateView(ArrayList allEntries) {
+        this.mOriginalValues = allEntries;
+        this.mDisplayedValues = allEntries;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -67,7 +75,7 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
 
         TextView text = (TextView) mView.findViewById(R.id.textViewItem);
         ImageView image = (ImageView) mView.findViewById(R.id.image);
-
+        Log.d("ItemsListAdapter", mDisplayedValues.get(position).getPicture());
         Picasso.with(mContext)
                 .load(mDisplayedValues.get(position).getPicture())
                 .placeholder(R.drawable.thumbsq_24dp)
@@ -89,11 +97,12 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
                 List<Item> FilteredArrList = new ArrayList<Item>();
+                String searchByCategory[] = constraint.toString().split(",");
                 if (mOriginalValues == null) {
                     mOriginalValues = new ArrayList<Item>(mDisplayedValues); // saves the original data in mOriginalValues
                 }
 
-                if (constraint == null || constraint.length() == 0) {
+                if (constraint == null || constraint.length() == 0 || searchByCategory.length == 0) {
                     // set the Original result to return
                     results.count = mOriginalValues.size();
                     results.values = mOriginalValues;
@@ -101,8 +110,14 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
                     for (int i = 0; i < mOriginalValues.size(); i++) {
                         String name = mOriginalValues.get(i).getItemName();
                         String category = mOriginalValues.get(i).getCategory();
-                        if (category.equals(constraint.toString()) || name.toLowerCase().contains(constraint.toString().toLowerCase())) {
-                            FilteredArrList.add(mOriginalValues.get(i));
+                        if(searchByCategory.length == 2) {
+                            if (category.equals(searchByCategory[1]) && name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
+                                FilteredArrList.add(mOriginalValues.get(i));
+                            }
+                        } else {
+                            if (category.equals(constraint.toString()) || name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
+                                FilteredArrList.add(mOriginalValues.get(i));
+                            }
                         }
                     }
                     // set the Filtered result to return
@@ -124,4 +139,30 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
         return mDisplayedValues;
     }
 
+    public void sortItems(String sortBy) {
+        if(sortBy.equals("price")) {
+            Comparator<Item> priceComparator = new Comparator<Item>() {
+                public int compare(Item obj1,Item obj2) {
+                    Float price1 = obj1.getPrice();
+                    Float price2 = obj2.getPrice();
+                    return (price1.toString()).compareTo(price2.toString());
+                }
+            };
+            Collections.sort(mDisplayedValues, priceComparator);
+        } else if (sortBy.equals("name")) {
+            Comparator<Item> nameComparator = new Comparator<Item>() {
+                public int compare(Item obj1,Item obj2) {
+                    return obj1.getItemName().compareTo(obj2.getItemName());
+                }
+            };
+            Collections.sort(mDisplayedValues, nameComparator);
+        } else {
+            Comparator<Item> dateComparator = new Comparator<Item>() {
+                public int compare(Item obj1,Item obj2) {
+                    return obj1.getItemName().compareTo(obj2.getItemName());
+                }
+            };
+            Collections.sort(mDisplayedValues, dateComparator);
+        }
+    }
 }
