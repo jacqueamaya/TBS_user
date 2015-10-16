@@ -99,6 +99,7 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
                 FilterResults results = new FilterResults();
                 List<Item> FilteredArrList = new ArrayList<Item>();
                 String searchByCategory[] = constraint.toString().split(",");
+                Log.d("ItemsListAdapter", searchByCategory.length+"");
                 if (mOriginalValues == null) {
                     mOriginalValues = new ArrayList<Item>(mDisplayedValues); // saves the original data in mOriginalValues
                 }
@@ -144,9 +145,7 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
         if(sortBy.equals("price")) {
             Comparator<Item> priceComparator = new Comparator<Item>() {
                 public int compare(Item obj1,Item obj2) {
-                    Float price1 = obj1.getPrice();
-                    Float price2 = obj2.getPrice();
-                    return (price1.toString()).compareTo(price2.toString());
+                    return obj1.getPrice() < obj2.getPrice() ? -1 : obj1.getPrice() > obj2.getPrice() ? 1 : 0;
                 }
             };
             Collections.sort(mDisplayedValues, priceComparator);
@@ -165,5 +164,6 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
             };
             Collections.sort(mDisplayedValues, dateComparator);
         }
+        notifyDataSetChanged();
     }
 }

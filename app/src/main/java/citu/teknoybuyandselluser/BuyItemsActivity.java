@@ -64,7 +64,6 @@ public class BuyItemsActivity extends BaseActivity {
         user = prefs.getString("username", "");
 
         txtCategory = (TextView) findViewById(R.id.txtCategory);
-        Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
         sortBy = getResources().getStringArray(R.array.sort_by);
         getItems();
 
@@ -72,20 +71,6 @@ public class BuyItemsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 getCategories(v);
-            }
-        });
-
-        spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String lowerCaseSort = sortBy[position].toLowerCase();
-                Log.d(TAG, lowerCaseSort);
-                listAdapter.sortItems(lowerCaseSort);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -165,6 +150,21 @@ public class BuyItemsActivity extends BaseActivity {
                         ListView lv = (ListView) findViewById(R.id.listViewBuyItems);
                         listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
                         lv.setAdapter(listAdapter);
+                        Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
+                        spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                String lowerCaseSort = sortBy[position].toLowerCase();
+                                Log.d(TAG, lowerCaseSort);
+                                listAdapter.sortItems(lowerCaseSort);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+
                         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -219,10 +219,9 @@ public class BuyItemsActivity extends BaseActivity {
                                         txtCategory.setText(categories[which]);
                                         category = txtCategory.getText().toString();
                                         if (category.equals("All")) {
-                                            getAllItems();
-                                        } else {
-                                            listAdapter.getFilter().filter(category);
+                                            category = "";
                                         }
+                                        listAdapter.getFilter().filter(category);
                                     }
                                 })
                                 .create()
