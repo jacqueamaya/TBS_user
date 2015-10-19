@@ -133,6 +133,8 @@ public class SellItemActivity extends BaseActivity {
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
 
+        Log.v(TAG,user + mTxtItem.getText().toString() + mTxtDescription.getText().toString() + mTxtPrice.getText().toString() + mImgInfo.getLink());
+
         Server.sellItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {

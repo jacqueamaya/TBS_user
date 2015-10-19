@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import citu.teknoybuyandselluser.R;
+import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.models.Notification;
 
 
@@ -25,7 +26,7 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
     private int id;
     private ArrayList<Notification> items ;
     private String notificationDate;
-    private Date notif_date;
+    private String notif_date;
 
     public NotificationListAdapter(Context context, int textViewResourceId, ArrayList<Notification> list)
     {
@@ -49,11 +50,7 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
 
         if(items.get(position) != null )
         {
-            try {
-                notif_date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(items.get(position).getNotification_date());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            notif_date = Utils.parseDate(items.get(position).getNotification_date());
             String message;
             switch(items.get(position).getNotification_type()){
                 case "sell":

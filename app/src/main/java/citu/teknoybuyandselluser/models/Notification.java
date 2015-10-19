@@ -12,7 +12,7 @@ public class Notification {
     private String makerUserName;
     private String itemName;
     private String notification_type;
-    private String notification_date;
+    private long notification_date;
 
     public String getMakerUserName() {
         return makerUserName;
@@ -26,7 +26,7 @@ public class Notification {
         return notification_type;
     }
 
-    public String getNotification_date() {
+    public long getNotification_date() {
         return notification_date;
     }
 
@@ -36,7 +36,7 @@ public class Notification {
 
         try {
             n.notification_type=jsonObject.getString("notification_type");
-            n.notification_date=jsonObject.getString("notification_date");
+            n.notification_date=jsonObject.getLong("notification_date");
 
             if(!jsonObject.isNull("item")){
                 item = jsonObject.getJSONObject("item");

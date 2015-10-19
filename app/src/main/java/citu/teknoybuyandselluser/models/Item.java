@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import citu.teknoybuyandselluser.Utils;
+
 /**
  * Created by Jacquelyn on 9/20/2015.
  */
@@ -28,6 +30,7 @@ public class Item {
     private float discountedPrice;
     private String picture;
     private int stars_required;
+
     private String dateApproved;
 
     public int getId() {
@@ -95,13 +98,13 @@ public class Item {
             item.stars_required = jsonObject.getInt("stars_required");
             item.picture = jsonObject.getString("picture");
 
-            try {
-                df = new SimpleDateFormat("yyyy-MM-dd");
-                date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(jsonObject.getString("date_approved"));
-                item.dateApproved = df.format(date);
-            } catch (ParseException e) {
+            //try {
+                //df = new SimpleDateFormat("yyyy-MM-dd");
+                //date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(jsonObject.getString("date_approved"));
+                item.dateApproved = Utils.parseDate(jsonObject.optLong("date_approved"));
+            /*} catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
         } catch (JSONException e) {
             e.printStackTrace();
         }

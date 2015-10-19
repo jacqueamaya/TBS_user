@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import citu.teknoybuyandselluser.Utils;
+
 public class ReservedItem {
     private static final String TAG = "ReservedIten";
 
@@ -75,14 +77,14 @@ public class ReservedItem {
         Date date=null;
 
         try {
-            try {
+            /*try {
                 df = new SimpleDateFormat("yyyy-MM-dd");
                 date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(jsonObject.getString("reserved_date"));
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
             ri.reservationId = jsonObject.getInt("id");
-            ri.reserved_date = df.format(date);
+            ri.reserved_date = Utils.parseToDateOnly(jsonObject.getLong("reserved_date"));
             ri.status = jsonObject.getString("status");
 
             if(!jsonObject.isNull("item")){
