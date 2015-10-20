@@ -40,6 +40,7 @@ public class DonatedItemActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donated_item);
         setupUI();
@@ -85,7 +86,7 @@ public class DonatedItemActivity extends BaseActivity {
 
     public void onGetItem(View view) {
         Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
         data.put(Constants.BUYER, user);
         data.put(Constants.ID, "" + mItemId);
@@ -109,6 +110,7 @@ public class DonatedItemActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.d(TAG, "Error: " + statusText);
+                Toast.makeText(DonatedItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }

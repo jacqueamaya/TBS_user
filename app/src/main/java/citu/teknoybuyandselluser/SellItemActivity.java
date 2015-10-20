@@ -43,6 +43,7 @@ public class SellItemActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell_item);
         setupUI();
@@ -121,7 +122,7 @@ public class SellItemActivity extends BaseActivity {
 
     public void onSell(View view) {
         Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
         data.put(Constants.OWNER, user);
@@ -153,7 +154,7 @@ public class SellItemActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.d(TAG, "Sell Item error " + statusCode + " " + responseBody + " " + statusText);
-                Toast.makeText(SellItemActivity.this, "Sell Item ERROR: " + statusCode + " " + responseBody + " " + statusText, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SellItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }

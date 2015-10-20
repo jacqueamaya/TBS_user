@@ -53,6 +53,7 @@ public class PendingItemActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_item);
         setupUI();
@@ -108,7 +109,7 @@ public class PendingItemActivity extends BaseActivity {
 
     public void onEditItem(View view) {
         Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
         data.put(Constants.OWNER, user);
@@ -140,7 +141,7 @@ public class PendingItemActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.d(TAG, "Edit Item error " + statusCode + " " + responseBody + " " + statusText);
-                Toast.makeText(PendingItemActivity.this, "Edit Item ERROR: " + statusCode + " " + responseBody + " " + statusText, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -154,7 +155,7 @@ public class PendingItemActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 Map<String, String> data = new HashMap<>();
-                SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+                SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
                 String user = prefs.getString("username", "");
                 Log.d(TAG, "user: " + user);
                 data.put(Constants.OWNER, user);
@@ -167,14 +168,14 @@ public class PendingItemActivity extends BaseActivity {
                     @Override
                     public void success(String responseBody) {
                         Log.d(TAG, "Delete Item success");
-                        Toast.makeText(PendingItemActivity.this, "Delete Item success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PendingItemActivity.this, "Delete Item Success", Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
                     @Override
                     public void error(int statusCode, String responseBody, String statusText) {
                         Log.d(TAG, "Delete Item error " + statusCode + " " + responseBody + " " + statusText);
-                        Toast.makeText(PendingItemActivity.this, "Delete Item ERROR: " + mItemId + statusText, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -229,6 +230,7 @@ public class PendingItemActivity extends BaseActivity {
                     @Override
                     public void error(int statusCode, String responseBody, String statusText) {
                         Log.v(TAG, "Request error");
+                        Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                     }
 
                 });

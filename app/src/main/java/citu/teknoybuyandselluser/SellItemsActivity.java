@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,7 @@ public class SellItemsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell_items);
         setupUI();
@@ -64,7 +66,7 @@ public class SellItemsActivity extends BaseActivity {
     }
 
     public void getSellItems() {
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
@@ -123,6 +125,7 @@ public class SellItemsActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.v(TAG, "Request error");
+                Toast.makeText(SellItemsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }

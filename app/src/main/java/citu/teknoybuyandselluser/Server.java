@@ -22,8 +22,8 @@ public class Server {
     }
 
     public static void login (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if (  ! data.containsKey(LoginActivity.USERNAME) ||
-                ! data.containsKey(LoginActivity.PASSWORD)) {
+        if (  ! data.containsKey(Constants.USERNAME) ||
+                ! data.containsKey(Constants.PASSWORD)) {
             throw new RuntimeException("Missing data.");
         }
 

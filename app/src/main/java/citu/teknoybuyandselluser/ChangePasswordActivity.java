@@ -30,6 +30,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
@@ -58,6 +59,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 try {
                     json = new JSONObject(responseBody);
                     String response = json.getString("statusText");
+                    Toast.makeText(ChangePasswordActivity.this, response, Toast.LENGTH_SHORT).show();
                     if(response.equals("Password changed")) {
                         Intent intent;
                         intent = new Intent(ChangePasswordActivity.this, LoginActivity.class);
@@ -65,7 +67,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         finish();
                         startActivity(intent);
                     }
-                    Toast.makeText(ChangePasswordActivity.this, response, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -73,7 +74,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                Toast.makeText(ChangePasswordActivity.this, "Error: " + statusCode, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChangePasswordActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
 

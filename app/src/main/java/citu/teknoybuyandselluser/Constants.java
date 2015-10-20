@@ -4,7 +4,9 @@ package citu.teknoybuyandselluser;
  * Created by Jacquelyn on 9/25/2015.
  */
 public class Constants {
+    public static final String MY_PREFS_NAME = "UserPreferences";
     public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String STARS_COLLECTED = "stars_collected";

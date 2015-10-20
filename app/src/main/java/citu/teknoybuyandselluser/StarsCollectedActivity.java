@@ -21,6 +21,7 @@ public class StarsCollectedActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stars_collected);
         setupUI();
@@ -49,7 +50,7 @@ public class StarsCollectedActivity extends BaseActivity {
     }
 
     private int getStars() {
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         return prefs.getInt(Constants.STARS_COLLECTED, 0);
     }
 }

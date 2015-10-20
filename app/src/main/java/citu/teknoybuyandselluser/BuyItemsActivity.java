@@ -59,11 +59,12 @@ public class BuyItemsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_items);
         setupUI();
 
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString("username", "");
 
         txtCategory = (TextView) findViewById(R.id.txtCategory);
@@ -223,6 +224,7 @@ public class BuyItemsActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.v(TAG, "Request error");
+                Toast.makeText(BuyItemsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -247,7 +249,7 @@ public class BuyItemsActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 categories = null;
-                Toast.makeText(BuyItemsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BuyItemsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }

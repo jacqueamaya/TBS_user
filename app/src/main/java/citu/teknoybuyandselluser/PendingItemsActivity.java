@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class PendingItemsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_items);
         setupUI();
@@ -53,7 +55,7 @@ public class PendingItemsActivity extends BaseActivity {
     }
 
     public void getPendingItems() {
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
@@ -112,6 +114,7 @@ public class PendingItemsActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.v(TAG, "Request error");
+                Toast.makeText(PendingItemsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,7 @@ public class DonateItemsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donate_items);
         setupUI();
@@ -58,16 +60,16 @@ public class DonateItemsActivity extends BaseActivity {
     }
 
     public void getDonateItems(){
-        SharedPreferences prefs = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
         progressBar.setVisibility(View.GONE);
         Server.getItemsToDonate(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> donatedItems = new ArrayList<Item>();
+                ArrayList<Item> donatedItems;
                 Log.v(TAG, responseBody);
-                JSONArray jsonArray = null;
+                JSONArray jsonArray;
 
                 try {
                     TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
@@ -111,6 +113,7 @@ public class DonateItemsActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.v(TAG, "Request error");
+                Toast.makeText(DonateItemsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }

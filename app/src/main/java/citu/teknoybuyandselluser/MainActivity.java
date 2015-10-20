@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void error(int statusCode, String responseBody, String statusText) {
                     Log.e(TAG, "Error : " + statusCode);
-                    Toast.makeText(MainActivity.this, responseBody, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {

@@ -57,11 +57,12 @@ public class BuyItemActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_item);
         setupUI();
 
-        mPreferences = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        mPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
 
         Intent intent;
         intent = getIntent();
@@ -117,12 +118,7 @@ public class BuyItemActivity extends BaseActivity {
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
         if (mRdWithDiscount.isChecked()) {
-            mStarsToUse = Integer.parseInt(mTxtStarsToUse.getText().toString());
-            if (mStarsToUse != 0) {
-                buyWithDiscountDialogBox();
-            } else {
-                Toast.makeText(BuyItemActivity.this, "Number of stars to use is not defined.", Toast.LENGTH_SHORT).show();
-            }
+            buyWithDiscountDialogBox();
         } else if (mRdWithoutDiscount.isChecked()) {
             buyItem();
         }
@@ -149,6 +145,7 @@ public class BuyItemActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.d(TAG, "Server error");
+                Toast.makeText(BuyItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -157,16 +154,9 @@ public class BuyItemActivity extends BaseActivity {
         final AlertDialog.Builder buyItem = new AlertDialog.Builder(this);
         buyItem.setTitle("Buy With Discount");
         buyItem.setIcon(R.drawable.ic_star_black_24dp);
-        if (mStarsToUse < 50) {
-            buyItem.setMessage("Stars to use should be greater than or equal to 50.")
-                    .setCancelable(false)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-        } else if (mStarsToUse > 150) {
-            buyItem.setMessage("Stars to use should not be greater than 150.")
+
+        if (mTxtStarsToUse.getText().toString().equals("")) {
+            buyItem.setMessage("You cannot buy this item since you have no stars collected.")
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -174,35 +164,55 @@ public class BuyItemActivity extends BaseActivity {
                         }
                     });
         } else {
-            ReservedItem ri = new ReservedItem();
-            ri.setStarsToUse(mStarsToUse);
-            calculateDiscount();
-            calculateDiscountedPrice();
-            buyItem.setMessage("Discount:\t" + (mDiscount*100) + "%\n" +
-                    "Original Price:\t" + mPrice + "\n" +
-                    "Discounted Price: \t" + mDiscountedPrice + "\n" +
-                    "Stars Remaining: " + getStarsRemaining())
-                    .setCancelable(true)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            mPreferences.edit().putInt("stars_collected", getStarsRemaining()).apply();
-                            data.put(Constants.DISCOUNTED_PRICE, "" + mDiscountedPrice);
-                            buyItem();
-                        }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+            mStarsToUse = Integer.parseInt(mTxtStarsToUse.getText().toString());
+            if (mStarsToUse < 50) {
+                buyItem.setMessage("Stars to use should be greater than or equal to 50.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+            } else if (mStarsToUse > 150) {
+                buyItem.setMessage("Stars to use should not be greater than 150.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+            } else {
+                ReservedItem ri = new ReservedItem();
+                ri.setStarsToUse(mStarsToUse);
+                calculateDiscount();
+                calculateDiscountedPrice();
+                buyItem.setMessage("Discount:\t" + (mDiscount * 100) + "%\n" +
+                        "Original Price:\t" + mPrice + "\n" +
+                        "Discounted Price: \t" + mDiscountedPrice + "\n" +
+                        "Stars Remaining: " + getStarsRemaining())
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mPreferences.edit().putInt("stars_collected", getStarsRemaining()).apply();
+                                data.put(Constants.DISCOUNTED_PRICE, "" + mDiscountedPrice);
+                                buyItem();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+            }
         }
+
         AlertDialog alert = buyItem.create();
         alert.show();
     }
 
     private int getStars() {
-        mPreferences = getSharedPreferences(LoginActivity.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        mPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         return mPreferences.getInt(Constants.STARS_COLLECTED, 0);
     }
 
@@ -211,11 +221,11 @@ public class BuyItemActivity extends BaseActivity {
     }
 
     private void calculateDiscount() {
-        mDiscount = (double) mStarsToUse/DIVISOR;
+        mDiscount = (double) mStarsToUse / DIVISOR;
     }
 
     private void calculateDiscountedPrice() {
-        mDiscountedPrice = mPrice*(1-mDiscount);
+        mDiscountedPrice = mPrice * (1 - mDiscount);
     }
 
     public void showInputStars(View view) {
