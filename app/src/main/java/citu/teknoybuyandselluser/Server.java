@@ -162,10 +162,6 @@ public class Server {
         Ajax.upload(Constants.URL_UPLOAD, imagePath, progress, callbacks);
     }
 
-    public static void categorize (String category, ProgressBar progress, Ajax.Callbacks callbacks) {
-        Ajax.get(Constants.URL_CATEGORIZE + "/?category=" + category, progress, callbacks);
-    }
-
     public static void getCategories (ProgressBar progress, Ajax.Callbacks callbacks) {
         Ajax.get(Constants.URL_CATEGORIES, progress, callbacks);
     }

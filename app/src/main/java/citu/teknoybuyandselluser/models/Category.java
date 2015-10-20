@@ -27,7 +27,7 @@ public class Category {
 
         for (int i = 1; i < categories.length; i++) {
             try {
-                JSONObject category = jsonArray.getJSONObject(i);
+                JSONObject category = jsonArray.getJSONObject(i-1);
                 categories[i] = category.getString("category_name");
             } catch (JSONException e) {
                 Log.e(TAG, "Exception while getting category name", e);

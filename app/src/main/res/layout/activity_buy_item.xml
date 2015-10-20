@@ -41,8 +41,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="23dp"
                     android:layout_marginRight="20dp"
-                    android:layout_toRightOf="@id/imgItem"
                     android:layout_toEndOf="@+id/imgItem"
+                    android:layout_toRightOf="@id/imgItem"
                     android:text="Item Name"
                     android:textColor="@color/Black"
                     android:textSize="25dp"
@@ -74,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
+                        android:checked="true"
                         android:onClick="hideInputStars"
                         android:text="@string/without_discount" />
 
