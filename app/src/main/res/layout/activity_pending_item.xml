@@ -35,8 +35,7 @@
                 <ImageView
                     android:id="@+id/shoppingcart"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_height="35dp"
                     android:layout_marginTop="30dp"
                     android:src="@drawable/shop_24dp"
                     android:tint="@color/Louie" />
@@ -45,20 +44,20 @@
                     android:id="@+id/txtItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="30dp"
                     android:layout_toRightOf="@id/shoppingcart"
                     android:hint="Item"
+                    android:padding="10dp"
+                    android:background="@drawable/textbox"
                     android:inputType="textCapSentences"
                     android:textColorHint="@color/SlateGray" />
 
                 <ImageView
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_below="@id/shoppingcart"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="25dp"
                     android:src="@drawable/edit_24dp"
                     android:tint="@color/Louie" />
@@ -68,21 +67,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtItem"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_toRightOf="@+id/description"
+                    android:background="@drawable/textbox"
+                    android:padding="10dp"
                     android:hint="Description"
-                    android:inputType="textCapSentences"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:isScrollContainer="true"
+                    android:scrollbars="vertical"
+                    android:maxLines="5"
+                    android:lines="3"
                     android:textColorHint="@color/SlateGray" />
 
                 <ImageView
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_below="@id/description"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="65dp"
                     android:src="@drawable/money_24dp"
                     android:tint="@color/Louie" />
 
@@ -91,10 +95,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtDescription"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_toRightOf="@id/price"
+                    android:background="@drawable/textbox"
+                    android:padding="10dp"
                     android:hint="Price"
                     android:inputType="textCapSentences"
                     android:textColorHint="@color/SlateGray" />
@@ -102,10 +107,9 @@
                 <ImageView
                     android:id="@+id/picture"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_below="@id/price"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="15dp"
                     android:src="@drawable/thumb_24dp"
                     android:tint="@color/Louie" />
 
@@ -114,21 +118,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txtPrice"
-                    android:layout_marginLeft="23dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:layout_toRightOf="@id/picture"
-                    android:text="Picture"
-                    android:textColor="@color/SlateGray"
-                    android:textSize="16dp" />
+                    android:text="Photo"
+                    android:textColor="@color/Black"
+                    android:textSize="18dp" />
 
                 <Button
                     android:id="@+id/btnBrowse"
-                    android:layout_width="150dp"
+                    android:layout_width="220dp"
                     android:layout_height="33dp"
                     android:layout_below="@id/txtPrice"
                     android:layout_gravity="left"
-                    android:layout_marginTop="27dp"
+                    android:layout_marginTop="15dp"
                     android:layout_toRightOf="@id/txtPicture"
                     android:background="@drawable/roundedbutton"
                     android:text="Browse"
