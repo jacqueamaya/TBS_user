@@ -65,10 +65,12 @@
     <string name="title_activity_terms_conditions">TermsConditionsActivity</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
 
-
-
     <string-array name="sort_by">
         <item>Price</item>
+        <item>Name</item>
+        <item>Date</item>
+    </string-array>
+    <string-array name="donations_sort_by">
         <item>Name</item>
         <item>Date</item>
     </string-array>

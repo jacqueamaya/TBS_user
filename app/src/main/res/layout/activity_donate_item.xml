@@ -46,7 +46,7 @@
                         android:tint="@color/Louie" />
 
                     <EditText
-                        android:id="@+id/inputItem"
+                        android:id="@+id/txtItem"
                         android:hint="Item"
                         android:inputType="textCapSentences"
                         android:background="@drawable/textbox"
@@ -68,7 +68,7 @@
                         android:tint="@color/Louie" />
 
                     <EditText
-                        android:id="@+id/inputDescription"
+                        android:id="@+id/txtDescription"
                         android:hint="Description"
                         android:inputType="textMultiLine"
                         android:background="@drawable/textbox"
@@ -76,7 +76,7 @@
                         android:padding="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/inputItem"
+                        android:layout_below="@id/txtItem"
                         android:layout_toRightOf="@+id/description"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="15dp"
@@ -85,7 +85,6 @@
                         android:maxLines="5"
                         android:lines="3"
                         android:textColorHint="@color/SlateGray" />
-
 
                     <ImageView
                         android:id="@+id/picture"
@@ -100,7 +99,7 @@
                         android:id="@+id/txtPicture"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/inputDescription"
+                        android:layout_below="@id/txtDescription"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="20dp"
@@ -113,7 +112,7 @@
                         android:id="@+id/btnBrowse"
                         android:layout_width="220dp"
                         android:layout_height="33dp"
-                        android:layout_below="@id/inputDescription"
+                        android:layout_below="@id/txtDescription"
                         android:layout_gravity="left"
                         android:layout_toRightOf="@id/txtPicture"
                         android:layout_marginTop="15dp"
@@ -154,7 +153,7 @@
                         android:orientation="vertical"
                         android:weightSum="1">
                         <Button
-                            android:id="@+id/btnSellItem"
+                            android:id="@+id/btnDonateItem"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_marginTop="25dp"

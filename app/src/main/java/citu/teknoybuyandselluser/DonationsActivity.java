@@ -62,7 +62,7 @@ public class DonationsActivity extends BaseActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
         progressBar.setVisibility(View.GONE);
 
-        sortBy = getResources().getStringArray(R.array.sort_by);
+        sortBy = getResources().getStringArray(R.array.donations_sort_by);
 
         getItems();
         getCategories();
@@ -173,7 +173,7 @@ public class DonationsActivity extends BaseActivity {
                         txtMessage.setVisibility(View.GONE);
                         allDonations = Item.allItems(jsonArray);
                         listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
-                        listAdapter.sortItems("price");
+                        listAdapter.sortItems("name");
                         lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
 

@@ -54,7 +54,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignParentTop="true"
                             android:layout_gravity="end"
-                            android:entries="@array/sort_by"
+                            android:entries="@array/donations_sort_by"
                             android:paddingBottom="10dp" />
 
                     </RelativeLayout>

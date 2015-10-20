@@ -33,8 +33,6 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
     private static final String TAG = "ItemListAdapter";
     private Context mContext;
     private int id;
-    private String notificationDate;
-    private Date reserved_date;
 
     private ArrayList<Item> mOriginalValues;
     private ArrayList<Item> mDisplayedValues;
@@ -95,33 +93,31 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
                 List<Item> FilteredArrList = new ArrayList<Item>();
                 String searchByCategory[] = constraint.toString().split(",");
 
-                if(!mDisplayedValues.isEmpty()) {
-                    if (mOriginalValues == null) {
-                        mOriginalValues = new ArrayList<Item>(mDisplayedValues); // saves the original data in mOriginalValues
-                    }
+                if (mOriginalValues == null) {
+                    mOriginalValues = new ArrayList<Item>(mDisplayedValues); // saves the original data in mOriginalValues
+                }
 
-                    if (constraint == "" || constraint.length() == 0 || searchByCategory.length == 0) {
-                        // set the Original result to return
-                        results.count = mOriginalValues.size();
-                        results.values = mOriginalValues;
-                    } else {
-                        for (int i = 0; i < mOriginalValues.size(); i++) {
-                            String name = mOriginalValues.get(i).getItemName();
-                            String category = mOriginalValues.get(i).getCategory();
-                            if(searchByCategory.length == 2) {
-                                if (category.equals(searchByCategory[1]) && name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
-                                    FilteredArrList.add(mOriginalValues.get(i));
-                                }
-                            } else {
-                                if (category.equals(constraint.toString()) || name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
-                                    FilteredArrList.add(mOriginalValues.get(i));
-                                }
+                if (constraint == "" || constraint.length() == 0 || searchByCategory.length == 0) {
+                    // set the Original result to return
+                    results.count = mOriginalValues.size();
+                    results.values = mOriginalValues;
+                } else {
+                    for (int i = 0; i < mOriginalValues.size(); i++) {
+                        String name = mOriginalValues.get(i).getItemName();
+                        String category = mOriginalValues.get(i).getCategory();
+                        if(searchByCategory.length == 2) {
+                            if (category.equals(searchByCategory[1]) && name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
+                                FilteredArrList.add(mOriginalValues.get(i));
+                            }
+                        } else {
+                            if (category.equals(constraint.toString()) || name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
+                                FilteredArrList.add(mOriginalValues.get(i));
                             }
                         }
-                        // set the Filtered result to return
-                        results.count = FilteredArrList.size();
-                        results.values = FilteredArrList;
                     }
+                    // set the Filtered result to return
+                    results.count = FilteredArrList.size();
+                    results.values = FilteredArrList;
                 }
 
                 return results;
