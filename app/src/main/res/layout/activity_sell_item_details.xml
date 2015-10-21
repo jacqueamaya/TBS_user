@@ -95,14 +95,16 @@
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/description"
                     android:text="Description"
-                    android:textColorHint="@color/SlateGray"
+                    android:textColorHint="@color/Black"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
                     android:background="@drawable/textbox"
                     android:padding="10dp"
                     android:inputType="textMultiLine"
                     android:lines="5"
                     android:maxLines="5"
-                    android:gravity="top"/>
+                    android:gravity="top"
+                    android:enabled="false"/>
                 </TableRow>
 
                 <TableRow
@@ -129,9 +131,11 @@
                     android:layout_toRightOf="@+id/price"
                     android:text="Price"
                     android:textColorHint="@color/Black"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
                     android:background="@drawable/textbox"
-                    android:padding="10dp"/>
+                    android:padding="10dp"
+                    android:enabled="false"/>
 
                 </TableRow>
             </TableLayout>
