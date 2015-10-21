@@ -57,6 +57,7 @@ public class BuyItemsActivity extends BaseActivity {
 
     private String searchQuery = "";
     private String category = "";
+    private String lowerCaseSort = "price";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +173,7 @@ public class BuyItemsActivity extends BaseActivity {
                         txtMessage.setVisibility(View.GONE);
                         availableItems = Item.allItems(jsonArray);
                         listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
-                        listAdapter.sortItems("price");
+                        listAdapter.sortItems(lowerCaseSort);
                         lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
 
@@ -180,7 +181,7 @@ public class BuyItemsActivity extends BaseActivity {
                         spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                String lowerCaseSort = sortBy[position].toLowerCase();
+                                lowerCaseSort = sortBy[position].toLowerCase();
                                 Log.d(TAG, lowerCaseSort);
                                 listAdapter.sortItems(lowerCaseSort);
                             }
