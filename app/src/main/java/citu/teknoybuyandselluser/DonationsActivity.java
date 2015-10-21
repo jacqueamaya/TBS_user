@@ -51,6 +51,7 @@ public class DonationsActivity extends BaseActivity {
 
     private String searchQuery = "";
     private String category = "";
+    private Spinner spinnerSortBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class DonationsActivity extends BaseActivity {
 
         txtCategory = (TextView) findViewById(R.id.txtCategory);
         progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
+        spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
         progressBar.setVisibility(View.GONE);
 
         sortBy = getResources().getStringArray(R.array.donations_sort_by);
@@ -160,7 +162,7 @@ public class DonationsActivity extends BaseActivity {
             public void success(String responseBody) {
                 allDonations = new ArrayList<Item>();
                 Log.v(TAG, responseBody);
-                JSONArray jsonArray = null;
+                JSONArray jsonArray;
 
                 try {
                     ListView lv = (ListView) findViewById(R.id.listViewDonations);
@@ -178,7 +180,6 @@ public class DonationsActivity extends BaseActivity {
                         lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
 
-                        Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
                         spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
