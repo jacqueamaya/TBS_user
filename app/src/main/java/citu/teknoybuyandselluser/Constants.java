@@ -24,6 +24,7 @@ public class Constants {
     public static final String RESERVED_DATE = "reserved_date";
     public static final String RESERVATION_ID = "reservation_id";
     public static final String STARS_REQUIRED = "stars_required";
+    public static final String STATUS = "status";
     public static final String IMAGE_URL = "url";
     public static final String FORMAT_PRICE = "formatPrice";
     public static final int INDEX_USER_IMAGE = (int) (Math.random()*10);

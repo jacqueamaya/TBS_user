@@ -16,6 +16,7 @@ public class SellItemDetailsActivity extends BaseActivity {
     private TextView mTxtItem;
     private TextView mTxtDescription;
     private TextView mTxtPrice;
+    private TextView mTxtStatus;
     private ImageView mImgPreview;
 
     private float mPrice;
@@ -23,6 +24,7 @@ public class SellItemDetailsActivity extends BaseActivity {
     private String mItemName;
     private String mPicture;
     private String mFormatPrice;
+    private String mStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +39,18 @@ public class SellItemDetailsActivity extends BaseActivity {
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.PICTURE);
         mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        mStatus = intent.getStringExtra(Constants.STATUS);
 
         mTxtItem = (TextView) findViewById(R.id.txtItem);
         mTxtDescription = (TextView) findViewById(R.id.txtDescription);
         mTxtPrice = (TextView) findViewById(R.id.txtPrice);
+        mTxtStatus = (TextView) findViewById(R.id.txtStatus);
         mImgPreview = (ImageView) findViewById(R.id.preview);
 
         mTxtItem.setText(mItemName);
         mTxtDescription.setText(mDescription);
         mTxtPrice.setText("" + mFormatPrice);
+        mTxtStatus.setText(mStatus);
 
         Picasso.with(this)
                 .load(mPicture)

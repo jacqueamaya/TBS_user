@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.Utils;
 
 /**
@@ -88,29 +89,20 @@ public class Item {
 
     public static Item getItem(JSONObject jsonObject){
         Item item = new Item();
-        Date date = null;
-        SimpleDateFormat df = null;
 
         try {
             item.id = jsonObject.getInt("id");
-            item.itemName = jsonObject.getString("name");
-            item.description = jsonObject.getString("description");
-            item.category = jsonObject.getJSONObject("category").getString("category_name");
+            item.itemName = jsonObject.getString(Constants.NAME);
+            item.description = jsonObject.getString(Constants.DESCRIPTION);
+            item.category = jsonObject.getJSONObject("category").getString(Constants.CATEGORY);
             item.status = jsonObject.getString("status");
             item.purpose = jsonObject.getString("purpose");
-            item.price = (float)jsonObject.getDouble("price");
+            item.price = (float)jsonObject.getDouble(Constants.PRICE);
             item.formattedPrice = Utils.formatFloat(item.price);
-            item.discountedPrice = (float)jsonObject.optDouble("discounted_price");
-            item.stars_required = jsonObject.getInt("stars_required");
-            item.picture = jsonObject.getString("picture");
-
-            //try {
-                //df = new SimpleDateFormat("yyyy-MM-dd");
-                //date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(jsonObject.getString("date_approved"));
-                item.dateApproved = Utils.parseDate(jsonObject.optLong("date_approved"));
-            /*} catch (ParseException e) {
-                e.printStackTrace();
-            }*/
+            item.discountedPrice = (float)jsonObject.optDouble(Constants.DISCOUNTED_PRICE);
+            item.stars_required = jsonObject.getInt(Constants.STARS_REQUIRED);
+            item.picture = jsonObject.getString(Constants.PICTURE);
+            item.dateApproved = Utils.parseDate(jsonObject.optLong("date_approved"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

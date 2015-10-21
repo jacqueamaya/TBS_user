@@ -32,6 +32,7 @@ public class SellItemsActivity extends BaseActivity {
     private String mItemName;
     private String mPicture;
     private String mFormatPrice;
+    private String mStatus;
 
     private ItemsListAdapter listAdapter;
 
@@ -105,6 +106,7 @@ public class SellItemsActivity extends BaseActivity {
                                 mPicture = item.getPicture();
                                 mStarsRequired = item.getStars_required();
                                 mFormatPrice = item.getFormattedPrice();
+                                mStatus = item.getStatus();
 
                                 Intent intent;
                                 intent = new Intent(SellItemsActivity.this, SellItemDetailsActivity.class);
@@ -115,6 +117,7 @@ public class SellItemsActivity extends BaseActivity {
                                 intent.putExtra(Constants.PICTURE, mPicture);
                                 intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
                                 intent.putExtra(Constants.FORMAT_PRICE, mFormatPrice);
+                                intent.putExtra(Constants.STATUS, mStatus);
                                 startActivity(intent);
                             }
                         });
