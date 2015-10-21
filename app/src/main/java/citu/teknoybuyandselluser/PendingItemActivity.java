@@ -47,6 +47,7 @@ public class PendingItemActivity extends BaseActivity {
     private String mDescription;
     private String mItemName;
     private String mPicture;
+    private String mPurpose;
 
     private Button mBtnBrowse;
     private ProgressBar mProgressBar;
@@ -67,6 +68,7 @@ public class PendingItemActivity extends BaseActivity {
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.PICTURE);
         mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        mPurpose = intent.getStringExtra("purpose");
 
         mTxtItem = (EditText) findViewById(R.id.txtItem);
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
@@ -113,39 +115,81 @@ public class PendingItemActivity extends BaseActivity {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
+        String name = mTxtItem.getText().toString().trim();
+        String desc = mTxtDescription.getText().toString().trim();
+        String price = mTxtPrice.getText().toString().trim();
+        if(mPurpose.equals("Sell")) {
+            if(price.equals("")) {
+                Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+            } else {
+                if(!name.equals("")
+                        && !desc.equals("")
+                        && mImgInfo != null) {
+                    data.put(Constants.OWNER, user);
+                    data.put(Constants.NAME, name);
+                    data.put(Constants.DESCRIPTION, desc);
+                    data.put(Constants.PRICE, price);
+                    data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
-        data.put(Constants.OWNER, user);
-        data.put(Constants.ID, "" + mItemId);
-        data.put(Constants.NAME, mTxtItem.getText().toString());
-        data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
-        data.put(Constants.PRICE, mTxtPrice.getText().toString());
-        if(mImgInfo == null) {
-            data.put(Constants.IMAGE_URL, mPicture);
-        } else {
-            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
-        }
+                    mProgressDialog.setIndeterminate(true);
+                    mProgressDialog.setMessage("Please wait. . .");
 
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Please wait. . .");
+                    Server.editItem(data, mProgressDialog, new Ajax.Callbacks() {
+                        @Override
+                        public void success(String responseBody) {
+                            JSONObject json = null;
+                            try {
+                                json = new JSONObject(responseBody);
+                                Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
-        Server.editItem(data, mProgressDialog, new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                JSONObject json = null;
-                try {
-                    json = new JSONObject(responseBody);
-                    Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        @Override
+                        public void error(int statusCode, String responseBody, String statusText) {
+                            Log.d(TAG, "Edit Item error " + statusCode + " " + responseBody + " " + statusText);
+                            Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
                 }
             }
+        } else {
+            if(!name.equals("")
+                    && !desc.equals("")
+                    && mImgInfo != null) {
+                data.put(Constants.OWNER, user);
+                data.put(Constants.NAME, name);
+                data.put(Constants.DESCRIPTION, desc);
+                data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "Edit Item error " + statusCode + " " + responseBody + " " + statusText);
-                Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setMessage("Please wait. . .");
+
+                Server.editItem(data, mProgressDialog, new Ajax.Callbacks() {
+                    @Override
+                    public void success(String responseBody) {
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject(responseBody);
+                            Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void error(int statusCode, String responseBody, String statusText) {
+                        Log.d(TAG, "Edit Item error " + statusCode + " " + responseBody + " " + statusText);
+                        Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 
     public void onDeleteItem(View view){

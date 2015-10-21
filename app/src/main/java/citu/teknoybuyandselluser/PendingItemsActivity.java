@@ -93,6 +93,7 @@ public class PendingItemsActivity extends BaseActivity {
                                 mPicture = item.getPicture();
                                 mStarsRequired = item.getStars_required();
                                 mFormatPrice = item.getFormattedPrice();
+                                String purpose = item.getPurpose();
 
                                 Intent intent;
                                 intent = new Intent(PendingItemsActivity.this, PendingItemActivity.class);
@@ -102,8 +103,8 @@ public class PendingItemsActivity extends BaseActivity {
                                 intent.putExtra(Constants.PRICE, mPrice);
                                 intent.putExtra(Constants.PICTURE, mPicture);
                                 intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
-
                                 intent.putExtra(Constants.FORMAT_PRICE, mFormatPrice);
+                                intent.putExtra("purpose", purpose);
 
                                 startActivity(intent);
                             }

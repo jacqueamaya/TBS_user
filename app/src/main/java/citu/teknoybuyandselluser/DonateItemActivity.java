@@ -137,34 +137,46 @@ public class DonateItemActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
 
-        data.put(Constants.OWNER, user);
-        data.put(Constants.NAME, mTxtItem.getText().toString());
-        data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
-        data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+        String name = mTxtItem.getText().toString().trim();
+        String desc = mTxtDescription.getText().toString().trim();
 
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Please wait. . .");
+        if(!name.equals("")
+                && !desc.equals("")
+                && mImgInfo != null) {
+            data.put(Constants.OWNER, user);
+            data.put(Constants.NAME, name);
+            data.put(Constants.DESCRIPTION, desc);
+            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
-        Server.donateItem(data, mProgressDialog, new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                JSONObject json;
-                try {
-                    json = new JSONObject(responseBody);
-                    String response = json.getString("statusText");
-                    Log.d(TAG, response);
-                    Toast.makeText(DonateItemActivity.this, response, Toast.LENGTH_SHORT).show();
-                    finish();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Please wait. . .");
+
+            Server.donateItem(data, mProgressDialog, new Ajax.Callbacks() {
+                @Override
+                public void success(String responseBody) {
+                    JSONObject json;
+                    try {
+                        json = new JSONObject(responseBody);
+                        String response = json.getString("statusText");
+                        if (response.equals("Item created")) {
+                            Toast.makeText(DonateItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(DonateItemActivity.this, response, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "Donate Item error " + responseBody);
-                Toast.makeText(DonateItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void error(int statusCode, String responseBody, String statusText) {
+                    Log.d(TAG, "Donate Item error " + responseBody);
+                    Toast.makeText(DonateItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(DonateItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+        }
     }
 }

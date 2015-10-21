@@ -124,38 +124,49 @@ public class SellItemActivity extends BaseActivity {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
+        String name = mTxtItem.getText().toString().trim();
+        String desc = mTxtDescription.getText().toString().trim();
+        String price = mTxtPrice.getText().toString().trim();
 
-        data.put(Constants.OWNER, user);
-        data.put(Constants.NAME, mTxtItem.getText().toString());
-        data.put(Constants.DESCRIPTION, mTxtDescription.getText().toString());
-        data.put(Constants.PRICE, mTxtPrice.getText().toString());
-        data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+        if(!name.equals("")
+                && !desc.equals("")
+                && !price.equals("")
+                && mImgInfo != null) {
+            data.put(Constants.OWNER, user);
+            data.put(Constants.NAME, name);
+            data.put(Constants.DESCRIPTION, desc);
+            data.put(Constants.PRICE, price);
+            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Please wait. . .");
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Please wait. . .");
 
-        Log.v(TAG,user + mTxtItem.getText().toString() + mTxtDescription.getText().toString() + mTxtPrice.getText().toString() + mImgInfo.getLink());
-
-        Server.sellItem(data, mProgressDialog, new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                JSONObject json = null;
-                try {
-                    json = new JSONObject(responseBody);
-                    String response = json.getString("statusText");
-                    Log.d(TAG, response);
-                    Toast.makeText(SellItemActivity.this, response, Toast.LENGTH_SHORT).show();
-                    finish();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            Server.sellItem(data, mProgressDialog, new Ajax.Callbacks() {
+                @Override
+                public void success(String responseBody) {
+                    JSONObject json = null;
+                    try {
+                        json = new JSONObject(responseBody);
+                        String response = json.getString("statusText");
+                        if (response.equals("Item created")) {
+                            Toast.makeText(SellItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(SellItemActivity.this, response, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "Sell Item error " + statusCode + " " + responseBody + " " + statusText);
-                Toast.makeText(SellItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void error(int statusCode, String responseBody, String statusText) {
+                    Log.d(TAG, "Sell Item error " + statusCode + " " + responseBody + " " + statusText);
+                    Toast.makeText(SellItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(SellItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+        }
     }
 }

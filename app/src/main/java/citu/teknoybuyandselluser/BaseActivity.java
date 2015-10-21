@@ -87,6 +87,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 case R.id.nav_logout:
                     mSharedPreferences.edit().clear().apply();
                     intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     break;
                 default:
                     intent = new Intent(this, NotificationsActivity.class);
