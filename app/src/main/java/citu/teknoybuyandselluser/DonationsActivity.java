@@ -174,7 +174,7 @@ public class DonationsActivity extends BaseActivity {
                         txtMessage.setVisibility(View.GONE);
                         allDonations = Item.allItems(jsonArray);
                         listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
-                        listAdapter.sortItems("name");
+                        listAdapter.sortItems("date");
                         lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
 

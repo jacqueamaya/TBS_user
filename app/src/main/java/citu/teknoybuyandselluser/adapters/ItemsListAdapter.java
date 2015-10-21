@@ -159,7 +159,7 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
                         return obj1.getDateApproved().compareTo(obj2.getDateApproved());
                     }
                 };
-                Collections.sort(mDisplayedValues, dateComparator);
+                Collections.sort(mDisplayedValues, Collections.reverseOrder(dateComparator));
                 break;
         }
         notifyDataSetChanged();

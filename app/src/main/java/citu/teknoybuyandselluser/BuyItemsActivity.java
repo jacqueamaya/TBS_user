@@ -172,7 +172,7 @@ public class BuyItemsActivity extends BaseActivity {
                         txtMessage.setVisibility(View.GONE);
                         availableItems = Item.allItems(jsonArray);
                         listAdapter = new ItemsListAdapter(BuyItemsActivity.this, R.layout.list_item, availableItems);
-                        listAdapter.sortItems("price");
+                        listAdapter.sortItems("date");
                         lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
 
