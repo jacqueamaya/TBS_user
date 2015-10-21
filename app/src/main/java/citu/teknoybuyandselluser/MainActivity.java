@@ -58,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRegister (View view) {
+        if ("".equals(mTxtUsername.getText().toString().trim()) || mTxtUsername.getText().toString() == null) {
+            Utils.alertInfo(MainActivity.this, "Please input username");
+        }
+        else{
+            register();
+        }
+    }
+
+    public void register()
+    {
         Map<String, String> data = new HashMap<>();
 
         data.put(ID_NUMBER, mTxtStudentId.getText().toString());
@@ -81,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent;
                             intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                         Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
@@ -97,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(MainActivity.this, "Please agree to the terms and conditions.", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void onCancel (View view) {

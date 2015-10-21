@@ -1,5 +1,9 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,5 +29,23 @@ public final class Utils {
 
     public static String formatFloat(float price){
         return String.format("%.2f", price);
+    }
+
+    public static void alertInfo(Context context,String message) {
+        new AlertDialog.Builder(context)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    public interface Callbacks {
+        void ok();
     }
 }
