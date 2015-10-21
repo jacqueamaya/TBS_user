@@ -43,6 +43,7 @@ public class PendingItemActivity extends BaseActivity {
     private int mItemId;
     private int mStarsRequired;
     private float mPrice;
+    private String mFormatPrice;
     private String mDescription;
     private String mItemName;
     private String mPicture;
@@ -65,6 +66,7 @@ public class PendingItemActivity extends BaseActivity {
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.PICTURE);
+        mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
 
         mTxtItem = (EditText) findViewById(R.id.txtItem);
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
@@ -79,7 +81,7 @@ public class PendingItemActivity extends BaseActivity {
             mTxtPrice.setText("(To Donate)");
             mTxtPrice.setEnabled(false);
         } else {
-            mTxtPrice.setText("" + mPrice);
+            mTxtPrice.setText("" + mFormatPrice);
             mTxtPrice.setEnabled(true);
         }
 

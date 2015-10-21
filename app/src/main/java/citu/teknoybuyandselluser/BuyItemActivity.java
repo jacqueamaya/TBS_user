@@ -39,6 +39,7 @@ public class BuyItemActivity extends BaseActivity {
     private String mDescription;
     private String mItemName;
     private String mPicture;
+    private String mFormatPrice;
 
     private TextView mTxtItem;
     private TextView mTxtDescription;
@@ -71,6 +72,7 @@ public class BuyItemActivity extends BaseActivity {
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.PICTURE);
+        mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
 
         mTxtItem = (TextView) findViewById(R.id.txtItem);
         mTxtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -86,7 +88,7 @@ public class BuyItemActivity extends BaseActivity {
 
         mTxtItem.setText(mItemName);
         mTxtDescription.setText(mDescription);
-        mTxtPrice.setText("Php " + mPrice);
+        mTxtPrice.setText("Php " + mFormatPrice);
 
         Picasso.with(this)
                 .load(mPicture)
