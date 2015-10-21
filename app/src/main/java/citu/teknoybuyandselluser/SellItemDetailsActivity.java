@@ -22,6 +22,7 @@ public class SellItemDetailsActivity extends BaseActivity {
     private String mDescription;
     private String mItemName;
     private String mPicture;
+    private String mFormatPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class SellItemDetailsActivity extends BaseActivity {
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.PICTURE);
+        mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
 
         mTxtItem = (TextView) findViewById(R.id.txtItem);
         mTxtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -43,7 +45,7 @@ public class SellItemDetailsActivity extends BaseActivity {
 
         mTxtItem.setText(mItemName);
         mTxtDescription.setText(mDescription);
-        mTxtPrice.setText("" + mPrice);
+        mTxtPrice.setText("" + mFormatPrice);
 
         Picasso.with(this)
                 .load(mPicture)

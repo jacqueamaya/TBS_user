@@ -44,6 +44,7 @@ public class BuyItemsActivity extends BaseActivity {
     private int mItemId;
     private int mStarsRequired;
     private float mPrice;
+    private String mFormatPrice;
     private String mDescription;
     private String mItemName;
     private String mPicture;
@@ -201,6 +202,7 @@ public class BuyItemsActivity extends BaseActivity {
                                 mPrice = item.getPrice();
                                 mPicture = item.getPicture();
                                 mStarsRequired = item.getStars_required();
+                                mFormatPrice = item.getFormattedPrice();
 
                                 Intent intent;
                                 intent = new Intent(BuyItemsActivity.this, BuyItemActivity.class);
@@ -210,6 +212,7 @@ public class BuyItemsActivity extends BaseActivity {
                                 intent.putExtra(Constants.PRICE, mPrice);
                                 intent.putExtra(Constants.PICTURE, mPicture);
                                 intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
+                                intent.putExtra(Constants.FORMAT_PRICE, mFormatPrice);
 
                                 startActivity(intent);
                             }

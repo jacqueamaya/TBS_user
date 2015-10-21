@@ -26,6 +26,7 @@ public class Item {
     private String category;
     private String status;
     private String purpose;
+    private String formattedPrice;
     private float price;
     private float discountedPrice;
     private String picture;
@@ -77,6 +78,10 @@ public class Item {
         return discountedPrice;
     }
 
+    public String getFormattedPrice() {
+        return formattedPrice;
+    }
+
     public String getDateApproved() {
         return dateApproved;
     }
@@ -94,6 +99,7 @@ public class Item {
             item.status = jsonObject.getString("status");
             item.purpose = jsonObject.getString("purpose");
             item.price = (float)jsonObject.getDouble("price");
+            item.formattedPrice = Utils.formatFloat(item.price);
             item.discountedPrice = (float)jsonObject.optDouble("discounted_price");
             item.stars_required = jsonObject.getInt("stars_required");
             item.picture = jsonObject.getString("picture");

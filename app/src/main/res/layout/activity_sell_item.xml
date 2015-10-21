@@ -106,7 +106,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_toRightOf="@id/price"
                     android:hint="Price"
-                    android:inputType="textCapSentences"
+                    android:inputType="numberDecimal"
                     android:textColorHint="@color/SlateGray" />
 
                 <ImageView
