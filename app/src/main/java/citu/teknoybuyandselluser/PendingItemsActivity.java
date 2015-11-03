@@ -64,9 +64,9 @@ public class PendingItemsActivity extends BaseActivity {
         Server.getPendingItems(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> pendingItems = new ArrayList<Item>();
+                ArrayList<Item> pendingItems;
                 Log.v(TAG, responseBody);
-                JSONArray jsonArray = null;
+                JSONArray jsonArray;
 
                 try {
                     TextView txtMessage = (TextView) findViewById(R.id.txtMessage);

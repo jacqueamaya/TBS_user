@@ -24,6 +24,7 @@ public class Constants {
     public static final String RESERVED_DATE = "reserved_date";
     public static final String RESERVATION_ID = "reservation_id";
     public static final String STARS_REQUIRED = "stars_required";
+    public static final String STARS_TO_USE = "stars_to_use";
     public static final String STATUS = "status";
     public static final String IMAGE_URL = "url";
     public static final String FORMAT_PRICE = "formatPrice";
@@ -63,7 +64,6 @@ public class Constants {
     public static final String URL_ITEMS_TO_DONATE = "http://"+URL+"/api-x/items_to_donate";
     public static final String URL_ALL_DONATIONS = "http://"+URL+"/api-x/all_donations";
     public static final String URL_RESERVED_ITEMS = "http://"+URL+"/api-x/reservation_requests";
-    public static final String URL_CATEGORIZE = "http://"+URL+"/api-x/categorize";
     public static final String URL_CATEGORIES = "http://"+URL+"/api-x/categories/";
 
 }

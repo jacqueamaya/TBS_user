@@ -98,45 +98,8 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     JSONObject json = new JSONObject(responseBody);
                     String response = json.getString("statusText");
-                    if(response.equals("Successful Login")) {
-                        Server.getUser(mStrUsername, mProgressBar, new Ajax.Callbacks() {
-                            @Override
-                            public void success(String responseBody) {
-                                JSONArray jsonArray = null;
-                                try {
-                                    jsonArray = new JSONArray(responseBody);
-                                    if(jsonArray.length() != 0) {
-                                        JSONObject json = jsonArray.getJSONObject(0);
-                                        JSONObject jsonUser = json.getJSONObject("student");
-
-                                        SharedPreferences.Editor editor = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE).edit();
-                                        editor.putString(Constants.USERNAME, mStrUsername);
-                                        editor.putString(Constants.PASSWORD, mStrPassword);
-                                        editor.putString(Constants.FIRST_NAME, jsonUser.getString(Constants.FIRST_NAME));
-                                        editor.putString(Constants.LAST_NAME, jsonUser.getString(Constants.LAST_NAME));
-                                        editor.putInt(Constants.STARS_COLLECTED, json.getInt(Constants.STARS_COLLECTED));
-                                        editor.apply();
-
-                                        mTxtErrorMessage.setText("");
-
-                                        Intent intent;
-                                        intent = new Intent(LoginActivity.this, NotificationsActivity.class);
-                                        finish();
-                                        startActivity(intent);
-                                    } else {
-                                        mTxtPassword.setText("");
-                                        mTxtErrorMessage.setText("User not found");
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void error(int statusCode, String responseBody, String statusText) {
-                                Log.d(TAG, "Error: " + statusCode + " " + responseBody);
-                            }
-                        });
+                    if (response.equals("Successful Login")) {
+                        getUser();
                     } else {
                         mTxtErrorMessage.setText(response);
                         mTxtPassword.setText("");
@@ -157,5 +120,46 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void getUser () {
+        Server.getUser(mStrUsername, mProgressBar, new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(responseBody);
+                    if(jsonArray.length() != 0) {
+                        JSONObject json = jsonArray.getJSONObject(0);
+                        JSONObject jsonUser = json.getJSONObject("student");
+
+                        SharedPreferences.Editor editor = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE).edit();
+                        editor.putString(Constants.USERNAME, mStrUsername);
+                        editor.putString(Constants.PASSWORD, mStrPassword);
+                        editor.putString(Constants.FIRST_NAME, jsonUser.getString(Constants.FIRST_NAME));
+                        editor.putString(Constants.LAST_NAME, jsonUser.getString(Constants.LAST_NAME));
+                        editor.putInt(Constants.STARS_COLLECTED, json.getInt(Constants.STARS_COLLECTED));
+                        editor.apply();
+
+                        mTxtErrorMessage.setText("");
+
+                        Intent intent;
+                        intent = new Intent(LoginActivity.this, NotificationsActivity.class);
+                        finish();
+                        startActivity(intent);
+                    } else {
+                        mTxtPassword.setText("");
+                        mTxtErrorMessage.setText("User not found");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                Log.d(TAG, "Error: " + statusCode + " " + responseBody);
+            }
+        });
     }
 }

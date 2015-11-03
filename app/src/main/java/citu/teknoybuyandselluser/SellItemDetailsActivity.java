@@ -2,8 +2,6 @@ package citu.teknoybuyandselluser;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,19 +11,6 @@ import com.squareup.picasso.Picasso;
 public class SellItemDetailsActivity extends BaseActivity {
     private static final String TAG = "SellItemDetails";
 
-    private TextView mTxtItem;
-    private TextView mTxtDescription;
-    private TextView mTxtPrice;
-    private TextView mTxtStatus;
-    private ImageView mImgPreview;
-
-    private float mPrice;
-    private String mDescription;
-    private String mItemName;
-    private String mPicture;
-    private String mFormatPrice;
-    private String mStatus;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
@@ -34,30 +19,29 @@ public class SellItemDetailsActivity extends BaseActivity {
         setupUI();
 
         Intent intent = getIntent();
-        mItemName = intent.getStringExtra(Constants.ITEM_NAME);
-        mDescription = intent.getStringExtra(Constants.DESCRIPTION);
-        mPrice = intent.getFloatExtra(Constants.PRICE, 0);
-        mPicture = intent.getStringExtra(Constants.PICTURE);
-        mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
-        mStatus = intent.getStringExtra(Constants.STATUS);
+        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
+        String description = intent.getStringExtra(Constants.DESCRIPTION);
+        String picture = intent.getStringExtra(Constants.PICTURE);
+        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        String status = intent.getStringExtra(Constants.STATUS);
 
-        mTxtItem = (TextView) findViewById(R.id.txtItem);
-        mTxtDescription = (TextView) findViewById(R.id.txtDescription);
-        mTxtPrice = (TextView) findViewById(R.id.txtPrice);
-        mTxtStatus = (TextView) findViewById(R.id.txtStatus);
-        mImgPreview = (ImageView) findViewById(R.id.preview);
+        TextView txtItem = (TextView) findViewById(R.id.txtItem);
+        TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
+        TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
+        TextView txtStatus = (TextView) findViewById(R.id.txtStatus);
+        ImageView imgPreview = (ImageView) findViewById(R.id.preview);
 
-        mTxtItem.setText(mItemName);
-        mTxtDescription.setText(mDescription);
-        mTxtPrice.setText("" + mFormatPrice);
-        mTxtStatus.setText(mStatus);
+        txtItem.setText(itemName);
+        txtDescription.setText(description);
+        txtPrice.setText("" + formatPrice);
+        txtStatus.setText(status);
 
         Picasso.with(this)
-                .load(mPicture)
+                .load(picture)
                 .placeholder(R.drawable.thumb_24dp)
-                .into(mImgPreview);
+                .into(imgPreview);
 
-        setTitle(mItemName);
+        setTitle(itemName);
     }
 
     @Override

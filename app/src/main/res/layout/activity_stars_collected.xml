@@ -30,7 +30,6 @@
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
 
-
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="150dp"
@@ -77,14 +76,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
 
-            <Button
-                android:id="@+id/btnClaimAward"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/Star"
-                android:text="Claim Award"
-                android:textColor="@color/White" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnClaimAward"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/Star"
+                    android:text="Claim Award"
+                    android:textColor="@color/White" />
+
+                <ProgressBar
+                    android:id="@+id/progressGetStars"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:indeterminate="true" />
+
+            </FrameLayout>
 
         </LinearLayout>
 

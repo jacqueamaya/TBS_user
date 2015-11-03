@@ -11,16 +11,6 @@ import com.squareup.picasso.Picasso;
 
 public class DonateItemDetailsActivity extends BaseActivity {
 
-    private TextView mTxtTitle;
-    private TextView mTxtDescription;
-    private TextView mTxtNumStars;
-    private ImageView mImgThumbnail;
-
-    private int mStarsRequired;
-    private String mDescription;
-    private String mItemName;
-    private String mPicture;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
@@ -30,25 +20,25 @@ public class DonateItemDetailsActivity extends BaseActivity {
 
         Intent intent;
         intent = getIntent();
-        mItemName = intent.getStringExtra(Constants.ITEM_NAME);
-        mDescription = intent.getStringExtra(Constants.DESCRIPTION);
-        mPicture = intent.getStringExtra(Constants.PICTURE);
-        mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
+        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
+        String description = intent.getStringExtra(Constants.DESCRIPTION);
+        String picture = intent.getStringExtra(Constants.PICTURE);
+        int starsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
 
-        mTxtTitle = (TextView) findViewById(R.id.txtTitle);
-        mTxtDescription = (TextView) findViewById(R.id.txtDetails);
-        mTxtNumStars = (TextView) findViewById(R.id.txtNumStars);
-        mImgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
+        TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
+        TextView txtDescription = (TextView) findViewById(R.id.txtDetails);
+        TextView txtNumStars = (TextView) findViewById(R.id.txtNumStars);
+        ImageView imgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
 
-        mTxtTitle.setText(mItemName);
-        mTxtDescription.setText(mDescription);
-        mTxtNumStars.setText("" + mStarsRequired);
+        txtTitle.setText(itemName);
+        txtDescription.setText(description);
+        txtNumStars.setText("" + starsRequired);
 
         Picasso.with(this)
-                .load(mPicture)
-                .into(mImgThumbnail);
+                .load(picture)
+                .into(imgThumbnail);
 
-        setTitle(mItemName);
+        setTitle(itemName);
     }
 
     @Override

@@ -51,6 +51,7 @@ public class DonationsActivity extends BaseActivity {
 
     private String searchQuery = "";
     private String category = "";
+    private String lowerCaseSort = "date";
     private Spinner spinnerSortBy;
 
     @Override
@@ -176,15 +177,14 @@ public class DonationsActivity extends BaseActivity {
                         txtMessage.setVisibility(View.GONE);
                         allDonations = Item.allItems(jsonArray);
                         listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
-                        listAdapter.sortItems("date");
+                        listAdapter.sortItems(lowerCaseSort);
                         lv.setVisibility(View.VISIBLE);
                         lv.setAdapter(listAdapter);
 
                         spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                String lowerCaseSort = sortBy[position].toLowerCase();
-                                Log.d(TAG, lowerCaseSort);
+                                lowerCaseSort = sortBy[position].toLowerCase();
                                 listAdapter.sortItems(lowerCaseSort);
                             }
 

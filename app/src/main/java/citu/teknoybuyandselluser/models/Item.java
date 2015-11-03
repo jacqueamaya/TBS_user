@@ -18,9 +18,9 @@ import citu.teknoybuyandselluser.Utils;
  * Created by Jacquelyn on 9/20/2015.
  */
 public class Item {
-    private static final String TAG = "Item";
 
     private int id;
+    private int starsToUse;
     private String owner;
     private String itemName;
     private String description;
@@ -29,7 +29,6 @@ public class Item {
     private String purpose;
     private String formattedPrice;
     private float price;
-    private float discountedPrice;
     private String picture;
     private int stars_required;
 
@@ -37,6 +36,10 @@ public class Item {
 
     public int getId() {
         return id;
+    }
+
+    public int getStarsToUse() {
+        return starsToUse;
     }
 
     public String getOwner() {
@@ -75,10 +78,6 @@ public class Item {
         return stars_required;
     }
 
-    public float getDiscountedPrice() {
-        return discountedPrice;
-    }
-
     public String getFormattedPrice() {
         return formattedPrice;
     }
@@ -99,10 +98,10 @@ public class Item {
             item.purpose = jsonObject.getString("purpose");
             item.price = (float)jsonObject.getDouble(Constants.PRICE);
             item.formattedPrice = Utils.formatFloat(item.price);
-            item.discountedPrice = (float)jsonObject.optDouble(Constants.DISCOUNTED_PRICE);
             item.stars_required = jsonObject.getInt(Constants.STARS_REQUIRED);
             item.picture = jsonObject.getString(Constants.PICTURE);
             item.dateApproved = Utils.parseDate(jsonObject.optLong("date_approved"));
+            item.starsToUse = jsonObject.getInt(Constants.STARS_TO_USE);
         } catch (JSONException e) {
             e.printStackTrace();
         }

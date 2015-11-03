@@ -32,7 +32,7 @@ import citu.teknoybuyandselluser.models.ImageInfo;
 
 public class PendingItemActivity extends BaseActivity {
 
-    private static final String TAG = "Pending Item";
+    private static final String TAG = "PendingItemActivity";
 
     private EditText mTxtItem;
     private EditText mTxtDescription;
@@ -41,15 +41,12 @@ public class PendingItemActivity extends BaseActivity {
     private ProgressDialog mProgressDialog;
 
     private int mItemId;
-    private int mStarsRequired;
     private float mPrice;
-    private String mFormatPrice;
     private String mDescription;
     private String mItemName;
     private String mPicture;
     private String mPurpose;
 
-    private Button mBtnBrowse;
     private ProgressBar mProgressBar;
     private ImageInfo mImgInfo;
 
@@ -67,7 +64,7 @@ public class PendingItemActivity extends BaseActivity {
         mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.PICTURE);
-        mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
         mPurpose = intent.getStringExtra("purpose");
 
         mTxtItem = (EditText) findViewById(R.id.txtItem);
@@ -83,7 +80,7 @@ public class PendingItemActivity extends BaseActivity {
             mTxtPrice.setText("(To Donate)");
             mTxtPrice.setEnabled(false);
         } else {
-            mTxtPrice.setText("" + mFormatPrice);
+            mTxtPrice.setText("" + formatPrice);
             mTxtPrice.setEnabled(true);
         }
 
@@ -96,9 +93,9 @@ public class PendingItemActivity extends BaseActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
+        Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
         mImgPreview =  (ImageView) findViewById(R.id.preview);
-        mBtnBrowse.setOnClickListener(new View.OnClickListener() {
+        btnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectImage();
@@ -112,118 +109,84 @@ public class PendingItemActivity extends BaseActivity {
     }
 
     public void onEditItem(View view) {
-        Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
+
         String name = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
-        String price = mTxtPrice.getText().toString().trim();
+
         if(mPurpose.equals("Sell")) {
-            if(price.equals("")) {
+            float price = Float.parseFloat(mTxtPrice.getText().toString().trim());
+            if(price == 0) {
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             } else {
-                if(!name.equals("")
-                        && !desc.equals("")
-                        && mImgInfo != null) {
-                    data.put(Constants.OWNER, user);
-                    data.put(Constants.NAME, name);
-                    data.put(Constants.DESCRIPTION, desc);
-                    data.put(Constants.PRICE, price);
-                    data.put(Constants.IMAGE_URL, mImgInfo.getLink());
-
-                    mProgressDialog.setIndeterminate(true);
-                    mProgressDialog.setMessage("Please wait. . .");
-
-                    Server.editItem(data, mProgressDialog, new Ajax.Callbacks() {
-                        @Override
-                        public void success(String responseBody) {
-                            JSONObject json = null;
-                            try {
-                                json = new JSONObject(responseBody);
-                                Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void error(int statusCode, String responseBody, String statusText) {
-                            Log.d(TAG, "Edit Item error " + statusCode + " " + responseBody + " " + statusText);
-                            Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if(!name.equals("") || !mItemName.equals("")
+                        && !desc.equals("") || !mDescription.equals("")
+                        && mImgInfo != null || !mPicture.equals("")) {
+                    editItem(name, desc, price);
                 } else {
                     Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
                 }
             }
         } else {
-            if(!name.equals("")
-                    && !desc.equals("")
+            if(!name.equals("") || !mItemName.equals("")
+                    && !desc.equals("") || !mDescription.equals("")
                     && mImgInfo != null) {
-                data.put(Constants.OWNER, user);
-                data.put(Constants.NAME, name);
-                data.put(Constants.DESCRIPTION, desc);
-                data.put(Constants.IMAGE_URL, mImgInfo.getLink());
-
-                mProgressDialog.setIndeterminate(true);
-                mProgressDialog.setMessage("Please wait. . .");
-
-                Server.editItem(data, mProgressDialog, new Ajax.Callbacks() {
-                    @Override
-                    public void success(String responseBody) {
-                        JSONObject json = null;
-                        try {
-                            json = new JSONObject(responseBody);
-                            Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void error(int statusCode, String responseBody, String statusText) {
-                        Log.d(TAG, "Edit Item error " + statusCode + " " + responseBody + " " + statusText);
-                        Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                editItem(name, desc, 0);
             } else {
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
         }
     }
+    public void editItem(String name, String desc, float price) {
+        Map<String, String> data = new HashMap<>();
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        String user = prefs.getString("username", "");
 
+        if(name.equals(mItemName) && desc.equals(mDescription) && price == mPrice && mImgInfo == null) {
+            Toast.makeText(PendingItemActivity.this, "No changes have been made", Toast.LENGTH_SHORT).show();
+        } else {
+            data.put(Constants.OWNER, user);
+            data.put(Constants.ID, ""+mItemId);
+
+            data.put(Constants.NAME, name);
+            data.put(Constants.DESCRIPTION, desc);
+            data.put(Constants.PRICE, "" + price);
+            if(mImgInfo != null) {
+                data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+            }
+
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Please wait. . .");
+
+            Server.editItem(data, mProgressDialog, new Ajax.Callbacks() {
+                @Override
+                public void success(String responseBody) {
+                    JSONObject json;
+                    try {
+                        json = new JSONObject(responseBody);
+                        Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void error(int statusCode, String responseBody, String statusText) {
+                    Log.d(TAG, "Edit Item error " + statusCode + " " + responseBody + " " + statusText);
+                    Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+    }
     public void onDeleteItem(View view){
-        AlertDialog.Builder deleteItem= new AlertDialog.Builder(this);
+        final AlertDialog.Builder deleteItem= new AlertDialog.Builder(this);
         deleteItem.setTitle("Delete Item");
         deleteItem.setIcon(R.drawable.ic_delete_black_24dp);
         deleteItem.setMessage("Are you sure you want to delete this item?");
         deleteItem.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                Map<String, String> data = new HashMap<>();
-                SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-                String user = prefs.getString("username", "");
-                Log.d(TAG, "user: " + user);
-                data.put(Constants.OWNER, user);
-                data.put(Constants.ID, "" + mItemId);
-
-                mProgressDialog.setIndeterminate(true);
-                mProgressDialog.setMessage("Please wait. . .");
-
-                Server.deleteItem(data, mProgressDialog, new Ajax.Callbacks() {
-                    @Override
-                    public void success(String responseBody) {
-                        Log.d(TAG, "Delete Item success");
-                        Toast.makeText(PendingItemActivity.this, "Delete Item Success", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-
-                    @Override
-                    public void error(int statusCode, String responseBody, String statusText) {
-                        Log.d(TAG, "Delete Item error " + statusCode + " " + responseBody + " " + statusText);
-                        Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                deleteItem();
             }
         });
         deleteItem.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -236,8 +199,35 @@ public class PendingItemActivity extends BaseActivity {
         alert.show();
     }
 
+    public void deleteItem () {
+        Map<String, String> data = new HashMap<>();
+        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        String user = prefs.getString("username", "");
+        Log.d(TAG, "user: " + user);
+        data.put(Constants.OWNER, user);
+        data.put(Constants.ID, "" + mItemId);
+
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Please wait. . .");
+
+        Server.deleteItem(data, mProgressDialog, new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                Log.d(TAG, "Delete Item success");
+                Toast.makeText(PendingItemActivity.this, "Delete Item Success", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                Log.d(TAG, "Delete Item error " + statusCode + " " + responseBody + " " + statusText);
+                Toast.makeText(PendingItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void selectImage() {
-        Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
     }
 
@@ -249,6 +239,7 @@ public class PendingItemActivity extends BaseActivity {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
                 Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                assert c != null;
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
@@ -259,11 +250,10 @@ public class PendingItemActivity extends BaseActivity {
                         Log.v(TAG, "successfully posted");
                         Log.v(TAG, responseBody);
 
-                        JSONObject json = null;
+                        JSONObject json;
                         try {
                             json = new JSONObject(responseBody);
-                            ImageInfo image = new ImageInfo();
-                            mImgInfo = image.getImageInfo(json);
+                            mImgInfo = ImageInfo.getImageInfo(json);
                             Picasso.with(PendingItemActivity.this)
                                     .load(mImgInfo.getLink())
                                     .placeholder(R.drawable.thumbsq_24dp)

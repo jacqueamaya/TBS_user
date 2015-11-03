@@ -57,9 +57,9 @@ public class SellItemActivity extends BaseActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        Button mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
+        Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
         mImgPreview =  (ImageView) findViewById(R.id.preview);
-        mBtnBrowse.setOnClickListener(new View.OnClickListener() {
+        btnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectImage();
@@ -68,7 +68,7 @@ public class SellItemActivity extends BaseActivity {
     }
 
     private void selectImage() {
-        Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
     }
 
@@ -80,6 +80,7 @@ public class SellItemActivity extends BaseActivity {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
                 Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                assert c != null;
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
@@ -90,11 +91,10 @@ public class SellItemActivity extends BaseActivity {
                         Log.v(TAG, "successfully posted");
                         Log.v(TAG, responseBody);
 
-                        JSONObject json = null;
+                        JSONObject json;
                         try {
                             json = new JSONObject(responseBody);
-                            ImageInfo image = new ImageInfo();
-                            mImgInfo = image.getImageInfo(json);
+                            mImgInfo = ImageInfo.getImageInfo(json);
                             Picasso.with(SellItemActivity.this)
                                     .load(mImgInfo.getLink())
                                     .placeholder(R.drawable.thumbsq_24dp)
@@ -107,6 +107,7 @@ public class SellItemActivity extends BaseActivity {
                     @Override
                     public void error(int statusCode, String responseBody, String statusText) {
                         Log.v(TAG, "Request error");
+                        Toast.makeText(SellItemActivity.this, "Unable to upload the image", Toast.LENGTH_SHORT).show();
                     }
 
                 });

@@ -101,7 +101,7 @@
                     android:background="@drawable/textbox"
                     android:padding="10dp"
                     android:hint="Price"
-                    android:inputType="textCapSentences"
+                    android:inputType="numberDecimal"
                     android:textColorHint="@color/SlateGray" />
 
                 <ImageView

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRegister (View view) {
-        if ("".equals(mTxtUsername.getText().toString().trim()) || mTxtUsername.getText().toString() == null) {
+        if ("".equals(mTxtUsername.getText().toString().trim())) {
             Utils.alertInfo(MainActivity.this, "Please input username");
         }
         else{

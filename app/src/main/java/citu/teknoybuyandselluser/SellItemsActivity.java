@@ -27,7 +27,6 @@ public class SellItemsActivity extends BaseActivity {
     private static final String TAG = "SellItemsActivity";
 
     private int mStarsRequired;
-    private float mPrice;
     private String mDescription;
     private String mItemName;
     private String mPicture;
@@ -102,7 +101,6 @@ public class SellItemsActivity extends BaseActivity {
                                 Item item = listAdapter.getDisplayView().get(position);
                                 mItemName = item.getItemName();
                                 mDescription = item.getDescription();
-                                mPrice = item.getPrice();
                                 mPicture = item.getPicture();
                                 mStarsRequired = item.getStars_required();
                                 mFormatPrice = item.getFormattedPrice();
@@ -113,7 +111,6 @@ public class SellItemsActivity extends BaseActivity {
                                 intent.putExtra(Constants.ID, item.getId());
                                 intent.putExtra(Constants.ITEM_NAME, mItemName);
                                 intent.putExtra(Constants.DESCRIPTION, mDescription);
-                                intent.putExtra(Constants.PRICE, mPrice);
                                 intent.putExtra(Constants.PICTURE, mPicture);
                                 intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
                                 intent.putExtra(Constants.FORMAT_PRICE, mFormatPrice);
