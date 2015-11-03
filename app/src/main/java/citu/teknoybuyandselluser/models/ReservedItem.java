@@ -14,11 +14,14 @@ import java.util.Date;
 import citu.teknoybuyandselluser.Utils;
 
 public class ReservedItem {
-    private static final String TAG = "ReservedIten";
+    private static final String TAG = "ReservedItem";
+    private static final int DIVISOR = 1000;
 
     private int itemId;
     private int reservationId;
+    private int starsRequired;
     private int starsToUse;
+    private float discountedPrice;
     private float price;
     private String description;
     private String itemName;
@@ -54,6 +57,12 @@ public class ReservedItem {
         return price;
     }
 
+    public float getDiscountedPrice() {
+        float discount = (float) getStarsToUse() / DIVISOR;
+        discountedPrice = getPrice() * (1 - discount);
+        return discountedPrice;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -70,19 +79,15 @@ public class ReservedItem {
         this.starsToUse = starsToUse;
     }
 
+    public int getStarsRequired() {
+        return starsRequired;
+    }
+
     public static ReservedItem getReservedItem(JSONObject jsonObject){
         ReservedItem ri = new ReservedItem();
         Item item;
-        DateFormat df=null;
-        Date date=null;
 
         try {
-            /*try {
-                df = new SimpleDateFormat("yyyy-MM-dd");
-                date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(jsonObject.getString("reserved_date"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }*/
             ri.reservationId = jsonObject.getInt("id");
             ri.reserved_date = Utils.parseToDateOnly(jsonObject.getLong("reserved_date"));
             ri.status = jsonObject.getString("status");
@@ -90,6 +95,8 @@ public class ReservedItem {
             if(!jsonObject.isNull("item")){
                 item = Item.getItem(jsonObject.getJSONObject("item"));
                 ri.itemId = item.getId();
+                ri.starsRequired = item.getStars_required();
+                ri.starsToUse = item.getStarsToUse();
                 ri.itemName = item.getItemName();
                 ri.price = item.getPrice();
                 ri.picture = item.getPicture();
