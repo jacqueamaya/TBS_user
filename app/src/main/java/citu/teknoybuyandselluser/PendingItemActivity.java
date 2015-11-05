@@ -112,30 +112,38 @@ public class PendingItemActivity extends BaseActivity {
 
         String name = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
+        String priceStr = mTxtPrice.getText().toString().trim();
+
+        Log.v(TAG,"item name:"+name);
+        Log.v(TAG,"item desc:"+desc);
 
         if(mPurpose.equals("Sell")) {
-            float price = Float.parseFloat(mTxtPrice.getText().toString().trim());
-            if(price == 0) {
-                Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+            Log.v(TAG,"Purpose: sell");
+
+            if(!name.equals("")
+                    && !desc.equals("")
+                    && (mImgInfo != null || !mPicture.equals(""))
+                    && !priceStr.equals("")) {
+
+                float price = Float.parseFloat(mTxtPrice.getText().toString().trim());
+                Log.v(TAG,"complete input");
+                Log.v(TAG,"empty?"+name.isEmpty());
+                editItem(name, desc, price);
             } else {
-                if(!name.equals("") || !mItemName.equals("")
-                        && !desc.equals("") || !mDescription.equals("")
-                        && mImgInfo != null || !mPicture.equals("")) {
-                    editItem(name, desc, price);
-                } else {
-                    Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
-                }
+                Log.v(TAG,"missing input");
+                Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            if(!name.equals("") || !mItemName.equals("")
-                    && !desc.equals("") || !mDescription.equals("")
-                    && mImgInfo != null) {
-                editItem(name, desc, 0);
+         }else {
+            if(!name.equals("")
+                && !desc.equals("")
+                && (mImgInfo != null || !mPicture.equals(""))) {
+                    editItem(name, desc, 0);
             } else {
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
     public void editItem(String name, String desc, float price) {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
