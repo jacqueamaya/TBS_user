@@ -145,7 +145,7 @@ public class SellItemActivity extends BaseActivity {
             Server.sellItem(data, mProgressDialog, new Ajax.Callbacks() {
                 @Override
                 public void success(String responseBody) {
-                    JSONObject json = null;
+                    JSONObject json;
                     try {
                         json = new JSONObject(responseBody);
                         String response = json.getString("statusText");

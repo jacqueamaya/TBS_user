@@ -188,9 +188,9 @@ public class BuyItemActivity extends BaseActivity {
                     ri.setStarsToUse(mStarsToUse);
                     calculateDiscount();
                     calculateDiscountedPrice();
-                    buyItem.setMessage("Discount:\t" + (mDiscount * 100) + "%\n" +
-                            "Original Price:\t" + mPrice + "\n" +
-                            "Discounted Price: \t" + mDiscountedPrice + "\n" +
+                    buyItem.setMessage("Discount:\t" + Utils.formatDouble(mDiscount * 100) + "%\n" +
+                            "Original Price:\t" + Utils.formatFloat(mPrice) + "\n" +
+                            "Discounted Price: \t" + Utils.formatDouble(mDiscountedPrice) + "\n" +
                             "Stars Remaining: " + getStarsRemaining())
                             .setCancelable(true)
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {

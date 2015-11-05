@@ -67,13 +67,13 @@ public class ReservedItemActivity extends BaseActivity {
 
         if (price != 0) {
             if(mStarsToUse != 0) {
-                txtPrice.setText("Php " + discountedPrice + " (" + mStarsToUse + " stars used)");
+                txtPrice.setText("Php " + Utils.formatFloat(discountedPrice) + " (" + mStarsToUse + " stars used)");
             } else {
-                txtPrice.setText("Php " + price);
+                txtPrice.setText("Php " + Utils.formatFloat(price));
             }
         }
         else {
-            txtPrice.setText("(Donated)");
+            txtPrice.setText(mStarsRequired + " stars required (Donated)");
         }
 
         Picasso.with(this)

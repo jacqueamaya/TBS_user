@@ -31,6 +31,10 @@ public final class Utils {
         return String.format("%.2f", price);
     }
 
+    public static String formatDouble(double price){
+        return String.format("%.2f", price);
+    }
+
     public static void alertInfo(Context context,String message) {
         new AlertDialog.Builder(context)
                 .setMessage(message)
