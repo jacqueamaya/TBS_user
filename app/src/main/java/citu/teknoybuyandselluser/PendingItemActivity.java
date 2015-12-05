@@ -134,6 +134,7 @@ public class PendingItemActivity extends BaseActivity {
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
          }else {
+            Log.v(TAG,mPicture);
             if(!name.equals("")
                 && !desc.equals("")
                 && (mImgInfo != null || !mPicture.equals(""))) {

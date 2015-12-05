@@ -58,7 +58,7 @@
                         android:paddingTop="30sp"
                         android:text="You have"
                         android:textColor="@color/Black"
-                        android:textSize="30sp" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/txtNumberStars"
