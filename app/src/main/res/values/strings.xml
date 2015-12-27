@@ -25,6 +25,9 @@
     <string name="menu_buy_items">Buy Items</string>
     <string name="menu_shopping_cart">Shopping Cart</string>
     <string name="menu_donate_items">Donate Items</string>
+    <string name="menu_my_items">My Items</string>
+    <string name="menu_reserved_items">Reserved Items</string>
+    <string name="menu_make_transactions">Make Transactions</string>
     <string name="menu_stars_collected">Stars Collected</string>
     <string name="menu_logout">Log Out</string>
 
@@ -75,5 +78,8 @@
         <item>Name</item>
     </string-array>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_my_items">My Items</string>
+    <string name="title_activity_reserved_items">Reserved Items</string>
+    <string name="title_activity_make_transactions">Make Transactions</string>
 
 </resources>

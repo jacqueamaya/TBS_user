@@ -36,14 +36,14 @@
         </activity>
         <activity
             android:name=".BuyItemsActivity"
-            android:label="@string/title_activity_buy_items"
-            android:screenOrientation="portrait"
             android:configChanges="orientation"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTask" >
+            android:label="@string/title_activity_buy_items"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable">
+                android:resource="@xml/searchable" >
             </meta-data>
         </activity>
         <activity
@@ -57,6 +57,11 @@
         <activity
             android:name=".StarsCollectedActivity"
             android:label="@string/title_activity_stars_collected" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".SellItemActivity"
@@ -84,14 +89,14 @@
         </activity>
         <activity
             android:name=".DonationsActivity"
-            android:label="@string/title_activity_all_donations"
-            android:screenOrientation="portrait"
             android:configChanges="orientation"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTask" >
+            android:label="@string/title_activity_all_donations"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable">
+                android:resource="@xml/searchable" >
             </meta-data>
         </activity>
         <activity
@@ -105,11 +110,26 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name" >
+
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".MyItemsActivity"
+            android:label="@string/title_activity_my_items" >
+        </activity>
+        <activity
+            android:name=".ReservedItemsActivity"
+            android:label="@string/title_activity_reserved_items" >
+        </activity>
+        <activity
+            android:name=".MakeTransactionsActivity"
+            android:label="@string/title_activity_make_transactions" >
         </activity>
     </application>
 

@@ -27,6 +27,18 @@
             android:icon="@drawable/glyph_donation"
             android:title="@string/menu_donate_items" />
         <item
+            android:id="@+id/nav_my_items"
+            android:icon="@drawable/shop_ic"
+            android:title="@string/menu_my_items"/>
+        <item
+            android:id="@+id/nav_reserved_items"
+            android:icon="@drawable/reserved_ic"
+            android:title="@string/menu_reserved_items"/>
+        <item
+            android:id="@+id/nav_make_transactions"
+            android:icon="@drawable/transaction_ic"
+            android:title="@string/menu_make_transactions"/>
+        <item
             android:id="@+id/nav_stars_collected"
             android:icon="@drawable/glyph_star"
             android:title="@string/menu_stars_collected" />

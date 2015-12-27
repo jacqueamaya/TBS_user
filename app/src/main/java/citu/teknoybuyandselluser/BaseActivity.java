@@ -81,8 +81,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 case R.id.nav_donate_items:
                     intent = new Intent(this, DonateItemsActivity.class);
                     break;
+                case R.id.nav_my_items:
+                    intent = new Intent(this, MyItemsActivity.class);
+                    break;
                 case R.id.nav_stars_collected:
                     intent = new Intent(this, StarsCollectedActivity.class);
+                    break;
+                case R.id.nav_reserved_items:
+                    intent = new Intent(this, ReservedItemsActivity.class);
+                    break;
+                case R.id.nav_make_transactions:
+                    intent = new Intent(this, MakeTransactionsActivity .class);
                     break;
                 case R.id.nav_logout:
                     mSharedPreferences.edit().clear().apply();
