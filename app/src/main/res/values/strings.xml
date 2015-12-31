@@ -81,5 +81,6 @@
     <string name="title_activity_my_items">My Items</string>
     <string name="title_activity_reserved_items">Reserved Items</string>
     <string name="title_activity_make_transactions">Make Transactions</string>
+    <string name="title_activity_user_profile">UserProfileActivity</string>
 
 </resources>
