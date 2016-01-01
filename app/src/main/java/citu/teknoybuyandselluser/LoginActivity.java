@@ -53,7 +53,8 @@ public class LoginActivity extends AppCompatActivity {
             intent = new Intent(this, NotificationsActivity.class);
             startActivity(intent);
         }
-
+        
+        //mTxtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
         mTxtSignUp = (TextView) findViewById(R.id.txtSignup);
         mTxtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
 /*
