@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
+import citu.teknoybuyandselluser.DonateItemActivity;
 import citu.teknoybuyandselluser.DonateItemDetailsActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
@@ -31,7 +33,9 @@ import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
 /**
- ** 0.01 initially created by J. Pedrano on 12/24/15
+ ** 0.01 Initial Codes                      - J. Pedrano    - 12/24/2015
+ ** 0.02 View Donate Items from database    - J. Amaya      - 12/31/2015
+ ** 0.03 Working Floating Action Button     - J. Amaya      - 01/01/2016
  */
 public class DonateFragment extends Fragment {
     private static final String TAG = "Donate Fragment";
@@ -56,6 +60,16 @@ public class DonateFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_donate, container, false);
         getDonateItems();
+
+        FloatingActionButton fab= (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(getActivity().getBaseContext(), DonateItemActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
