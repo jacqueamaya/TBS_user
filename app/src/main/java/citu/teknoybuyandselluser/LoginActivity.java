@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mTxtUsername;
     private EditText mTxtPassword;
     private TextView mTxtSignUp;
-    private TextView mTxtForgotPassword;
+    //private TextView mTxtForgotPassword;
     private TextView mTxtErrorMessage;
     private ProgressDialog mLoginProgress;
     private ProgressBar mProgressBar;
@@ -54,10 +54,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        mTxtForgotPassword = (TextView) findViewById(R.id.txtForgotPassword);
         mTxtSignUp = (TextView) findViewById(R.id.txtSignup);
         mTxtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
-
+/*
         mTxtForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+*/
         mTxtSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
