@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,13 +26,16 @@ import java.util.ArrayList;
 import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.R;
+import citu.teknoybuyandselluser.SellItemActivity;
 import citu.teknoybuyandselluser.SellItemDetailsActivity;
 import citu.teknoybuyandselluser.Server;
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
 /**
- ** 0.01 initially created by J. Pedrano on 12/24/15
+ ** 0.01 Initial Codes                      - J. Pedrano    - 12/24/2015
+ ** 0.02 View Sell Items from database      - J. Amaya      - 12/31/2015
+ ** 0.03 Working Floating Action Button     - J. Amaya      - 01/01/2016
  */
 
 public class SellFragment extends Fragment {
@@ -57,9 +61,18 @@ public class SellFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_sell, container, false);
         getSellItems();
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent;
+                intent = new Intent(getActivity().getBaseContext(), SellItemActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 

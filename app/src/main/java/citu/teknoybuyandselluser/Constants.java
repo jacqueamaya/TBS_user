@@ -59,6 +59,7 @@ public class Constants {
     public static final String URL_USER = "http://"+URL+"/api-x/profile";
     public static final String URL_NOTIFICATION = "http://"+URL+"/api-x/user_notifications";
     public static final String URL_ITEMS_TO_SELL = "http://"+URL+"/api-x/items_to_sell";
+    public static final String URL_ITEMS_FOR_RENT = "http://"+URL+"/api-x/items_for_rent";
     public static final String URL_PENDING_ITEMS = "http://"+URL+"/api-x/pending_items";
     public static final String URL_AVAILABLE_ITEMS = "http://"+URL+"/api-x/available_items";
     public static final String URL_ITEMS_TO_DONATE = "http://"+URL+"/api-x/items_to_donate";

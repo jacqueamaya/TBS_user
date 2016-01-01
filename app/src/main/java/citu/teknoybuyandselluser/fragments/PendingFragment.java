@@ -29,8 +29,8 @@ import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
 /**
- ** 0.01 initially created by J. Pedrano on 12/24/15
- ** 0.02 View Pending Items from database - J. Amaya - 12/31/2015
+ ** 0.01 Initial Codes                      - J. Pedrano    - 12/24/2015
+ ** 0.02 View Pending Items from database   - J. Amaya      - 12/31/2015
  */
 
 

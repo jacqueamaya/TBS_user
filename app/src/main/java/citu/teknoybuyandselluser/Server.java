@@ -132,6 +132,13 @@ public class Server {
         Ajax.get(Constants.URL_ITEMS_TO_SELL + "/?username=" + username, progress, callbacks);
     }
 
+    public static void getItemsForRent (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        if ( username == null) {
+            throw new RuntimeException("Missing data.");
+        }
+        Ajax.get(Constants.URL_ITEMS_FOR_RENT + "/?username=" + username, progress, callbacks);
+    }
+
     public static void getPendingItems (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         if ( username == null) {
             throw new RuntimeException("Missing data.");
