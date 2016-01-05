@@ -10,13 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Jacquelyn on 9/24/2015.
  */
-public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
@@ -28,7 +32,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mImgUser = (ImageView) findViewById(R.id.imgUser);
-        mImgUser.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
+
+        mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        String mPicture = mSharedPreferences.getString(Constants.PICTURE, null);
+        if(null == mPicture || !(mPicture.isEmpty()) || mPicture.equals("")) {
+            mImgUser.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
+        } else {
+            Picasso.with(this)
+                .load(mPicture)
+                .into(mImgUser);
+        }
 
         if(null == toolbar) {
             throw new RuntimeException("No toolbar found");
@@ -55,6 +68,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         TextView txtUser = (TextView) findViewById(R.id.txtUserName);
         txtUser.setText(getUserPreferences());
+
+        mImgUser.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -134,7 +156,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     }
 
     public String getUserPreferences() {
-        mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
         return mSharedPreferences.getString(Constants.FIRST_NAME, "No FirstName") + " " + mSharedPreferences.getString(Constants.LAST_NAME, "No LastName");
     }
 

@@ -52,31 +52,5 @@ public class ChangePasswordActivity extends AppCompatActivity {
         data.put(NEW_PASSWORD, mTxtNewPassword.getText().toString());
         data.put(CONFIRM_PASSWORD, mTxtConfirmPassword.getText().toString());
 
-        Server.changePassword(data, new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                JSONObject json = null;
-                try {
-                    json = new JSONObject(responseBody);
-                    String response = json.getString("statusText");
-                    Toast.makeText(ChangePasswordActivity.this, response, Toast.LENGTH_SHORT).show();
-                    if(response.equals("Password changed")) {
-                        Intent intent;
-                        intent = new Intent(ChangePasswordActivity.this, LoginActivity.class);
-                        intent.putExtra("error", responseBody);
-                        finish();
-                        startActivity(intent);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Toast.makeText(ChangePasswordActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 }

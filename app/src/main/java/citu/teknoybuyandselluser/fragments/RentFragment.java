@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
+import citu.teknoybuyandselluser.ForRentItemActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.SellItemActivity;
 import citu.teknoybuyandselluser.SellItemDetailsActivity;
@@ -66,7 +67,7 @@ public class RentFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent;
-                intent = new Intent(getActivity().getBaseContext(), SellItemActivity.class);
+                intent = new Intent(getActivity().getBaseContext(), ForRentItemActivity.class);
                 startActivity(intent);
             }
         });

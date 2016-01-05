@@ -30,15 +30,15 @@ public class Server {
         Ajax.post(Constants.URL_LOGIN, progressDialog, data, callbacks);
     }
 
-    public static void changePassword (Map<String, String> data, Ajax.Callbacks callbacks) {
-        if (  ! data.containsKey(ChangePasswordActivity.USERNAME) ||
-                ! data.containsKey(ChangePasswordActivity.OLD_PASSWORD) ||
-                ! data.containsKey(ChangePasswordActivity.NEW_PASSWORD) ||
-                !data.containsKey(ChangePasswordActivity.CONFIRM_PASSWORD)) {
+    public static void editProfile (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
+        if (  ! data.containsKey(Constants.USERNAME) ||
+                ! data.containsKey(Constants.OLD_PASSWORD) ||
+                ! data.containsKey(Constants.NEW_PASSWORD) ||
+                !data.containsKey(Constants.CONFIRM_PASSWORD)) {
             throw new RuntimeException("Missing data.");
         }
 
-        Ajax.put(Constants.URL_CHANGE_PASSWORD, data, callbacks);
+        Ajax.post(Constants.URL_EDIT_PROFILE, progressDialog, data, callbacks);
     }
 
     public static void getUser (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
@@ -57,6 +57,18 @@ public class Server {
         }
 
         Ajax.post(Constants.URL_SELL_ITEM, progressDialog, data, callbacks);
+    }
+
+    public static void forRentItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
+        if ( ! data.containsKey(Constants.OWNER) ||
+                ! data.containsKey(Constants.NAME) ||
+                ! data.containsKey(Constants.DESCRIPTION) ||
+                ! data.containsKey(Constants.PRICE) ||
+                ! data.containsKey(Constants.QUANTITY)) {
+            throw new RuntimeException("Missing data.");
+        }
+
+        Ajax.post(Constants.URL_FOR_RENT_ITEM, progressDialog, data, callbacks);
     }
 
     public static void editItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {

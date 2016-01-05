@@ -8,8 +8,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -28,31 +28,31 @@ import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ImageInfo;
 
-public class SellItemActivity extends BaseActivity {
-
-    private static final String TAG = "SellItemActivity";
+public class ForRentItemActivity extends BaseActivity {
+    private static final String TAG = "ForRentItemActivity";
 
     private EditText mTxtItem;
     private EditText mTxtDescription;
     private EditText mTxtPrice;
+    private EditText mTxtQuantity;
     private ProgressDialog mProgressDialog;
 
     private ImageView mImgPreview;
     private ProgressBar mProgressBar;
-    ImageInfo mImgInfo;
+    private ImageInfo mImgInfo;
 
     //TODO: add quantity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sell_item);
+        setContentView(R.layout.activity_for_rent_item);
         setupUI();
 
         mTxtItem = (EditText) findViewById(R.id.inputItem);
         mTxtDescription = (EditText) findViewById(R.id.inputDescription);
         mTxtPrice = (EditText) findViewById(R.id.inputPrice);
+        mTxtQuantity = (EditText) findViewById(R.id.inputQuantity);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -97,7 +97,7 @@ public class SellItemActivity extends BaseActivity {
                         try {
                             json = new JSONObject(responseBody);
                             mImgInfo = ImageInfo.getImageInfo(json);
-                            Picasso.with(SellItemActivity.this)
+                            Picasso.with(ForRentItemActivity.this)
                                     .load(mImgInfo.getLink())
                                     .placeholder(R.drawable.thumbsq_24dp)
                                     .into(mImgPreview);
@@ -109,7 +109,7 @@ public class SellItemActivity extends BaseActivity {
                     @Override
                     public void error(int statusCode, String responseBody, String statusText) {
                         Log.v(TAG, "Request error");
-                        Toast.makeText(SellItemActivity.this, "Unable to upload the image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForRentItemActivity.this, "Unable to upload the image", Toast.LENGTH_SHORT).show();
                     }
 
                 });
@@ -120,25 +120,28 @@ public class SellItemActivity extends BaseActivity {
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_sell_items;
+        return menuItem.getItemId() != R.id.nav_my_items;
     }
 
-    public void onSell(View view) {
+    public void onForRent(View view) {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString(Constants.USERNAME, null);
         String name = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
         String price = mTxtPrice.getText().toString().trim();
+        String quantity = mTxtQuantity.getText().toString().trim();
 
         if(!name.equals("")
                 && !desc.equals("")
                 && !price.equals("")
+                && !quantity.equals("")
                 && mImgInfo != null) {
             data.put(Constants.OWNER, user);
             data.put(Constants.NAME, name);
             data.put(Constants.DESCRIPTION, desc);
             data.put(Constants.PRICE, price);
+            data.put(Constants.QUANTITY, quantity);
             data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
             mProgressDialog.setIndeterminate(true);
@@ -152,10 +155,10 @@ public class SellItemActivity extends BaseActivity {
                         json = new JSONObject(responseBody);
                         String response = json.getString("statusText");
                         if (response.equals("Item created")) {
-                            Toast.makeText(SellItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForRentItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
-                            Toast.makeText(SellItemActivity.this, response, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ForRentItemActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -164,12 +167,12 @@ public class SellItemActivity extends BaseActivity {
 
                 @Override
                 public void error(int statusCode, String responseBody, String statusText) {
-                    Log.d(TAG, "Sell Item error " + statusCode + " " + responseBody + " " + statusText);
-                    Toast.makeText(SellItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "For Rent Item error " + statusCode + " " + responseBody + " " + statusText);
+                    Toast.makeText(ForRentItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            Toast.makeText(SellItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ForRentItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
         }
     }
 }

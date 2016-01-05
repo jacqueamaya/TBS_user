@@ -38,140 +38,118 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/profpic"
-                        android:layout_centerHorizontal="true"
-                        android:layout_height="140dp"
-                        android:layout_width="wrap_content"
-                        android:src="@drawable/user_1" />
-
-                    <ImageView
-                        android:id="@+id/username"
+                        android:id="@+id/shoppingcart"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_marginTop="35dp"
-                        android:layout_below="@id/profpic"
                         android:src="@drawable/shop_24dp"
                         android:tint="@color/Louie" />
-                    <TextView
-                        android:id="@+id/txtUsername"
-                        android:text="Username"
-                        android:textSize="18sp"
+
+                    <EditText
+                        android:id="@+id/inputItem"
+                        android:hint="Item"
+                        android:inputType="textCapSentences"
                         android:background="@drawable/textbox"
                         android:padding="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="30dp"
-                        android:layout_toRightOf="@id/username"
-                        android:layout_below="@+id/profpic"
+                        android:layout_toRightOf="@id/shoppingcart"
                         android:textColorHint="@color/SlateGray"/>
 
                     <ImageView
-                        android:id="@+id/new_username"
+                        android:id="@+id/description"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_below="@id/username"
-                        android:src="@drawable/shop_24dp"
+                        android:layout_below="@id/shoppingcart"
+                        android:layout_marginTop="40dp"
+                        android:src="@drawable/edit_24dp"
                         android:tint="@color/Louie" />
+
                     <EditText
-                        android:id="@+id/inputNewUsername"
-                        android:hint="New Username"
-                        android:inputType="textCapSentences"
+                        android:id="@+id/inputDescription"
+                        android:hint="Description"
+                        android:inputType="textMultiLine"
                         android:background="@drawable/textbox"
+                        android:gravity="top"
                         android:padding="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/inputItem"
+                        android:layout_toRightOf="@+id/description"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@id/new_username"
-                        android:layout_below="@+id/txtUsername"
-                        android:textColorHint="@color/SlateGray"/>
+                        android:layout_marginTop="15dp"
+                        android:isScrollContainer="true"
+                        android:scrollbars="vertical"
+                        android:maxLines="5"
+                        android:lines="3"
+                        android:textColorHint="@color/SlateGray" />
 
                     <ImageView
-                        android:id="@+id/currentPassword"
+                        android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_below="@id/new_username"
-                        android:src="@drawable/shop_24dp"
+                        android:layout_below="@id/description"
+                        android:layout_marginTop="40dp"
+                        android:src="@drawable/money_24dp"
                         android:tint="@color/Louie" />
+
                     <EditText
-                        android:id="@+id/inputCurrentPassword"
-                        android:hint="Current Password"
-                        android:inputType="textCapSentences"
-                        android:background="@drawable/textbox"
-                        android:padding="10dp"
+                        android:id="@+id/inputPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@id/currentPassword"
-                        android:layout_below="@+id/inputNewUsername"
-                        android:textColorHint="@color/SlateGray"/>
-
-                    <ImageView
-                        android:id="@+id/newPassword"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_below="@id/currentPassword"
-                        android:src="@drawable/shop_24dp"
-                        android:tint="@color/Louie" />
-                    <EditText
-                        android:id="@+id/inputNewPassword"
-                        android:hint="New Password"
-                        android:inputType="textCapSentences"
+                        android:layout_below="@id/inputDescription"
                         android:background="@drawable/textbox"
                         android:padding="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@id/newPassword"
-                        android:layout_below="@+id/inputCurrentPassword"
-                        android:textColorHint="@color/SlateGray"/>
+                        android:layout_marginTop="15dp"
+                        android:layout_toRightOf="@id/price"
+                        android:hint="Price"
+                        android:inputType="numberDecimal"
+                        android:textColorHint="@color/SlateGray" />
 
                     <ImageView
-                        android:id="@+id/confirmPassword"
+                        android:id="@+id/quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_below="@id/newPassword"
-                        android:src="@drawable/shop_24dp"
+                        android:layout_below="@id/price"
+                        android:layout_marginTop="25dp"
+                        android:src="@drawable/money_24dp"
                         android:tint="@color/Louie" />
+
                     <EditText
-                        android:id="@+id/inputConfirmPassword"
-                        android:hint="Confirm New Password"
-                        android:inputType="textCapSentences"
+                        android:id="@+id/inputQuantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/inputPrice"
                         android:background="@drawable/textbox"
                         android:padding="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@id/confirmPassword"
-                        android:layout_below="@+id/inputNewPassword"
-                        android:textColorHint="@color/SlateGray"/>
+                        android:layout_marginTop="15dp"
+                        android:layout_toRightOf="@id/quantity"
+                        android:hint="Quantity"
+                        android:inputType="numberDecimal"
+                        android:textColorHint="@color/SlateGray" />
 
                     <ImageView
-                        android:id="@+id/photo"
+                        android:id="@+id/picture"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
+                        android:layout_below="@id/quantity"
                         android:layout_marginTop="15dp"
-                        android:layout_below="@id/confirmPassword"
-                        android:src="@drawable/shop_24dp"
+                        android:src="@drawable/thumb_24dp"
                         android:tint="@color/Louie" />
 
                     <TextView
                         android:id="@+id/txtPicture"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/inputConfirmPassword"
+                        android:layout_below="@id/inputQuantity"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="20dp"
-                        android:layout_toRightOf="@id/photo"
+                        android:layout_toRightOf="@id/picture"
                         android:text="Photo"
                         android:textColor="@color/Black"
                         android:textSize="18dp" />
@@ -180,7 +158,7 @@
                         android:id="@+id/btnBrowse"
                         android:layout_width="220dp"
                         android:layout_height="33dp"
-                        android:layout_below="@id/inputConfirmPassword"
+                        android:layout_below="@id/inputQuantity"
                         android:layout_gravity="left"
                         android:layout_toRightOf="@id/txtPicture"
                         android:layout_marginTop="15dp"
@@ -197,7 +175,7 @@
                         android:id="@+id/frameLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/btnBrowse"
+                        android:layout_below="@id/picture"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="40dp">
 
@@ -227,7 +205,7 @@
                         android:orientation="vertical"
                         android:weightSum="1">
                         <Button
-                            android:id="@+id/btnSellItem"
+                            android:id="@+id/btnForRentItem"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_marginTop="25dp"
@@ -235,9 +213,9 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/positivebutton"
-                            android:onClick="onEditProfile"
+                            android:onClick="onForRent"
                             android:src="@drawable/button_sell"
-                            android:text="Edit Profile"
+                            android:text="For Rent"
                             android:textColor="@color/White" />
                     </LinearLayout>
 

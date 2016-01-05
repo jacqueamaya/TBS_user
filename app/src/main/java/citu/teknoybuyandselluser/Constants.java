@@ -10,6 +10,10 @@ public class Constants {
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String STARS_COLLECTED = "stars_collected";
+    public static final String NEW_USERNAME = "new_username";
+    public static final String OLD_PASSWORD = "old_password";
+    public static final String NEW_PASSWORD = "new_password";
+    public static final String CONFIRM_PASSWORD = "confirm_password";
 
     public static final String BUYER = "buyer";
     public static final String CATEGORY = "category_name";
@@ -19,6 +23,7 @@ public class Constants {
     public static final String NAME = "name";
     public static final String OWNER = "owner";
     public static final String PRICE = "price";
+    public static final String QUANTITY = "quantity";
     public static final String DISCOUNTED_PRICE = "discounted_price";
     public static final String PICTURE = "picture";
     public static final String RESERVED_DATE = "reserved_date";
@@ -48,7 +53,9 @@ public class Constants {
     public static final String URL_REGISTER = "http://"+URL+"/api/register";
     public static final String URL_LOGIN = "http://"+URL+"/api/login";
     public static final String URL_CHANGE_PASSWORD = "http://"+URL+"/api/change_password";
+    public static final String URL_EDIT_PROFILE = "http://"+URL+"/api/edit_profile";
     public static final String URL_SELL_ITEM = "http://"+URL+"/api/sell_item";
+    public static final String URL_FOR_RENT_ITEM = "http://"+URL+"/api/for_rent_item";
     public static final String URL_EDIT_ITEM = "http://"+URL+"/api/edit_item";
     public static final String URL_DELETE_ITEM = "http://"+URL+"/api/delete_item";
     public static final String URL_BUY_ITEM = "http://"+URL+"/api/buy_item";

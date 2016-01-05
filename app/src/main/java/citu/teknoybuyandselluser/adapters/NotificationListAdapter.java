@@ -73,6 +73,11 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
                     message = "<b>"+items.get(position).getMakerUserName()+"</b> wants to <b>get</b> your donated item: <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
+                case "rent":
+                case "Rent":
+                    message = "<b>"+items.get(position).getMakerUserName()+"</b> wants to <b>rent</b> your item: <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
+                    text.setText(Html.fromHtml(message));
+                    break;
                 case "cancel":
                 case "Cancel":
                     message = "<b>"+items.get(position).getMakerUserName()+" canceled</b> his/her reservation for your <b>"+items.get(position).getItemName()+"</b>.<br><small> Date:"+notif_date+"</small>";
@@ -96,6 +101,11 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
                 case "sold":
                 case "Sold":
                     message = "Your item: <b>"+items.get(position).getItemName()+"</b> is now <b>sold</b>.<br><small> Date:"+notif_date+"</small>";
+                    text.setText(Html.fromHtml(message));
+                    break;
+                case "reminder":
+                case "Reminder":
+                    message = "Please return your rented item: <b>"+items.get(position).getItemName()+".<br><small> Date:"+notif_date+"</small>";
                     text.setText(Html.fromHtml(message));
                     break;
                 default: message = "<i>This is a default notification message</i>";
