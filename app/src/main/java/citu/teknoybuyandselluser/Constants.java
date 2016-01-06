@@ -74,6 +74,9 @@ public class Constants {
     public static final String URL_ALL_ITEMS_FOR_RENT = "http://"+URL+"/api-x/all_items_for_rent";
     public static final String URL_RENTED_ITEMS = "http://"+URL+"/api-x/rented_items";
     public static final String URL_RESERVED_ITEMS = "http://"+URL+"/api-x/reservation_requests";
+    public static final String URL_RESERVED_ITEMS_ON_SALE = "http://"+URL+"/api-x/reserved_items_on_sale";
+    public static final String URL_RESERVED_ITEMS_FOR_RENT = "http://"+URL+"/api-x/reserved_items_for_rent";
+    public static final String URL_RESERVED_ITEMS_FOR_DONATION = "http://"+URL+"/api-x/reserved_items_for_donation";
     public static final String URL_CATEGORIES = "http://"+URL+"/api-x/categories/";
 
 }

@@ -51,7 +51,7 @@ public class ReservedItemsActivity extends BaseActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ItemsOnSaleFragment(), "Items On Sale");
         adapter.addFragment(new ItemsForRentFragment(), "Items For Rent");
-        adapter.addFragment(new ItemsForDonationFragment(), "Donate");
+        adapter.addFragment(new ItemsForDonationFragment(), "Items For Donation");
         viewPager.setAdapter(adapter);
     }
 

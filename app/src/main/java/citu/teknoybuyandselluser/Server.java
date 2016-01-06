@@ -191,6 +191,18 @@ public class Server {
         Ajax.get(Constants.URL_RESERVED_ITEMS + "/?username=" + username, progress, callbacks);
     }
 
+    public static void getReservedItemsOnSale (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_RESERVED_ITEMS_ON_SALE + "/?username=" + username, progress, callbacks);
+    }
+
+    public static void getReservedItemsForRent (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_RESERVED_ITEMS_FOR_RENT + "/?username=" + username, progress, callbacks);
+    }
+
+    public static void getReservedItemsForDonation (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_RESERVED_ITEMS_FOR_DONATION + "/?username=" + username, progress, callbacks);
+    }
+
     public static void upload (String imagePath,ProgressBar progress, Ajax.Callbacks callbacks) {
         Ajax.upload(Constants.URL_UPLOAD, imagePath, progress, callbacks);
     }
