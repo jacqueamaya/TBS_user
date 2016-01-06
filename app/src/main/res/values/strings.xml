@@ -83,5 +83,6 @@
     <string name="title_activity_make_transactions">Make Transactions</string>
     <string name="title_activity_user_profile">User Profile</string>
     <string name="title_activity_for_rent_item">For Rent Item</string>
+    <string name="title_activity_rent_item_details">RentItemDetails</string>
 
 </resources>

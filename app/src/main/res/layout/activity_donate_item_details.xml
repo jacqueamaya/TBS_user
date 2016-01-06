@@ -74,10 +74,35 @@
                     android:src="@drawable/star" />
 
                 <TextView
-                    android:id="@+id/lblDetails"
+                    android:id="@+id/lblQuantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgThumbnail"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Quantity:"
+                    android:textColor="@color/Black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgThumbnail"
+                    android:layout_toRightOf="@+id/lblQuantity"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="20dp"
+                    android:text="1"
+                    android:textColor="@color/Black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/lblDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblQuantity"
                     android:layout_marginRight="18dp"
                     android:layout_marginTop="20dp"
                     android:text="Details:"

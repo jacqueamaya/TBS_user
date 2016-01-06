@@ -22,17 +22,20 @@ public class DonateItemDetailsActivity extends BaseActivity {
         intent = getIntent();
         String itemName = intent.getStringExtra(Constants.ITEM_NAME);
         String description = intent.getStringExtra(Constants.DESCRIPTION);
+        int quantity = intent.getIntExtra(Constants.QUANTITY, 1);
         String picture = intent.getStringExtra(Constants.PICTURE);
         int starsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
 
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
         TextView txtDescription = (TextView) findViewById(R.id.txtDetails);
         TextView txtNumStars = (TextView) findViewById(R.id.txtNumStars);
+        TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
         ImageView imgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
 
         txtTitle.setText(itemName);
         txtDescription.setText(description);
         txtNumStars.setText("" + starsRequired);
+        txtQuantity.setText("" + quantity);
 
         Picasso.with(this)
                 .load(picture)
@@ -43,6 +46,6 @@ public class DonateItemDetailsActivity extends BaseActivity {
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_donate_items;
+        return menuItem.getItemId() != R.id.nav_my_items;
     }
 }

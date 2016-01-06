@@ -50,29 +50,29 @@
                         android:layout_height="wrap_content"
                         android:padding="5dip" >
 
-                    <ImageView
-                        android:id="@+id/shoppingcart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_below="@+id/preview"
-                        android:layout_marginTop="30dp"
-                        android:src="@drawable/shop_24dp"
-                        android:tint="@color/Louie" />
+                        <ImageView
+                            android:id="@+id/shoppingcart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/preview"
+                            android:layout_marginTop="30dp"
+                            android:src="@drawable/shop_24dp"
+                            android:tint="@color/Louie" />
 
-                    <TextView
-                        android:id="@+id/txtItem"
-                        android:layout_width="280dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/preview"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="25dp"
-                        android:layout_toRightOf="@id/shoppingcart"
-                        android:text="Item"
-                        android:textColor="@color/Black"
-                        android:textSize="18sp"
-                        android:background="@drawable/textbox"
-                        android:padding="10dp"
-                        android:enabled="false"/>
+                        <TextView
+                            android:id="@+id/txtItem"
+                            android:layout_width="280dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/preview"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_toRightOf="@id/shoppingcart"
+                            android:text="Item"
+                            android:textColor="@color/Black"
+                            android:textSize="18sp"
+                            android:background="@drawable/textbox"
+                            android:padding="10dp"
+                            android:enabled="false"/>
                     </TableRow>
 
                     <TableRow
@@ -81,34 +81,34 @@
                         android:layout_height="wrap_content"
                         android:padding="5dip" >
 
-                    <ImageView
-                        android:id="@+id/description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:layout_below="@id/shoppingcart"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/edit_24dp"
-                        android:tint="@color/Louie" />
+                        <ImageView
+                            android:id="@+id/description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_below="@id/shoppingcart"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/edit_24dp"
+                            android:tint="@color/Louie" />
 
-                    <TextView
-                        android:id="@+id/txtDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/txtItem"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@+id/description"
-                        android:text="Description"
-                        android:textColorHint="@color/Black"
-                        android:textColor="@color/Black"
-                        android:textSize="18sp"
-                        android:background="@drawable/textbox"
-                        android:padding="10dp"
-                        android:inputType="textMultiLine"
-                        android:lines="5"
-                        android:maxLines="5"
-                        android:gravity="top"
-                        android:enabled="false"/>
+                        <TextView
+                            android:id="@+id/txtDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txtItem"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_toRightOf="@+id/description"
+                            android:text="Description"
+                            android:textColorHint="@color/Black"
+                            android:textColor="@color/Black"
+                            android:textSize="18sp"
+                            android:background="@drawable/textbox"
+                            android:padding="10dp"
+                            android:inputType="textMultiLine"
+                            android:lines="5"
+                            android:maxLines="5"
+                            android:gravity="top"
+                            android:enabled="false"/>
                     </TableRow>
 
                     <TableRow

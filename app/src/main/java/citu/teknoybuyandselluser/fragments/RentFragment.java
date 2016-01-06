@@ -25,15 +25,14 @@ import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ForRentItemActivity;
 import citu.teknoybuyandselluser.R;
-import citu.teknoybuyandselluser.SellItemActivity;
-import citu.teknoybuyandselluser.SellItemDetailsActivity;
+import citu.teknoybuyandselluser.RentItemDetailsActivity;
 import citu.teknoybuyandselluser.Server;
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
 /**
  ** 0.01 Initial Codes                          - J. Pedrano    - 12/24/2015
- ** 0.02 View Items for Rent from database      - J. Amaya      - 01/01/2016
+ ** 0.02 View Items for Rent from database      - J. Amaya      - 01/06/2016
  */
 
 public class RentFragment extends Fragment {
@@ -41,15 +40,7 @@ public class RentFragment extends Fragment {
     private View view = null;
     private ItemsListAdapter listAdapter;
 
-    private int mStarsRequired;
-    private String mDescription;
-    private String mItemName;
-    private String mPicture;
-    private String mFormatPrice;
-    private String mStatus;
-
-    public RentFragment() {
-    }
+    public RentFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,22 +98,17 @@ public class RentFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Item item = listAdapter.getDisplayView().get(position);
-                                mItemName = item.getItemName();
-                                mDescription = item.getDescription();
-                                mPicture = item.getPicture();
-                                mStarsRequired = item.getStars_required();
-                                mFormatPrice = item.getFormattedPrice();
-                                mStatus = item.getStatus();
 
                                 Intent intent;
-                                intent = new Intent(getActivity().getBaseContext(), SellItemDetailsActivity.class);
+                                intent = new Intent(getActivity().getBaseContext(), RentItemDetailsActivity.class);
                                 intent.putExtra(Constants.ID, item.getId());
-                                intent.putExtra(Constants.ITEM_NAME, mItemName);
-                                intent.putExtra(Constants.DESCRIPTION, mDescription);
-                                intent.putExtra(Constants.PICTURE, mPicture);
-                                intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
-                                intent.putExtra(Constants.FORMAT_PRICE, mFormatPrice);
-                                intent.putExtra(Constants.STATUS, mStatus);
+                                intent.putExtra(Constants.ITEM_NAME, item.getItemName());
+                                intent.putExtra(Constants.DESCRIPTION, item.getDescription());
+                                intent.putExtra(Constants.PICTURE, item.getPicture());
+                                intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
+                                intent.putExtra(Constants.FORMAT_PRICE, item.getFormattedPrice());
+                                intent.putExtra(Constants.QUANTITY, item.getQuantity());
+                                intent.putExtra(Constants.STATUS, item.getStatus());
                                 startActivity(intent);
                             }
                         });

@@ -35,6 +35,7 @@ public class SellItemActivity extends BaseActivity {
     private EditText mTxtItem;
     private EditText mTxtDescription;
     private EditText mTxtPrice;
+    private EditText mTxtQuantity;
     private ProgressDialog mProgressDialog;
 
     private ImageView mImgPreview;
@@ -53,6 +54,7 @@ public class SellItemActivity extends BaseActivity {
         mTxtItem = (EditText) findViewById(R.id.inputItem);
         mTxtDescription = (EditText) findViewById(R.id.inputDescription);
         mTxtPrice = (EditText) findViewById(R.id.inputPrice);
+        mTxtQuantity = (EditText) findViewById(R.id.inputQuantity);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -120,7 +122,7 @@ public class SellItemActivity extends BaseActivity {
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_sell_items;
+        return menuItem.getItemId() != R.id.nav_my_items;
     }
 
     public void onSell(View view) {
@@ -130,15 +132,18 @@ public class SellItemActivity extends BaseActivity {
         String name = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
         String price = mTxtPrice.getText().toString().trim();
+        String quantity = mTxtQuantity.getText().toString().trim();
 
         if(!name.equals("")
                 && !desc.equals("")
                 && !price.equals("")
+                && !quantity.equals("")
                 && mImgInfo != null) {
             data.put(Constants.OWNER, user);
             data.put(Constants.NAME, name);
             data.put(Constants.DESCRIPTION, desc);
             data.put(Constants.PRICE, price);
+            data.put(Constants.QUANTITY, quantity);
             data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
             mProgressDialog.setIndeterminate(true);

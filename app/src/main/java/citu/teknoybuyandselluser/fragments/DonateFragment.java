@@ -36,16 +36,12 @@ import citu.teknoybuyandselluser.models.Item;
  ** 0.01 Initial Codes                      - J. Pedrano    - 12/24/2015
  ** 0.02 View Donate Items from database    - J. Amaya      - 12/31/2015
  ** 0.03 Working Floating Action Button     - J. Amaya      - 01/01/2016
+ ** 0.04 Add Quantity to intent             - J. Amaya      - 01/06/2016
  */
 public class DonateFragment extends Fragment {
     private static final String TAG = "Donate Fragment";
     private View view = null;
     private ItemsListAdapter listAdapter;
-
-    private int mStarsRequired;
-    private String mDescription;
-    private String mItemName;
-    private String mPicture;
 
     public DonateFragment() {
     }
@@ -103,17 +99,14 @@ public class DonateFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Item item = listAdapter.getDisplayView().get(position);
-                                mItemName = item.getItemName();
-                                mDescription = item.getDescription();
-                                mPicture = item.getPicture();
-                                mStarsRequired = item.getStars_required();
 
                                 Intent intent;
                                 intent = new Intent(getActivity().getBaseContext(), DonateItemDetailsActivity.class);
-                                intent.putExtra(Constants.ITEM_NAME, mItemName);
-                                intent.putExtra(Constants.DESCRIPTION, mDescription);
-                                intent.putExtra(Constants.PICTURE, mPicture);
-                                intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
+                                intent.putExtra(Constants.ITEM_NAME, item.getItemName());
+                                intent.putExtra(Constants.DESCRIPTION, item.getDescription());
+                                intent.putExtra(Constants.QUANTITY, item.getQuantity());
+                                intent.putExtra(Constants.PICTURE, item.getPicture());
+                                intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
                                 startActivity(intent);
                             }
                         });

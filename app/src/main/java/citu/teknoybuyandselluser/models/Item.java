@@ -29,6 +29,7 @@ public class Item {
     private String purpose;
     private String formattedPrice;
     private float price;
+    private int quantity;
     private String picture;
     private int stars_required;
 
@@ -82,6 +83,10 @@ public class Item {
         return formattedPrice;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
     public String getDateApproved() {
         return dateApproved;
     }
@@ -98,6 +103,7 @@ public class Item {
             item.purpose = jsonObject.getString("purpose");
             item.price = (float)jsonObject.getDouble(Constants.PRICE);
             item.formattedPrice = Utils.formatFloat(item.price);
+            item.quantity = jsonObject.getInt(Constants.QUANTITY);
             item.stars_required = jsonObject.getInt(Constants.STARS_REQUIRED);
             item.picture = jsonObject.getString(Constants.PICTURE);
             item.dateApproved = Utils.parseDate(jsonObject.optLong("date_approved"));

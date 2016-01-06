@@ -180,6 +180,13 @@ public class Server {
         Ajax.get(Constants.URL_ALL_ITEMS_FOR_RENT + "/?username=" + username, progress, callbacks);
     }
 
+    public static void getRentedItems (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        if ( username == null) {
+            throw new RuntimeException("Missing data.");
+        }
+        Ajax.get(Constants.URL_RENTED_ITEMS + "/?username=" + username, progress, callbacks);
+    }
+
     public static void getAllReservations (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         Ajax.get(Constants.URL_RESERVED_ITEMS + "/?username=" + username, progress, callbacks);
     }

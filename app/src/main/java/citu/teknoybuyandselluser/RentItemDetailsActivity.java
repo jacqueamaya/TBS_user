@@ -8,14 +8,16 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class SellItemDetailsActivity extends BaseActivity {
-    private static final String TAG = "SellItemDetails";
+/**
+ ** 0.01 View Details for Rent Item      - J. Amaya      - 01/06/2016
+ */
+
+public class RentItemDetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sell_item_details);
+        setContentView(R.layout.activity_rent_item_details);
         setupUI();
 
         Intent intent = getIntent();

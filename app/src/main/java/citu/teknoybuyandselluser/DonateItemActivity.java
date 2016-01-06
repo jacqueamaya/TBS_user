@@ -45,6 +45,7 @@ public class DonateItemActivity extends BaseActivity {
 
     private EditText mTxtItem;
     private EditText mTxtDescription;
+    private EditText mTxtQuantity;
 
     private ImageView mImgPreview;
     private ProgressDialog mProgressDialog;
@@ -61,6 +62,7 @@ public class DonateItemActivity extends BaseActivity {
 
         mTxtItem = (EditText) findViewById(R.id.txtItem);
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
+        mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -128,7 +130,7 @@ public class DonateItemActivity extends BaseActivity {
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_donate_items;
+        return menuItem.getItemId() != R.id.nav_my_items;
     }
 
     public void onDonate(View view) {
@@ -138,13 +140,16 @@ public class DonateItemActivity extends BaseActivity {
 
         String name = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
+        String quantity = mTxtQuantity.getText().toString().trim();
 
         if(!name.equals("")
                 && !desc.equals("")
+                && !quantity.equals("")
                 && mImgInfo != null) {
             data.put(Constants.OWNER, user);
             data.put(Constants.NAME, name);
             data.put(Constants.DESCRIPTION, desc);
+            data.put(Constants.QUANTITY, quantity);
             data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
             mProgressDialog.setIndeterminate(true);

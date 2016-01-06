@@ -36,19 +36,13 @@ import citu.teknoybuyandselluser.models.Item;
  ** 0.01 Initial Codes                      - J. Pedrano    - 12/24/2015
  ** 0.02 View Sell Items from database      - J. Amaya      - 12/31/2015
  ** 0.03 Working Floating Action Button     - J. Amaya      - 01/01/2016
+ ** 0.04 Add Quantity to intent             - J. Amaya      - 01/06/2016
  */
 
 public class SellFragment extends Fragment {
     private static final String TAG = "Sell Fragment";
     private View view = null;
     private ItemsListAdapter listAdapter;
-
-    private int mStarsRequired;
-    private String mDescription;
-    private String mItemName;
-    private String mPicture;
-    private String mFormatPrice;
-    private String mStatus;
 
     public SellFragment() {
     }
@@ -87,8 +81,8 @@ public class SellFragment extends Fragment {
             @Override
             public void success(String responseBody) {
                 Log.v(TAG, responseBody);
-                JSONArray jsonArray = null;
-                ArrayList<Item> mOwnedItems = new ArrayList<Item>();
+                JSONArray jsonArray;
+                ArrayList<Item> mOwnedItems;
                 ListView listView;
 
                 try {
@@ -109,22 +103,17 @@ public class SellFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Item item = listAdapter.getDisplayView().get(position);
-                                mItemName = item.getItemName();
-                                mDescription = item.getDescription();
-                                mPicture = item.getPicture();
-                                mStarsRequired = item.getStars_required();
-                                mFormatPrice = item.getFormattedPrice();
-                                mStatus = item.getStatus();
 
                                 Intent intent;
                                 intent = new Intent(getActivity().getBaseContext(), SellItemDetailsActivity.class);
                                 intent.putExtra(Constants.ID, item.getId());
-                                intent.putExtra(Constants.ITEM_NAME, mItemName);
-                                intent.putExtra(Constants.DESCRIPTION, mDescription);
-                                intent.putExtra(Constants.PICTURE, mPicture);
-                                intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
-                                intent.putExtra(Constants.FORMAT_PRICE, mFormatPrice);
-                                intent.putExtra(Constants.STATUS, mStatus);
+                                intent.putExtra(Constants.ITEM_NAME, item.getItemName());
+                                intent.putExtra(Constants.DESCRIPTION, item.getDescription());
+                                intent.putExtra(Constants.PICTURE, item.getPicture());
+                                intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
+                                intent.putExtra(Constants.FORMAT_PRICE, item.getFormattedPrice());
+                                intent.putExtra(Constants.QUANTITY, item.getQuantity());
+                                intent.putExtra(Constants.STATUS, item.getStatus());
                                 startActivity(intent);
                             }
                         });
