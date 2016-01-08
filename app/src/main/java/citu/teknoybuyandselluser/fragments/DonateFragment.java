@@ -124,4 +124,10 @@ public class DonateFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDonateItems();
+    }
 }

@@ -158,8 +158,12 @@ public class Server {
         Ajax.get(Constants.URL_PENDING_ITEMS + "/?username=" + username, progress, callbacks);
     }
 
-    public static void getAvailableItems (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
-        Ajax.get(Constants.URL_AVAILABLE_ITEMS + "/?username=" + username, progress, callbacks);
+    public static void getAvailableItemsToSell (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_AVAILABLE_ITEMS_TO_SELL + "/?username=" + username, progress, callbacks);
+    }
+
+    public static void getAvailableItemsForRent (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
+        Ajax.get(Constants.URL_AVAILABLE_ITEMS_FOR_RENT + "/?username=" + username, progress, callbacks);
     }
 
     public static void getItemsToDonate (String username, ProgressBar progress, Ajax.Callbacks callbacks) {

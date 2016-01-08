@@ -117,7 +117,7 @@ public class Item {
     public static ArrayList<Item> allItems(JSONArray jsonArray){
         ArrayList<Item> items = new ArrayList<Item>(jsonArray.length());
         for (int i=0; i < jsonArray.length(); i++) {
-            JSONObject jsonItem = null;
+            JSONObject jsonItem;
             try {
                 jsonItem = jsonArray.getJSONObject(i);
             } catch (Exception e) {

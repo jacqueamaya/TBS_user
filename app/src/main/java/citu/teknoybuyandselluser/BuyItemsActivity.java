@@ -75,7 +75,7 @@ public class BuyItemsActivity extends BaseActivity {
 
         sortBy = getResources().getStringArray(R.array.sort_by);
         getItems();
-        getCategories();
+        //getCategories();
 
         txtCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,10 +149,10 @@ public class BuyItemsActivity extends BaseActivity {
 
     public void getItems() {
         if (txtCategory.getText().toString().equals("Categories")) {
-            getAllItems();
+            //getAllItems();
         }
     }
-
+/*
     public void getAllItems() {
         Server.getAvailableItems(user, progressBar, new Ajax.Callbacks() {
             @Override
@@ -263,4 +263,5 @@ public class BuyItemsActivity extends BaseActivity {
         txtCategory.setText("Categories");
         getItems();
     }
+    */
 }

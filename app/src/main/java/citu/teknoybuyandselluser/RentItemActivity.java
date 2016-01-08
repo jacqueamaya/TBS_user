@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,8 +27,7 @@ import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ReservedItem;
 
-public class BuyItemActivity extends BaseActivity {
-
+public class RentItemActivity extends BaseActivity {
     private static final String TAG = "Buy Item";
     private static final int DIVISOR = 1000;
 
@@ -49,9 +49,8 @@ public class BuyItemActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buy_item);
+        setContentView(R.layout.activity_rent_item);
         setupUI();
 
         mPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
@@ -72,7 +71,7 @@ public class BuyItemActivity extends BaseActivity {
         mTxtStarsToUse = (EditText) findViewById(R.id.txtStarsToUse);
         mRdWithoutDiscount = (RadioButton) findViewById(R.id.rdWithoutDiscount);
         mRdWithDiscount = (RadioButton) findViewById(R.id.rdWithDiscount);
-        ImageView mBtnBuyItem = (ImageView) findViewById(R.id.btnBuyItem);
+        ImageView mBtnRentItem = (ImageView) findViewById(R.id.btnRentItem);
         ImageView mImgItem = (ImageView) findViewById(R.id.imgItem);
 
         mProgressDialog = new ProgressDialog(this);
@@ -94,10 +93,10 @@ public class BuyItemActivity extends BaseActivity {
         data.put(Constants.BUYER, user);
         data.put(Constants.ID, "" + mItemId);
 
-        mBtnBuyItem.setOnClickListener(new View.OnClickListener() {
+        mBtnRentItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBuy(v);
+                onRent(v);
             }
         });
     }
@@ -107,17 +106,17 @@ public class BuyItemActivity extends BaseActivity {
         return menuItem.getItemId() != R.id.nav_make_transactions;
     }
 
-    public void onBuy(View view) {
+    public void onRent(View view) {
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
         if (mRdWithDiscount.isChecked()) {
             buyWithDiscountDialogBox();
         } else if (mRdWithoutDiscount.isChecked()) {
-            buyItem();
+            rentItem();
         }
     }
 
-    public void buyItem() {
+    public void rentItem() {
         Server.buyItem(data, mProgressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
@@ -125,10 +124,10 @@ public class BuyItemActivity extends BaseActivity {
                     JSONObject json = new JSONObject(responseBody);
                     if (json.getInt("status") == 201) {
                         Log.d(TAG, "Buy Item success");
-                        Toast.makeText(BuyItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RentItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(BuyItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RentItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -138,7 +137,7 @@ public class BuyItemActivity extends BaseActivity {
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
                 Log.d(TAG, "Server error");
-                Toast.makeText(BuyItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RentItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -196,7 +195,7 @@ public class BuyItemActivity extends BaseActivity {
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     data.put(Constants.STARS_TO_USE, "" + mStarsToUse);
-                                    buyItem();
+                                    rentItem();
                                 }
                             })
                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

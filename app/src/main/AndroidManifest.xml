@@ -103,13 +103,24 @@
             android:label="@string/title_activity_reserved_items" />
         <activity
             android:name=".MakeTransactionsActivity"
-            android:label="@string/title_activity_make_transactions" />
+            android:configChanges="orientation"
+            android:label="@string/title_activity_make_transactions"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
             android:name=".ForRentItemActivity"
             android:label="@string/title_activity_for_rent_item" />
         <activity
             android:name=".RentItemDetailsActivity"
-            android:label="@string/title_activity_rent_item_details"></activity>
+            android:label="@string/title_activity_rent_item_details" />
+        <activity
+            android:name=".RentItemActivity"
+            android:label="@string/title_activity_rent_item"></activity>
     </application>
 
 </manifest>
