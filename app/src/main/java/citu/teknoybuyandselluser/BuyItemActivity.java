@@ -150,6 +150,8 @@ public class BuyItemActivity extends BaseActivity {
                     Toast.makeText(BuyItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            Toast.makeText(BuyItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
         }
     }
 

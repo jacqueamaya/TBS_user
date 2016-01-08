@@ -127,6 +127,8 @@ public class DonatedItemActivity extends BaseActivity {
                     Toast.makeText(DonatedItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            Toast.makeText(DonatedItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
         }
     }
 }

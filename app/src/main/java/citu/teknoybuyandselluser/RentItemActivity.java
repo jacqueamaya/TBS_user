@@ -150,6 +150,8 @@ public class RentItemActivity extends BaseActivity {
                     Toast.makeText(RentItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            Toast.makeText(RentItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
         }
     }
 
