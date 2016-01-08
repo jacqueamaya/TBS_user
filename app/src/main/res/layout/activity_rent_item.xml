@@ -140,7 +140,7 @@
                     android:layout_height="70dp"
                     android:layout_below="@+id/txtDescription"
                     android:layout_marginLeft="140dp"
-                    android:src="@drawable/buy_this" />
+                    android:src="@drawable/rent_btn" />
 
             </RelativeLayout>
 
