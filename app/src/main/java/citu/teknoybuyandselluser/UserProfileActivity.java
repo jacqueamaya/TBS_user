@@ -149,8 +149,12 @@ public class UserProfileActivity extends BaseActivity {
                 try {
                     json = new JSONObject(responseBody);
                     Toast.makeText(UserProfileActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
-                    if(json.getInt("status") == 200 && mImgInfo != null) {
-                        prefs.edit().putString(Constants.PICTURE, mImgInfo.getLink()).apply();
+                    if(json.getInt("status") == 200) {
+                        Intent intent;
+                        prefs.edit().clear().apply();
+                        intent = new Intent(UserProfileActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
