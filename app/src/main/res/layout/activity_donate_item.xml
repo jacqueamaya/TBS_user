@@ -92,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_below="@id/description"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="45dp"
                         android:src="@drawable/money_24dp"
                         android:tint="@color/Louie" />
 
@@ -115,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_below="@id/quantity"
-                        android:layout_marginTop="40dp"
+                        android:layout_marginTop="15dp"
                         android:src="@drawable/thumb_24dp"
                         android:tint="@color/Louie" />
 
@@ -161,7 +161,7 @@
                             android:id="@+id/preview"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:layout_marginTop="50dp"
+                            android:layout_marginTop="20dp"
                             android:src="@drawable/thumbsq_24dp" />
 
                         <ProgressBar
@@ -170,7 +170,7 @@
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="50dp"
+                            android:layout_marginTop="20dp"
                             android:indeterminate="true" />
 
                     </FrameLayout>
