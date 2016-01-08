@@ -7,26 +7,6 @@
             android:icon="@drawable/notif_user"
             android:title="@string/menu_notifications" />
         <item
-            android:id="@+id/nav_sell_items"
-            android:icon="@drawable/glyph_queue"
-            android:title="@string/menu_sell_items" />
-        <item
-            android:id="@+id/nav_pending_items"
-            android:icon="@drawable/glyph_reserved"
-            android:title="@string/menu_pending_items" />
-        <item
-            android:id="@+id/nav_buy_items"
-            android:icon="@drawable/glyph_buy"
-            android:title="@string/menu_buy_items" />
-        <item
-            android:id="@+id/nav_shopping_cart"
-            android:icon="@drawable/glyph_cart"
-            android:title="@string/menu_shopping_cart" />
-        <item
-            android:id="@+id/nav_donate_items"
-            android:icon="@drawable/glyph_donation"
-            android:title="@string/menu_donate_items" />
-        <item
             android:id="@+id/nav_my_items"
             android:icon="@drawable/shop_ic"
             android:title="@string/menu_my_items"/>

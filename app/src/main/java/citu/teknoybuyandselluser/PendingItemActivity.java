@@ -105,7 +105,7 @@ public class PendingItemActivity extends BaseActivity {
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_pending_items;
+        return menuItem.getItemId() != R.id.nav_my_items;
     }
 
     public void onEditItem(View view) {

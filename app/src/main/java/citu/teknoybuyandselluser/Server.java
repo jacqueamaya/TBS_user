@@ -94,11 +94,22 @@ public class Server {
 
     public static void buyItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(Constants.BUYER) ||
-                ! data.containsKey(Constants.ID)) {
+                ! data.containsKey(Constants.ID) ||
+                ! data.containsKey(Constants.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
 
         Ajax.post(Constants.URL_BUY_ITEM, progressDialog, data, callbacks);
+    }
+
+    public static void rentItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
+        if ( ! data.containsKey(Constants.BUYER) ||
+                ! data.containsKey(Constants.ID) ||
+                ! data.containsKey(Constants.QUANTITY)) {
+            throw new RuntimeException("Missing data.");
+        }
+
+        Ajax.post(Constants.URL_RENT_ITEM, progressDialog, data, callbacks);
     }
 
     public static void cancelBuyItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,9 @@ public class DonatedItemActivity extends BaseActivity {
 
     private ProgressDialog mProgressDialog;
     private int mItemId;
+    private int mQuantity;
     private int mStarsRequired;
+    private EditText mTxtQuantity;
     private SharedPreferences mPreferences;
 
     @Override
@@ -44,6 +47,7 @@ public class DonatedItemActivity extends BaseActivity {
         String itemName = intent.getStringExtra(Constants.ITEM_NAME);
         String description = intent.getStringExtra(Constants.DESCRIPTION);
         mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
+        mQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
         String picture = intent.getStringExtra(Constants.PICTURE);
 
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
@@ -51,6 +55,7 @@ public class DonatedItemActivity extends BaseActivity {
         TextView txtNumStars = (TextView) findViewById(R.id.txtNumStars);
         ImageView btnGetItem = (ImageView) findViewById(R.id.btnGetItem);
         ImageView imgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
+        mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -90,32 +95,36 @@ public class DonatedItemActivity extends BaseActivity {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
+        int quantity = Integer.parseInt(mTxtQuantity.getText().toString());
         data.put(Constants.BUYER, user);
         data.put(Constants.ID, "" + mItemId);
 
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Please wait. . .");
+        if(quantity <= mQuantity) {
+            data.put(Constants.QUANTITY, quantity + "");
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Please wait. . .");
 
-        Server.getItem(data, mProgressDialog, new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                try {
-                    JSONObject json = new JSONObject(responseBody);
-                    String statusText = json.getString("statusText");
-                    Log.d(TAG, responseBody);
-                    Toast.makeText(DonatedItemActivity.this, statusText, Toast.LENGTH_SHORT).show();
-                    finish();
+            Server.getItem(data, mProgressDialog, new Ajax.Callbacks() {
+                @Override
+                public void success(String responseBody) {
+                    try {
+                        JSONObject json = new JSONObject(responseBody);
+                        String statusText = json.getString("statusText");
+                        Log.d(TAG, responseBody);
+                        Toast.makeText(DonatedItemActivity.this, statusText, Toast.LENGTH_SHORT).show();
+                        finish();
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "Error: " + statusText);
-                Toast.makeText(DonatedItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void error(int statusCode, String responseBody, String statusText) {
+                    Log.d(TAG, "Error: " + statusText);
+                    Toast.makeText(DonatedItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

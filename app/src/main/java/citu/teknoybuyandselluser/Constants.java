@@ -16,6 +16,7 @@ public class Constants {
     public static final String CONFIRM_PASSWORD = "confirm_password";
 
     public static final String BUYER = "buyer";
+    public static final String RENTER = "renter";
     public static final String CATEGORY = "category_name";
     public static final String DESCRIPTION = "description";
     public static final String ID = "item_id";
@@ -59,6 +60,7 @@ public class Constants {
     public static final String URL_EDIT_ITEM = "http://"+URL+"/api/edit_item";
     public static final String URL_DELETE_ITEM = "http://"+URL+"/api/delete_item";
     public static final String URL_BUY_ITEM = "http://"+URL+"/api/buy_item";
+    public static final String URL_RENT_ITEM = "http://"+URL+"/api/rent_item";
     public static final String URL_CANCEL_BUY_ITEM = "http://"+URL+"/api/cancel_reserved_item";
     public static final String URL_GET_ITEM = "http://"+URL+"/api/get_donated_item";
     public static final String URL_DONATE_ITEM = "http://"+URL+"/api/donate_item";
