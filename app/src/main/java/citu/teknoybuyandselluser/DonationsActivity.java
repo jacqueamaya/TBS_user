@@ -198,19 +198,15 @@ public class DonationsActivity extends BaseActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Item item = listAdapter.getDisplayView().get(position);
-                                mItemId = item.getId();
-                                mItemName = item.getItemName();
-                                mDescription = item.getDescription();
-                                mPicture = item.getPicture();
-                                mStarsRequired = item.getStars_required();
 
                                 Intent intent;
                                 intent = new Intent(DonationsActivity.this, DonatedItemActivity.class);
-                                intent.putExtra(Constants.ID, mItemId);
-                                intent.putExtra(Constants.ITEM_NAME, mItemName);
-                                intent.putExtra(Constants.DESCRIPTION, mDescription);
-                                intent.putExtra(Constants.PICTURE, mPicture);
-                                intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
+                                intent.putExtra(Constants.ID, item.getId());
+                                intent.putExtra(Constants.ITEM_NAME, item.getItemName());
+                                intent.putExtra(Constants.DESCRIPTION, item.getDescription());
+                                intent.putExtra(Constants.QUANTITY, item.getQuantity());
+                                intent.putExtra(Constants.PICTURE, item.getPicture());
+                                intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
                                 startActivity(intent);
                             }
                         });

@@ -109,7 +109,7 @@ public class ReservedItemActivity extends BaseActivity {
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_shopping_cart;
+        return menuItem.getItemId() != R.id.nav_reserved_items;
     }
 
     public void cancelBuyItem () {

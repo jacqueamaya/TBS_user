@@ -59,7 +59,7 @@ public class ItemsForRentFragment extends Fragment {
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
         progressBar.setVisibility(View.GONE);
 
-        Server.getReservedItemsOnSale(user, progressBar, new Ajax.Callbacks() {
+        Server.getReservedItemsForRent(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, responseBody);

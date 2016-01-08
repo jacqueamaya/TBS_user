@@ -31,6 +31,7 @@ public class RentItemActivity extends BaseActivity {
     private static final String TAG = "Buy Item";
     private static final int DIVISOR = 1000;
 
+    private int mQuantity;
     private int mStarsToUse;
     private double mDiscount;
     private double mDiscountedPrice;
@@ -38,6 +39,7 @@ public class RentItemActivity extends BaseActivity {
     private String mItemName;
 
     private TextView mLblStarsToUse;
+    private EditText mTxtQuantity;
     private EditText mTxtStarsToUse;
     private RadioButton mRdWithoutDiscount;
     private RadioButton mRdWithDiscount;
@@ -61,6 +63,7 @@ public class RentItemActivity extends BaseActivity {
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
         String mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
+        mQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
         String mPicture = intent.getStringExtra(Constants.PICTURE);
         String mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
 
@@ -71,6 +74,7 @@ public class RentItemActivity extends BaseActivity {
         mTxtStarsToUse = (EditText) findViewById(R.id.txtStarsToUse);
         mRdWithoutDiscount = (RadioButton) findViewById(R.id.rdWithoutDiscount);
         mRdWithDiscount = (RadioButton) findViewById(R.id.rdWithDiscount);
+        mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
         ImageView mBtnRentItem = (ImageView) findViewById(R.id.btnRentItem);
         ImageView mImgItem = (ImageView) findViewById(R.id.imgItem);
 
@@ -89,8 +93,8 @@ public class RentItemActivity extends BaseActivity {
 
         data = new HashMap<>();
 
-        String user = mPreferences.getString("username", "");
-        data.put(Constants.BUYER, user);
+        String user = mPreferences.getString(Constants.USERNAME, "");
+        data.put(Constants.RENTER, user);
         data.put(Constants.ID, "" + mItemId);
 
         mBtnRentItem.setOnClickListener(new View.OnClickListener() {
@@ -117,29 +121,33 @@ public class RentItemActivity extends BaseActivity {
     }
 
     public void rentItem() {
-        Server.buyItem(data, mProgressDialog, new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                try {
-                    JSONObject json = new JSONObject(responseBody);
-                    if (json.getInt("status") == 201) {
-                        Log.d(TAG, "Buy Item success");
-                        Toast.makeText(RentItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(RentItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+        int quantity = Integer.parseInt(mTxtQuantity.getText().toString());
+        if(quantity <= mQuantity) {
+            data.put(Constants.QUANTITY, quantity + "");
+            Server.rentItem(data, mProgressDialog, new Ajax.Callbacks() {
+                @Override
+                public void success(String responseBody) {
+                    try {
+                        JSONObject json = new JSONObject(responseBody);
+                        if (json.getInt("status") == 201) {
+                            Log.d(TAG, "Rent Item success");
+                            Toast.makeText(RentItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(RentItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.d(TAG, "Server error");
-                Toast.makeText(RentItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void error(int statusCode, String responseBody, String statusText) {
+                    Log.d(TAG, "Server error");
+                    Toast.makeText(RentItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public void buyWithDiscountDialogBox() {

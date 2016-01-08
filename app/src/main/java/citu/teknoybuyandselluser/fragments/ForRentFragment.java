@@ -64,14 +64,15 @@ public class ForRentFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_for_rent, container, false);
-        txtCategory = (TextView) view.findViewById(R.id.txtCategory);
+        //txtCategory = (TextView) view.findViewById(R.id.txtCategory);
         progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
         progressBar.setVisibility(View.GONE);
 
         sortBy = getResources().getStringArray(R.array.sort_by);
 
-        getItems();
-        getCategories();
+        //getItems();
+        getAllItemsForRent();
+        /*getCategories();
         txtCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,15 +92,15 @@ public class ForRentFragment extends Fragment{
                         .create();
                 displayCategories.show();
             }
-        });
+        });*/
         return view;
     }
-
+/*
     public void getItems() {
         if (txtCategory.getText().toString().equals("Categories")) {
             getAllItemsForRent();
         }
-    }
+    }*/
 
     public void getAllItemsForRent() {
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
@@ -157,6 +158,7 @@ public class ForRentFragment extends Fragment{
                                 intent.putExtra(Constants.ITEM_NAME, item.getItemName());
                                 intent.putExtra(Constants.DESCRIPTION, item.getDescription());
                                 intent.putExtra(Constants.PRICE, item.getPrice());
+                                intent.putExtra(Constants.QUANTITY, item.getQuantity());
                                 intent.putExtra(Constants.PICTURE, item.getPicture());
                                 intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
                                 intent.putExtra(Constants.FORMAT_PRICE, item.getFormattedPrice());
@@ -207,8 +209,9 @@ public class ForRentFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        txtCategory.setText("Categories");
-        getItems();
+        //txtCategory.setText("Categories");
+        //getItems();
+        getAllItemsForRent();
     }
 
 }

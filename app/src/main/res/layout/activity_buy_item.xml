@@ -112,6 +112,27 @@
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/lblQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblStarsToUse"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/imgItem"
+                    android:text="Quantity"
+                    android:textColor="@color/Black" />
+
+                <EditText
+                    android:id="@+id/txtQuantity"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtStarsToUse"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@id/lblQuantity"
+                    android:layout_toRightOf="@id/lblQuantity"
+                    android:inputType="number" />
+
+                <TextView
                     android:id="@+id/lblDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -88,21 +88,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 case R.id.nav_notifications:
                     intent = new Intent(this, NotificationsActivity.class);
                     break;
-                case R.id.nav_sell_items:
-                    intent = new Intent(this, SellItemsActivity.class);
-                    break;
-                case R.id.nav_pending_items:
-                    intent = new Intent(this, PendingItemsActivity.class);
-                    break;
-                case R.id.nav_buy_items:
-                    intent = new Intent(this, BuyItemsActivity.class);
-                    break;
-                case R.id.nav_shopping_cart:
-                    intent = new Intent(this, ShoppingCartActivity.class);
-                    break;
-                case R.id.nav_donate_items:
-                    intent = new Intent(this, DonateItemsActivity.class);
-                    break;
                 case R.id.nav_my_items:
                     intent = new Intent(this, MyItemsActivity.class);
                     break;

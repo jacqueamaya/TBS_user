@@ -20,34 +20,8 @@
             android:name=".UserProfileActivity"
             android:label="@string/title_activity_user_profile" />
         <activity
-            android:name=".ChangePasswordActivity"
-            android:label="@string/title_activity_change_password" />
-        <activity
             android:name=".NotificationsActivity"
             android:label="@string/title_activity_notifications" />
-        <activity
-            android:name=".SellItemsActivity"
-            android:label="@string/title_activity_sell_items" />
-        <activity
-            android:name=".PendingItemsActivity"
-            android:label="@string/title_activity_pending_items" />
-        <activity
-            android:name=".BuyItemsActivity"
-            android:configChanges="orientation"
-            android:label="@string/title_activity_buy_items"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
-            android:name=".ShoppingCartActivity"
-            android:label="@string/title_activity_shopping_cart" />
-        <activity
-            android:name=".DonateItemsActivity"
-            android:label="@string/title_activity_donate_items" />
         <activity
             android:name=".StarsCollectedActivity"
             android:label="@string/title_activity_stars_collected" />
@@ -120,7 +94,7 @@
             android:label="@string/title_activity_rent_item_details" />
         <activity
             android:name=".RentItemActivity"
-            android:label="@string/title_activity_rent_item"></activity>
+            android:label="@string/title_activity_rent_item"/>
     </application>
 
 </manifest>
