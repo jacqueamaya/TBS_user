@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +32,9 @@ public class ReservedItemsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_reserved_items);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

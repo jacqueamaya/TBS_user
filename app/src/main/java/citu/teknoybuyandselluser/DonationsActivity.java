@@ -21,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -37,12 +39,6 @@ public class DonationsActivity extends BaseActivity {
     private TextView txtCategory;
     private ProgressBar progressBar;
 
-    private int mItemId;
-    private int mStarsRequired;
-    private String mItemName;
-    private String mDescription;
-    private String mPicture;
-
     private String categories[];
     private String sortBy[];
 
@@ -58,6 +54,7 @@ public class DonationsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_donations);
         setupUI();
 

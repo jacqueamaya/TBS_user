@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -57,6 +58,7 @@ public class DonateItemActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_donate_item);
         setupUI();
 

@@ -2,6 +2,7 @@ package citu.teknoybuyandselluser;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -25,22 +28,20 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private SharedPreferences mSharedPreferences;
-    private ImageView mImgUser;
+    private SimpleDraweeView mImgUser;
 
     protected void setupUI(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mImgUser = (ImageView) findViewById(R.id.imgUser);
+        mImgUser = (SimpleDraweeView) findViewById(R.id.imgUser);
 
         mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
         String mPicture = mSharedPreferences.getString(Constants.PICTURE, null);
-        if(null == mPicture || !(mPicture.isEmpty()) || mPicture.equals("")) {
+        if(null == mPicture || mPicture.isEmpty() || mPicture.equals("")) {
             mImgUser.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
         } else {
-            Picasso.with(this)
-                .load(mPicture)
-                .into(mImgUser);
+            mImgUser.setImageURI(Uri.parse(mPicture));
         }
 
         if(null == toolbar) {
