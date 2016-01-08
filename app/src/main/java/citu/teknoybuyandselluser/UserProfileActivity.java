@@ -59,6 +59,7 @@ public class UserProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_user_profile);
         setupUI();
         TextView txtUsername = (TextView) findViewById(R.id.txtUsername);
@@ -86,17 +87,19 @@ public class UserProfileActivity extends BaseActivity {
         txtUsername.setText(username);
 
         //User's Profile Picture
-        Uri uri = Uri.parse("https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png");
-        SimpleDraweeView draweeView = (SimpleDraweeView) findViewById(R.id.profpic);
-        draweeView.setImageURI(uri);
+        //Uri uri = Uri.parse("https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png");
+        //mProfilePic.setImageURI(uri);
+
         String picture = prefs.getString(Constants.PICTURE, null);
 
-        if(null == picture || !(picture.isEmpty()) || picture.equals("")) {
+        if(null == picture || (picture.isEmpty()) || picture.equals("")) {
             mProfilePic.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
         } else {
-            Picasso.with(this)
+            /**Picasso.with(this)
                 .load(picture)
-                .into(mProfilePic);
+                .into(mProfilePic);**/
+                mProfilePic.setImageURI(Uri.parse(picture));
+
         }
 
         //Browse and select an image
@@ -189,11 +192,8 @@ public class UserProfileActivity extends BaseActivity {
                         JSONObject json;
                         try {
                             json = new JSONObject(responseBody);
-                            mImgInfo = ImageInfo.getImageInfo(json);
-                            Picasso.with(UserProfileActivity.this)
-                                    .load(mImgInfo.getLink())
-                                    .placeholder(R.drawable.thumbsq_24dp)
-                                    .into(mImgPreview);
+                            //mImgInfo = ImageInfo.getImageInfo(json);
+                            mProfilePic.setImageURI(Uri.parse(ImageInfo.getImageInfo(json).getLink()));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
