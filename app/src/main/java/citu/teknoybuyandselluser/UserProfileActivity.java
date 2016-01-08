@@ -20,6 +20,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -38,7 +47,8 @@ public class UserProfileActivity extends BaseActivity {
     private EditText inputNewPassword;
     private EditText inputConfirmPassword;
     private ImageInfo mImgInfo;
-    private ImageView mProfilePic;
+    //private ImageView mProfilePic;
+    private SimpleDraweeView mProfilePic;
     private ImageView mImgPreview;
     private ProgressBar mProgressBar;
     private ProgressDialog mProgressDialog;
@@ -52,14 +62,17 @@ public class UserProfileActivity extends BaseActivity {
         setContentView(R.layout.activity_user_profile);
         setupUI();
         TextView txtUsername = (TextView) findViewById(R.id.txtUsername);
+
         //Input fields
         inputUsername = (EditText) findViewById(R.id.inputNewUsername);
         inputCurrentPassword = (EditText) findViewById(R.id.inputCurrentPassword);
         inputNewPassword = (EditText) findViewById(R.id.inputNewPassword);
         inputConfirmPassword = (EditText) findViewById(R.id.inputConfirmPassword);
-        mProfilePic =  (ImageView) findViewById(R.id.profpic);
+        //mProfilePic =  (ImageView) findViewById(R.id.profpic);
+        mProfilePic = (SimpleDraweeView) findViewById(R.id.profpic);
         mImgPreview = (ImageView) findViewById(R.id.preview);
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
+
 
         //Progress bar while uploading the picture
         mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
@@ -73,6 +86,9 @@ public class UserProfileActivity extends BaseActivity {
         txtUsername.setText(username);
 
         //User's Profile Picture
+        Uri uri = Uri.parse("https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png");
+        SimpleDraweeView draweeView = (SimpleDraweeView) findViewById(R.id.profpic);
+        draweeView.setImageURI(uri);
         String picture = prefs.getString(Constants.PICTURE, null);
 
         if(null == picture || !(picture.isEmpty()) || picture.equals("")) {

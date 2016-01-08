@@ -1,6 +1,6 @@
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,12 +37,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <ImageView
+                    <!--<com.citu.teknoybuyandsell.RoundedImageView
+                        android:id="@+id/imageView_round"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/user_1" />-->
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/profpic"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_margin="20dp"
+                        android:layout_centerHorizontal="true"
+                        fresco:placeholderImage="@drawable/user_1"
+                        fresco:roundAsCircle="true" />
+
+                    <!--<ImageView
                         android:id="@+id/profpic"
                         android:layout_centerHorizontal="true"
                         android:layout_height="140dp"
                         android:layout_width="wrap_content"
-                        android:src="@drawable/user_1" />
+                        android:src="@drawable/user_1" />-->
 
                     <ImageView
                         android:id="@+id/username"
@@ -61,6 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginTop="30dp"
                         android:layout_toRightOf="@id/username"
                         android:layout_below="@+id/profpic"
@@ -83,6 +99,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/new_username"
                         android:layout_below="@+id/txtUsername"
@@ -99,16 +116,18 @@
                     <EditText
                         android:id="@+id/inputCurrentPassword"
                         android:hint="Current Password"
-                        android:inputType="textCapSentences"
+                        android:inputType="textPassword"
                         android:background="@drawable/textbox"
                         android:padding="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/currentPassword"
                         android:layout_below="@+id/inputNewUsername"
-                        android:textColorHint="@color/SlateGray"/>
+                        android:textColorHint="@color/SlateGray"
+                        android:fontFamily="Calibri"/>
 
                     <ImageView
                         android:id="@+id/newPassword"
@@ -121,12 +140,13 @@
                     <EditText
                         android:id="@+id/inputNewPassword"
                         android:hint="New Password"
-                        android:inputType="textCapSentences"
+                        android:inputType="textPassword"
                         android:background="@drawable/textbox"
                         android:padding="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/newPassword"
                         android:layout_below="@+id/inputCurrentPassword"
@@ -143,12 +163,13 @@
                     <EditText
                         android:id="@+id/inputConfirmPassword"
                         android:hint="Confirm New Password"
-                        android:inputType="textCapSentences"
+                        android:inputType="textPassword"
                         android:background="@drawable/textbox"
                         android:padding="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/confirmPassword"
                         android:layout_below="@+id/inputNewPassword"
