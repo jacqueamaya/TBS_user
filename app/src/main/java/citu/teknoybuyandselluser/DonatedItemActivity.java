@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class DonatedItemActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_donated_item);
         setupUI();
 
@@ -125,6 +127,8 @@ public class DonatedItemActivity extends BaseActivity {
                     Toast.makeText(DonatedItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            Toast.makeText(DonatedItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
         }
     }
 }

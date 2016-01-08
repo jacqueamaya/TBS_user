@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -42,12 +43,11 @@ public class SellItemActivity extends BaseActivity {
     private ProgressBar mProgressBar;
     ImageInfo mImgInfo;
 
-    //TODO: add quantity
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_sell_item);
         setupUI();
 

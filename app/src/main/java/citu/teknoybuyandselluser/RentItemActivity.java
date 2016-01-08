@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -51,7 +52,9 @@ public class RentItemActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
+        Fresco.initialize(this);
         setContentView(R.layout.activity_rent_item);
         setupUI();
 
@@ -147,6 +150,8 @@ public class RentItemActivity extends BaseActivity {
                     Toast.makeText(RentItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            Toast.makeText(RentItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
         }
     }
 
