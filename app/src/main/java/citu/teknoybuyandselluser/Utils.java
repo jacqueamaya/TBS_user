@@ -11,6 +11,10 @@ import java.util.TimeZone;
 
 public final class Utils {
 
+    public static String capitalize (String string) {
+        return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+    }
+
     public static String parseDate(long unix){
         Date date = new Date(unix*1000L); // *1000 is to convert seconds to milliseconds
         SimpleDateFormat sdf = new SimpleDateFormat("E, MMM d 'at' h:mm:ss a"); // the format of the date

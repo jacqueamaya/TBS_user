@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +25,7 @@ import citu.teknoybuyandselluser.adapters.NotificationListAdapter;
 import citu.teknoybuyandselluser.models.Notification;
 
 public class NotificationsActivity extends BaseActivity {
-    private static final String TAG = "Notifications";
+    private Gson gson  = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,9 @@ public class NotificationsActivity extends BaseActivity {
         setContentView(R.layout.activity_notifications);
         setupUI();
 
+        //gson = new Gson();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
+        String user = prefs.getString(Constants.USERNAME, "");
         final TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
         progressBar.setVisibility(View.GONE);
@@ -47,6 +50,7 @@ public class NotificationsActivity extends BaseActivity {
 
                 try {
                     jsonArray = new JSONArray(responseBody);
+                    //notifications = gson.fromJson(responseBody, new TypeToken<ArrayList<Notification>>(){}.getType());
                     if (jsonArray.length() == 0) {
 
                         txtMessage.setText("No new notifications");
@@ -66,12 +70,10 @@ public class NotificationsActivity extends BaseActivity {
                     txtMessage.setText("No new notifications");
                     txtMessage.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                Log.v(TAG, "Request error");
                 Toast.makeText(NotificationsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
