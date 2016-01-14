@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +40,7 @@ public class BuyItemActivity extends BaseActivity {
     private float mPrice;
     private String mItemName;
 
-    private TextView mLblStarsToUse;
-    private EditText mTxtStarsToUse;
+    private Spinner mSpinnerStarsToUse;
     private RadioButton mRdWithoutDiscount;
     private RadioButton mRdWithDiscount;
     private EditText mTxtQuantity;
@@ -73,8 +73,7 @@ public class BuyItemActivity extends BaseActivity {
         TextView mTxtItem = (TextView) findViewById(R.id.txtItem);
         TextView mTxtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView mTxtPrice = (TextView) findViewById(R.id.txtPrice);
-        mLblStarsToUse = (TextView) findViewById(R.id.lblStarsToUse);
-        mTxtStarsToUse = (EditText) findViewById(R.id.txtStarsToUse);
+        mSpinnerStarsToUse = (Spinner) findViewById(R.id.spinnerStarsToUse);
         mRdWithoutDiscount = (RadioButton) findViewById(R.id.rdWithoutDiscount);
         mRdWithDiscount = (RadioButton) findViewById(R.id.rdWithDiscount);
         mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
@@ -160,7 +159,7 @@ public class BuyItemActivity extends BaseActivity {
         buyItem.setTitle("Buy With Discount");
         buyItem.setIcon(R.drawable.ic_star_black_24dp);
 
-        if (mTxtStarsToUse.getText().toString().equals("")) {
+        if (mSpinnerStarsToUse.getSelectedItem().toString().equals("")) {
             buyItem.setMessage("You cannot buy this item since you have no stars collected.")
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -169,7 +168,7 @@ public class BuyItemActivity extends BaseActivity {
                         }
                     });
         } else {
-            mStarsToUse = Integer.parseInt(mTxtStarsToUse.getText().toString());
+            mStarsToUse = Integer.parseInt(mSpinnerStarsToUse.getSelectedItem().toString());
             if (getStars() < mStarsToUse) {
                 buyItem.setMessage("Not enough stars collected. \nRemaining stars collected: 87")
                         .setCancelable(false)
@@ -244,19 +243,14 @@ public class BuyItemActivity extends BaseActivity {
 
     public void showInputStars(View view) {
         if (getStars() >= 50) {
-            mLblStarsToUse.setText("Stars to use");
-            mLblStarsToUse.setVisibility(View.VISIBLE);
-            mTxtStarsToUse.setVisibility(View.VISIBLE);
+            mSpinnerStarsToUse.setVisibility(View.VISIBLE);
         } else {
-            mLblStarsToUse.setText("Insufficient stars");
-            mLblStarsToUse.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "Insuffiecient stars", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void hideInputStars(View view) {
-        if (mLblStarsToUse.getVisibility() == View.VISIBLE) {
-            mLblStarsToUse.setVisibility(View.GONE);
-            mTxtStarsToUse.setVisibility(View.GONE);
-        }
+        if (mSpinnerStarsToUse.getVisibility() == View.VISIBLE)
+            mSpinnerStarsToUse.setVisibility(View.GONE);
     }
 }

@@ -89,16 +89,19 @@
 
                 </RadioGroup>
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/lblStarsToUse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rdGroup"
-                    android:layout_marginLeft="50dp"
+                    android:layout_alignLeft="@+id/rdGroup"
+                    android:layout_alignStart="@+id/rdGroup"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/imgItem"
-                    android:textColor="@color/Black"
-                    android:visibility="gone" />
+                    android:layout_toEndOf="@+id/imgItem"
+                    android:paddingLeft="30dp"
+                    android:text="Stars To Use"
+                    android:textColor="@color/Black" />
 
                 <EditText
                     android:id="@+id/txtStarsToUse"
@@ -108,14 +111,26 @@
                     android:layout_marginLeft="10dp"
                     android:layout_toEndOf="@id/lblStarsToUse"
                     android:layout_toRightOf="@id/lblStarsToUse"
-                    android:inputType="number"
-                    android:visibility="gone" />
+                    android:inputType="number" /> -->
+
+                <Spinner
+                    android:id="@+id/spinnerStarsToUse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imgItem"
+                    android:layout_toEndOf="@+id/imgItem"
+                    android:layout_below="@+id/rdGroup"
+                    android:layout_gravity="end"
+                    android:entries="@array/stars_to_use"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="50dp"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/lblQuantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblStarsToUse"
+                    android:layout_below="@+id/spinnerStarsToUse"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/imgItem"
@@ -126,7 +141,7 @@
                     android:id="@+id/txtQuantity"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txtStarsToUse"
+                    android:layout_below="@id/spinnerStarsToUse"
                     android:layout_marginLeft="10dp"
                     android:layout_toEndOf="@id/lblQuantity"
                     android:layout_toRightOf="@id/lblQuantity"
@@ -136,7 +151,7 @@
                     android:id="@+id/lblDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/imgItem"
+                    android:layout_below="@+id/lblQuantity"
                     android:layout_marginRight="18dp"
                     android:layout_marginTop="40dp"
                     android:text="@string/item_details"

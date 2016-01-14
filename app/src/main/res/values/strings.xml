@@ -77,6 +77,11 @@
         <item>Date</item>
         <item>Name</item>
     </string-array>
+    <string-array name="stars_to_use">
+        <item>(5%) 50 stars</item>
+        <item>(10%) 100 stars</item>
+        <item>(15%) 150 stars</item>
+    </string-array>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_my_items">My Items</string>
     <string name="title_activity_reserved_items">Reserved Items</string>
