@@ -10,7 +10,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.picasso.Picasso;
 
 public class SellItemDetailsActivity extends BaseActivity {
-    private static final String TAG = "SellItemDetails";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

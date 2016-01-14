@@ -26,7 +26,6 @@ public class StarsCollectedActivity extends BaseActivity {
     private static final String TAG = "StarsCollected";
 
     private TextView mTxtNumberStars;
-    private Button mBtnClaimAward;
     private ProgressBar mProgressBar;
     private SharedPreferences prefs;
     private String mStrUsername;
@@ -46,7 +45,7 @@ public class StarsCollectedActivity extends BaseActivity {
         getStars();
         showStars();
 
-        mBtnClaimAward = (Button) findViewById(R.id.btnClaimAward);
+        Button mBtnClaimAward = (Button) findViewById(R.id.btnClaimAward);
         mBtnClaimAward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

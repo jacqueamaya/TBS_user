@@ -25,16 +25,13 @@ import com.squareup.picasso.Picasso;
  */
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private NavigationView mNavigationView;
     private SharedPreferences mSharedPreferences;
-    private SimpleDraweeView mImgUser;
 
     protected void setupUI(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mImgUser = (SimpleDraweeView) findViewById(R.id.imgUser);
+        NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        SimpleDraweeView mImgUser = (SimpleDraweeView) findViewById(R.id.imgUser);
 
         mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
         String mPicture = mSharedPreferences.getString(Constants.PICTURE, null);
@@ -56,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             throw new RuntimeException("No navigation view found");
         }
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, 0, 0);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, 0, 0);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         setSupportActionBar(toolbar);

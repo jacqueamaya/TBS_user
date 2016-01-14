@@ -51,9 +51,6 @@ public class MakeTransactionsActivity extends BaseActivity {
         setContentView(R.layout.activity_make_transactions);
         setupUI();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 

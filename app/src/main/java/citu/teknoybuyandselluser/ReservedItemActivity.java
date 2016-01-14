@@ -26,8 +26,6 @@ public class ReservedItemActivity extends BaseActivity {
 
     private int mItemId;
     private int mReservationId;
-    private int mStarsRequired;
-    private int mStarsToUse;
     private String mItemName;
 
     private ProgressDialog mProgressDialog;
@@ -50,8 +48,8 @@ public class ReservedItemActivity extends BaseActivity {
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
         String description = intent.getStringExtra(Constants.DESCRIPTION);
         float price = intent.getFloatExtra(Constants.PRICE, 0);
-        mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
-        mStarsToUse = intent.getIntExtra(Constants.STARS_TO_USE, 0);
+        int mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
+        int mStarsToUse = intent.getIntExtra(Constants.STARS_TO_USE, 0);
         float discountedPrice = intent.getFloatExtra(Constants.DISCOUNTED_PRICE, 0);
         String picture = intent.getStringExtra(Constants.PICTURE);
         String reservedDate = intent.getStringExtra(Constants.RESERVED_DATE);
