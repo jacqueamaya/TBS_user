@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,16 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.widget.ImageView;
-
-
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,19 +77,12 @@ public class UserProfileActivity extends BaseActivity {
         txtUsername.setText(username);
 
         //User's Profile Picture
-        //Uri uri = Uri.parse("https://raw.githubusercontent.com/facebook/fresco/gh-pages/static/fresco-logo.png");
-        //mProfilePic.setImageURI(uri);
-
         String picture = prefs.getString(Constants.PICTURE, null);
 
         if(null == picture || (picture.isEmpty()) || picture.equals("")) {
             mProfilePic.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
         } else {
-            /**Picasso.with(this)
-                .load(picture)
-                .into(mProfilePic);**/
                 mProfilePic.setImageURI(Uri.parse(picture));
-
         }
 
         //Browse and select an image
