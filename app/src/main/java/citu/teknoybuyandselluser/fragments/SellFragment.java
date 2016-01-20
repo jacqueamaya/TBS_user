@@ -1,10 +1,8 @@
 package citu.teknoybuyandselluser.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,9 +18,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -49,8 +44,6 @@ public class SellFragment extends Fragment {
     private View view = null;
     private ItemsListAdapter listAdapter;
 
-    private SharedPreferences prefs;
-
     private String user;
 
     private Gson gson = new Gson();
@@ -68,7 +61,7 @@ public class SellFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sell, container, false);
 
-        prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.USERNAME, "");
 
         getSellItems();
@@ -93,14 +86,12 @@ public class SellFragment extends Fragment {
         Server.getItemsToSell(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> mOwnedItems = new ArrayList<Item>();
-                mOwnedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
+                ArrayList<Item> mOwnedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
                 ListView listView;
-
                 TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
                 listView = (ListView) view.findViewById(R.id.listViewSellItems);
                 if (mOwnedItems.size() == 0) {
-                    txtMessage.setText("No available items to sell");
+                    txtMessage.setText(getResources().getString(R.string.no_items_to_sell));
                     txtMessage.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                 } else {

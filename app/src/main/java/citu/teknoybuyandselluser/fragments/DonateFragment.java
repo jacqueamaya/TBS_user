@@ -1,10 +1,8 @@
 package citu.teknoybuyandselluser.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,9 +18,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -45,7 +40,6 @@ import citu.teknoybuyandselluser.models.Item;
 public class DonateFragment extends Fragment {
     private static final String TAG = "Donate Fragment";
 
-    private SharedPreferences prefs;
     private View view = null;
 
     private String user;
@@ -67,7 +61,7 @@ public class DonateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_donate, container, false);
-        prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.USERNAME, "");
 
         getDonateItems();
@@ -91,13 +85,12 @@ public class DonateFragment extends Fragment {
         Server.getItemsToDonate(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                donatedItems = new ArrayList<Item>();
                 donatedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
 
                 TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
                 ListView lv = (ListView) view.findViewById(R.id.listViewDonateItems);
                 if (donatedItems.size() == 0) {
-                    txtMessage.setText("No available items to donate");
+                    txtMessage.setText(getResources().getString(R.string.no_items_to_donate));
                     txtMessage.setVisibility(View.VISIBLE);
                     lv.setVisibility(View.GONE);
                 } else {

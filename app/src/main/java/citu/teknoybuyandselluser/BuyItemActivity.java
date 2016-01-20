@@ -62,34 +62,34 @@ public class BuyItemActivity extends BaseActivity {
 
         Intent intent;
         intent = getIntent();
-        int mItemId = intent.getIntExtra(Constants.ID, 0);
+        int itemId = intent.getIntExtra(Constants.ID, 0);
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String mDescription = intent.getStringExtra(Constants.DESCRIPTION);
+        String description = intent.getStringExtra(Constants.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.PRICE, 0);
         mQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
-        String mPicture = intent.getStringExtra(Constants.PICTURE);
-        String mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        String picture = intent.getStringExtra(Constants.PICTURE);
+        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
 
-        TextView mTxtItem = (TextView) findViewById(R.id.txtItem);
-        TextView mTxtDescription = (TextView) findViewById(R.id.txtDescription);
-        TextView mTxtPrice = (TextView) findViewById(R.id.txtPrice);
+        TextView txtItem = (TextView) findViewById(R.id.txtItem);
+        TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
+        TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
         mSpinnerStarsToUse = (Spinner) findViewById(R.id.spinnerStarsToUse);
         mRdWithoutDiscount = (RadioButton) findViewById(R.id.rdWithoutDiscount);
         mRdWithDiscount = (RadioButton) findViewById(R.id.rdWithDiscount);
         mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
-        ImageView mBtnBuyItem = (ImageView) findViewById(R.id.btnBuyItem);
-        ImageView mImgItem = (ImageView) findViewById(R.id.imgItem);
+        ImageView btnBuyItem = (ImageView) findViewById(R.id.btnBuyItem);
+        ImageView imgItem = (ImageView) findViewById(R.id.imgItem);
 
         mProgressDialog = new ProgressDialog(this);
 
-        mTxtItem.setText(mItemName);
-        mTxtDescription.setText(mDescription);
-        mTxtPrice.setText("Php " + mFormatPrice);
+        txtItem.setText(mItemName);
+        txtDescription.setText(description);
+        txtPrice.setText(getResources().getString(R.string.peso) + formatPrice);
 
         Picasso.with(this)
-                .load(mPicture)
+                .load(picture)
                 .placeholder(R.drawable.thumbsq_24dp)
-                .into(mImgItem);
+                .into(imgItem);
 
         setTitle(mItemName);
 
@@ -97,10 +97,9 @@ public class BuyItemActivity extends BaseActivity {
 
         String user = mPreferences.getString(Constants.USERNAME, "");
         data.put(Constants.BUYER, user);
-        data.put(Constants.ID, "" + mItemId);
-        data.put(Constants.STARS_TO_USE, user);
+        data.put(Constants.ID, "" + itemId);
 
-        mBtnBuyItem.setOnClickListener(new View.OnClickListener() {
+        btnBuyItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBuy(v);
@@ -117,7 +116,7 @@ public class BuyItemActivity extends BaseActivity {
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
         if (mRdWithDiscount.isChecked()) {
-            buyWithDiscountDialogBox();
+            buyWithDiscount();
         } else if (mRdWithoutDiscount.isChecked()) {
             buyItem();
         }
@@ -125,7 +124,7 @@ public class BuyItemActivity extends BaseActivity {
 
     public void buyItem() {
         int quantity = Integer.parseInt(mTxtQuantity.getText().toString());
-        if(quantity <= mQuantity) {
+        if(quantity <= mQuantity && quantity > 0) {
             data.put(Constants.QUANTITY, quantity + "");
             Server.buyItem(data, mProgressDialog, new Ajax.Callbacks() {
                 @Override
@@ -155,13 +154,23 @@ public class BuyItemActivity extends BaseActivity {
         }
     }
 
-    public void buyWithDiscountDialogBox() {
+    public void buyWithDiscount() {
         final AlertDialog.Builder buyItem = new AlertDialog.Builder(this);
         buyItem.setTitle("Buy With Discount");
         buyItem.setIcon(R.drawable.ic_star_black_24dp);
 
-        if (mSpinnerStarsToUse.getSelectedItem().toString().equals("")) {
-            buyItem.setMessage("You cannot buy this item since you have no stars collected.")
+        int starsToUse = mSpinnerStarsToUse.getSelectedItemPosition();
+        switch (starsToUse) {
+            case 0: mStarsToUse = 50;
+                break;
+            case 1: mStarsToUse = 100;
+                break;
+            case 2: mStarsToUse = 150;
+                break;
+            default: mStarsToUse = 50;
+        }
+        if (getStars() < mStarsToUse) {
+            buyItem.setMessage("Not enough stars collected. You only have " + getStars() + " stars collected.")
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -170,8 +179,16 @@ public class BuyItemActivity extends BaseActivity {
                     });
         } else {
             mStarsToUse = Integer.parseInt(mSpinnerStarsToUse.getSelectedItem().toString());
-            if (getStars() < mStarsToUse) {
-                buyItem.setMessage("Not enough stars collected. \nRemaining stars collected: 87")
+            if (mStarsToUse < 50) {
+                buyItem.setMessage("Stars to use should be greater than or equal to 50.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+            } else if (mStarsToUse > 150) {
+                buyItem.setMessage("Stars to use should not be greater than 150.")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -179,45 +196,27 @@ public class BuyItemActivity extends BaseActivity {
                             }
                         });
             } else {
-                if (mStarsToUse < 50) {
-                    buyItem.setMessage("Stars to use should be greater than or equal to 50.")
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                }
-                            });
-                } else if (mStarsToUse > 150) {
-                    buyItem.setMessage("Stars to use should not be greater than 150.")
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                }
-                            });
-                } else {
-                    ReservedItem ri = new ReservedItem();
-                    ri.setStars_to_use(mStarsToUse);
-                    calculateDiscount();
-                    calculateDiscountedPrice();
-                    buyItem.setMessage("Discount:\t" + Utils.formatDouble(mDiscount * 100) + "%\n" +
-                            "Original Price:\t" + Utils.formatFloat(mPrice) + "\n" +
-                            "Discounted Price: \t" + Utils.formatDouble(mDiscountedPrice) + "\n" +
-                            "Stars Remaining: " + getStarsRemaining())
-                            .setCancelable(true)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    data.put(Constants.STARS_TO_USE, "" + mStarsToUse);
-                                    buyItem();
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                }
+                ReservedItem ri = new ReservedItem();
+                ri.setStars_to_use(mStarsToUse);
+                calculateDiscount();
+                calculateDiscountedPrice();
+                buyItem.setMessage("Discount:\t" + Utils.formatDouble(mDiscount * 100) + "%\n" +
+                        "Original Price:\t" + Utils.formatFloat(mPrice) + "\n" +
+                        "Discounted Price: \t" + Utils.formatDouble(mDiscountedPrice) + "\n" +
+                        "Stars Remaining: " + getStarsRemaining())
+                        .setCancelable(true)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                data.put(Constants.STARS_TO_USE, "" + mStarsToUse);
+                                buyItem();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
             }
         }
 
@@ -243,11 +242,7 @@ public class BuyItemActivity extends BaseActivity {
     }
 
     public void showInputStars(View view) {
-        if (getStars() >= 50) {
-            mSpinnerStarsToUse.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this, "Insuffiecient stars", Toast.LENGTH_SHORT).show();
-        }
+        mSpinnerStarsToUse.setVisibility(View.VISIBLE);
     }
 
     public void hideInputStars(View view) {

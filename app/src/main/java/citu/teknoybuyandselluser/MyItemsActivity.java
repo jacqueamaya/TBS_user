@@ -3,27 +3,13 @@ package citu.teknoybuyandselluser;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import citu.teknoybuyandselluser.adapters.MyItemsAdapter;
-import citu.teknoybuyandselluser.fragments.DonateFragment;
-import citu.teknoybuyandselluser.fragments.PendingFragment;
-import citu.teknoybuyandselluser.fragments.RentFragment;
-import citu.teknoybuyandselluser.fragments.RentedFragment;
-import citu.teknoybuyandselluser.fragments.SellFragment;
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
  */
@@ -31,7 +17,6 @@ import citu.teknoybuyandselluser.fragments.SellFragment;
 
 public class MyItemsActivity extends BaseActivity {
     SharedPreferences prefs;
-    private static final String TAG = "MyItemsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

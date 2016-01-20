@@ -19,9 +19,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
@@ -45,8 +42,6 @@ public class RentFragment extends Fragment {
     private View view = null;
     private ItemsListAdapter listAdapter;
 
-    private SharedPreferences prefs;
-
     private String user;
 
     private Gson gson = new Gson();
@@ -63,7 +58,7 @@ public class RentFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_rent, container, false);
 
-        prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.USERNAME, "");
 
         getRentItems();
@@ -88,14 +83,13 @@ public class RentFragment extends Fragment {
         Server.getItemsForRent(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> mOwnedItems = new ArrayList<Item>();
-                mOwnedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
+                ArrayList<Item> mOwnedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
                 ListView listView;
 
                     TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
                     listView = (ListView) view.findViewById(R.id.listViewRentItems);
                     if (mOwnedItems.size() == 0) {
-                        txtMessage.setText("No available items for rent");
+                        txtMessage.setText(getResources().getString(R.string.no_items_for_rent));
                         txtMessage.setVisibility(View.VISIBLE);
                         listView.setVisibility(View.GONE);
                     } else {

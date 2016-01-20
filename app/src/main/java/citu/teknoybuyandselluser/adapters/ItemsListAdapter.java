@@ -2,26 +2,19 @@ package citu.teknoybuyandselluser.adapters;
 
 import android.content.Context;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.util.Util;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import citu.teknoybuyandselluser.R;
@@ -29,10 +22,10 @@ import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.models.Item;
 
 /**
- * Created by Jacquelyn on 9/20/2015.
+ ** Created by Jacquelyn on 9/20/2015.
  */
+
 public class ItemsListAdapter extends BaseAdapter implements Filterable {
-    private static final String TAG = "ItemListAdapter";
     private Context mContext;
     private int id;
 
@@ -92,11 +85,11 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                List<Item> FilteredArrList = new ArrayList<Item>();
+                List<Item> FilteredArrList = new ArrayList<>();
                 String searchByCategory[] = constraint.toString().split(",");
 
                 if (mOriginalValues == null) {
-                    mOriginalValues = new ArrayList<Item>(mDisplayedValues); // saves the original data in mOriginalValues
+                    mOriginalValues = new ArrayList<>(mDisplayedValues); // saves the original data in mOriginalValues
                 }
 
                 if (constraint == "" || constraint.length() == 0 || searchByCategory.length == 0) {
@@ -116,10 +109,10 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
                                 FilteredArrList.add(mOriginalValues.get(i));
                             }
                         }
+                        // set the Filtered result to return
+                        results.count = FilteredArrList.size();
+                        results.values = FilteredArrList;
                     }
-                    // set the Filtered result to return
-                    results.count = FilteredArrList.size();
-                    results.values = FilteredArrList;
                 }
 
                 return results;

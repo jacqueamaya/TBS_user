@@ -24,16 +24,11 @@ import android.widget.Toast;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
-import citu.teknoybuyandselluser.models.Notification;
 
 public class DonationsActivity extends BaseActivity {
     SharedPreferences prefs;
@@ -104,7 +99,7 @@ public class DonationsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        txtCategory.setText("Categories");
+        txtCategory.setText(getResources().getString(R.string.categories));
         getItems();
 
         Intent service = new Intent(DonationsActivity.this, ExpirationCheckerService.class);
@@ -171,12 +166,12 @@ public class DonationsActivity extends BaseActivity {
         Server.getAllDonations(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                allDonations = new ArrayList<Item>();
+                allDonations = new ArrayList<>();
                 allDonations = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
                 ListView lv = (ListView) findViewById(R.id.listViewDonations);
                 TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
                 if (allDonations.size() == 0) {
-                    txtMessage.setText("No available donations");
+                    txtMessage.setText(getResources().getString(R.string.no_donations));
                     txtMessage.setVisibility(View.VISIBLE);
                     lv.setVisibility(View.GONE);
                 } else {

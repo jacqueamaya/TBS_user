@@ -50,7 +50,7 @@ public class NotificationsActivity extends BaseActivity {
                 notifications = gson.fromJson(responseBody, new TypeToken<ArrayList<Notification>>(){}.getType());
                     if (notifications.size() == 0) {
 
-                        txtMessage.setText("No new notifications");
+                        txtMessage.setText(getResources().getString(R.string.no_notifications));
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
 

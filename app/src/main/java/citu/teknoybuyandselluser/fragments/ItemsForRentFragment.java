@@ -18,9 +18,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
@@ -30,8 +27,6 @@ import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.ReservedItemActivity;
 import citu.teknoybuyandselluser.Server;
 import citu.teknoybuyandselluser.adapters.ReservedItemsAdapter;
-import citu.teknoybuyandselluser.models.Item;
-import citu.teknoybuyandselluser.models.Notification;
 import citu.teknoybuyandselluser.models.ReservedItem;
 
 /**
@@ -42,8 +37,6 @@ import citu.teknoybuyandselluser.models.ReservedItem;
 public class ItemsForRentFragment extends Fragment {
     private static final String TAG = "Items For Rent Fragment";
     private View view = null;
-
-    private SharedPreferences prefs;
 
     private String user;
 
@@ -61,7 +54,7 @@ public class ItemsForRentFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_items_for_rent, container, false);
 
-        prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.USERNAME, "");
 
         getReservedItemsForRent();
@@ -76,13 +69,12 @@ public class ItemsForRentFragment extends Fragment {
         Server.getReservedItemsForRent(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<ReservedItem> reservations = new ArrayList<ReservedItem>();
-                reservations = gson.fromJson(responseBody, new TypeToken<ArrayList<ReservedItem>>(){}.getType());
+                ArrayList<ReservedItem> reservations = gson.fromJson(responseBody, new TypeToken<ArrayList<ReservedItem>>(){}.getType());
                     ListView lv = (ListView) view.findViewById(R.id.listViewItemsForRent);
                     TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 
                     if (reservations.size() == 0) {
-                        txtMessage.setText("No reserved items for rent");
+                        txtMessage.setText(getResources().getString(R.string.no_reserved_items_for_rent));
                         txtMessage.setVisibility(View.VISIBLE);
                         lv.setVisibility(View.GONE);
                     } else {
@@ -104,7 +96,6 @@ public class ItemsForRentFragment extends Fragment {
                                 intent.putExtra(Constants.PRICE, reservation.getItem().getPrice());
                                 intent.putExtra(Constants.STARS_REQUIRED, reservation.getItem().getStars_required());
                                 intent.putExtra(Constants.STARS_TO_USE, reservation.getStars_to_use());
-                                //intent.putExtra(Constants.DISCOUNTED_PRICE, reservation.getDiscountedPrice());
                                 intent.putExtra(Constants.PICTURE, reservation.getItem().getPicture());
                                 intent.putExtra(Constants.RESERVED_DATE, reservation.getReserved_date());
 

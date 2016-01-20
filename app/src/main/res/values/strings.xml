@@ -20,11 +20,6 @@
 
     <!-- Dashboard -->
     <string name="menu_notifications">Notifications</string>
-    <string name="menu_sell_items">Sell Items</string>
-    <string name="menu_pending_items">Pending Items</string>
-    <string name="menu_buy_items">Buy Items</string>
-    <string name="menu_shopping_cart">Shopping Cart</string>
-    <string name="menu_donate_items">Donate Items</string>
     <string name="menu_my_items">My Items</string>
     <string name="menu_reserved_items">Reserved Items</string>
     <string name="menu_make_transactions">Make Transactions</string>
@@ -36,14 +31,8 @@
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_example">Example action</string>
 
     <string name="with_discount">With Discount</string>
     <string name="without_discount">Without Discount</string>
@@ -66,7 +55,28 @@
     <string name="title_activity_donated_item">DonatedItemActivity</string>
     <string name="title_activity_pending_item">PendingItemActivity</string>
     <string name="title_activity_terms_conditions">TermsConditionsActivity</string>
-    <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_my_items">My Items</string>
+    <string name="title_activity_reserved_items">Reserved Items</string>
+    <string name="title_activity_make_transactions">Make Transactions</string>
+    <string name="title_activity_user_profile">User Profile</string>
+    <string name="title_activity_for_rent_item">For Rent Item</string>
+    <string name="title_activity_rent_item_details">RentItemDetails</string>
+    <string name="title_activity_rent_item">RentItemActivity</string>
+
+    <string name="peso">Php </string>
+    <string name="categories">Categories</string>
+    <string name="no_notifications">No new notifications</string>
+    <string name="no_pending_items">No pending items</string>
+    <string name="no_donations">No available donations</string>
+    <string name="no_reserved_items_on_sale">No reserved items on sale</string>
+    <string name="no_reserved_items_for_rent">No reserved items for rent</string>
+    <string name="no_reserved_items_for_donation">No reserved items for donation</string>
+    <string name="no_rented_items">No rented items</string>
+    <string name="no_items_to_buy">No available items to buy</string>
+    <string name="no_items_for_rent">No available items for rent</string>
+    <string name="no_items_to_donate">No available items to donate</string>
+    <string name="no_items_to_sell">No available items to sell</string>
 
     <string-array name="sort_by">
         <item>Date</item>
@@ -82,13 +92,5 @@
         <item>(10%) 100 stars</item>
         <item>(15%) 150 stars</item>
     </string-array>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="title_activity_my_items">My Items</string>
-    <string name="title_activity_reserved_items">Reserved Items</string>
-    <string name="title_activity_make_transactions">Make Transactions</string>
-    <string name="title_activity_user_profile">User Profile</string>
-    <string name="title_activity_for_rent_item">For Rent Item</string>
-    <string name="title_activity_rent_item_details">RentItemDetails</string>
-    <string name="title_activity_rent_item">RentItemActivity</string>
 
 </resources>

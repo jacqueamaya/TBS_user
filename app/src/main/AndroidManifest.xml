@@ -95,12 +95,11 @@
         <activity
             android:name=".RentItemActivity"
             android:label="@string/title_activity_rent_item" />
+            <service
+                android:name=".ExpirationCheckerService"
+                android:exported="false" />
 
-        <service
-            android:name=".ExpirationCheckerService"
-            android:exported="false" />
-
-        <activity android:name=".RentedItemDetailActivity"></activity>
+        <activity android:name=".RentedItemDetailActivity"/>
     </application>
 
 </manifest>
