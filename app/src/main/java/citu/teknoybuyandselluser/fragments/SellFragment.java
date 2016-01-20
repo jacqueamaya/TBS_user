@@ -113,7 +113,6 @@ public class SellFragment extends Fragment {
                             intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
                             intent.putExtra(Constants.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
                             intent.putExtra(Constants.QUANTITY, item.getQuantity());
-                            intent.putExtra(Constants.STATUS, item.getStatus());
                             startActivity(intent);
                         }
                     });

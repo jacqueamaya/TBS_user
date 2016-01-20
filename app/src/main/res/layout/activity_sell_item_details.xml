@@ -177,38 +177,6 @@
 
                     </TableRow>
 
-                    <TableRow
-                        android:id="@+id/tableRow5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
-                        <ImageView
-                            android:id="@+id/status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@id/price"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/input_status_small"
-                            android:tint="@color/Louie" />
-
-                        <TextView
-                            android:id="@+id/txtStatus"
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txtPrice"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/status"
-                            android:text="Status"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:enabled="false"/>
-
-                    </TableRow>
-
                 </TableLayout>
 
             </RelativeLayout>

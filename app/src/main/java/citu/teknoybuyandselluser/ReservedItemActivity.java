@@ -52,7 +52,7 @@ public class ReservedItemActivity extends BaseActivity {
         int mStarsToUse = intent.getIntExtra(Constants.STARS_TO_USE, 0);
         float discountedPrice = intent.getFloatExtra(Constants.DISCOUNTED_PRICE, 0);
         String picture = intent.getStringExtra(Constants.PICTURE);
-        String reservedDate = intent.getStringExtra(Constants.RESERVED_DATE);
+        long reservedDate = intent.getLongExtra(Constants.RESERVED_DATE, 0);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -80,7 +80,7 @@ public class ReservedItemActivity extends BaseActivity {
                 .load(picture)
                 .into(imgPreview);
 
-        txtReservedDate.setText(reservedDate);
+        txtReservedDate.setText(Utils.parseDate(reservedDate));
 
         setTitle(mItemName);
     }
