@@ -87,6 +87,10 @@
         <item>Date</item>
         <item>Name</item>
     </string-array>
+    <string-array name="categories">
+        <item>All</item>
+        <item>Books</item>
+    </string-array>
     <string-array name="stars_to_use">
         <item>(5%) 50 stars</item>
         <item>(10%) 100 stars</item>
