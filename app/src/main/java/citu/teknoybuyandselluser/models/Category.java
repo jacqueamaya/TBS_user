@@ -1,30 +1,22 @@
 package citu.teknoybuyandselluser.models;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import citu.teknoybuyandselluser.Constants;
-
 public class Category {
+    private int id;
+    private String category_name;
 
-    private static final String TAG = "Category";
+    public int getId() {
+        return id;
+    }
 
-    public static String[] getAllCategories(JSONArray jsonArray){
-        String[] categories = new String[jsonArray.length() + 1];
-        categories[0] = "All";
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        for (int i = 1; i < categories.length; i++) {
-            try {
-                JSONObject category = jsonArray.getJSONObject(i-1);
-                categories[i] = category.getString(Constants.CATEGORY);
-            } catch (JSONException e) {
-                Log.e(TAG, "Exception while getting category name", e);
-            }
-        }
+    public String getCategory_name() {
+        return category_name;
+    }
 
-        return categories;
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
     }
 }

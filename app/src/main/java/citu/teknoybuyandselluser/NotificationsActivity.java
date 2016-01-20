@@ -1,6 +1,7 @@
 package citu.teknoybuyandselluser;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,7 @@ import citu.teknoybuyandselluser.models.Notification;
 
 public class NotificationsActivity extends BaseActivity {
     private Gson gson  = new Gson();
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +37,8 @@ public class NotificationsActivity extends BaseActivity {
         setContentView(R.layout.activity_notifications);
         setupUI();
 
-        //gson = new Gson();
-        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString(Constants.USERNAME, "");
+        prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        String user = prefs.getString(Constants.USERNAME,"");
         final TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
         progressBar.setVisibility(View.GONE);
@@ -45,31 +46,25 @@ public class NotificationsActivity extends BaseActivity {
         Server.getNotifications(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Notification> notifications;
-                JSONArray jsonArray;
-
-                try {
-                    jsonArray = new JSONArray(responseBody);
-                    //notifications = gson.fromJson(responseBody, new TypeToken<ArrayList<Notification>>(){}.getType());
-                    if (jsonArray.length() == 0) {
+                ArrayList<Notification> notifications = new ArrayList<Notification>();
+                notifications = gson.fromJson(responseBody, new TypeToken<ArrayList<Notification>>(){}.getType());
+                    if (notifications.size() == 0) {
 
                         txtMessage.setText("No new notifications");
                         txtMessage.setVisibility(View.VISIBLE);
                     } else {
-
-                        notifications = Notification.allNotifications(jsonArray);
 
                         ListView lv = (ListView) findViewById(R.id.listViewNotif);
                         NotificationListAdapter listAdapter = new NotificationListAdapter(NotificationsActivity.this, R.layout.item_notification, notifications);
                         lv.setAdapter(listAdapter);
                     }
 
-                } catch (JSONException e1) {
+                /*} catch (JSONException e1) {
                     e1.printStackTrace();
                     Toast.makeText(NotificationsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
                     txtMessage.setText("No new notifications");
                     txtMessage.setVisibility(View.VISIBLE);
-                }
+                }*/
             }
 
             @Override
@@ -82,5 +77,14 @@ public class NotificationsActivity extends BaseActivity {
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
         return menuItem.getItemId() != R.id.nav_notifications;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Intent service = new Intent(NotificationsActivity.this, ExpirationCheckerService.class);
+        service.putExtra("username",prefs.getString(Constants.USERNAME, ""));
+        startService(service);
     }
 }

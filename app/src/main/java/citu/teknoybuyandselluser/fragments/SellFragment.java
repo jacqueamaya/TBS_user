@@ -18,6 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -25,10 +28,12 @@ import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
+import citu.teknoybuyandselluser.ExpirationCheckerService;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.SellItemActivity;
 import citu.teknoybuyandselluser.SellItemDetailsActivity;
 import citu.teknoybuyandselluser.Server;
+import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
@@ -44,6 +49,12 @@ public class SellFragment extends Fragment {
     private View view = null;
     private ItemsListAdapter listAdapter;
 
+    private SharedPreferences prefs;
+
+    private String user;
+
+    private Gson gson = new Gson();
+
     public SellFragment() {
     }
 
@@ -56,6 +67,10 @@ public class SellFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sell, container, false);
+
+        prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        user = prefs.getString(Constants.USERNAME, "");
+
         getSellItems();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -71,8 +86,6 @@ public class SellFragment extends Fragment {
     }
 
     public void getSellItems() {
-        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
 
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
         progressBar.setVisibility(View.GONE);
@@ -80,61 +93,57 @@ public class SellFragment extends Fragment {
         Server.getItemsToSell(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                Log.v(TAG, responseBody);
-                JSONArray jsonArray;
-                ArrayList<Item> mOwnedItems;
+                ArrayList<Item> mOwnedItems = new ArrayList<Item>();
+                mOwnedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
                 ListView listView;
 
-                try {
-                    TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                    listView = (ListView) view.findViewById(R.id.listViewSellItems);
-                    jsonArray = new JSONArray(responseBody);
-                    if (jsonArray.length() == 0) {
-                        txtMessage.setText("No available items to sell");
-                        txtMessage.setVisibility(View.VISIBLE);
-                        listView.setVisibility(View.GONE);
-                    } else {
-                        txtMessage.setVisibility(View.GONE);
-                        mOwnedItems = Item.allItems(jsonArray);
-                        listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.list_item, mOwnedItems);
-                        listView.setVisibility(View.VISIBLE);
-                        listView.setAdapter(listAdapter);
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = listAdapter.getDisplayView().get(position);
+                TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
+                listView = (ListView) view.findViewById(R.id.listViewSellItems);
+                if (mOwnedItems.size() == 0) {
+                    txtMessage.setText("No available items to sell");
+                    txtMessage.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                } else {
+                    txtMessage.setVisibility(View.GONE);
+                    listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.list_item, mOwnedItems);
+                    listView.setVisibility(View.VISIBLE);
+                    listView.setAdapter(listAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Item item = listAdapter.getDisplayView().get(position);
 
-                                Intent intent;
-                                intent = new Intent(getActivity().getBaseContext(), SellItemDetailsActivity.class);
-                                intent.putExtra(Constants.ID, item.getId());
-                                intent.putExtra(Constants.ITEM_NAME, item.getItemName());
-                                intent.putExtra(Constants.DESCRIPTION, item.getDescription());
-                                intent.putExtra(Constants.PICTURE, item.getPicture());
-                                intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
-                                intent.putExtra(Constants.FORMAT_PRICE, item.getFormattedPrice());
-                                intent.putExtra(Constants.QUANTITY, item.getQuantity());
-                                intent.putExtra(Constants.STATUS, item.getStatus());
-                                startActivity(intent);
-                            }
-                        });
-                    }
-
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
+                            Intent intent;
+                            intent = new Intent(getActivity().getBaseContext(), SellItemDetailsActivity.class);
+                            intent.putExtra(Constants.ID, item.getId());
+                            intent.putExtra(Constants.ITEM_NAME, item.getName());
+                            intent.putExtra(Constants.DESCRIPTION, item.getDescription());
+                            intent.putExtra(Constants.PICTURE, item.getPicture());
+                            intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
+                            intent.putExtra(Constants.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
+                            intent.putExtra(Constants.QUANTITY, item.getQuantity());
+                            intent.putExtra(Constants.STATUS, item.getStatus());
+                            startActivity(intent);
+                        }
+                    });
                 }
-            }
+                }
 
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.v(TAG, "Request error");
-                Toast.makeText(getActivity().getBaseContext(), "Unable to connect to server", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void error(int statusCode, String responseBody, String statusText) {
+                    Log.v(TAG, "Request error");
+                    Toast.makeText(getActivity().getBaseContext(), "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getSellItems();
+
+        Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
+        service.putExtra("username", user);
+        getActivity().startService(service);
     }
 }

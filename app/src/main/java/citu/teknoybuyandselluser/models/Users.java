@@ -1,8 +1,5 @@
 package citu.teknoybuyandselluser.models;
 
-/**
- * Created by jack on 14/01/16.
- */
 public class Users {
     private int id;
     private String username;

@@ -2,12 +2,15 @@ package citu.teknoybuyandselluser;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import java.util.Map;
 
 public class Server {
+
+    private static final String TAG = "Server";
 
     public static void register (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         if ( ! data.containsKey(MainActivity.ID_NUMBER) ||
@@ -98,16 +101,20 @@ public class Server {
                 ! data.containsKey(Constants.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
+        Log.e(TAG,data.toString());
 
         Ajax.post(Constants.URL_BUY_ITEM, progressDialog, data, callbacks);
     }
 
     public static void rentItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.BUYER) ||
+        Log.e(TAG,data.toString());
+        if ( ! data.containsKey(Constants.RENTER) ||
                 ! data.containsKey(Constants.ID) ||
                 ! data.containsKey(Constants.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
+
+
 
         Ajax.post(Constants.URL_RENT_ITEM, progressDialog, data, callbacks);
     }

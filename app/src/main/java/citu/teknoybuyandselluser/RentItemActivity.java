@@ -42,8 +42,8 @@ public class RentItemActivity extends BaseActivity {
     private TextView mLblStarsToUse;
     private EditText mTxtQuantity;
     private EditText mTxtStarsToUse;
-    private RadioButton mRdWithoutDiscount;
-    private RadioButton mRdWithDiscount;
+    //private RadioButton mRdWithoutDiscount;
+    //private RadioButton mRdWithDiscount;
 
     private ProgressDialog mProgressDialog;
 
@@ -73,10 +73,10 @@ public class RentItemActivity extends BaseActivity {
         TextView mTxtItem = (TextView) findViewById(R.id.txtItem);
         TextView mTxtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView mTxtPrice = (TextView) findViewById(R.id.txtPrice);
-        mLblStarsToUse = (TextView) findViewById(R.id.lblStarsToUse);
-        mTxtStarsToUse = (EditText) findViewById(R.id.txtStarsToUse);
-        mRdWithoutDiscount = (RadioButton) findViewById(R.id.rdWithoutDiscount);
-        mRdWithDiscount = (RadioButton) findViewById(R.id.rdWithDiscount);
+       // mLblStarsToUse = (TextView) findViewById(R.id.lblStarsToUse);
+       // mTxtStarsToUse = (EditText) findViewById(R.id.txtStarsToUse);
+        //mRdWithoutDiscount = (RadioButton) findViewById(R.id.rdWithoutDiscount);
+        //mRdWithDiscount = (RadioButton) findViewById(R.id.rdWithDiscount);
         mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
         ImageView mBtnRentItem = (ImageView) findViewById(R.id.btnRentItem);
         ImageView mImgItem = (ImageView) findViewById(R.id.imgItem);
@@ -116,11 +116,7 @@ public class RentItemActivity extends BaseActivity {
     public void onRent(View view) {
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
-        if (mRdWithDiscount.isChecked()) {
-            buyWithDiscountDialogBox();
-        } else if (mRdWithoutDiscount.isChecked()) {
-            rentItem();
-        }
+        rentItem();
     }
 
     public void rentItem() {
@@ -155,7 +151,7 @@ public class RentItemActivity extends BaseActivity {
         }
     }
 
-    public void buyWithDiscountDialogBox() {
+    /*public void buyWithDiscountDialogBox() {
         final AlertDialog.Builder buyItem = new AlertDialog.Builder(this);
         buyItem.setTitle("Buy With Discount");
         buyItem.setIcon(R.drawable.ic_star_black_24dp);
@@ -197,7 +193,7 @@ public class RentItemActivity extends BaseActivity {
                             });
                 } else {
                     ReservedItem ri = new ReservedItem();
-                    ri.setStarsToUse(mStarsToUse);
+                    ri.setStars_to_use(mStarsToUse);
                     calculateDiscount();
                     calculateDiscountedPrice();
                     buyItem.setMessage("Discount:\t" + Utils.formatDouble(mDiscount * 100) + "%\n" +
@@ -223,7 +219,7 @@ public class RentItemActivity extends BaseActivity {
 
         AlertDialog alert = buyItem.create();
         alert.show();
-    }
+    }*/
 
     private int getStars() {
         mPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);

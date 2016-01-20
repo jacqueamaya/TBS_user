@@ -50,14 +50,14 @@ public class ReservedItemsAdapter extends ArrayAdapter<ReservedItem>{
         if(items.get(position) != null )
         {
             Picasso.with(mContext)
-                    .load(items.get(position).getPicture())
+                    .load(items.get(position).getItem().getPicture())
                     .placeholder(R.drawable.notif_user)
                     .resize(50,50)
                     .centerCrop()
                     .into(image);
 
             String message;
-            message = "<b>"+items.get(position).getItemName()+"</b>";
+            message = "<b>"+items.get(position).getItem().getName()+"</b>";
             text.setText(Html.fromHtml(message));
         }
 

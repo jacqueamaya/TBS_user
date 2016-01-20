@@ -2,6 +2,7 @@ package citu.teknoybuyandselluser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import com.squareup.picasso.Picasso;
  */
 
 public class RentItemDetailsActivity extends BaseActivity {
+
+    private static final String TAG = "RentItemDetails";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class RentItemDetailsActivity extends BaseActivity {
                 .into(imgPreview);
 
         setTitle(itemName);
+
+        Log.e(TAG,"Rent item details");
     }
 
     @Override

@@ -1,5 +1,8 @@
 package citu.teknoybuyandselluser;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,6 +18,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import java.util.ArrayList;
 import java.util.List;
 
+import citu.teknoybuyandselluser.adapters.MyItemsAdapter;
 import citu.teknoybuyandselluser.fragments.DonateFragment;
 import citu.teknoybuyandselluser.fragments.PendingFragment;
 import citu.teknoybuyandselluser.fragments.RentFragment;
@@ -26,7 +30,7 @@ import citu.teknoybuyandselluser.fragments.SellFragment;
 
 
 public class MyItemsActivity extends BaseActivity {
-
+    SharedPreferences prefs;
     private static final String TAG = "MyItemsActivity";
 
     @Override
@@ -37,21 +41,14 @@ public class MyItemsActivity extends BaseActivity {
         setContentView(R.layout.activity_my_items);
         setupUI();
 
+        prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        MyItemsAdapter adapter = new MyItemsAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new PendingFragment(), "Pending");
-        adapter.addFragment(new SellFragment(), "Sell");
-        adapter.addFragment(new RentFragment(), "Rent");
-        adapter.addFragment(new DonateFragment(), "Donate");
-        adapter.addFragment(new RentedFragment(), "Rented");
-        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -59,32 +56,11 @@ public class MyItemsActivity extends BaseActivity {
         return menuItem.getItemId() != R.id.nav_my_items;
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent service = new Intent(MyItemsActivity.this, ExpirationCheckerService.class);
+        service.putExtra("username", prefs.getString(Constants.USERNAME,""));
+        startService(service);
     }
 }

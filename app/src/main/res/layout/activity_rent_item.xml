@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="23dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_toEndOf="@+id/imgItem"
                     android:layout_toRightOf="@id/imgItem"
                     android:text="Item Name"
@@ -61,61 +62,11 @@
                     android:textSize="20dp"
                     android:textStyle="normal" />
 
-                <RadioGroup
-                    android:id="@+id/rdGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtPrice"
-                    android:layout_toRightOf="@+id/imgItem">
-
-                    <RadioButton
-                        android:id="@+id/rdWithoutDiscount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:checked="true"
-                        android:onClick="hideInputStars"
-                        android:text="@string/without_discount" />
-
-                    <RadioButton
-                        android:id="@+id/rdWithDiscount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="0dp"
-                        android:onClick="showInputStars"
-                        android:text="@string/with_discount" />
-
-                </RadioGroup>
-
-                <TextView
-                    android:id="@+id/lblStarsToUse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rdGroup"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/imgItem"
-                    android:textColor="@color/Black"
-                    android:visibility="gone" />
-
-                <EditText
-                    android:id="@+id/txtStarsToUse"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/rdGroup"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@id/lblStarsToUse"
-                    android:layout_toRightOf="@id/lblStarsToUse"
-                    android:inputType="number"
-                    android:visibility="gone" />
-
                 <TextView
                     android:id="@+id/lblQuantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblStarsToUse"
+                    android:layout_below="@+id/txtPrice"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/imgItem"
@@ -126,7 +77,7 @@
                     android:id="@+id/txtQuantity"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txtStarsToUse"
+                    android:layout_below="@id/txtPrice"
                     android:layout_marginLeft="10dp"
                     android:layout_toEndOf="@id/lblQuantity"
                     android:layout_toRightOf="@id/lblQuantity"

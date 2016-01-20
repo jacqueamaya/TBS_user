@@ -15,6 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -22,9 +25,11 @@ import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
+import citu.teknoybuyandselluser.ExpirationCheckerService;
 import citu.teknoybuyandselluser.PendingItemActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
+import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Item;
 
@@ -39,6 +44,8 @@ public class PendingFragment extends Fragment {
     private View view = null;
     private ItemsListAdapter listAdapter;
 
+    private SharedPreferences prefs;
+
     private int mItemId;
     private int mStarsRequired;
     private float mPrice;
@@ -46,6 +53,9 @@ public class PendingFragment extends Fragment {
     private String mItemName;
     private String mPicture;
     private String mFormatPrice;
+    private String user;
+
+    private Gson gson = new Gson();
 
     public PendingFragment() {
 
@@ -60,70 +70,74 @@ public class PendingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_pending, container, false);
+
+        prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        user = prefs.getString(Constants.USERNAME, "");
+
         getPendingItems();
         return view;
     }
 
-    public void getPendingItems() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPendingItems();
 
-        SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
+        Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
+        service.putExtra("username", user);
+        getActivity().startService(service);
+    }
+
+    public void getPendingItems() {
 
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
         progressBar.setVisibility(View.GONE);
         Server.getPendingItems(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> pendingItems;
-                Log.v(TAG, responseBody);
-                JSONArray jsonArray;
+                ArrayList<Item> pendingItems = new ArrayList<Item>();
+                pendingItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
 
-                try {
-                    TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                    ListView lv = (ListView) view.findViewById(R.id.listViewPending);
-                    jsonArray = new JSONArray(responseBody);
-                    if (jsonArray.length() == 0) {
-                        txtMessage.setText("No pending items");
-                        txtMessage.setVisibility(View.VISIBLE);
-                        lv.setVisibility(View.GONE);
-                    } else {
-                        txtMessage.setVisibility(View.GONE);
-                        pendingItems = Item.allItems(jsonArray);
-                        listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.list_item, pendingItems);
-                        lv.setVisibility(View.VISIBLE);
-                        lv.setAdapter(listAdapter);
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = listAdapter.getDisplayView().get(position);
-                                mItemId = item.getId();
-                                mItemName = item.getItemName();
-                                mDescription = item.getDescription();
-                                mPrice = item.getPrice();
-                                mPicture = item.getPicture();
-                                mStarsRequired = item.getStars_required();
-                                mFormatPrice = item.getFormattedPrice();
-                                String purpose = item.getPurpose();
+                TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
+                ListView lv = (ListView) view.findViewById(R.id.listViewPending);
+                if (pendingItems.size() == 0) {
+                    txtMessage.setText("No pending items");
+                    txtMessage.setVisibility(View.VISIBLE);
+                    lv.setVisibility(View.GONE);
+                } else {
+                    txtMessage.setVisibility(View.GONE);
+                    listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.list_item, pendingItems);
+                    lv.setVisibility(View.VISIBLE);
+                    lv.setAdapter(listAdapter);
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Item item = listAdapter.getDisplayView().get(position);
+                            mItemId = item.getId();
+                            mItemName = item.getName();
+                            mDescription = item.getDescription();
+                            mPrice = item.getPrice();
+                            mPicture = item.getPicture();
+                            mStarsRequired = item.getStars_required();
+                            mFormatPrice = Utils.formatFloat(item.getPrice());
+                            String purpose = item.getPurpose();
 
-                                Intent intent;
-                                intent = new Intent(getActivity().getBaseContext(), PendingItemActivity.class);
-                                intent.putExtra(Constants.ID, mItemId);
-                                intent.putExtra(Constants.ITEM_NAME, mItemName);
-                                intent.putExtra(Constants.DESCRIPTION, mDescription);
-                                intent.putExtra(Constants.PRICE, mPrice);
-                                intent.putExtra(Constants.PICTURE, mPicture);
-                                intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
-                                intent.putExtra(Constants.FORMAT_PRICE, mFormatPrice);
-                                intent.putExtra("purpose", purpose);
+                            Intent intent;
+                            intent = new Intent(getActivity().getBaseContext(), PendingItemActivity.class);
+                            intent.putExtra(Constants.ID, mItemId);
+                            intent.putExtra(Constants.ITEM_NAME, mItemName);
+                            intent.putExtra(Constants.DESCRIPTION, mDescription);
+                            intent.putExtra(Constants.PRICE, mPrice);
+                            intent.putExtra(Constants.PICTURE, mPicture);
+                            intent.putExtra(Constants.STARS_REQUIRED, mStarsRequired);
+                            intent.putExtra(Constants.FORMAT_PRICE, mFormatPrice);
+                            intent.putExtra("purpose", purpose);
 
-                                startActivity(intent);
-                            }
-                        });
-                    }
-
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
+                            startActivity(intent);
+                        }
+                    });
                 }
+
             }
 
             @Override

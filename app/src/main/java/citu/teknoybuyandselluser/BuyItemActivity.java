@@ -98,6 +98,7 @@ public class BuyItemActivity extends BaseActivity {
         String user = mPreferences.getString(Constants.USERNAME, "");
         data.put(Constants.BUYER, user);
         data.put(Constants.ID, "" + mItemId);
+        data.put(Constants.STARS_TO_USE, user);
 
         mBtnBuyItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +146,7 @@ public class BuyItemActivity extends BaseActivity {
 
                 @Override
                 public void error(int statusCode, String responseBody, String statusText) {
-                    Log.d(TAG, "Server error");
+                    Log.d(TAG, "Server error: "+ responseBody);
                     Toast.makeText(BuyItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -196,7 +197,7 @@ public class BuyItemActivity extends BaseActivity {
                             });
                 } else {
                     ReservedItem ri = new ReservedItem();
-                    ri.setStarsToUse(mStarsToUse);
+                    ri.setStars_to_use(mStarsToUse);
                     calculateDiscount();
                     calculateDiscountedPrice();
                     buyItem.setMessage("Discount:\t" + Utils.formatDouble(mDiscount * 100) + "%\n" +

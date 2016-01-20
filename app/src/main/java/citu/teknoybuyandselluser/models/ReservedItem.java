@@ -1,130 +1,84 @@
 package citu.teknoybuyandselluser.models;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 import citu.teknoybuyandselluser.Utils;
 
 public class ReservedItem {
-    private static final String TAG = "ReservedItem";
     private static final int DIVISOR = 1000;
 
-    private int itemId;
-    private int reservationId;
-    private int starsRequired;
-    private int starsToUse;
-    private float discountedPrice;
-    private float price;
-    private String description;
-    private String itemName;
-    private String picture;
-    private String reserved_date;
+    private int id;
+    private UserProfile buyer;
+    private Item item;
+    private long reserved_date;
+    private long reserved_expiration;
+    private int stars_to_use;
+
     private String status;
+    private String str_reserved_date = Utils.parseDate(reserved_date);
 
-    public String getPicture() {
-        return picture;
+    public String getStr_reserved_date() {
+        return str_reserved_date;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public int getId() {
+        return id;
     }
 
-    public String getDescription() {
-        return description;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getReservationId() {
-        return reservationId;
+    public UserProfile getBuyer() {
+        return buyer;
     }
 
-    public int getItemId() {
-        return itemId;
+    public void setBuyer(UserProfile buyer) {
+        this.buyer = buyer;
     }
 
-    public String getItemName() {
-        return itemName;
+    public Item getItem() {
+        return item;
     }
 
-    public float getPrice() {
-        return price;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    public float getDiscountedPrice() {
-        float discount = (float) getStarsToUse() / DIVISOR;
-        discountedPrice = getPrice() * (1 - discount);
-        return discountedPrice;
+    public long getReserved_date() {
+        return reserved_date;
+    }
+
+    public void setReserved_date(long reserved_date) {
+        this.reserved_date = reserved_date;
+    }
+
+    public long getReserved_expiration() {
+        return reserved_expiration;
+    }
+
+    public void setReserved_expiration(long reserved_expiration) {
+        this.reserved_expiration = reserved_expiration;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public String getReserved_date() {
-        return reserved_date;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    public int getStars_to_use() {
+        return stars_to_use;
     }
 
-    public int getStarsToUse() {
-        return starsToUse;
+    public void setStars_to_use(int stars_to_use) {
+        this.stars_to_use = stars_to_use;
     }
 
-    public void setStarsToUse(int starsToUse) {
-        this.starsToUse = starsToUse;
+    public float getDiscountedPrice() {
+        float discount = (float) stars_to_use / DIVISOR;
+        //discountedPrice = item.getPrice() * (1 - discount);
+        return item.getPrice() * (1 - discount);
     }
 
-    public int getStarsRequired() {
-        return starsRequired;
-    }
-
-    public static ReservedItem getReservedItem(JSONObject jsonObject){
-        ReservedItem ri = new ReservedItem();
-        Item item;
-
-        try {
-            ri.reservationId = jsonObject.getInt("id");
-            ri.reserved_date = Utils.parseToDateOnly(jsonObject.getLong("reserved_date"));
-            ri.status = jsonObject.getString("status");
-
-            if(!jsonObject.isNull("item")){
-                item = Item.getItem(jsonObject.getJSONObject("item"));
-                ri.itemId = item.getId();
-                ri.starsRequired = item.getStars_required();
-                ri.starsToUse = item.getStarsToUse();
-                ri.itemName = item.getItemName();
-                ri.price = item.getPrice();
-                ri.picture = item.getPicture();
-                ri.description = item.getDescription();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return ri;
-    }
-
-    public static ArrayList<ReservedItem> allReservedItems(JSONArray jsonArray){
-        ArrayList<ReservedItem> reserved = new ArrayList<ReservedItem>(jsonArray.length());
-        for (int i=0; i < jsonArray.length(); i++) {
-            JSONObject reservedObject = null;
-            try {
-                reservedObject = jsonArray.getJSONObject(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-                continue;
-            }
-
-            ReservedItem ri = ReservedItem.getReservedItem(reservedObject);
-            if (ri != null) {
-                reserved.add(ri);
-            }
-        }
-        return reserved;
-
-    }
 }

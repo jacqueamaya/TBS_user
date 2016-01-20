@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 import citu.teknoybuyandselluser.R;
+import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.models.Item;
 
 /**
@@ -78,7 +80,7 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
                 .into(image);
 
         String message;
-        message = "<b>" + item.getItemName() + "</b>";
+        message = "<b>" + item.getName() + "</b>";
         text.setText(Html.fromHtml(message));
 
         return mView;
@@ -103,8 +105,8 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
                     results.values = mOriginalValues;
                 } else {
                     for (int i = 0; i < mOriginalValues.size(); i++) {
-                        String name = mOriginalValues.get(i).getItemName();
-                        String category = mOriginalValues.get(i).getCategory();
+                        String name = mOriginalValues.get(i).getName();
+                        String category = mOriginalValues.get(i).getCategory().getCategory_name();
                         if(searchByCategory.length == 2) {
                             if (category.equals(searchByCategory[1]) && name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
                                 FilteredArrList.add(mOriginalValues.get(i));
@@ -148,7 +150,7 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
             case "name":
                 Comparator<Item> nameComparator = new Comparator<Item>() {
                     public int compare(Item obj1, Item obj2) {
-                        return obj1.getItemName().compareTo(obj2.getItemName());
+                        return obj1.getName().compareTo(obj2.getName());
                     }
                 };
                 Collections.sort(mDisplayedValues, nameComparator);
@@ -156,7 +158,7 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
             default:
                 Comparator<Item> dateComparator = new Comparator<Item>() {
                     public int compare(Item obj1, Item obj2) {
-                        return obj1.getDateApproved().compareTo(obj2.getDateApproved());
+                        return Utils.parseDate(obj1.getDate_approved()).compareTo(Utils.parseDate(obj2.getDate_approved()));
                     }
                 };
                 Collections.sort(mDisplayedValues, Collections.reverseOrder(dateComparator));

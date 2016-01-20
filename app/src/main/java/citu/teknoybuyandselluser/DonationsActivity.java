@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,15 +33,17 @@ import java.util.ArrayList;
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.Notification;
 
 public class DonationsActivity extends BaseActivity {
-
+    SharedPreferences prefs;
     private static final String TAG = "All Donations";
 
     private TextView txtCategory;
     private ProgressBar progressBar;
 
-    private String categories[];
+    private Category categories[];
+    private String categoryNames[];
     private String sortBy[];
 
     private ItemsListAdapter listAdapter;
@@ -48,7 +52,11 @@ public class DonationsActivity extends BaseActivity {
     private String searchQuery = "";
     private String category = "";
     private String lowerCaseSort = "date";
+    private String user;
+
     private Spinner spinnerSortBy;
+
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,9 @@ public class DonationsActivity extends BaseActivity {
         Fresco.initialize(this);
         setContentView(R.layout.activity_donations);
         setupUI();
+
+        prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        user = prefs.getString(Constants.USERNAME, "");
 
         txtCategory = (TextView) findViewById(R.id.txtCategory);
         progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
@@ -73,10 +84,10 @@ public class DonationsActivity extends BaseActivity {
             public void onClick(View v) {
                 AlertDialog displayCategories = new AlertDialog.Builder(DonationsActivity.this)
                         .setTitle("Categories")
-                        .setItems(categories, new DialogInterface.OnClickListener() {
+                        .setItems(categoryNames, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                txtCategory.setText(categories[which]);
+                                txtCategory.setText(categories[which].getCategory_name());
                                 category = txtCategory.getText().toString();
                                 if (category.equals("All")) {
                                     category = "";
@@ -95,6 +106,10 @@ public class DonationsActivity extends BaseActivity {
         super.onResume();
         txtCategory.setText("Categories");
         getItems();
+
+        Intent service = new Intent(DonationsActivity.this, ExpirationCheckerService.class);
+        service.putExtra("username", prefs.getString(Constants.USERNAME, ""));
+        startService(service);
     }
 
     @Override
@@ -152,65 +167,54 @@ public class DonationsActivity extends BaseActivity {
     }
 
     public void getAllItems() {
-        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
 
         Server.getAllDonations(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 allDonations = new ArrayList<Item>();
-                Log.v(TAG, responseBody);
-                JSONArray jsonArray;
+                allDonations = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
+                ListView lv = (ListView) findViewById(R.id.listViewDonations);
+                TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
+                if (allDonations.size() == 0) {
+                    txtMessage.setText("No available donations");
+                    txtMessage.setVisibility(View.VISIBLE);
+                    lv.setVisibility(View.GONE);
+                } else {
+                    txtMessage.setVisibility(View.GONE);
+                    listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
+                    listAdapter.sortItems(lowerCaseSort);
+                    lv.setVisibility(View.VISIBLE);
+                    lv.setAdapter(listAdapter);
 
-                try {
-                    ListView lv = (ListView) findViewById(R.id.listViewDonations);
-                    TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
-                    jsonArray = new JSONArray(responseBody);
-                    if (jsonArray.length() == 0) {
-                        txtMessage.setText("No available donations");
-                        txtMessage.setVisibility(View.VISIBLE);
-                        lv.setVisibility(View.GONE);
-                    } else {
-                        txtMessage.setVisibility(View.GONE);
-                        allDonations = Item.allItems(jsonArray);
-                        listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
-                        listAdapter.sortItems(lowerCaseSort);
-                        lv.setVisibility(View.VISIBLE);
-                        lv.setAdapter(listAdapter);
+                    spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            lowerCaseSort = sortBy[position].toLowerCase();
+                            listAdapter.sortItems(lowerCaseSort);
+                        }
 
-                        spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                lowerCaseSort = sortBy[position].toLowerCase();
-                                listAdapter.sortItems(lowerCaseSort);
-                            }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
 
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
 
-                            }
-                        });
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Item item = listAdapter.getDisplayView().get(position);
 
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = listAdapter.getDisplayView().get(position);
-
-                                Intent intent;
-                                intent = new Intent(DonationsActivity.this, DonatedItemActivity.class);
-                                intent.putExtra(Constants.ID, item.getId());
-                                intent.putExtra(Constants.ITEM_NAME, item.getItemName());
-                                intent.putExtra(Constants.DESCRIPTION, item.getDescription());
-                                intent.putExtra(Constants.QUANTITY, item.getQuantity());
-                                intent.putExtra(Constants.PICTURE, item.getPicture());
-                                intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
-                                startActivity(intent);
-                            }
-                        });
-                    }
-
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
+                            Intent intent;
+                            intent = new Intent(DonationsActivity.this, DonatedItemActivity.class);
+                            intent.putExtra(Constants.ID, item.getId());
+                            intent.putExtra(Constants.ITEM_NAME, item.getName());
+                            intent.putExtra(Constants.DESCRIPTION, item.getDescription());
+                            intent.putExtra(Constants.QUANTITY, item.getQuantity());
+                            intent.putExtra(Constants.PICTURE, item.getPicture());
+                            intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
 
@@ -227,15 +231,14 @@ public class DonationsActivity extends BaseActivity {
         Server.getCategories(progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                try {
-                    JSONArray json = new JSONArray(responseBody);
-                    if (json.length() != 0) {
-                        categories = Category.getAllCategories(new JSONArray(responseBody));
-                    } else {
-                        Toast.makeText(DonationsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
+                if (!("".equals(responseBody))) {
+                    categories = gson.fromJson(responseBody, Category[].class);
+                    categoryNames = new String[categories.length];
+                    for(int i=0; i<categories.length; i++){
+                        categoryNames[i] =  categories[i].getCategory_name();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(DonationsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -18,118 +18,121 @@ import citu.teknoybuyandselluser.Utils;
  * Created by Jacquelyn on 9/20/2015.
  */
 public class Item {
-
     private int id;
-    private int starsToUse;
-    private String owner;
-    private String itemName;
+    private UserProfile owner;
+    private String name;
     private String description;
-    private String category;
+    private Category category;
     private String status;
     private String purpose;
-    private String formattedPrice;
     private float price;
     private int quantity;
     private String picture;
     private int stars_required;
-
-    private String dateApproved;
+    private int stars_to_use;
+    private long date_approved;
 
     public int getId() {
         return id;
     }
 
-    public int getStarsToUse() {
-        return starsToUse;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getOwner() {
+    public UserProfile getOwner() {
         return owner;
     }
 
-    public String getItemName() {
-        return itemName;
+    public void setOwner(UserProfile owner) {
+        this.owner = owner;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getCategory() {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Category getCategory() {
         return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getStatus() {
         return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getPurpose() {
         return purpose;
+    }
+
+    public void He (String purpose) {
+        this.purpose = purpose;
     }
 
     public float getPrice() {
         return price;
     }
 
-    public String getPicture() {
-        return picture;
-    }
-
-    public int getStars_required() {
-        return stars_required;
-    }
-
-    public String getFormattedPrice() {
-        return formattedPrice;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public String getDateApproved() {
-        return dateApproved;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public static Item getItem(JSONObject jsonObject){
-        Item item = new Item();
-
-        try {
-            item.id = jsonObject.getInt("id");
-            item.itemName = jsonObject.getString(Constants.NAME);
-            item.description = jsonObject.getString(Constants.DESCRIPTION);
-            item.category = jsonObject.getJSONObject("category").getString(Constants.CATEGORY);
-            item.status = jsonObject.getString("status");
-            item.purpose = jsonObject.getString("purpose");
-            item.price = (float)jsonObject.getDouble(Constants.PRICE);
-            item.formattedPrice = Utils.formatFloat(item.price);
-            item.quantity = jsonObject.getInt(Constants.QUANTITY);
-            item.stars_required = jsonObject.getInt(Constants.STARS_REQUIRED);
-            item.picture = jsonObject.getString(Constants.PICTURE);
-            item.dateApproved = Utils.parseDate(jsonObject.optLong("date_approved"));
-            item.starsToUse = jsonObject.getInt(Constants.STARS_TO_USE);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return item;
+    public String getPicture() {
+        return picture;
     }
 
-    public static ArrayList<Item> allItems(JSONArray jsonArray){
-        ArrayList<Item> items = new ArrayList<Item>(jsonArray.length());
-        for (int i=0; i < jsonArray.length(); i++) {
-            JSONObject jsonItem;
-            try {
-                jsonItem = jsonArray.getJSONObject(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-                continue;
-            }
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
-            Item item = Item.getItem(jsonItem);
-            if (item != null) {
-                items.add(item);
-            }
-        }
-        return items;
+    public int getStars_required() {
+        return stars_required;
+    }
+
+    public void setStars_required(int stars_required) {
+        this.stars_required = stars_required;
+    }
+
+    public int getStars_to_use() {
+        return stars_to_use;
+    }
+
+    public void setStars_to_use(int stars_to_use) {
+        this.stars_to_use = stars_to_use;
+    }
+
+    public long getDate_approved() {
+        return date_approved;
+    }
+
+    public void setDate_approved(long date_approved) {
+        this.date_approved = date_approved;
     }
 }

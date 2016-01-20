@@ -79,6 +79,10 @@ public class StarsCollectedActivity extends BaseActivity {
         super.onResume();
         getStars();
         showStars();
+
+        Intent service = new Intent(StarsCollectedActivity.this, ExpirationCheckerService.class);
+        service.putExtra("username", mStrUsername);
+        startService(service);
     }
 
     public void getUser () {
