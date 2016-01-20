@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -30,11 +31,10 @@ import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
 
-public class DonationsActivity extends BaseActivity {
+public class DonationsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener{
     SharedPreferences prefs;
     private static final String TAG = "All Donations";
 
-    private TextView txtCategory;
     private ProgressBar progressBar;
 
     private Category categories[];
@@ -49,8 +49,6 @@ public class DonationsActivity extends BaseActivity {
     private String lowerCaseSort = "date";
     private String user;
 
-    private Spinner spinnerSortBy;
-
     private Gson gson = new Gson();
 
     @Override
@@ -64,43 +62,18 @@ public class DonationsActivity extends BaseActivity {
         prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.USERNAME, "");
 
-        txtCategory = (TextView) findViewById(R.id.txtCategory);
         progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
-        spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
         progressBar.setVisibility(View.GONE);
 
         sortBy = getResources().getStringArray(R.array.donations_sort_by);
 
-        getItems();
         getCategories();
-
-        txtCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog displayCategories = new AlertDialog.Builder(DonationsActivity.this)
-                        .setTitle("Categories")
-                        .setItems(categoryNames, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                txtCategory.setText(categories[which].getCategory_name());
-                                category = txtCategory.getText().toString();
-                                if (category.equals("All")) {
-                                    category = "";
-                                }
-                                listAdapter.getFilter().filter(category);
-                            }
-                        })
-                        .create();
-                displayCategories.show();
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        txtCategory.setText(getResources().getString(R.string.categories));
-        getItems();
+        getAllItems();
 
         Intent service = new Intent(DonationsActivity.this, ExpirationCheckerService.class);
         service.putExtra("username", prefs.getString(Constants.USERNAME, ""));
@@ -124,7 +97,6 @@ public class DonationsActivity extends BaseActivity {
 
         searchView.setSearchableInfo(searchManager.
                 getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -155,12 +127,6 @@ public class DonationsActivity extends BaseActivity {
         return menuItem.getItemId() != R.id.nav_stars_collected;
     }
 
-    public void getItems() {
-        if (txtCategory.getText().toString().equals("Categories")) {
-            getAllItems();
-        }
-    }
-
     public void getAllItems() {
 
         Server.getAllDonations(user, progressBar, new Ajax.Callbacks() {
@@ -181,18 +147,16 @@ public class DonationsActivity extends BaseActivity {
                     lv.setVisibility(View.VISIBLE);
                     lv.setAdapter(listAdapter);
 
-                    spinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            lowerCaseSort = sortBy[position].toLowerCase();
-                            listAdapter.sortItems(lowerCaseSort);
-                        }
+                    Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
+                    sortOrFilter(spinnerSortBy);
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
+                    if(categoryNames.length != 0) {
+                        Spinner spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(DonationsActivity.this, android.R.layout.simple_spinner_item, categoryNames);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinnerCategory.setAdapter(adapter);
+                        sortOrFilter(spinnerCategory);
+                    }
 
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -228,9 +192,10 @@ public class DonationsActivity extends BaseActivity {
             public void success(String responseBody) {
                 if (!("".equals(responseBody))) {
                     categories = gson.fromJson(responseBody, Category[].class);
-                    categoryNames = new String[categories.length];
-                    for(int i=0; i<categories.length; i++){
-                        categoryNames[i] =  categories[i].getCategory_name();
+                    categoryNames = new String[categories.length + 1];
+                    categoryNames[0] = "All";
+                    for (int i = 1; i < categoryNames.length; i++) {
+                        categoryNames[i] = categories[i - 1].getCategory_name();
                     }
                 } else {
                     Toast.makeText(DonationsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
@@ -243,5 +208,32 @@ public class DonationsActivity extends BaseActivity {
                 Toast.makeText(DonationsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void sortOrFilter(Spinner spinner) {
+        spinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        int spinnerId = adapterView.getId();
+        switch (spinnerId){
+            case R.id.spinnerSortBy:
+                lowerCaseSort = sortBy[i].toLowerCase();
+                listAdapter.sortItems(lowerCaseSort);
+                break;
+            case R.id.spinnerCategory:
+                String category = categoryNames[i];
+                if (category.equals("All")) {
+                    category = "";
+                }
+                listAdapter.getFilter().filter(category);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

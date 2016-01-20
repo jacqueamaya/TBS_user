@@ -18,7 +18,7 @@ import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.models.ReservedItem;
 
 /**
- * Created by Jacquelyn on 9/23/2015.
+ ** Created by Jacquelyn on 9/23/2015.
  */
 public class ReservedItemsAdapter extends ArrayAdapter<ReservedItem>{
     private Context mContext;

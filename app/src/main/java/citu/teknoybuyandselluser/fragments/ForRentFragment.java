@@ -109,7 +109,7 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemSelec
 
                         if(categoryNames.length != 0) {
                             Spinner spinnerCategory = (Spinner) view.findViewById(R.id.spinnerCategory);
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoryNames);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, categoryNames);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinnerCategory.setAdapter(adapter);
                             sortOrFilter(spinnerCategory);

@@ -17,9 +17,11 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
-import citu.teknoybuyandselluser.adapters.MakeTransactionsAdapter;
 
+import citu.teknoybuyandselluser.adapters.ViewPagerAdapter;
 import citu.teknoybuyandselluser.fragments.BuyFragment;
+import citu.teknoybuyandselluser.fragments.ForRentFragment;
+
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
  */
@@ -31,6 +33,11 @@ public class MakeTransactionsActivity extends BaseActivity {
 
     private ItemsListAdapter listAdapterForBuy;
     private ItemsListAdapter listAdapterForRent;
+
+    private BuyFragment buyFragment;
+    private ForRentFragment forRentFragment;
+
+    private ViewPagerAdapter adapter;
 
     public void setListAdapterForBuy(ItemsListAdapter listAdapterForBuy) {
         this.listAdapterForBuy = listAdapterForBuy;
@@ -50,12 +57,20 @@ public class MakeTransactionsActivity extends BaseActivity {
 
         prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
 
+        buyFragment = new BuyFragment();
+        forRentFragment = new ForRentFragment();
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        MakeTransactionsAdapter makeTransactionsAdapter = new MakeTransactionsAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(makeTransactionsAdapter);
+        setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(buyFragment, "Buy");
+        adapter.addFragment(forRentFragment, "For Rent");
+        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -80,14 +95,13 @@ public class MakeTransactionsActivity extends BaseActivity {
         textView.setTextColor(Color.BLACK);
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchQuery = query;
-                if(new BuyFragment().isVisible())
+                if(buyFragment.getUserVisibleHint())
                     listAdapterForBuy.getFilter().filter(searchQuery);
-                else
+                else if(forRentFragment.getUserVisibleHint())
                     listAdapterForRent.getFilter().filter(searchQuery);
                 return true;
             }
@@ -95,9 +109,9 @@ public class MakeTransactionsActivity extends BaseActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchQuery = newText;
-                if(new BuyFragment().isVisible())
+                if(buyFragment.getUserVisibleHint())
                     listAdapterForBuy.getFilter().filter(searchQuery);
-                else
+                else if(forRentFragment.getUserVisibleHint())
                     listAdapterForRent.getFilter().filter(searchQuery);
                 return true;
             }

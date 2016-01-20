@@ -9,7 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import citu.teknoybuyandselluser.adapters.ReservationAdapter;
+
+import citu.teknoybuyandselluser.adapters.ViewPagerAdapter;
+import citu.teknoybuyandselluser.fragments.ItemsForDonationFragment;
+import citu.teknoybuyandselluser.fragments.ItemsForRentFragment;
+import citu.teknoybuyandselluser.fragments.ItemsOnSaleFragment;
+
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
  */
@@ -28,13 +33,19 @@ public class ReservedItemsActivity extends BaseActivity {
         prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        ReservationAdapter reservationAdapter = new ReservationAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(reservationAdapter);
+        setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ItemsOnSaleFragment(), "Items On Sale");
+        adapter.addFragment(new ItemsForRentFragment(), "Items For Rent");
+        adapter.addFragment(new ItemsForDonationFragment(), "Items For Donation");
+        viewPager.setAdapter(adapter);
+    }
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
