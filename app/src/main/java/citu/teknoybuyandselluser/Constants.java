@@ -26,8 +26,11 @@ public class Constants {
     public static final String PRICE = "price";
     public static final String QUANTITY = "quantity";
     public static final String DISCOUNTED_PRICE = "discounted_price";
+    public static final String PENALTY = "penalty";
     public static final String PICTURE = "picture";
     public static final String PURPOSE = "purpose";
+    public static final String RENT_DATE = "rent_date";
+    public static final String RENT_EXPIRATION = "rent_expiration";
     public static final String RESERVED_DATE = "reserved_date";
     public static final String RESERVATION_ID = "reservation_id";
     public static final String STARS_REQUIRED = "stars_required";

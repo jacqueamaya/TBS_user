@@ -25,10 +25,13 @@ import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ExpirationCheckerService;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.RentItemDetailsActivity;
+import citu.teknoybuyandselluser.RentedItemDetailActivity;
 import citu.teknoybuyandselluser.Server;
 import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.adapters.RentedItemsAdapter;
 import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.RentedItem;
 
 /**
  ** 0.01 Initial Codes                      - J. Pedrano    - 12/24/2015
@@ -38,7 +41,7 @@ import citu.teknoybuyandselluser.models.Item;
 public class RentedFragment extends Fragment {
     private static final String TAG = "Rented Fragment";
     private View view = null;
-    private ItemsListAdapter listAdapter;
+    private RentedItemsAdapter listAdapter;
 
     private String user;
 
@@ -71,7 +74,7 @@ public class RentedFragment extends Fragment {
         Server.getRentedItems(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> mOwnedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
+                ArrayList<RentedItem> mOwnedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<RentedItem>>(){}.getType());
                 ListView listView;
 
                 TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
@@ -82,24 +85,26 @@ public class RentedFragment extends Fragment {
                     listView.setVisibility(View.GONE);
                 } else {
                     txtMessage.setVisibility(View.GONE);
-                    listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.list_item, mOwnedItems);
+                    listAdapter = new RentedItemsAdapter(getActivity().getBaseContext(), R.layout.list_item, mOwnedItems);
                     listView.setVisibility(View.VISIBLE);
                     listView.setAdapter(listAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Item item = listAdapter.getDisplayView().get(position);
+                            RentedItem rent = listAdapter.getDisplayView().get(position);
 
                             Intent intent;
-                            intent = new Intent(getActivity().getBaseContext(), RentItemDetailsActivity.class);
-                            intent.putExtra(Constants.ID, item.getId());
-                            intent.putExtra(Constants.ITEM_NAME, item.getName());
-                            intent.putExtra(Constants.DESCRIPTION, item.getDescription());
-                            intent.putExtra(Constants.PICTURE, item.getPicture());
-                            intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
-                            intent.putExtra(Constants.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
-                            intent.putExtra(Constants.QUANTITY, item.getQuantity());
-                            intent.putExtra(Constants.STATUS, item.getStatus());
+                            intent = new Intent(getActivity().getBaseContext(), RentedItemDetailActivity.class);
+                            intent.putExtra(Constants.ID, rent.getId());
+                            intent.putExtra(Constants.ITEM_NAME, rent.getItem().getName());
+                            intent.putExtra(Constants.DESCRIPTION, rent.getItem().getDescription());
+                            intent.putExtra(Constants.PICTURE, rent.getItem().getPicture());
+                            intent.putExtra(Constants.STARS_REQUIRED, rent.getItem().getStars_required());
+                            intent.putExtra(Constants.FORMAT_PRICE, Utils.formatFloat(rent.getItem().getPrice()));
+                            intent.putExtra(Constants.PENALTY, rent.getPenalty());
+                            intent.putExtra(Constants.QUANTITY, rent.getItem().getQuantity());
+                            intent.putExtra(Constants.RENT_DATE, rent.getRent_date());
+                            intent.putExtra(Constants.RENT_EXPIRATION, rent.getRent_expiration());
                             startActivity(intent);
                         }
                     });
