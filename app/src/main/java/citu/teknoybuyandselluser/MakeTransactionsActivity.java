@@ -21,6 +21,7 @@ import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.adapters.ViewPagerAdapter;
 import citu.teknoybuyandselluser.fragments.BuyFragment;
 import citu.teknoybuyandselluser.fragments.ForRentFragment;
+import citu.teknoybuyandselluser.fragments.Gridview;
 
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
@@ -36,6 +37,7 @@ public class MakeTransactionsActivity extends BaseActivity {
 
     private BuyFragment buyFragment;
     private ForRentFragment forRentFragment;
+    private Gridview gridviewFragment;
 
     private ViewPagerAdapter adapter;
 
@@ -59,6 +61,7 @@ public class MakeTransactionsActivity extends BaseActivity {
 
         buyFragment = new BuyFragment();
         forRentFragment = new ForRentFragment();
+        gridviewFragment = new Gridview();
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -70,6 +73,7 @@ public class MakeTransactionsActivity extends BaseActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(buyFragment, "Buy");
         adapter.addFragment(forRentFragment, "For Rent");
+        adapter.addFragment(gridviewFragment, "Grid");
         viewPager.setAdapter(adapter);
     }
 
