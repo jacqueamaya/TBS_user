@@ -3,7 +3,6 @@ package citu.teknoybuyandselluser;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -16,37 +15,32 @@ import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.adapters.GridAdapter;
 
 import citu.teknoybuyandselluser.adapters.ViewPagerAdapter;
 import citu.teknoybuyandselluser.fragments.BuyFragment;
 import citu.teknoybuyandselluser.fragments.ForRentFragment;
-import citu.teknoybuyandselluser.fragments.Gridview;
 
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
  */
 
 public class MakeTransactionsActivity extends BaseActivity {
-    SharedPreferences prefs;
 
     private String searchQuery = "";
 
-    private ItemsListAdapter listAdapterForBuy;
-    private ItemsListAdapter listAdapterForRent;
+    private GridAdapter gridAdapterForBuy;
+    private GridAdapter gridAdapterForRent;
 
     private BuyFragment buyFragment;
     private ForRentFragment forRentFragment;
-    private Gridview gridviewFragment;
 
-    private ViewPagerAdapter adapter;
-
-    public void setListAdapterForBuy(ItemsListAdapter listAdapterForBuy) {
-        this.listAdapterForBuy = listAdapterForBuy;
+    public void setGridAdapterForBuy(GridAdapter gridAdapter) {
+        this.gridAdapterForBuy = gridAdapter;
     }
 
-    public void setListAdapterForRent(ItemsListAdapter listAdapterForRent) {
-        this.listAdapterForRent = listAdapterForRent;
+    public void setGridAdapterForRent(GridAdapter gridAdapterForRent) {
+        this.gridAdapterForRent = gridAdapterForRent;
     }
 
     @Override
@@ -57,11 +51,8 @@ public class MakeTransactionsActivity extends BaseActivity {
         setContentView(R.layout.activity_make_transactions);
         setupUI();
 
-        prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-
         buyFragment = new BuyFragment();
         forRentFragment = new ForRentFragment();
-        gridviewFragment = new Gridview();
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -70,16 +61,14 @@ public class MakeTransactionsActivity extends BaseActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(buyFragment, "Buy");
         adapter.addFragment(forRentFragment, "For Rent");
-        adapter.addFragment(gridviewFragment, "Grid");
         viewPager.setAdapter(adapter);
     }
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
-
         return menuItem.getItemId() != R.id.nav_make_transactions;
     }
 
@@ -87,7 +76,7 @@ public class MakeTransactionsActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_buy_items, menu);
+        inflater.inflate(R.menu.menu_make_transactions, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
@@ -104,9 +93,9 @@ public class MakeTransactionsActivity extends BaseActivity {
             public boolean onQueryTextSubmit(String query) {
                 searchQuery = query;
                 if(buyFragment.getUserVisibleHint())
-                    listAdapterForBuy.getFilter().filter(searchQuery);
+                    gridAdapterForBuy.getFilter().filter(searchQuery);
                 else if(forRentFragment.getUserVisibleHint())
-                    listAdapterForRent.getFilter().filter(searchQuery);
+                    gridAdapterForRent.getFilter().filter(searchQuery);
                 return true;
             }
 
@@ -114,9 +103,9 @@ public class MakeTransactionsActivity extends BaseActivity {
             public boolean onQueryTextChange(String newText) {
                 searchQuery = newText;
                 if(buyFragment.getUserVisibleHint())
-                    listAdapterForBuy.getFilter().filter(searchQuery);
+                    gridAdapterForBuy.getFilter().filter(searchQuery);
                 else if(forRentFragment.getUserVisibleHint())
-                    listAdapterForRent.getFilter().filter(searchQuery);
+                    gridAdapterForRent.getFilter().filter(searchQuery);
                 return true;
             }
         });
@@ -127,15 +116,41 @@ public class MakeTransactionsActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        //return id == R.id.action_search || super.onOptionsItemSelected(item);
+        if(buyFragment.getUserVisibleHint()) {
+            switch (id) {
+                case R.id.nav_sort_by_date:
+                    gridAdapterForBuy.sortItems(Constants.Sort.DATE);
+                    break;
+                case R.id.nav_sort_by_name:
+                    gridAdapterForBuy.sortItems(Constants.Sort.NAME);
+                    break;
+                case R.id.nav_sort_by_price:
+                    gridAdapterForBuy.sortItems(Constants.Sort.PRICE);
+                    break;
 
-        return id == R.id.action_search || super.onOptionsItemSelected(item);
+            }
+        } else if(forRentFragment.getUserVisibleHint()) {
+            switch (id) {
+                case R.id.nav_sort_by_date:
+                    gridAdapterForRent.sortItems(Constants.Sort.DATE);
+                    break;
+                case R.id.nav_sort_by_name:
+                    gridAdapterForRent.sortItems(Constants.Sort.NAME);
+                    break;
+                case R.id.nav_sort_by_price:
+                    gridAdapterForRent.sortItems(Constants.Sort.PRICE);
+                    break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Intent service = new Intent(MakeTransactionsActivity.this, ExpirationCheckerService.class);
-        service.putExtra("username", prefs.getString(Constants.USERNAME,""));
+        service.putExtra(Constants.User.USERNAME, getUserName());
         startService(service);
     }
 }

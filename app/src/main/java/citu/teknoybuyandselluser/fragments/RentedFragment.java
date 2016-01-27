@@ -24,13 +24,10 @@ import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ExpirationCheckerService;
 import citu.teknoybuyandselluser.R;
-import citu.teknoybuyandselluser.RentItemDetailsActivity;
 import citu.teknoybuyandselluser.RentedItemDetailActivity;
 import citu.teknoybuyandselluser.Server;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
 import citu.teknoybuyandselluser.adapters.RentedItemsAdapter;
-import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.models.RentedItem;
 
 /**
@@ -39,7 +36,6 @@ import citu.teknoybuyandselluser.models.RentedItem;
  */
 
 public class RentedFragment extends Fragment {
-    private static final String TAG = "Rented Fragment";
     private View view = null;
     private RentedItemsAdapter listAdapter;
 
@@ -60,7 +56,7 @@ public class RentedFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_rented, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        user = prefs.getString(Constants.USERNAME, "");
+        user = prefs.getString(Constants.User.USERNAME, "");
 
         getRentedItems();
         return view;
@@ -114,7 +110,6 @@ public class RentedFragment extends Fragment {
 
         @Override
         public void error(int statusCode, String responseBody, String statusText) {
-                Log.v(TAG, "Request error");
                 Toast.makeText(getActivity().getBaseContext(), "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
@@ -126,7 +121,7 @@ public class RentedFragment extends Fragment {
         getRentedItems();
 
         Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
-        service.putExtra("username", user);
+        service.putExtra(Constants.User.USERNAME, user);
         getActivity().startService(service);
     }
 }

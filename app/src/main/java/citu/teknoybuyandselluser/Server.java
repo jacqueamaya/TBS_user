@@ -1,9 +1,7 @@
 package citu.teknoybuyandselluser;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import java.util.Map;
@@ -13,11 +11,11 @@ public class Server {
     private static final String TAG = "Server";
 
     public static void register (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(MainActivity.ID_NUMBER) ||
-                ! data.containsKey(MainActivity.FIRST_NAME) ||
-                ! data.containsKey(MainActivity.LAST_NAME) ||
-                ! data.containsKey(MainActivity.USERNAME) ||
-                ! data.containsKey(MainActivity.PASSWORD)) {
+        if ( ! data.containsKey(Constants.User.ID_NUMBER) ||
+                ! data.containsKey(Constants.User.FIRST_NAME) ||
+                ! data.containsKey(Constants.User.LAST_NAME) ||
+                ! data.containsKey(Constants.User.USERNAME) ||
+                ! data.containsKey(Constants.User.PASSWORD)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -25,8 +23,8 @@ public class Server {
     }
 
     public static void login (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if (  ! data.containsKey(Constants.USERNAME) ||
-                ! data.containsKey(Constants.PASSWORD)) {
+        if (  ! data.containsKey(Constants.User.USERNAME) ||
+                ! data.containsKey(Constants.User.PASSWORD)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -34,10 +32,10 @@ public class Server {
     }
 
     public static void editProfile (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if (  ! data.containsKey(Constants.USERNAME) ||
-                ! data.containsKey(Constants.OLD_PASSWORD) ||
-                ! data.containsKey(Constants.NEW_PASSWORD) ||
-                !data.containsKey(Constants.CONFIRM_PASSWORD)) {
+        if (  ! data.containsKey(Constants.User.USERNAME) ||
+                ! data.containsKey(Constants.User.OLD_PASSWORD) ||
+                ! data.containsKey(Constants.User.NEW_PASSWORD) ||
+                !data.containsKey(Constants.User.CONFIRM_PASSWORD)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -193,13 +191,6 @@ public class Server {
 
     public static void getAllDonations (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         Ajax.get(Constants.URL_ALL_DONATIONS + "/?username=" + username, progress, callbacks);
-    }
-
-    public static void getAllItemsForRent (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
-        if ( username == null) {
-            throw new RuntimeException("Missing data.");
-        }
-        Ajax.get(Constants.URL_ALL_ITEMS_FOR_RENT + "/?username=" + username, progress, callbacks);
     }
 
     public static void getRentedItems (String username, ProgressBar progress, Ajax.Callbacks callbacks) {

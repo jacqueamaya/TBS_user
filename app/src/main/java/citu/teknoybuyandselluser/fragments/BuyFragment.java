@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,7 +30,7 @@ import citu.teknoybuyandselluser.MakeTransactionsActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.adapters.GridAdapter;
 import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
 
@@ -43,16 +43,14 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
     private static final String TAG = "Buy Fragment";
     private View view = null;
 
-    private ArrayList<Item> availableItems;
-    private ItemsListAdapter listAdapter;
+    private GridAdapter gridAdapter;
     private ProgressBar progressBar;
 
     private Category categories[];
     private String categoryNames[] = {};
+    private String lowerCaseSort = "price";
     private String sortBy[];
     private String user;
-
-    private String lowerCaseSort = "price";
 
     private Gson gson = new Gson();
 
@@ -71,7 +69,7 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
         progressBar.setVisibility(View.GONE);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        user = prefs.getString(Constants.USERNAME, "");
+        user = prefs.getString(Constants.User.USERNAME, "");
 
         sortBy = getResources().getStringArray(R.array.sort_by);
 
@@ -87,40 +85,41 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
         Server.getAvailableItemsToSell(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                availableItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
+                ArrayList<Item> availableItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
 
                 TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                ListView lv = (ListView) view.findViewById(R.id.listViewBuyItems);
+                GridView gridView = (GridView) view.findViewById(R.id.gridViewForBuy);
 
                     if (availableItems.size() == 0) {
                         txtMessage.setText(getResources().getString(R.string.no_items_to_buy));
                         txtMessage.setVisibility(View.VISIBLE);
-                        lv.setVisibility(View.GONE);
+                        gridView.setVisibility(View.GONE);
                     } else {
                         txtMessage.setVisibility(View.GONE);
-                        listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.list_item, availableItems);
-                        ((MakeTransactionsActivity) getActivity()).setListAdapterForBuy(listAdapter);
-                        listAdapter.sortItems(lowerCaseSort);
-                        lv.setVisibility(View.VISIBLE);
-                        lv.setAdapter(listAdapter);
+
+                        gridAdapter = new GridAdapter(getActivity(), availableItems);
+                        ((MakeTransactionsActivity) getActivity()).setGridAdapterForBuy(gridAdapter);
+                        gridAdapter.sortItems(lowerCaseSort);
+                        gridView.setAdapter(gridAdapter);
+                        gridView.setVisibility(View.VISIBLE);
 
                         Spinner spinnerSortBy = (Spinner) view.findViewById(R.id.spinnerSortBy);
-                        sortOrFilter(spinnerSortBy);
+                        setItemSelectedListener(spinnerSortBy);
 
                         if(categoryNames.length != 0) {
                             Spinner spinnerCategory = (Spinner) view.findViewById(R.id.spinnerCategory);
-                            //ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, categoryNames);
                             ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, categoryNames);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinnerCategory.setAdapter(adapter);
-                            sortOrFilter(spinnerCategory);
+                            setItemSelectedListener(spinnerCategory);
                         }
 
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = listAdapter.getDisplayView().get(position);
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                Item item = gridAdapter.getDisplayView().get(i);
 
+                                Log.e(TAG, item.getName());
                                 Intent intent;
                                 intent = new Intent(getActivity().getBaseContext(), BuyItemActivity.class);
                                 intent.putExtra(Constants.ID, item.getId());
@@ -181,7 +180,7 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
         getActivity().startService(service);
     }
 
-    public void sortOrFilter(Spinner spinner) {
+    public void setItemSelectedListener(Spinner spinner) {
         spinner.setOnItemSelectedListener(this);
     }
 
@@ -191,14 +190,14 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
         switch (spinnerId){
             case R.id.spinnerSortBy:
                 lowerCaseSort = sortBy[i].toLowerCase();
-                listAdapter.sortItems(lowerCaseSort);
+                gridAdapter.sortItems(lowerCaseSort);
                 break;
             case R.id.spinnerCategory:
                 String category = categoryNames[i];
                 if (category.equals("All")) {
                     category = "";
                 }
-                listAdapter.getFilter().filter(category);
+                gridAdapter.getFilter().filter(category);
                 break;
         }
     }

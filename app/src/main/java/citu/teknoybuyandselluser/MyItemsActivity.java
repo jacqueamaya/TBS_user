@@ -1,8 +1,6 @@
 package citu.teknoybuyandselluser;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -23,7 +21,6 @@ import citu.teknoybuyandselluser.fragments.SellFragment;
 
 
 public class MyItemsActivity extends BaseActivity {
-    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +29,6 @@ public class MyItemsActivity extends BaseActivity {
         Fresco.initialize(this);
         setContentView(R.layout.activity_my_items);
         setupUI();
-
-        prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -61,7 +56,7 @@ public class MyItemsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         Intent service = new Intent(MyItemsActivity.this, ExpirationCheckerService.class);
-        service.putExtra("username", prefs.getString(Constants.USERNAME,""));
+        service.putExtra(Constants.User.USERNAME, getUserName());
         startService(service);
     }
 }

@@ -60,7 +60,7 @@ public class PendingFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_pending, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        user = prefs.getString(Constants.USERNAME, "");
+        user = prefs.getString(Constants.User.USERNAME, "");
 
         getPendingItems();
         return view;

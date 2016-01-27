@@ -78,6 +78,10 @@
     <string name="no_items_to_donate">No available items to donate</string>
     <string name="no_items_to_sell">No available items to sell</string>
 
+    <string name="sort_by_date">Sort by Date</string>
+    <string name="sort_by_name">Sort by Name</string>
+    <string name="sort_by_price">Sort by Price</string>
+
     <string-array name="sort_by">
         <item>Date</item>
         <item>Price</item>
@@ -96,5 +100,6 @@
         <item>(10%) 100 stars</item>
         <item>(15%) 150 stars</item>
     </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
 
 </resources>

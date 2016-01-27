@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"/>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="-48dp"
@@ -26,18 +26,19 @@
             android:paddingBottom="15dp"
             android:singleLine="true"
             android:layout_gravity="bottom"
-            android:textColor="@android:color/white"
-            />
+            android:textColor="@android:color/white" />
         <TextView
             android:id="@+id/quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:drawableLeft="@drawable/ic_quantity"
-            android:layout_gravity="right"
+            android:drawableStart="@drawable/ic_quantity"
             android:singleLine="true"
-            android:textColor="@color/White"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:textColor="@color/White" />
+    </RelativeLayout>
 
 
 </LinearLayout>
