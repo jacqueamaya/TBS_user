@@ -12,37 +12,48 @@
         android:theme="@style/MyMaterialTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".UserProfileActivity"
-            android:label="@string/title_activity_user_profile" />
+            android:label="@string/title_activity_user_profile"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".NotificationsActivity"
-            android:label="@string/title_activity_notifications" />
+            android:label="@string/title_activity_notifications"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".StarsCollectedActivity"
-            android:label="@string/title_activity_stars_collected" />
+            android:label="@string/title_activity_stars_collected"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SellItemActivity"
-            android:label="@string/title_activity_sell_item" />
+            android:label="@string/title_activity_sell_item"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SellItemDetailsActivity"
-            android:label="@string/title_activity_sell_item_details" />
+            android:label="@string/title_activity_sell_item_details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".BuyItemActivity"
-            android:label="@string/title_activity_buy_item" />
+            android:label="@string/title_activity_buy_item"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ReservedItemActivity"
-            android:label="@string/title_activity_reserved_item" />
+            android:label="@string/title_activity_reserved_item"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DonateItemActivity"
-            android:label="@string/title_activity_donate_item" />
+            android:label="@string/title_activity_donate_item"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DonateItemDetailsActivity"
-            android:label="@string/title_activity_donate_item_details" />
+            android:label="@string/title_activity_donate_item_details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DonationsActivity"
             android:configChanges="orientation"
@@ -56,13 +67,16 @@
         </activity>
         <activity
             android:name=".DonatedItemActivity"
-            android:label="@string/title_activity_donated_item" />
+            android:label="@string/title_activity_donated_item"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PendingItemActivity"
-            android:label="@string/title_activity_pending_item" />
+            android:label="@string/title_activity_pending_item"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SplashActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,10 +85,12 @@
         </activity>
         <activity
             android:name=".MyItemsActivity"
-            android:label="@string/title_activity_my_items" />
+            android:label="@string/title_activity_my_items"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ReservedItemsActivity"
-            android:label="@string/title_activity_reserved_items" />
+            android:label="@string/title_activity_reserved_items"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MakeTransactionsActivity"
             android:configChanges="orientation"
@@ -88,13 +104,19 @@
         </activity>
         <activity
             android:name=".ForRentItemActivity"
-            android:label="@string/title_activity_for_rent_item" />
+            android:label="@string/title_activity_for_rent_item"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RentItemDetailsActivity"
-            android:label="@string/title_activity_rent_item_details" />
+            android:label="@string/title_activity_rent_item_details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RentItemActivity"
-            android:label="@string/title_activity_rent_item" />
+            android:label="@string/title_activity_rent_item"
+            android:screenOrientation="portrait"/>
+            <service
+                android:name=".ExpirationCheckerService"
+                android:exported="false" />
 
         <service
             android:name=".ExpirationCheckerService"
