@@ -17,8 +17,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UserProfileActivity"
             android:label="@string/title_activity_user_profile"
@@ -57,14 +57,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".DonationsActivity"
-            android:configChanges="orientation"
             android:label="@string/title_activity_all_donations"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".DonatedItemActivity"
@@ -94,18 +88,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MakeTransactionsActivity"
-            android:configChanges="orientation"
             android:label="@string/title_activity_make_transactions"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ForRentItemActivity"
             android:label="@string/title_activity_for_rent_item"
@@ -127,6 +111,7 @@
             android:exported="false" />
 
         <activity android:name=".RentedItemDetailActivity" />
+        <activity android:name=".SearchActivity"/>
     </application>
 
 </manifest>
