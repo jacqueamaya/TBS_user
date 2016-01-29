@@ -69,13 +69,20 @@
                     android:textSize="20sp"
                     android:visibility="gone" />
 
-                <ListView
-                    android:id="@+id/listViewBuyItems"
+                <FrameLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/appbar" />
+                    android:layout_below="@+id/appbar">
+                    <GridView
+                        android:id="@+id/gridViewForBuy"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:verticalSpacing="0dp"
+                        android:horizontalSpacing="0dp"
+                        android:stretchMode="columnWidth"
+                        android:numColumns="2" />
+                </FrameLayout>
 
             </RelativeLayout>
 

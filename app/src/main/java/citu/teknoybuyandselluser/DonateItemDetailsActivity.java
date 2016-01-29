@@ -2,7 +2,6 @@ package citu.teknoybuyandselluser;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +40,7 @@ public class DonateItemDetailsActivity extends BaseActivity {
 
         Picasso.with(this)
                 .load(picture)
+                .placeholder(R.drawable.thumbsq_24dp)
                 .into(imgThumbnail);
 
         setTitle(itemName);

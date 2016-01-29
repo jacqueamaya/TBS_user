@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -25,22 +23,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String ID_NUMBER = "id_number";
-    public static final String FIRST_NAME = "first_name";
-    public static final String LAST_NAME = "last_name";
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-
     private static final String TAG = "MainActivity";
 
-    private EditText mTxtStudentId;
-    private EditText mTxtFirstName;
-    private EditText mTxtLastName;
     private EditText mTxtUsername;
-    private EditText mTxtPassword;
-    private ProgressDialog mProgressDialog;
-
-    private RadioButton terms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +33,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
-
-        mTxtStudentId = (EditText) findViewById(R.id.txtStudentID);
-        mTxtFirstName = (EditText) findViewById(R.id.txtFirstName);
-        mTxtLastName = (EditText) findViewById(R.id.txtLastName);
-        mTxtUsername = (EditText) findViewById(R.id.txtUsername);
-        mTxtPassword = (EditText) findViewById(R.id.txtPassword);
-
-        mProgressDialog = new ProgressDialog(this);
-
-        terms = (RadioButton) findViewById(R.id.terms);
     }
 
     public void onRegister (View view) {
@@ -73,16 +48,24 @@ public class MainActivity extends AppCompatActivity {
     {
         Map<String, String> data = new HashMap<>();
 
-        data.put(ID_NUMBER, mTxtStudentId.getText().toString());
-        data.put(FIRST_NAME, mTxtFirstName.getText().toString());
-        data.put(LAST_NAME, mTxtLastName.getText().toString());
-        data.put(USERNAME, mTxtUsername.getText().toString());
-        data.put(PASSWORD, mTxtPassword.getText().toString());
+        EditText mTxtStudentId = (EditText) findViewById(R.id.txtStudentID);
+        EditText mTxtFirstName = (EditText) findViewById(R.id.txtFirstName);
+        EditText mTxtLastName = (EditText) findViewById(R.id.txtLastName);
+        mTxtUsername = (EditText) findViewById(R.id.txtUsername);
+        EditText mTxtPassword = (EditText) findViewById(R.id.txtPassword);
+        RadioButton rdTerms = (RadioButton) findViewById(R.id.terms);
 
+        data.put(Constants.User.ID_NUMBER, mTxtStudentId.getText().toString());
+        data.put(Constants.User.FIRST_NAME, mTxtFirstName.getText().toString());
+        data.put(Constants.User.LAST_NAME, mTxtLastName.getText().toString());
+        data.put(Constants.User.USERNAME, mTxtUsername.getText().toString());
+        data.put(Constants.User.PASSWORD, mTxtPassword.getText().toString());
+
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
 
-        if(terms.isChecked()) {
+        if(rdTerms.isChecked()) {
             Server.register(data, mProgressDialog, new Ajax.Callbacks() {
                 @Override
                 public void success(String responseBody) {
@@ -119,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void openDialog(View view){
 
-        AlertDialog.Builder termsandconditions= new AlertDialog.Builder(this);
-        termsandconditions.setTitle("TBS Terms and Conditions");
-        termsandconditions.setMessage("USER in General" + "\n" +
+        AlertDialog.Builder termsAndConditions= new AlertDialog.Builder(this);
+        termsAndConditions.setTitle("TBS Terms and Conditions");
+        termsAndConditions.setMessage("USER in General" + "\n" +
                 "1.\tUser should be a bona fide student of Cebu Institute of Technology University.\n" +
                 "2.\tUser should register an account in order to use the mobile application.\n" +
                 "3.\tA user can be a seller, a buyer, and a donor depending on the transaction he is going to make. User becomes a seller when he sells an item to his prospect buyers. User becomes a buyer when he buys items available in the application. User becomes a donor when he donates an item to his fellow TBS users.\n" +
@@ -144,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         //do things
                     }
                 });
-        AlertDialog alert = termsandconditions.create();
+        AlertDialog alert = termsAndConditions.create();
         alert.show();
 
     }

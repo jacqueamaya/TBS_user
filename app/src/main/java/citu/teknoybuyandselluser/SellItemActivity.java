@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,15 +32,8 @@ public class SellItemActivity extends BaseActivity {
 
     private static final String TAG = "SellItemActivity";
 
-    private EditText mTxtItem;
-    private EditText mTxtDescription;
-    private EditText mTxtPrice;
-    private EditText mTxtQuantity;
-    private ProgressDialog mProgressDialog;
-
     private ImageView mImgPreview;
-    private ProgressBar mProgressBar;
-    ImageInfo mImgInfo;
+    private ImageInfo mImgInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +42,6 @@ public class SellItemActivity extends BaseActivity {
         Fresco.initialize(this);
         setContentView(R.layout.activity_sell_item);
         setupUI();
-
-        mTxtItem = (EditText) findViewById(R.id.inputItem);
-        mTxtDescription = (EditText) findViewById(R.id.inputDescription);
-        mTxtPrice = (EditText) findViewById(R.id.inputPrice);
-        mTxtQuantity = (EditText) findViewById(R.id.inputQuantity);
-
-        mProgressDialog = new ProgressDialog(this);
-
-        mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
-        mProgressBar.setVisibility(View.INVISIBLE);
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
         mImgPreview =  (ImageView) findViewById(R.id.preview);
@@ -79,6 +61,9 @@ public class SellItemActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressUpload);
+        progressBar.setVisibility(View.INVISIBLE);
+
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 Uri selectedImage = data.getData();
@@ -89,7 +74,7 @@ public class SellItemActivity extends BaseActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Server.upload(picturePath, mProgressBar, new Ajax.Callbacks() {
+                Server.upload(picturePath, progressBar, new Ajax.Callbacks() {
                     @Override
                     public void success(String responseBody) {
                         Log.v(TAG, "successfully posted");
@@ -126,9 +111,15 @@ public class SellItemActivity extends BaseActivity {
     }
 
     public void onSell(View view) {
+        EditText mTxtItem = (EditText) findViewById(R.id.inputItem);
+        EditText mTxtDescription = (EditText) findViewById(R.id.inputDescription);
+        EditText mTxtPrice = (EditText) findViewById(R.id.inputPrice);
+        EditText mTxtQuantity = (EditText) findViewById(R.id.inputQuantity);
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
+
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString(Constants.USERNAME, null);
+        String user = prefs.getString(Constants.User.USERNAME, null);
         String name = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
         String price = mTxtPrice.getText().toString().trim();

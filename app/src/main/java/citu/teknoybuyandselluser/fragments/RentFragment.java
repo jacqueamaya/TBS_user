@@ -38,7 +38,6 @@ import citu.teknoybuyandselluser.models.Item;
  */
 
 public class RentFragment extends Fragment {
-    private static final String TAG = "Rent Fragment";
     private View view = null;
     private ItemsListAdapter listAdapter;
 
@@ -59,7 +58,7 @@ public class RentFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_rent, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        user = prefs.getString(Constants.USERNAME, "");
+        user = prefs.getString(Constants.User.USERNAME, "");
 
         getRentItems();
 
@@ -120,7 +119,6 @@ public class RentFragment extends Fragment {
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                Log.v(TAG, "Request error");
                 Toast.makeText(getActivity().getBaseContext(), "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
@@ -132,7 +130,7 @@ public class RentFragment extends Fragment {
         getRentItems();
 
         Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
-        service.putExtra("username", user);
+        service.putExtra(Constants.User.USERNAME, user);
         getActivity().startService(service);
     }
 }

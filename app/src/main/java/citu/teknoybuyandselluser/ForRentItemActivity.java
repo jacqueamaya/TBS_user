@@ -1,14 +1,11 @@
 package citu.teknoybuyandselluser;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,17 +29,8 @@ import citu.teknoybuyandselluser.models.ImageInfo;
 public class ForRentItemActivity extends BaseActivity {
     private static final String TAG = "ForRentItemActivity";
 
-    private EditText mTxtItem;
-    private EditText mTxtDescription;
-    private EditText mTxtPrice;
-    private EditText mTxtQuantity;
-    private ProgressDialog mProgressDialog;
-
     private ImageView mImgPreview;
-    private ProgressBar mProgressBar;
     private ImageInfo mImgInfo;
-
-    //TODO: add quantity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +39,6 @@ public class ForRentItemActivity extends BaseActivity {
         Fresco.initialize(this);
         setContentView(R.layout.activity_for_rent_item);
         setupUI();
-
-        mTxtItem = (EditText) findViewById(R.id.inputItem);
-        mTxtDescription = (EditText) findViewById(R.id.inputDescription);
-        mTxtPrice = (EditText) findViewById(R.id.inputPrice);
-        mTxtQuantity = (EditText) findViewById(R.id.inputQuantity);
-
-        mProgressDialog = new ProgressDialog(this);
-
-        mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
-        mProgressBar.setVisibility(View.INVISIBLE);
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
         mImgPreview =  (ImageView) findViewById(R.id.preview);
@@ -80,6 +58,9 @@ public class ForRentItemActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressUpload);
+        progressBar.setVisibility(View.INVISIBLE);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 Uri selectedImage = data.getData();
@@ -90,7 +71,7 @@ public class ForRentItemActivity extends BaseActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Server.upload(picturePath, mProgressBar, new Ajax.Callbacks() {
+                Server.upload(picturePath, progressBar, new Ajax.Callbacks() {
                     @Override
                     public void success(String responseBody) {
                         Log.v(TAG, "successfully posted");
@@ -127,26 +108,30 @@ public class ForRentItemActivity extends BaseActivity {
     }
 
     public void onForRent(View view) {
+        EditText txtItem = (EditText) findViewById(R.id.inputItem);
+        EditText txtDescription = (EditText) findViewById(R.id.inputDescription);
+        EditText txtPrice = (EditText) findViewById(R.id.inputPrice);
+        EditText txtQuantity = (EditText) findViewById(R.id.inputQuantity);
+
         Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString(Constants.USERNAME, null);
-        String name = mTxtItem.getText().toString().trim();
-        String desc = mTxtDescription.getText().toString().trim();
-        String price = mTxtPrice.getText().toString().trim();
-        String quantity = mTxtQuantity.getText().toString().trim();
+        String name = txtItem.getText().toString().trim();
+        String desc = txtDescription.getText().toString().trim();
+        String price = txtPrice.getText().toString().trim();
+        String quantity = txtQuantity.getText().toString().trim();
 
         if(!name.equals("")
                 && !desc.equals("")
                 && !price.equals("")
                 && !quantity.equals("")
                 && mImgInfo != null) {
-            data.put(Constants.OWNER, user);
+            data.put(Constants.OWNER, getUserName());
             data.put(Constants.NAME, name);
             data.put(Constants.DESCRIPTION, desc);
             data.put(Constants.PRICE, price);
             data.put(Constants.QUANTITY, quantity);
             data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
+            ProgressDialog mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Please wait. . .");
 
