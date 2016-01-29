@@ -10,14 +10,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -77,8 +80,8 @@ public class BuyItemActivity extends BaseActivity {
         mRdWithoutDiscount = (RadioButton) findViewById(R.id.rdWithoutDiscount);
         mRdWithDiscount = (RadioButton) findViewById(R.id.rdWithDiscount);
         mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
-        ImageView btnBuyItem = (ImageView) findViewById(R.id.btnBuyItem);
-        ImageView imgItem = (ImageView) findViewById(R.id.imgItem);
+        Button btnBuyItem = (Button) findViewById(R.id.btnBuyItem);
+        SimpleDraweeView imgItem = (SimpleDraweeView) findViewById(R.id.imgItem);
 
         mProgressDialog = new ProgressDialog(this);
 

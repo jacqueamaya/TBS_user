@@ -18,169 +18,171 @@
             android:layout_height="wrap_content" />
 
         <!-- The main content view -->
-        <RelativeLayout
-            android:id="@+id/flContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
+        <ScrollView
+                android:id="@+id/flContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="25dp">
-
-                <ImageView
-                    android:id="@+id/imgItem"
-                    android:layout_width="100dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/rizal_book" />
-
-                <TextView
-                    android:id="@+id/txtItem"
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="23dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_toEndOf="@+id/imgItem"
-                    android:layout_toRightOf="@id/imgItem"
-                    android:text="Item Name"
-                    android:textColor="@color/Black"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtItem"
-                    android:layout_marginLeft="23dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_toRightOf="@id/imgItem"
-                    android:text="Php 0.0"
-                    android:textColor="@color/Gray"
-                    android:textSize="20dp"
-                    android:textStyle="normal" />
-
-                <RadioGroup
-                    android:id="@+id/rdGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtPrice"
-                    android:layout_toRightOf="@+id/imgItem">
-
-                    <RadioButton
-                        android:id="@+id/rdWithoutDiscount"
-                        android:layout_width="wrap_content"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="8dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="10dp"
-                        android:checked="true"
-                        android:onClick="hideInputStars"
-                        android:text="@string/without_discount" />
+                        android:orientation="vertical">
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/imgItem"
+                            android:layout_width="match_parent"
+                            android:layout_height="325dp"
+                            android:scaleType="fitXY"
+                            android:adjustViewBounds="true"/>
+                        <TextView
+                            android:id="@+id/txtItem"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="-48dp"
+                            android:text="Item Name"
+                            android:textColor="@color/White"
+                            android:background="#8a000000"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/rdWithDiscount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="0dp"
-                        android:onClick="showInputStars"
-                        android:text="@string/with_discount" />
+                            <TextView
+                                android:id="@+id/txtPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_coins"
+                                android:text="0.0"
+                                android:padding="16dp"
+                                android:textColor="@color/Black"
+                                android:textSize="16sp"
+                                android:textStyle="normal"/>
 
-                </RadioGroup>
+                            <TextView
+                                android:id="@+id/txtAvailableQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_cart"
+                                android:layout_marginLeft="5dp"
+                                android:text="5"
+                                android:padding="16dp"
+                                android:textColor="@color/Black"
+                                android:textSize="16sp"
+                                android:textStyle="normal"/>
+                            <TextView
+                                android:id="@+id/lblQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:padding="16dp"
+                                android:text="Qty."
+                                android:textColor="@color/Black" />
 
-                <!--<TextView
-                    android:id="@+id/lblStarsToUse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rdGroup"
-                    android:layout_alignLeft="@+id/rdGroup"
-                    android:layout_alignStart="@+id/rdGroup"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/imgItem"
-                    android:layout_toEndOf="@+id/imgItem"
-                    android:paddingLeft="30dp"
-                    android:text="Stars To Use"
-                    android:textColor="@color/Black" />
+                            <EditText
+                                android:id="@+id/txtQuantity"
+                                android:layout_width="60dp"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:padding="16dp"
+                                android:layout_marginRight="16dp"
+                                android:inputType="number" />
+                        </LinearLayout>
 
-                <EditText
-                    android:id="@+id/txtStarsToUse"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/rdGroup"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@id/lblStarsToUse"
-                    android:layout_toRightOf="@id/lblStarsToUse"
-                    android:inputType="number" /> -->
 
-                <Spinner
-                    android:id="@+id/spinnerStarsToUse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/imgItem"
-                    android:layout_toEndOf="@+id/imgItem"
-                    android:layout_below="@+id/rdGroup"
-                    android:layout_gravity="end"
-                    android:entries="@array/stars_to_use"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="50dp"
-                    android:visibility="gone"/>
+                        <RadioGroup
+                            android:id="@+id/rdGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
 
-                <TextView
-                    android:id="@+id/lblQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/spinnerStarsToUse"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/imgItem"
-                    android:text="Quantity"
-                    android:textColor="@color/Black" />
+                            <RadioButton
+                                android:id="@+id/rdWithoutDiscount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:onClick="hideInputStars"
+                                android:text="@string/without_discount"
+                                android:textSize="16sp"/>
 
-                <EditText
-                    android:id="@+id/txtQuantity"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/spinnerStarsToUse"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@id/lblQuantity"
-                    android:layout_toRightOf="@id/lblQuantity"
-                    android:inputType="number" />
+                            <RadioButton
+                                android:id="@+id/rdWithDiscount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="showInputStars"
+                                android:text="@string/with_discount"
+                                android:textSize="16sp"/>
+                        </RadioGroup>
 
-                <TextView
-                    android:id="@+id/lblDetails"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblQuantity"
-                    android:layout_marginRight="18dp"
-                    android:layout_marginTop="40dp"
-                    android:text="@string/item_details"
-                    android:textColor="@color/Black"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                        <Spinner
+                            android:id="@+id/spinnerStarsToUse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:entries="@array/stars_to_use"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/txtDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lblDetails"
-                    android:layout_marginTop="10dp"
-                    android:text="This section contains the details of the selected item."
-                    android:textColor="@color/Gray"
-                    android:textSize="16dp"
-                    android:textStyle="normal" />
+                        <TextView
+                            android:id="@+id/lblDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/item_details"
+                            android:textColor="@color/Black"
+                            android:padding="16dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/btnBuyItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:layout_below="@+id/txtDescription"
-                    android:layout_marginLeft="140dp"
-                    android:src="@drawable/buy" />
+                        <TextView
+                            android:id="@+id/txtDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="This section contains the details of the selected item."
+                            android:textColor="@color/Black"
+                            android:textSize="16sp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="16dp"
+                            android:textStyle="normal" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:padding="16dp"
+                            android:background="@color/White" />
 
-            </RelativeLayout>
+                        <Button
+                            android:id="@+id/btnBuyItem"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Buy Item"
+                            android:textSize="20sp"
+                            android:textStyle="normal"
+                            android:textColor="@color/White"
+                            android:background="@color/Louie" />
 
-        </RelativeLayout>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 

@@ -8,7 +8,7 @@
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:adjustViewBounds="true"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,21 +19,20 @@
         android:orientation="vertical"
         android:background="#99000000">
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/txtItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:singleLine="true"
             android:layout_gravity="bottom"
-            android:textColor="@android:color/white"
-            />
+            android:textColor="@android:color/white" />
         <TextView
             android:id="@+id/quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_quantity"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:singleLine="true"
             android:textColor="@color/White"
             android:textSize="12sp" />
