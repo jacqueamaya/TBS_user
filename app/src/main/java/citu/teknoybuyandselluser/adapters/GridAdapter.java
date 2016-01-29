@@ -63,12 +63,12 @@ public class GridAdapter extends BaseAdapter implements Filterable {
         if (v == null) {
             v = inflater.inflate(R.layout.gridview_item, viewGroup, false);
             v.setTag(R.id.picture, v.findViewById(R.id.picture));
-            v.setTag(R.id.text, v.findViewById(R.id.text));
+            v.setTag(R.id.txtItemName, v.findViewById(R.id.txtItemName));
             v.setTag(R.id.quantity, v.findViewById(R.id.quantity));
         }
 
         picture = (SimpleDraweeView) v.getTag(R.id.picture);
-        name = (TextView) v.getTag(R.id.text);
+        name = (TextView) v.getTag(R.id.txtItemName);
         quantity = (TextView) v.getTag(R.id.quantity);
 
         picture.setImageURI(Uri.parse(item.getPicture()));
