@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ public class RentItemActivity extends BaseActivity {
         TextView mTxtItem = (TextView) findViewById(R.id.txtItem);
         TextView mTxtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView mTxtPrice = (TextView) findViewById(R.id.txtPrice);
-        ImageView mBtnRentItem = (ImageView) findViewById(R.id.btnRentItem);
+        Button mBtnRentItem = (Button) findViewById(R.id.btnRentItem);
         ImageView mImgItem = (ImageView) findViewById(R.id.imgItem);
 
         mProgressDialog = new ProgressDialog(this);
