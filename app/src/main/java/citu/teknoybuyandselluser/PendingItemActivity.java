@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -69,7 +70,7 @@ public class PendingItemActivity extends BaseActivity {
         mTxtItem = (EditText) findViewById(R.id.txtItem);
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
         mTxtPrice = (EditText) findViewById(R.id.txtPrice);
-        mImgPreview = (ImageView) findViewById(R.id.preview);
+        mImgPreview = (SimpleDraweeView) findViewById(R.id.preview);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -93,7 +94,7 @@ public class PendingItemActivity extends BaseActivity {
         mProgressBar.setVisibility(View.INVISIBLE);
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
-        mImgPreview =  (ImageView) findViewById(R.id.preview);
+        mImgPreview =  (SimpleDraweeView) findViewById(R.id.preview);
         btnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
