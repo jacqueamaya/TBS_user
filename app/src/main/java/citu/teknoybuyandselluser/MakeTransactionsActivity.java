@@ -73,22 +73,6 @@ public class MakeTransactionsActivity extends BaseActivity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        //handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            searchQuery = intent.getStringExtra(SearchManager.QUERY);
-            if(buyFragment.getUserVisibleHint())
-                gridAdapterForBuy.getFilter().filter(searchQuery);
-            else if(forRentFragment.getUserVisibleHint())
-                gridAdapterForRent.getFilter().filter(searchQuery);
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_make_transactions, menu);
@@ -127,7 +111,6 @@ public class MakeTransactionsActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //return id == R.id.action_search || super.onOptionsItemSelected(item);
         if(buyFragment.getUserVisibleHint()) {
             switch (id) {
                 case R.id.nav_sort_by_date:

@@ -4,17 +4,19 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -28,7 +30,7 @@ import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ReservedItem;
 
-public class BuyItemActivity extends BaseActivity {
+public class BuyItemActivity extends AppCompatActivity {
 
     private static final int DIVISOR = 1000;
 
@@ -38,13 +40,18 @@ public class BuyItemActivity extends BaseActivity {
     private RadioButton mRdWithDiscount;
     private Map<String, String> data;
 
+    private SharedPreferences mSharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_buy_item);
-        setupUI();
+
+        setupToolbar();
+
+        mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
 
         intent = getIntent();
         int itemId = intent.getIntExtra(Constants.ID, 0);
@@ -60,7 +67,6 @@ public class BuyItemActivity extends BaseActivity {
 
         Button btnBuyItem = (Button) findViewById(R.id.btnBuyItem);
         SimpleDraweeView imgItem = (SimpleDraweeView) findViewById(R.id.imgItem);
-
 
         String itemName = intent.getStringExtra(Constants.ITEM_NAME);
         txtItem.setText(itemName);
@@ -83,11 +89,6 @@ public class BuyItemActivity extends BaseActivity {
                 onBuy(v);
             }
         });
-    }
-
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_make_transactions;
     }
 
     public void onBuy(View view) {
@@ -218,6 +219,14 @@ public class BuyItemActivity extends BaseActivity {
         return getUserStarsCollected() - getStarsToUse();
     }
 
+    public String getUserName() {
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private int getUserStarsCollected() {
+        return mSharedPreferences.getInt(Constants.User.STARS_COLLECTED, 0);
+    }
+
     private double calculateDiscount() {
         return ((double) getStarsToUse() / DIVISOR);
     }
@@ -233,5 +242,23 @@ public class BuyItemActivity extends BaseActivity {
     public void hideInputStars(View view) {
         if (mSpinnerStarsToUse.getVisibility() == View.VISIBLE)
             mSpinnerStarsToUse.setVisibility(View.GONE);
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

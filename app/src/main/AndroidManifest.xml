@@ -58,8 +58,7 @@
         <activity
             android:name=".DonationsActivity"
             android:label="@string/title_activity_all_donations"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DonatedItemActivity"
             android:label="@string/title_activity_donated_item"
@@ -111,7 +110,7 @@
             android:exported="false" />
 
         <activity android:name=".RentedItemDetailActivity" />
-        <activity android:name=".SearchActivity"/>
+        <activity android:name=".SearchActivity" />
     </application>
 
 </manifest>

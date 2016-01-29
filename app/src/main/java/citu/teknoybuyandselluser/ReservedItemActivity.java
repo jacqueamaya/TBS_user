@@ -4,7 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReservedItemActivity extends BaseActivity {
+public class ReservedItemActivity extends AppCompatActivity {
 
     private static final String TAG = "ShoppingCart";
 
@@ -31,7 +35,8 @@ public class ReservedItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_reserved_item);
-        setupUI();
+
+        setupToolbar();
 
         intent = getIntent();
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
@@ -94,11 +99,6 @@ public class ReservedItemActivity extends BaseActivity {
         alert.show();
     }
 
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_reserved_items;
-    }
-
     public void cancelBuyItem () {
         int itemId = intent.getIntExtra(Constants.ID, 0);
         int reservationId = intent.getIntExtra(Constants.RESERVATION_ID, 0);
@@ -126,5 +126,28 @@ public class ReservedItemActivity extends BaseActivity {
                 Toast.makeText(ReservedItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public String getUserName() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

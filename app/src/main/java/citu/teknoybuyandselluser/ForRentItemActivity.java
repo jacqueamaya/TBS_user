@@ -2,10 +2,14 @@ package citu.teknoybuyandselluser;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +30,7 @@ import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ImageInfo;
 
-public class ForRentItemActivity extends BaseActivity {
+public class ForRentItemActivity extends AppCompatActivity {
     private static final String TAG = "ForRentItemActivity";
 
     private ImageView mImgPreview;
@@ -38,10 +42,11 @@ public class ForRentItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_for_rent_item);
-        setupUI();
+
+        setupToolbar();
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
-        mImgPreview =  (ImageView) findViewById(R.id.preview);
+        mImgPreview = (ImageView) findViewById(R.id.preview);
         btnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +56,7 @@ public class ForRentItemActivity extends BaseActivity {
     }
 
     private void selectImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
     }
 
@@ -102,11 +107,6 @@ public class ForRentItemActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_my_items;
-    }
-
     public void onForRent(View view) {
         EditText txtItem = (EditText) findViewById(R.id.inputItem);
         EditText txtDescription = (EditText) findViewById(R.id.inputDescription);
@@ -119,7 +119,7 @@ public class ForRentItemActivity extends BaseActivity {
         String price = txtPrice.getText().toString().trim();
         String quantity = txtQuantity.getText().toString().trim();
 
-        if(!name.equals("")
+        if (!name.equals("")
                 && !desc.equals("")
                 && !price.equals("")
                 && !quantity.equals("")
@@ -162,5 +162,28 @@ public class ForRentItemActivity extends BaseActivity {
         } else {
             Toast.makeText(ForRentItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public String getUserName() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

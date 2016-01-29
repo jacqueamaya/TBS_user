@@ -2,10 +2,14 @@ package citu.teknoybuyandselluser;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,13 +29,13 @@ import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ImageInfo;
 
-public class DonateItemActivity extends BaseActivity {
+public class DonateItemActivity extends AppCompatActivity {
 
     private ImageView mImgPreview;
     private ProgressDialog mProgressDialog;
 
-    private ProgressBar mProgressBar;
     private ImageInfo mImgInfo;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,8 @@ public class DonateItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_donate_item);
-        setupUI();
+
+        setupToolbar();
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -102,11 +107,6 @@ public class DonateItemActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_my_items;
-    }
-
     public void onDonate(View view) {
         Map<String, String> data = new HashMap<>();
 
@@ -162,5 +162,28 @@ public class DonateItemActivity extends BaseActivity {
         } else {
             Toast.makeText(DonateItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public String getUserName() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

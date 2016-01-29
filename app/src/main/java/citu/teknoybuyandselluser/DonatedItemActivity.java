@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -21,10 +24,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DonatedItemActivity extends BaseActivity {
+public class DonatedItemActivity extends AppCompatActivity {
 
     private Intent intent;
     private ProgressDialog mProgressDialog;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,10 @@ public class DonatedItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_donated_item);
-        setupUI();
+
+        setupToolbar();
+
+        mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
 
         intent = getIntent();
         String itemName = intent.getStringExtra(Constants.ITEM_NAME);
@@ -71,11 +78,6 @@ public class DonatedItemActivity extends BaseActivity {
 
     private int getStarsRequired() {
         return (intent.getIntExtra(Constants.STARS_REQUIRED, 0));
-    }
-
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_stars_collected;
     }
 
     public void onGetItem(View view) {
@@ -118,5 +120,31 @@ public class DonatedItemActivity extends BaseActivity {
         } else {
             Toast.makeText(DonatedItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public String getUserName() {
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private int getUserStarsCollected() {
+        return mSharedPreferences.getInt(Constants.User.STARS_COLLECTED, 0);
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

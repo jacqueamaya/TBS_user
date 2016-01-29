@@ -8,6 +8,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +31,7 @@ import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ImageInfo;
 
-public class SellItemActivity extends BaseActivity {
+public class SellItemActivity extends AppCompatActivity {
 
     private static final String TAG = "SellItemActivity";
 
@@ -41,7 +44,8 @@ public class SellItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_sell_item);
-        setupUI();
+
+        setupToolbar();
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
         mImgPreview =  (ImageView) findViewById(R.id.preview);
@@ -105,11 +109,6 @@ public class SellItemActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_my_items;
-    }
-
     public void onSell(View view) {
         EditText mTxtItem = (EditText) findViewById(R.id.inputItem);
         EditText mTxtDescription = (EditText) findViewById(R.id.inputDescription);
@@ -167,5 +166,23 @@ public class SellItemActivity extends BaseActivity {
         } else {
             Toast.makeText(SellItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

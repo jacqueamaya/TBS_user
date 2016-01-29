@@ -2,6 +2,9 @@ package citu.teknoybuyandselluser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -14,7 +17,7 @@ import com.squareup.picasso.Picasso;
  ** 0.01 View Details for Rent Item      - J. Amaya      - 01/06/2016
  */
 
-public class RentItemDetailsActivity extends BaseActivity {
+public class RentItemDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "RentItemDetails";
 
@@ -24,7 +27,8 @@ public class RentItemDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_rent_item_details);
-        setupUI();
+
+        setupToolbar();
 
         Intent intent = getIntent();
         String itemName = intent.getStringExtra(Constants.ITEM_NAME);
@@ -57,8 +61,21 @@ public class RentItemDetailsActivity extends BaseActivity {
         Log.e(TAG,"Rent item details");
     }
 
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
     @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_my_items;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
