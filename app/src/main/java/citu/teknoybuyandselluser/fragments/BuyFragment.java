@@ -48,8 +48,6 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
 
     private Category categories[];
     private String categoryNames[] = {};
-    private String lowerCaseSort = "price";
-    private String sortBy[];
     private String user;
 
     private Gson gson = new Gson();
@@ -70,8 +68,6 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
-
-        sortBy = getResources().getStringArray(R.array.sort_by);
 
         getCategories();
 
@@ -99,12 +95,8 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
 
                         gridAdapter = new GridAdapter(getActivity(), availableItems);
                         ((MakeTransactionsActivity) getActivity()).setGridAdapterForBuy(gridAdapter);
-                        gridAdapter.sortItems(lowerCaseSort);
                         gridView.setAdapter(gridAdapter);
                         gridView.setVisibility(View.VISIBLE);
-
-                        Spinner spinnerSortBy = (Spinner) view.findViewById(R.id.spinnerSortBy);
-                        setItemSelectedListener(spinnerSortBy);
 
                         if(categoryNames.length != 0) {
                             Spinner spinnerCategory = (Spinner) view.findViewById(R.id.spinnerCategory);
@@ -188,10 +180,6 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemSelectedL
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         int spinnerId = adapterView.getId();
         switch (spinnerId){
-            case R.id.spinnerSortBy:
-                lowerCaseSort = sortBy[i].toLowerCase();
-                gridAdapter.sortItems(lowerCaseSort);
-                break;
             case R.id.spinnerCategory:
                 String category = categoryNames[i];
                 if (category.equals("All")) {

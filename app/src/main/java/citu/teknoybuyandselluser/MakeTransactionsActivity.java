@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,6 +73,21 @@ public class MakeTransactionsActivity extends BaseActivity {
         return menuItem.getItemId() != R.id.nav_make_transactions;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            searchQuery = intent.getStringExtra(SearchManager.QUERY);
+            if(buyFragment.getUserVisibleHint())
+                gridAdapterForBuy.getFilter().filter(searchQuery);
+            else if(forRentFragment.getUserVisibleHint())
+                gridAdapterForRent.getFilter().filter(searchQuery);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,7 +96,8 @@ public class MakeTransactionsActivity extends BaseActivity {
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        //SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
         int id = searchView.getContext()
                 .getResources()
                 .getIdentifier("android:id/search_src_text", null, null);

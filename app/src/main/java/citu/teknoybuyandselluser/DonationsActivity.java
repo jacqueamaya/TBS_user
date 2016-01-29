@@ -32,13 +32,11 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
 
     private Category categories[];
     private String categoryNames[];
-    private String sortBy[];
 
     private GridAdapter gridAdapter;
 
     private String searchQuery = "";
     private String category = "";
-    private String lowerCaseSort = "date";
 
     private Gson gson = new Gson();
 
@@ -52,8 +50,6 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
 
         progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
         progressBar.setVisibility(View.GONE);
-
-        sortBy = getResources().getStringArray(R.array.donations_sort_by);
 
         getCategories();
     }
@@ -107,7 +103,6 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //return id == R.id.action_search || super.onOptionsItemSelected(item);
         switch (id) {
             case R.id.nav_sort_by_date:
                 gridAdapter.sortItems(Constants.Sort.DATE);
@@ -143,12 +138,8 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
                 } else {
                     txtMessage.setVisibility(View.GONE);
                     gridAdapter = new GridAdapter(DonationsActivity.this, allDonations);
-                    gridAdapter.sortItems(lowerCaseSort);
                     gridView.setVisibility(View.VISIBLE);
                     gridView.setAdapter(gridAdapter);
-
-                    Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
-                    setItemSelectedListener(spinnerSortBy);
 
                     if(categoryNames.length != 0) {
                         Spinner spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
@@ -217,10 +208,6 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         int spinnerId = adapterView.getId();
         switch (spinnerId){
-            case R.id.spinnerSortBy:
-                lowerCaseSort = sortBy[i].toLowerCase();
-                gridAdapter.sortItems(lowerCaseSort);
-                break;
             case R.id.spinnerCategory:
                 String category = categoryNames[i];
                 if (category.equals("All")) {

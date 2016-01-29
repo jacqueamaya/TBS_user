@@ -13,47 +13,48 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
         <activity
             android:name=".UserProfileActivity"
             android:label="@string/title_activity_user_profile"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".NotificationsActivity"
             android:label="@string/title_activity_notifications"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".StarsCollectedActivity"
             android:label="@string/title_activity_stars_collected"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SellItemActivity"
             android:label="@string/title_activity_sell_item"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SellItemDetailsActivity"
             android:label="@string/title_activity_sell_item_details"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".BuyItemActivity"
             android:label="@string/title_activity_buy_item"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ReservedItemActivity"
             android:label="@string/title_activity_reserved_item"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DonateItemActivity"
             android:label="@string/title_activity_donate_item"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DonateItemDetailsActivity"
             android:label="@string/title_activity_donate_item_details"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DonationsActivity"
             android:configChanges="orientation"
@@ -68,11 +69,11 @@
         <activity
             android:name=".DonatedItemActivity"
             android:label="@string/title_activity_donated_item"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PendingItemActivity"
             android:label="@string/title_activity_pending_item"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
@@ -86,11 +87,11 @@
         <activity
             android:name=".MyItemsActivity"
             android:label="@string/title_activity_my_items"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ReservedItemsActivity"
             android:label="@string/title_activity_reserved_items"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MakeTransactionsActivity"
             android:configChanges="orientation"
@@ -98,6 +99,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -105,19 +109,19 @@
         <activity
             android:name=".ForRentItemActivity"
             android:label="@string/title_activity_for_rent_item"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RentItemDetailsActivity"
             android:label="@string/title_activity_rent_item_details"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RentItemActivity"
             android:label="@string/title_activity_rent_item"
-            android:screenOrientation="portrait"/>
-            <service
-                android:name=".ExpirationCheckerService"
-                android:exported="false" />
+            android:screenOrientation="portrait" />
 
+        <service
+            android:name=".ExpirationCheckerService"
+            android:exported="false" />
         <service
             android:name=".ExpirationCheckerService"
             android:exported="false" />
