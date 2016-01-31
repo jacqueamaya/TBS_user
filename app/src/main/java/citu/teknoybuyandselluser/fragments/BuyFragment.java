@@ -69,7 +69,8 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemClickList
         Server.getAvailableItemsToSell(user, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> availableItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
+                ArrayList<Item> availableItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>() {
+                }.getType());
 
                 TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
                 GridView gridView = (GridView) view.findViewById(R.id.gridViewForBuy);
@@ -85,6 +86,7 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemClickList
                     ((MakeTransactionsActivity) getActivity()).setGridAdapterForBuy(gridAdapter);
                     gridView.setAdapter(gridAdapter);
                     gridView.setVisibility(View.VISIBLE);
+                    setItemClickListener(gridView);
                     ((MakeTransactionsActivity) getActivity()).populateCategories();
                 }
             }
@@ -105,6 +107,10 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemClickList
         Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
         service.putExtra("username", user);
         getActivity().startService(service);
+    }
+
+    public void setItemClickListener(AdapterView<?> adapterView) {
+        adapterView.setOnItemClickListener(this);
     }
 
     @Override

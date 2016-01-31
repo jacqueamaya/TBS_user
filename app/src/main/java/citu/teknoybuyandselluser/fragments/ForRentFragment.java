@@ -84,7 +84,7 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemClick
                     ((MakeTransactionsActivity) getActivity()).setGridAdapterForRent(mGridAdapter);
                     gridView.setAdapter(mGridAdapter);
                     gridView.setVisibility(View.VISIBLE);
-
+                    setItemClickListener(gridView);
                     ((MakeTransactionsActivity) getActivity()).populateCategories();
                 }
             }
@@ -105,6 +105,10 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemClick
         Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
         service.putExtra(Constants.User.USERNAME, mUsername);
         getActivity().startService(service);
+    }
+
+    public void setItemClickListener(AdapterView<?> adapterView) {
+        adapterView.setOnItemClickListener(this);
     }
 
     @Override
