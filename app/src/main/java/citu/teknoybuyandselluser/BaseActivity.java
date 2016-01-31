@@ -4,24 +4,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.picasso.Picasso;
 
 /**
- * Created by Jacquelyn on 9/24/2015.
+ ** Created by Jacquelyn on 9/24/2015.
  */
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
@@ -65,7 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         mDrawerToggle.syncState();
 
         TextView txtUser = (TextView) findViewById(R.id.txtUserName);
-        txtUser.setText(getUserPreferences());
+        txtUser.setText(getUserFullName());
 
         mImgUser.setOnClickListener(this);
     }
@@ -124,22 +119,34 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            mDrawerLayout.openDrawer(Gravity.LEFT);
+            mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
         } else {
             super.onBackPressed();
         }
     }
 
-    public String getUserPreferences() {
-        return mSharedPreferences.getString(Constants.FIRST_NAME, "No FirstName") + " " + mSharedPreferences.getString(Constants.LAST_NAME, "No LastName");
+    public String getUserFullName() {
+        return mSharedPreferences.getString(Constants.User.FIRST_NAME, "FirstName") + " " + mSharedPreferences.getString(Constants.User.LAST_NAME, "LastName");
+    }
+
+    public String getUserName() {
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    public int getUserStarsCollected() {
+        return mSharedPreferences.getInt(Constants.User.STARS_COLLECTED, 0);
+    }
+
+    public String getUserPicture() {
+        return mSharedPreferences.getString(Constants.PICTURE, "");
     }
 
     public abstract boolean checkItemClicked(MenuItem menuItem);

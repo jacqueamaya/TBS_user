@@ -55,7 +55,7 @@ public class ItemsForRentFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_items_for_rent, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        user = prefs.getString(Constants.USERNAME, "");
+        user = prefs.getString(Constants.User.USERNAME, "");
 
         getReservedItemsForRent();
         return view;

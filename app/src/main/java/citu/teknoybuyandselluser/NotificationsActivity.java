@@ -1,11 +1,7 @@
 package citu.teknoybuyandselluser;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -17,9 +13,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.adapters.NotificationListAdapter;
@@ -27,7 +20,6 @@ import citu.teknoybuyandselluser.models.Notification;
 
 public class NotificationsActivity extends BaseActivity {
     private Gson gson  = new Gson();
-    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +29,14 @@ public class NotificationsActivity extends BaseActivity {
         setContentView(R.layout.activity_notifications);
         setupUI();
 
-        prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString(Constants.USERNAME,"");
         final TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
         progressBar.setVisibility(View.GONE);
 
-        Server.getNotifications(user, progressBar, new Ajax.Callbacks() {
+        Server.getNotifications(getUserName(), progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Notification> notifications = new ArrayList<Notification>();
+                ArrayList<Notification> notifications;
                 notifications = gson.fromJson(responseBody, new TypeToken<ArrayList<Notification>>(){}.getType());
                     if (notifications.size() == 0) {
 
@@ -58,13 +48,6 @@ public class NotificationsActivity extends BaseActivity {
                         NotificationListAdapter listAdapter = new NotificationListAdapter(NotificationsActivity.this, R.layout.item_notification, notifications);
                         lv.setAdapter(listAdapter);
                     }
-
-                /*} catch (JSONException e1) {
-                    e1.printStackTrace();
-                    Toast.makeText(NotificationsActivity.this, "Cannot connect to server", Toast.LENGTH_SHORT).show();
-                    txtMessage.setText("No new notifications");
-                    txtMessage.setVisibility(View.VISIBLE);
-                }*/
             }
 
             @Override
@@ -84,7 +67,7 @@ public class NotificationsActivity extends BaseActivity {
         super.onResume();
 
         Intent service = new Intent(NotificationsActivity.this, ExpirationCheckerService.class);
-        service.putExtra("username",prefs.getString(Constants.USERNAME, ""));
+        service.putExtra(Constants.User.USERNAME, getUserName());
         startService(service);
     }
 }

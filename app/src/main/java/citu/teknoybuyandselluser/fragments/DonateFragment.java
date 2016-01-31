@@ -62,7 +62,7 @@ public class DonateFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_donate, container, false);
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        user = prefs.getString(Constants.USERNAME, "");
+        user = prefs.getString(Constants.User.USERNAME, "");
 
         getDonateItems();
 
@@ -130,7 +130,7 @@ public class DonateFragment extends Fragment {
         getDonateItems();
 
         Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
-        service.putExtra("username", user);
+        service.putExtra(Constants.User.USERNAME, user);
         getActivity().startService(service);
     }
 }

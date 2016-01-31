@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,19 +31,10 @@ import citu.teknoybuyandselluser.models.ImageInfo;
 
 public class UserProfileActivity extends BaseActivity {
     private static final String TAG = "UserProfileActivity";
-    private EditText inputUsername;
-    private EditText inputCurrentPassword;
-    private EditText inputNewPassword;
-    private EditText inputConfirmPassword;
     private ImageInfo mImgInfo;
-    //private ImageView mProfilePic;
     private SimpleDraweeView mProfilePic;
-    private ImageView mImgPreview;
     private ProgressBar mProgressBar;
     private ProgressDialog mProgressDialog;
-
-    private String username;
-    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,34 +45,23 @@ public class UserProfileActivity extends BaseActivity {
         TextView txtUsername = (TextView) findViewById(R.id.txtUsername);
 
         //Input fields
-        inputUsername = (EditText) findViewById(R.id.inputNewUsername);
-        inputCurrentPassword = (EditText) findViewById(R.id.inputCurrentPassword);
-        inputNewPassword = (EditText) findViewById(R.id.inputNewPassword);
-        inputConfirmPassword = (EditText) findViewById(R.id.inputConfirmPassword);
-        //mProfilePic =  (ImageView) findViewById(R.id.profpic);
         mProfilePic = (SimpleDraweeView) findViewById(R.id.profpic);
-        mImgPreview = (ImageView) findViewById(R.id.preview);
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
-
 
         //Progress bar while uploading the picture
         mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String name = prefs.getString(Constants.FIRST_NAME, null) + " " + prefs.getString(Constants.LAST_NAME, null);
-        setTitle(name);
-        //Username
-        username = prefs.getString(Constants.USERNAME, null);
-        txtUsername.setText(username);
+        setTitle(getUserFullName());
+        txtUsername.setText(getUserName());
 
         //User's Profile Picture
-        String picture = prefs.getString(Constants.PICTURE, null);
+        String picture = getUserPicture();
 
         if(null == picture || (picture.isEmpty()) || picture.equals("")) {
             mProfilePic.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
         } else {
-                mProfilePic.setImageURI(Uri.parse(picture));
+            mProfilePic.setImageURI(Uri.parse(picture));
         }
 
         //Browse and select an image
@@ -102,7 +81,11 @@ public class UserProfileActivity extends BaseActivity {
     }
 
     public void onEditProfile(View view) {
-        //TODO: edit profile to database
+        EditText inputUsername = (EditText) findViewById(R.id.inputNewUsername);
+        EditText inputCurrentPassword = (EditText) findViewById(R.id.inputCurrentPassword);
+        EditText inputNewPassword = (EditText) findViewById(R.id.inputNewPassword);
+        EditText inputConfirmPassword = (EditText) findViewById(R.id.inputConfirmPassword);
+
         String newUsername = inputUsername.getText().toString().trim();
         String currentPassword = inputCurrentPassword.getText().toString();
         String newPassword = inputNewPassword.getText().toString();
@@ -113,11 +96,11 @@ public class UserProfileActivity extends BaseActivity {
 
     public void editProfile(String newUsername, String currentPassword, String newPassword, String confirmNewPassword){
         Map<String, String> data = new HashMap<>();
-        data.put(Constants.USERNAME, username);
-        data.put(Constants.NEW_USERNAME, newUsername);
-        data.put(Constants.OLD_PASSWORD, currentPassword);
-        data.put(Constants.NEW_PASSWORD, newPassword);
-        data.put(Constants.CONFIRM_PASSWORD, confirmNewPassword);
+        data.put(Constants.User.USERNAME, getUserName());
+        data.put(Constants.User.NEW_USERNAME, newUsername);
+        data.put(Constants.User.OLD_PASSWORD, currentPassword);
+        data.put(Constants.User.NEW_PASSWORD, newPassword);
+        data.put(Constants.User.CONFIRM_PASSWORD, confirmNewPassword);
         if(mImgInfo != null) {
             data.put(Constants.PICTURE, mImgInfo.getLink());
         }
@@ -134,6 +117,7 @@ public class UserProfileActivity extends BaseActivity {
                     Toast.makeText(UserProfileActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
                     if(json.getInt("status") == 200) {
                         Intent intent;
+                        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
                         prefs.edit().clear().apply();
                         intent = new Intent(UserProfileActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -179,8 +163,8 @@ public class UserProfileActivity extends BaseActivity {
                         JSONObject json;
                         try {
                             json = new JSONObject(responseBody);
-                            //mImgInfo = ImageInfo.getImageInfo(json);
-                            mProfilePic.setImageURI(Uri.parse(ImageInfo.getImageInfo(json).getLink()));
+                            mImgInfo = ImageInfo.getImageInfo(json);
+                            mProfilePic.setImageURI(Uri.parse(mImgInfo.getLink()));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -188,7 +172,6 @@ public class UserProfileActivity extends BaseActivity {
 
                     @Override
                     public void error(int statusCode, String responseBody, String statusText) {
-                        Log.v(TAG, "Request error");
                         Toast.makeText(UserProfileActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                     }
 

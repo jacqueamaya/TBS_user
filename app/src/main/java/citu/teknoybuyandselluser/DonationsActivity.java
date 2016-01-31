@@ -1,23 +1,20 @@
 package citu.teknoybuyandselluser;
 
-import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,27 +24,20 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
-import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
+import citu.teknoybuyandselluser.adapters.GridAdapter;
 import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
 
-public class DonationsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener{
-    SharedPreferences prefs;
-    private static final String TAG = "All Donations";
-
+public class DonationsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
     private ProgressBar progressBar;
 
     private Category categories[];
     private String categoryNames[];
-    private String sortBy[];
 
-    private ItemsListAdapter listAdapter;
-    private ArrayList<Item> allDonations;
+    private GridAdapter gridAdapter;
 
     private String searchQuery = "";
     private String category = "";
-    private String lowerCaseSort = "date";
-    private String user;
 
     private Gson gson = new Gson();
 
@@ -59,13 +49,8 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_donations);
         setupUI();
 
-        prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        user = prefs.getString(Constants.USERNAME, "");
-
         progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
         progressBar.setVisibility(View.GONE);
-
-        sortBy = getResources().getStringArray(R.array.donations_sort_by);
 
         getCategories();
     }
@@ -76,39 +61,33 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
         getAllItems();
 
         Intent service = new Intent(DonationsActivity.this, ExpirationCheckerService.class);
-        service.putExtra("username", prefs.getString(Constants.USERNAME, ""));
+        service.putExtra(Constants.User.USERNAME, getUserName());
         startService(service);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_buy_items, menu);
+        inflater.inflate(R.menu.menu_all_donations, menu);
 
-        SearchManager searchManager = (SearchManager)
-                getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView();
-        int id = searchView.getContext()
-                .getResources()
-                .getIdentifier("android:id/search_src_text", null, null);
-        TextView textView = (TextView) searchView.findViewById(id);
-        textView.setTextColor(Color.BLACK);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        searchView.setSearchableInfo(searchManager.
-                getSearchableInfo(getComponentName()));
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        ComponentName componentName = new ComponentName(this, SearchActivity.class);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchQuery = query;
-                listAdapter.getFilter().filter(searchQuery + "," + category);
+                gridAdapter.getFilter().filter(searchQuery + "," + category);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchQuery = newText;
-                listAdapter.getFilter().filter(searchQuery + "," + category);
+                gridAdapter.getFilter().filter(searchQuery + "," + category);
                 return true;
             }
         });
@@ -119,7 +98,16 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        return id == R.id.action_search || super.onOptionsItemSelected(item);
+        switch (id) {
+            case R.id.nav_sort_by_date:
+                gridAdapter.sortItems(Constants.Sort.DATE);
+                break;
+            case R.id.nav_sort_by_name:
+                gridAdapter.sortItems(Constants.Sort.NAME);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -129,39 +117,37 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
 
     public void getAllItems() {
 
-        Server.getAllDonations(user, progressBar, new Ajax.Callbacks() {
+        Server.getAllDonations(getUserName(), progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                allDonations = new ArrayList<>();
+                ArrayList<Item> allDonations;
                 allDonations = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
-                ListView lv = (ListView) findViewById(R.id.listViewDonations);
+
                 TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
+                GridView gridView = (GridView) findViewById(R.id.gridViewForDonations);
+
                 if (allDonations.size() == 0) {
                     txtMessage.setText(getResources().getString(R.string.no_donations));
                     txtMessage.setVisibility(View.VISIBLE);
-                    lv.setVisibility(View.GONE);
+                    gridView.setVisibility(View.GONE);
                 } else {
                     txtMessage.setVisibility(View.GONE);
-                    listAdapter = new ItemsListAdapter(DonationsActivity.this, R.layout.list_item, allDonations);
-                    listAdapter.sortItems(lowerCaseSort);
-                    lv.setVisibility(View.VISIBLE);
-                    lv.setAdapter(listAdapter);
-
-                    Spinner spinnerSortBy = (Spinner) findViewById(R.id.spinnerSortBy);
-                    sortOrFilter(spinnerSortBy);
+                    gridAdapter = new GridAdapter(DonationsActivity.this, allDonations);
+                    gridView.setVisibility(View.VISIBLE);
+                    gridView.setAdapter(gridAdapter);
 
                     if(categoryNames.length != 0) {
                         Spinner spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(DonationsActivity.this, android.R.layout.simple_spinner_item, categoryNames);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinnerCategory.setAdapter(adapter);
-                        sortOrFilter(spinnerCategory);
+                        setItemSelectedListener(spinnerCategory);
                     }
 
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Item item = listAdapter.getDisplayView().get(position);
+                            Item item = gridAdapter.getDisplayView().get(position);
 
                             Intent intent;
                             intent = new Intent(DonationsActivity.this, DonatedItemActivity.class);
@@ -179,7 +165,6 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
 
             @Override
             public void error(int statusCode, String responseBody, String statusText) {
-                Log.v(TAG, "Request error");
                 Toast.makeText(DonationsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
@@ -210,7 +195,7 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
         });
     }
 
-    public void sortOrFilter(Spinner spinner) {
+    public void setItemSelectedListener(Spinner spinner) {
         spinner.setOnItemSelectedListener(this);
     }
 
@@ -218,16 +203,12 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         int spinnerId = adapterView.getId();
         switch (spinnerId){
-            case R.id.spinnerSortBy:
-                lowerCaseSort = sortBy[i].toLowerCase();
-                listAdapter.sortItems(lowerCaseSort);
-                break;
             case R.id.spinnerCategory:
                 String category = categoryNames[i];
                 if (category.equals("All")) {
                     category = "";
                 }
-                listAdapter.getFilter().filter(category);
+                gridAdapter.getFilter().filter(category);
                 break;
         }
     }

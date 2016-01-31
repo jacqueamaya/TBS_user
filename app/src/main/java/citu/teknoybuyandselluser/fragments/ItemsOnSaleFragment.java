@@ -56,7 +56,7 @@ public class ItemsOnSaleFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_items_on_sale, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        user = prefs.getString(Constants.USERNAME, "");
+        user = prefs.getString(Constants.User.USERNAME, "");
 
         getReservedItemsOnSale();
         return view;

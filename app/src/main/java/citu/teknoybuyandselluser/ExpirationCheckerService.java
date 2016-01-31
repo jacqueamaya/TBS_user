@@ -14,7 +14,6 @@ import java.net.URLEncoder;
 public class ExpirationCheckerService extends IntentService {
 
     public static final String TAG = "ExpirationCheckerSvc";
-    public static final String ACTION = ExpirationCheckerService.class.getCanonicalName();
 
     public ExpirationCheckerService() {
         super(TAG);
@@ -22,7 +21,7 @@ public class ExpirationCheckerService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String username = intent.getStringExtra("username");
+        String username = intent.getStringExtra(Constants.User.USERNAME);
         try {
             URL url = new URL("http://tbs-admin.herokuapp.com/api/admin_check_expiration");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

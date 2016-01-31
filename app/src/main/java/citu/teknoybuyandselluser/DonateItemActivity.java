@@ -1,22 +1,15 @@
 package citu.teknoybuyandselluser;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.view.Menu;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -31,28 +24,18 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ImageInfo;
 
-public class DonateItemActivity extends BaseActivity {
-
-    private static final String TAG = "DonateItemActivity";
-
-    private EditText mTxtItem;
-    private EditText mTxtDescription;
-    private EditText mTxtQuantity;
+public class DonateItemActivity extends AppCompatActivity {
 
     private ImageView mImgPreview;
     private ProgressDialog mProgressDialog;
 
+    private ImageInfo mImgInfo;
     private ProgressBar mProgressBar;
-    ImageInfo mImgInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +43,8 @@ public class DonateItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_donate_item);
-        setupUI();
 
-        mTxtItem = (EditText) findViewById(R.id.txtItem);
-        mTxtDescription = (EditText) findViewById(R.id.txtDescription);
-        mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
+        setupToolbar();
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -102,8 +82,6 @@ public class DonateItemActivity extends BaseActivity {
                 Server.upload(picturePath, mProgressBar, new Ajax.Callbacks() {
                     @Override
                     public void success(String responseBody) {
-                        Log.v(TAG, "successfully posted");
-                        Log.v(TAG, responseBody);
 
                         JSONObject json;
                         try {
@@ -120,7 +98,6 @@ public class DonateItemActivity extends BaseActivity {
 
                     @Override
                     public void error(int statusCode, String responseBody, String statusText) {
-                        Log.v(TAG, "Request error");
                         Toast.makeText(DonateItemActivity.this, "Unable to upload the image", Toast.LENGTH_SHORT).show();
                     }
 
@@ -130,25 +107,22 @@ public class DonateItemActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_my_items;
-    }
-
     public void onDonate(View view) {
         Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
 
-        String name = mTxtItem.getText().toString().trim();
-        String desc = mTxtDescription.getText().toString().trim();
-        String quantity = mTxtQuantity.getText().toString().trim();
+        EditText txtItem = (EditText) findViewById(R.id.txtItem);
+        EditText txtDescription = (EditText) findViewById(R.id.txtDescription);
+        EditText txtQuantity = (EditText) findViewById(R.id.txtQuantity);
+
+        String name = txtItem.getText().toString().trim();
+        String desc = txtDescription.getText().toString().trim();
+        String quantity = txtQuantity.getText().toString().trim();
 
         if(!name.equals("")
                 && !desc.equals("")
                 && !quantity.equals("")
                 && mImgInfo != null) {
-            data.put(Constants.OWNER, user);
+            data.put(Constants.OWNER, getUserName());
             data.put(Constants.NAME, name);
             data.put(Constants.DESCRIPTION, desc);
             data.put(Constants.QUANTITY, quantity);
@@ -177,12 +151,39 @@ public class DonateItemActivity extends BaseActivity {
 
                 @Override
                 public void error(int statusCode, String responseBody, String statusText) {
-                    Log.d(TAG, "Donate Item error " + responseBody);
-                    Toast.makeText(DonateItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+                    try {
+                        JSONObject json = new JSONObject(responseBody);
+                        Toast.makeText(DonateItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } else {
             Toast.makeText(DonateItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public String getUserName() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

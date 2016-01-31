@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText mTxtUsername;
     private EditText mTxtPassword;
-    private TextView mTxtSignUp;
     private TextView mTxtErrorMessage;
     private ProgressDialog mLoginProgress;
     private ProgressBar mProgressBar;
@@ -47,16 +45,16 @@ public class LoginActivity extends AppCompatActivity {
         mLoginProgress = new ProgressDialog(this);
 
         SharedPreferences sp = this.getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
-        if(sp.getString(Constants.USERNAME, null) != null && sp.getString(Constants.PASSWORD, null) != null) {
+        if(sp.getString(Constants.User.USERNAME, null) != null && sp.getString(Constants.User.PASSWORD, null) != null) {
             Intent intent;
             intent = new Intent(this, NotificationsActivity.class);
             startActivity(intent);
         }
 
-        mTxtSignUp = (TextView) findViewById(R.id.txtSignup);
+        TextView txtSignUp = (TextView) findViewById(R.id.txtSignup);
         mTxtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
 
-        mTxtSignUp.setOnClickListener(new View.OnClickListener() {
+        txtSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
@@ -78,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
     public void loginUser(String username, String password) {
         mStrUsername = username;
         mStrPassword = password;
-        data.put(Constants.USERNAME, username);
-        data.put(Constants.PASSWORD, password);
+        data.put(Constants.User.USERNAME, username);
+        data.put(Constants.User.PASSWORD, password);
         Server.login(data, mLoginProgress, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
@@ -114,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         Server.getUser(mStrUsername, mProgressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                JSONArray jsonArray = null;
+                JSONArray jsonArray;
                 try {
                     jsonArray = new JSONArray(responseBody);
                     if(jsonArray.length() != 0) {
@@ -122,11 +120,11 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject jsonUser = json.getJSONObject("student");
 
                         SharedPreferences.Editor editor = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE).edit();
-                        editor.putString(Constants.USERNAME, mStrUsername);
-                        editor.putString(Constants.PASSWORD, mStrPassword);
-                        editor.putString(Constants.FIRST_NAME, jsonUser.getString(Constants.FIRST_NAME));
-                        editor.putString(Constants.LAST_NAME, jsonUser.getString(Constants.LAST_NAME));
-                        editor.putInt(Constants.STARS_COLLECTED, json.getInt(Constants.STARS_COLLECTED));
+                        editor.putString(Constants.User.USERNAME, mStrUsername);
+                        editor.putString(Constants.User.PASSWORD, mStrPassword);
+                        editor.putString(Constants.User.FIRST_NAME, jsonUser.getString(Constants.User.FIRST_NAME));
+                        editor.putString(Constants.User.LAST_NAME, jsonUser.getString(Constants.User.LAST_NAME));
+                        editor.putInt(Constants.User.STARS_COLLECTED, json.getInt(Constants.User.STARS_COLLECTED));
                         editor.putString(Constants.PICTURE, json.getString(Constants.PICTURE));
                         editor.apply();
 

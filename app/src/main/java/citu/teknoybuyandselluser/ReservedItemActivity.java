@@ -2,11 +2,13 @@ package citu.teknoybuyandselluser;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,16 +22,12 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReservedItemActivity extends BaseActivity {
+public class ReservedItemActivity extends AppCompatActivity {
 
     private static final String TAG = "ShoppingCart";
 
-    private int mItemId;
-    private int mReservationId;
+    private Intent intent;
     private String mItemName;
-
-    private ProgressDialog mProgressDialog;
-    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +35,10 @@ public class ReservedItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_reserved_item);
-        setupUI();
 
-        mPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        setupToolbar();
 
-        Intent intent;
         intent = getIntent();
-        mItemId = intent.getIntExtra(Constants.ID, 0);
-        mReservationId = intent.getIntExtra(Constants.RESERVATION_ID, 0);
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
         String description = intent.getStringExtra(Constants.DESCRIPTION);
         float price = intent.getFloatExtra(Constants.PRICE, 0);
@@ -59,8 +53,6 @@ public class ReservedItemActivity extends BaseActivity {
         TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
         TextView txtReservedDate = (TextView) findViewById(R.id.txtReservedDate);
         ImageView imgPreview = (ImageView) findViewById(R.id.preview);
-
-        mProgressDialog = new ProgressDialog(this);
 
         txtItem.setText(mItemName);
         txtDescription.setText(description);
@@ -107,22 +99,21 @@ public class ReservedItemActivity extends BaseActivity {
         alert.show();
     }
 
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_reserved_items;
-    }
-
     public void cancelBuyItem () {
+        int itemId = intent.getIntExtra(Constants.ID, 0);
+        int reservationId = intent.getIntExtra(Constants.RESERVATION_ID, 0);
+
         Map<String, String> data = new HashMap<>();
-        String user = mPreferences.getString("username", "");
+        String user = getUserName();
         data.put(Constants.BUYER, user);
-        data.put(Constants.ID, "" + mItemId);
-        data.put(Constants.RESERVATION_ID, "" + mReservationId);
+        data.put(Constants.ID, "" + itemId);
+        data.put(Constants.RESERVATION_ID, "" + reservationId);
 
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Please wait. . .");
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Please wait. . .");
 
-        Server.cancelBuyItem(data, mProgressDialog, new Ajax.Callbacks() {
+        Server.cancelBuyItem(data, progressDialog, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, "Cancel Item Reservation success");
@@ -135,5 +126,28 @@ public class ReservedItemActivity extends BaseActivity {
                 Toast.makeText(ReservedItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public String getUserName() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

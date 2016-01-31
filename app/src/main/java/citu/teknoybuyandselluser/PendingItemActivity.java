@@ -2,7 +2,6 @@ package citu.teknoybuyandselluser;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,8 +9,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -31,7 +33,7 @@ import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ImageInfo;
 
-public class PendingItemActivity extends BaseActivity {
+public class PendingItemActivity extends AppCompatActivity {
 
     private static final String TAG = "PendingItemActivity";
 
@@ -57,7 +59,8 @@ public class PendingItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_pending_item);
-        setupUI();
+
+        setupToolbar();
 
         Intent intent;
         intent = getIntent();
@@ -72,7 +75,7 @@ public class PendingItemActivity extends BaseActivity {
         mTxtItem = (EditText) findViewById(R.id.txtItem);
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
         mTxtPrice = (EditText) findViewById(R.id.txtPrice);
-        mImgPreview = (ImageView) findViewById(R.id.preview);
+        mImgPreview = (SimpleDraweeView) findViewById(R.id.preview);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -96,7 +99,7 @@ public class PendingItemActivity extends BaseActivity {
         mProgressBar.setVisibility(View.INVISIBLE);
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
-        mImgPreview =  (ImageView) findViewById(R.id.preview);
+        mImgPreview =  (SimpleDraweeView) findViewById(R.id.preview);
         btnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,22 +108,13 @@ public class PendingItemActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_my_items;
-    }
-
     public void onEditItem(View view) {
 
         String name = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
         String priceStr = mTxtPrice.getText().toString().trim();
 
-        Log.v(TAG,"item name:"+name);
-        Log.v(TAG,"item desc:"+desc);
-
         if(mPurpose.equals("Sell")) {
-            Log.v(TAG,"Purpose: sell");
 
             if(!name.equals("")
                     && !desc.equals("")
@@ -128,15 +122,12 @@ public class PendingItemActivity extends BaseActivity {
                     && !priceStr.equals("")) {
 
                 float price = Float.parseFloat(mTxtPrice.getText().toString().trim());
-                Log.v(TAG,"complete input");
-                Log.v(TAG,"empty?"+name.isEmpty());
                 editItem(name, desc, price);
             } else {
                 Log.v(TAG,"missing input");
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
          }else {
-            Log.v(TAG,mPicture);
             if(!name.equals("")
                 && !desc.equals("")
                 && (mImgInfo != null || !mPicture.equals(""))) {
@@ -149,8 +140,7 @@ public class PendingItemActivity extends BaseActivity {
 
     public void editItem(String name, String desc, float price) {
         Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
+        String user = getUserName();
 
         if(name.equals(mItemName) && desc.equals(mDescription) && price == mPrice && mImgInfo == null) {
             Toast.makeText(PendingItemActivity.this, "No changes have been made", Toast.LENGTH_SHORT).show();
@@ -212,10 +202,8 @@ public class PendingItemActivity extends BaseActivity {
 
     public void deleteItem () {
         Map<String, String> data = new HashMap<>();
-        SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        String user = prefs.getString("username", "");
-        Log.d(TAG, "user: " + user);
-        data.put(Constants.OWNER, user);
+        String userName = getUserName();
+        data.put(Constants.OWNER, userName);
         data.put(Constants.ID, "" + mItemId);
 
         mProgressDialog.setIndeterminate(true);
@@ -281,8 +269,30 @@ public class PendingItemActivity extends BaseActivity {
                     }
 
                 });
-
             }
         }
+    }
+
+    public String getUserName() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

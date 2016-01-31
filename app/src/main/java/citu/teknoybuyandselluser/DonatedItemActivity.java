@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -22,16 +24,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DonatedItemActivity extends BaseActivity {
+public class DonatedItemActivity extends AppCompatActivity {
 
-    private static final String TAG = "Get Donated Item";
-
+    private Intent intent;
     private ProgressDialog mProgressDialog;
-    private int mItemId;
-    private int mQuantity;
-    private int mStarsRequired;
-    private EditText mTxtQuantity;
-    private SharedPreferences mPreferences;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +36,14 @@ public class DonatedItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_donated_item);
-        setupUI();
 
-        mPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
+        setupToolbar();
 
-        Intent intent;
+        mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+
         intent = getIntent();
-        mItemId = intent.getIntExtra(Constants.ID, 0);
         String itemName = intent.getStringExtra(Constants.ITEM_NAME);
         String description = intent.getStringExtra(Constants.DESCRIPTION);
-        mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
-        mQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
         String picture = intent.getStringExtra(Constants.PICTURE);
 
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
@@ -57,13 +51,12 @@ public class DonatedItemActivity extends BaseActivity {
         TextView txtNumStars = (TextView) findViewById(R.id.txtNumStars);
         ImageView btnGetItem = (ImageView) findViewById(R.id.btnGetItem);
         ImageView imgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
-        mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
 
         mProgressDialog = new ProgressDialog(this);
 
         txtTitle.setText(itemName);
         txtDescription.setText(description);
-        txtNumStars.setText("" + mStarsRequired);
+        txtNumStars.setText("" + getStarsRequired());
 
         Picasso.with(this)
                 .load(picture)
@@ -72,7 +65,7 @@ public class DonatedItemActivity extends BaseActivity {
         btnGetItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getStars() >= mStarsRequired) {
+                if(getUserStarsCollected() >= getStarsRequired()) {
                     onGetItem(v);
                 } else {
                     Toast.makeText(DonatedItemActivity.this, "Not enough stars", Toast.LENGTH_SHORT).show();
@@ -83,25 +76,24 @@ public class DonatedItemActivity extends BaseActivity {
         setTitle(itemName);
     }
 
-    private int getStars() {
-        mPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
-        return mPreferences.getInt(Constants.STARS_COLLECTED, 0);
-    }
-
-    @Override
-    public boolean checkItemClicked(MenuItem menuItem) {
-        return menuItem.getItemId() != R.id.nav_stars_collected;
+    private int getStarsRequired() {
+        return (intent.getIntExtra(Constants.STARS_REQUIRED, 0));
     }
 
     public void onGetItem(View view) {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString("username", "");
-        int quantity = Integer.parseInt(mTxtQuantity.getText().toString());
-        data.put(Constants.BUYER, user);
-        data.put(Constants.ID, "" + mItemId);
+        EditText txtQuantity = (EditText) findViewById(R.id.txtQuantity);
 
-        if(quantity <= mQuantity) {
+        int quantity = Integer.parseInt(txtQuantity.getText().toString());
+        int itemId = intent.getIntExtra(Constants.ID, 0);
+        int itemQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
+
+        data.put(Constants.BUYER, user);
+        data.put(Constants.ID, "" + itemId);
+
+        if(quantity <= itemQuantity && quantity > 0) {
             data.put(Constants.QUANTITY, quantity + "");
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Please wait. . .");
@@ -112,7 +104,6 @@ public class DonatedItemActivity extends BaseActivity {
                     try {
                         JSONObject json = new JSONObject(responseBody);
                         String statusText = json.getString("statusText");
-                        Log.d(TAG, responseBody);
                         Toast.makeText(DonatedItemActivity.this, statusText, Toast.LENGTH_SHORT).show();
                         finish();
 
@@ -123,12 +114,37 @@ public class DonatedItemActivity extends BaseActivity {
 
                 @Override
                 public void error(int statusCode, String responseBody, String statusText) {
-                    Log.d(TAG, "Error: " + statusText);
                     Toast.makeText(DonatedItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
             Toast.makeText(DonatedItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public String getUserName() {
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private int getUserStarsCollected() {
+        return mSharedPreferences.getInt(Constants.User.STARS_COLLECTED, 0);
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

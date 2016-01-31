@@ -1,19 +1,23 @@
 package citu.teknoybuyandselluser;
 
 /**
- * Created by Jacquelyn on 9/25/2015.
+ ** Created by Jacquelyn on 9/25/2015.
  */
 public class Constants {
     public static final String MY_PREFS_NAME = "UserPreferences";
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String FIRST_NAME = "first_name";
-    public static final String LAST_NAME = "last_name";
-    public static final String STARS_COLLECTED = "stars_collected";
-    public static final String NEW_USERNAME = "new_username";
-    public static final String OLD_PASSWORD = "old_password";
-    public static final String NEW_PASSWORD = "new_password";
-    public static final String CONFIRM_PASSWORD = "confirm_password";
+
+    public static final class User {
+        public static final String ID_NUMBER = "id_number";
+        public static final String USERNAME = "username";
+        public static final String PASSWORD = "password";
+        public static final String FIRST_NAME = "first_name";
+        public static final String LAST_NAME = "last_name";
+        public static final String STARS_COLLECTED = "stars_collected";
+        public static final String NEW_USERNAME = "new_username";
+        public static final String OLD_PASSWORD = "old_password";
+        public static final String NEW_PASSWORD = "new_password";
+        public static final String CONFIRM_PASSWORD = "confirm_password";
+    }
 
     public static final String BUYER = "buyer";
     public static final String RENTER = "renter";
@@ -38,6 +42,7 @@ public class Constants {
     public static final String STATUS = "status";
     public static final String IMAGE_URL = "url";
     public static final String FORMAT_PRICE = "formatPrice";
+
     public static final int INDEX_USER_IMAGE = (int) (Math.random()*10);
     public static final int USER_IMAGES[] =
             {
@@ -78,7 +83,6 @@ public class Constants {
     public static final String URL_AVAILABLE_ITEMS_FOR_RENT = "http://"+URL+"/api-x/available_items_for_rent";
     public static final String URL_ITEMS_TO_DONATE = "http://"+URL+"/api-x/items_to_donate";
     public static final String URL_ALL_DONATIONS = "http://"+URL+"/api-x/all_donations";
-    public static final String URL_ALL_ITEMS_FOR_RENT = "http://"+URL+"/api-x/all_items_for_rent";
     public static final String URL_RENTED_ITEMS = "http://"+URL+"/api-x/rented_items";
     public static final String URL_RESERVED_ITEMS = "http://"+URL+"/api-x/reservation_requests";
     public static final String URL_RESERVED_ITEMS_ON_SALE = "http://"+URL+"/api-x/reserved_items_on_sale";
@@ -86,4 +90,9 @@ public class Constants {
     public static final String URL_RESERVED_ITEMS_FOR_DONATION = "http://"+URL+"/api-x/reserved_items_for_donation";
     public static final String URL_CATEGORIES = "http://"+URL+"/api-x/categories/";
 
+    public static final class Sort {
+        public static final String DATE = "date";
+        public static final String NAME = "name";
+        public static final String PRICE = "price";
+    }
 }
