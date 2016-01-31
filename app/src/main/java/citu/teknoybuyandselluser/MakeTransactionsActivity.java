@@ -12,28 +12,39 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.gson.Gson;
 
 import citu.teknoybuyandselluser.adapters.GridAdapter;
 
 import citu.teknoybuyandselluser.adapters.ViewPagerAdapter;
 import citu.teknoybuyandselluser.fragments.BuyFragment;
 import citu.teknoybuyandselluser.fragments.ForRentFragment;
+import citu.teknoybuyandselluser.models.Category;
 
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
  */
 
-public class MakeTransactionsActivity extends BaseActivity {
-
-    private String searchQuery = "";
-
-    private GridAdapter gridAdapterForBuy;
-    private GridAdapter gridAdapterForRent;
+public class MakeTransactionsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
 
     private BuyFragment buyFragment;
     private ForRentFragment forRentFragment;
+
+    private GridAdapter gridAdapterForBuy;
+    private GridAdapter gridAdapterForRent;
+    private Gson gson = new Gson();
+    private String searchQuery = "";
+
+    protected Category categories[];
+    protected String categoryNames[] = {};
 
     public void setGridAdapterForBuy(GridAdapter gridAdapter) {
         this.gridAdapterForBuy = gridAdapter;
@@ -143,8 +154,70 @@ public class MakeTransactionsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         Intent service = new Intent(MakeTransactionsActivity.this, ExpirationCheckerService.class);
         service.putExtra(Constants.User.USERNAME, getUserName());
         startService(service);
+    }
+
+    public void getCategories() {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetItems);
+        progressBar.setVisibility(View.GONE);
+        Server.getCategories(progressBar, new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                if (!("".equals(responseBody))) {
+                    categories = gson.fromJson(responseBody, Category[].class);
+                    categoryNames = new String[categories.length + 1];
+                    categoryNames[0] = "All";
+                    for (int i = 1; i < categoryNames.length; i++) {
+                        categoryNames[i] = categories[i - 1].getCategory_name();
+                    }
+                } else {
+                    Toast.makeText(MakeTransactionsActivity.this, "Empty categories", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                categories = null;
+                Toast.makeText(MakeTransactionsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void setItemSelectedListener(Spinner spinner) {
+        spinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        int spinnerId = adapterView.getId();
+        switch (spinnerId){
+            case R.id.spinnerCategory:
+                String category = categoryNames[i];
+                if (category.equals("All")) {
+                    category = "";
+                }
+                gridAdapterForBuy.getFilter().filter(category);
+                if(gridAdapterForRent != null)
+                    gridAdapterForRent.getFilter().filter(category);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    public void populateCategories() {
+        if (categoryNames.length != 0) {
+            Spinner spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
+            ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.spinner_item, categoryNames);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerCategory.setAdapter(adapter);
+            setItemSelectedListener(spinnerCategory);
+        }
     }
 }

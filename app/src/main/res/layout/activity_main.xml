@@ -1,15 +1,15 @@
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_hdpi"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="citu.teknoybuyandselluser.MainActivity" >
+    tools:context="citu.teknoybuyandselluser.MainActivity">
 
 
     <ImageView
@@ -18,197 +18,197 @@
         android:src="@drawable/register" />
 
 
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/txtStudentID"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:paddingLeft="10dp"
-                android:hint="@string/student_id"
-                android:singleLine="true"
-                android:background="@color/WhiteTrans"
-                android:textColorHint="@color/White"
-                android:textColor="@color/White"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="16dp" />
+        <EditText
+            android:id="@+id/txtStudentID"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/WhiteTrans"
+            android:hint="@string/student_id"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/White"
+            android:textColorHint="@color/White"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="16dp" />
 
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="5dp" />
-
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/txtFirstName"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/WhiteTrans"
-                android:hint="@string/first_name"
-                android:inputType="textCapSentences"
-                android:singleLine="true"
-                android:paddingLeft="10dp"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textColorHint="@color/White"
-                android:textColor="@color/White"
-                android:textSize="16dp" />
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="5dp" />
-
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/txtLastName"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="@string/last_name"
-                android:inputType="textCapSentences"
-                android:singleLine="true"
-                android:background="@color/WhiteTrans"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:paddingLeft="10dp"
-                android:textColorHint="@color/White"
-                android:textColor="@color/White"
-                android:textSize="16dp" />
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="5dp" />
-
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/txtUsername"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="@string/user_name"
-                android:singleLine="true"
-                android:textColorHint="@color/White"
-                android:background="@color/WhiteTrans"
-                android:paddingLeft="10dp"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="16dp"
-                android:textColor="@color/White"/>
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="5dp" />
-
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-
-            <EditText
-                android:id="@+id/txtPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:fontFamily="default"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:singleLine="true"
-                android:textColorHint="@color/White"
-                android:background="@color/WhiteTrans"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textColor="@color/White"
-                android:paddingLeft="10dp"
-                android:textSize="16dp" />
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/terms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="openDialog"
-                android:buttonTint="@color/White"
-                android:textColor="@color/White"
-                android:text="I agree with the Terms and Conditions" />
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnRegister"
-                android:layout_width="250dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/MaroonDark"
-                android:onClick="onRegister"
-                android:text="Register"
-                android:textColor="@color/White" />
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="250dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/color_cursor"
-                android:onClick="onCancel"
-                android:text="Cancel" />
-
-        </LinearLayout>
 
     </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="5dp" />
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/txtFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/WhiteTrans"
+            android:hint="@string/first_name"
+            android:inputType="textCapSentences"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/White"
+            android:textColorHint="@color/White"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="5dp" />
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/txtLastName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/WhiteTrans"
+            android:hint="@string/last_name"
+            android:inputType="textCapSentences"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/White"
+            android:textColorHint="@color/White"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="5dp" />
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/txtUsername"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/WhiteTrans"
+            android:hint="@string/user_name"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/White"
+            android:textColorHint="@color/White"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="5dp" />
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/txtPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@color/WhiteTrans"
+            android:fontFamily="default"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/White"
+            android:textColorHint="@color/White"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:buttonTint="@color/White"
+            android:onClick="openDialog"
+            android:text="I agree with the Terms and Conditions"
+            android:textColor="@color/White" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="250dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/MaroonDark"
+            android:onClick="onRegister"
+            android:text="Register"
+            android:textColor="@color/White" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="250dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/color_cursor"
+            android:onClick="onCancel"
+            android:text="Cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>
