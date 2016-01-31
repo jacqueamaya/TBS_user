@@ -37,6 +37,7 @@
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textSize="16dp" />
 
+
         </LinearLayout>
 
         <Space
