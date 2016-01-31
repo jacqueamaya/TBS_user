@@ -88,30 +88,33 @@ public class ItemsListAdapter extends BaseAdapter implements Filterable {
                 List<Item> FilteredArrList = new ArrayList<>();
                 String searchByCategory[] = constraint.toString().split(",");
 
-                if (mOriginalValues == null) {
-                    mOriginalValues = new ArrayList<>(mDisplayedValues); // saves the original data in mOriginalValues
-                }
+                if (getCount() != 0) {
 
-                if (constraint == "" || constraint.length() == 0 || searchByCategory.length == 0) {
-                    // set the Original result to return
-                    results.count = mOriginalValues.size();
-                    results.values = mOriginalValues;
-                } else {
-                    for (int i = 0; i < mOriginalValues.size(); i++) {
-                        String name = mOriginalValues.get(i).getName();
-                        String category = mOriginalValues.get(i).getCategory().getCategory_name();
-                        if(searchByCategory.length == 2) {
-                            if (category.equals(searchByCategory[1]) && name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
-                                FilteredArrList.add(mOriginalValues.get(i));
+                    if (mOriginalValues == null) {
+                        mOriginalValues = new ArrayList<>(mDisplayedValues); // saves the original data in mOriginalValues
+                    }
+
+                    if (constraint == "" || constraint.length() == 0 || searchByCategory.length == 0) {
+                        // set the Original result to return
+                        results.count = mOriginalValues.size();
+                        results.values = mOriginalValues;
+                    } else {
+                        for (int i = 0; i < mOriginalValues.size(); i++) {
+                            String name = mOriginalValues.get(i).getName();
+                            String category = mOriginalValues.get(i).getCategory().getCategory_name();
+                            if (searchByCategory.length == 2) {
+                                if (category.equals(searchByCategory[1]) && name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
+                                    FilteredArrList.add(mOriginalValues.get(i));
+                                }
+                            } else {
+                                if (category.equals(constraint.toString()) || name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
+                                    FilteredArrList.add(mOriginalValues.get(i));
+                                }
                             }
-                        } else {
-                            if (category.equals(constraint.toString()) || name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
-                                FilteredArrList.add(mOriginalValues.get(i));
-                            }
+                            // set the Filtered result to return
+                            results.count = FilteredArrList.size();
+                            results.values = FilteredArrList;
                         }
-                        // set the Filtered result to return
-                        results.count = FilteredArrList.size();
-                        results.values = FilteredArrList;
                     }
                 }
 
