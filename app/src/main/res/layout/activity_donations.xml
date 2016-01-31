@@ -10,9 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- The ActionBar -->
         <include
-            android:id="@+id/toolbar"
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -43,9 +41,7 @@
                             android:layout_alignParentTop="true"
                             android:entries="@array/categories"
                             android:paddingBottom="10dp" />
-
                     </RelativeLayout>
-
                 </android.support.design.widget.AppBarLayout>
 
                 <ProgressBar
@@ -77,13 +73,9 @@
                         android:numColumns="2"
                         android:stretchMode="columnWidth"
                         android:verticalSpacing="0dp" />
-
                 </FrameLayout>
-
             </RelativeLayout>
-
         </android.support.design.widget.CoordinatorLayout>
-
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -95,5 +87,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_view" />
-
 </android.support.v4.widget.DrawerLayout>

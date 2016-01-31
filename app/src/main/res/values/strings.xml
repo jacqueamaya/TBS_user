@@ -1,42 +1,9 @@
 <resources>
     <string name="app_name">TBS User</string>
-    <string name="student_id">Student ID</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
-    <string name="user_name">Username</string>
-    <string name="password">Password</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_search">Search</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_change_password">ChangePasswordActivity</string>
-    <string name="old_password">Old Password</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_password">Confirm New Password</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
 
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
-
-    <!-- Dashboard -->
-    <string name="menu_notifications">Notifications</string>
-    <string name="menu_my_items">My Items</string>
-    <string name="menu_reserved_items">Reserved Items</string>
-    <string name="menu_make_transactions">Make Transactions</string>
-    <string name="menu_stars_collected">Stars Collected</string>
-    <string name="menu_logout">Log Out</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Activity names -->
     <string name="title_activity_base">BaseActivity</string>
-    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="with_discount">With Discount</string>
-    <string name="without_discount">Without Discount</string>
-    <string name="item_details">Details</string>
+    <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_notifications">Notifications</string>
     <string name="title_activity_sell_items">Sell Items</string>
@@ -64,8 +31,69 @@
     <string name="title_activity_rent_item_details">RentItemDetails</string>
     <string name="title_activity_rent_item">RentItemActivity</string>
 
+    <!-- Dashboard -->
+    <string name="menu_notifications">Notifications</string>
+    <string name="menu_my_items">My Items</string>
+    <string name="menu_reserved_items">Reserved Items</string>
+    <string name="menu_make_transactions">Make Transactions</string>
+    <string name="menu_stars_collected">Stars Collected</string>
+    <string name="menu_logout">Log Out</string>
+
+    <!-- User Registration-->
+    <string name="student_id">Student ID</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="user_name">Username</string>
+    <string name="password">Password</string>
+    <string name="agree">I agree with the Terms and Conditions</string>
+    <string name="register">Register</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Log in -->
+    <string name="log_in">Log In</string>
+    <string name="no_account">No account yet?</string>
+
+    <!-- User Profile -->
+    <string name="new_username">New Username</string>
+    <string name="current_password">Current Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm New Password</string>
+    <string name="photo">Photo</string>
+    <string name="browse">Browse</string>
+    <string name="edit_profile">Edit Profile</string>
+
+    <!-- Buy Item -->
+    <string name="item_name">Item Name</string>
+    <string name="item_quantity">Quantity</string>
+    <string name="item_qty">Qty.</string>
+    <string name="item_quantity_dummy">5</string>
+    <string name="item_description">Item Description</string>
+    <string name="item_description_dummy">This section contains the details of the selected item.</string>
+    <string name="item_details">Details</string>
+    <string name="item_stars">Stars</string>
+    <string name="item_stars_dummy">500</string>
+    <string name="item_picture">Item Picture</string>
+    <string name="item_price">Item Price</string>
+    <string name="item_price_zero">0.0</string>
+    <string name="with_discount">With Discount</string>
+    <string name="without_discount">Without Discount</string>
+
+    <string name="buy_item">Buy Item</string>
+    <string name="rent_item">Rent Item</string>
+
+    <string name="item_rent_date">Rent Date</string>
+    <string name="item_rent_expiry">Rent Expiry</string>
+
+    <!-- Stars Collected -->
+    <string name="you_have">You have</string>
+    <string name="num_stars">5000 stars</string>
+    <string name="claim_award">Claim Award</string>
+
     <string name="peso">Php </string>
     <string name="categories">Categories</string>
+
+    <!-- Error Messages -->
     <string name="no_notifications">No new notifications</string>
     <string name="no_pending_items">No pending items</string>
     <string name="no_donations">No available donations</string>
@@ -78,6 +106,11 @@
     <string name="no_items_to_donate">No available items to donate</string>
     <string name="no_items_to_sell">No available items to sell</string>
 
+    <!-- Menus -->
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+
+    <!-- Sort -->
     <string name="sort_by_date">Sort by Date</string>
     <string name="sort_by_name">Sort by Name</string>
     <string name="sort_by_price">Sort by Price</string>
@@ -100,6 +133,5 @@
         <item>(10%) 100 stars</item>
         <item>(15%) 150 stars</item>
     </string-array>
-    <string name="title_activity_main2">Main2Activity</string>
 
 </resources>

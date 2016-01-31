@@ -163,9 +163,8 @@ public class SellItemActivity extends AppCompatActivity {
                     Toast.makeText(SellItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
+        } else
             Toast.makeText(SellItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void setupToolbar() {

@@ -23,17 +23,17 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private SharedPreferences mSharedPreferences;
 
     protected void setupUI(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        SimpleDraweeView mImgUser = (SimpleDraweeView) findViewById(R.id.imgUser);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        SimpleDraweeView imgUser = (SimpleDraweeView) findViewById(R.id.imgUser);
 
         mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
         String mPicture = mSharedPreferences.getString(Constants.PICTURE, null);
         if(null == mPicture || mPicture.isEmpty() || mPicture.equals("")) {
-            mImgUser.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
+            imgUser.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
         } else {
-            mImgUser.setImageURI(Uri.parse(mPicture));
+            imgUser.setImageURI(Uri.parse(mPicture));
         }
 
         if(null == toolbar) {
@@ -44,29 +44,31 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             throw new RuntimeException("No drawer layout found");
         }
 
-        if(null == mNavigationView) {
+        if(null == navigationView) {
             throw new RuntimeException("No navigation view found");
         }
 
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, 0, 0);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, 0, 0);
+        mDrawerLayout.setDrawerListener(drawerToggle);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mNavigationView.setNavigationItemSelectedListener(this);
-        mDrawerToggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        drawerToggle.syncState();
 
         TextView txtUser = (TextView) findViewById(R.id.txtUserName);
         txtUser.setText(getUserFullName());
 
-        mImgUser.setOnClickListener(this);
+        imgUser.setOnClickListener(this);
+        txtUser.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+
         Intent intent;
         intent = new Intent(this, UserProfileActivity.class);
         startActivity(intent);

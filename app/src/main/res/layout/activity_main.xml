@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,139 +10,101 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="citu.teknoybuyandselluser.MainActivity">
 
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="100dp"
+        android:contentDescription="@string/register"
         android:src="@drawable/register" />
 
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/txtStudentID"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
             android:background="@color/WhiteTrans"
             android:hint="@string/student_id"
+            android:paddingEnd="10dp"
             android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:singleLine="true"
             android:textColor="@color/White"
             android:textColorHint="@color/White"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16dp" />
-
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="5dp" />
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/txtFirstName"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
             android:background="@color/WhiteTrans"
             android:hint="@string/first_name"
             android:inputType="textCapSentences"
+            android:paddingEnd="10dp"
             android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:singleLine="true"
             android:textColor="@color/White"
             android:textColorHint="@color/White"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16dp" />
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="5dp" />
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/txtLastName"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
             android:background="@color/WhiteTrans"
             android:hint="@string/last_name"
             android:inputType="textCapSentences"
+            android:paddingEnd="10dp"
             android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:singleLine="true"
             android:textColor="@color/White"
             android:textColorHint="@color/White"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16dp" />
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="5dp" />
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/txtUsername"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
             android:background="@color/WhiteTrans"
             android:hint="@string/user_name"
+            android:paddingEnd="10dp"
             android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:singleLine="true"
             android:textColor="@color/White"
             android:textColorHint="@color/White"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16dp" />
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="5dp" />
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/txtPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
             android:background="@color/WhiteTrans"
             android:fontFamily="default"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:paddingEnd="10dp"
             android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:singleLine="true"
             android:textColor="@color/White"
             android:textColorHint="@color/White"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16dp" />
-
+            android:textSize="16sp" />
     </LinearLayout>
 
     <Space
@@ -156,16 +117,15 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <RadioButton
+        <CheckBox
             android:id="@+id/terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:buttonTint="@color/White"
             android:onClick="openDialog"
-            android:text="I agree with the Terms and Conditions"
+            android:text="@string/agree"
             android:textColor="@color/White" />
-
     </LinearLayout>
 
     <Space
@@ -176,29 +136,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="250dp"
             android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
             android:background="@color/MaroonDark"
             android:onClick="onRegister"
-            android:text="Register"
+            android:text="@string/register"
             android:textColor="@color/White" />
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="10dp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnCancel"
@@ -207,8 +156,6 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/color_cursor"
             android:onClick="onCancel"
-            android:text="Cancel" />
-
+            android:text="@string/cancel" />
     </LinearLayout>
-
 </LinearLayout>

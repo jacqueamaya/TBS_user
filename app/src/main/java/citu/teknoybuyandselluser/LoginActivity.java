@@ -67,8 +67,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLogin(View view){
         mLoginProgress.setIndeterminate(true);
+        mLoginProgress.setCancelable(false);
         mLoginProgress.setMessage("Please wait. . .");
-        mStrUsername = mTxtUsername.getText().toString();
+        mStrUsername = mTxtUsername.getText().toString().trim();
         mStrPassword = mTxtPassword.getText().toString();
         loginUser(mStrUsername, mStrPassword);
     }

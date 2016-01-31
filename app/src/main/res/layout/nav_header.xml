@@ -13,7 +13,7 @@
         android:id="@+id/imgUser"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         app:placeholderImage="@drawable/input_user"
         app:roundAsCircle="true" />
 
@@ -21,10 +21,9 @@
         android:id="@+id/txtUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:paddingTop="20dp"
-        android:text="Username"
+        android:text="@string/user_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp" />
-
 </LinearLayout>

@@ -111,6 +111,10 @@
 
         <activity android:name=".RentedItemDetailActivity" />
         <activity android:name=".SearchActivity" />
+
+        <service
+            android:name=".services.LoginService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

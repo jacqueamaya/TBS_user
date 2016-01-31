@@ -33,7 +33,6 @@ public class UserProfileActivity extends BaseActivity {
     private static final String TAG = "UserProfileActivity";
     private ImageInfo mImgInfo;
     private SimpleDraweeView mProfilePic;
-    private ProgressBar mProgressBar;
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -47,10 +46,6 @@ public class UserProfileActivity extends BaseActivity {
         //Input fields
         mProfilePic = (SimpleDraweeView) findViewById(R.id.profpic);
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
-
-        //Progress bar while uploading the picture
-        mProgressBar = (ProgressBar) findViewById(R.id.progressUpload);
-        mProgressBar.setVisibility(View.INVISIBLE);
 
         setTitle(getUserFullName());
         txtUsername.setText(getUserName());
@@ -144,6 +139,10 @@ public class UserProfileActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Progress bar while uploading the picture
+        ProgressBar progressUpload = (ProgressBar) findViewById(R.id.progressUpload);
+        progressUpload.setVisibility(View.INVISIBLE);
+
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
                 Uri selectedImage = data.getData();
@@ -154,7 +153,7 @@ public class UserProfileActivity extends BaseActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
                 c.close();
-                Server.upload(picturePath, mProgressBar, new Ajax.Callbacks() {
+                Server.upload(picturePath, progressUpload, new Ajax.Callbacks() {
                     @Override
                     public void success(String responseBody) {
                         Log.v(TAG, "successfully posted");

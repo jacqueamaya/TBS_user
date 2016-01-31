@@ -11,13 +11,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- The ActionBar -->
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- The main content view -->
         <RelativeLayout
             android:id="@+id/flContent"
             android:layout_width="match_parent"
@@ -46,9 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:color="@color/Gray" />
-
         </RelativeLayout>
-
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -60,5 +56,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_view" />
-
 </android.support.v4.widget.DrawerLayout>

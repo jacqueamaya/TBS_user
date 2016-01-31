@@ -4,37 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <citu.teknoybuyandselluser.SquareImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="-48dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:background="#99000000"
         android:orientation="vertical"
-        android:background="#99000000">
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
         <TextView
             android:id="@+id/txtItemName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:singleLine="true"
             android:layout_gravity="bottom"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:singleLine="false"
             android:textColor="@android:color/white" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/quantity"
+            android:layout_toStartOf="@+id/quantity"
+            android:contentDescription="@string/item_quantity"
+            android:src="@drawable/ic_quantity" />
+
         <TextView
             android:id="@+id/quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:drawableLeft="@drawable/ic_quantity"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="end"
             android:singleLine="true"
             android:textColor="@color/White" />
