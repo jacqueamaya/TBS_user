@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="White">#FFFFFF</color>
+    <color name="Marooner">#FFCCCC</color>
     <color name="Ivory">#FFFFF0</color>
+    <color name="WhiteTrans">#2affffff</color>
+    <color name="MaroonDark">#6d0909</color>
     <color name="LightYellow">#FFFFE0</color>
     <color name="Yellow">#FFFF00</color>
     <color name="Star">#FFCD28</color>
