@@ -34,11 +34,12 @@ public class BuyItemActivity extends AppCompatActivity {
 
     private static final int DIVISOR = 1000;
 
+    private int mItemQuantity;
     private Intent intent;
 
-    private Spinner mSpinnerStarsToUse;
-    private RadioButton mRdWithDiscount;
     private Map<String, String> data;
+    private RadioButton mRdWithDiscount;
+    private Spinner mSpinnerStarsToUse;
 
     private SharedPreferences mSharedPreferences;
 
@@ -55,11 +56,14 @@ public class BuyItemActivity extends AppCompatActivity {
 
         intent = getIntent();
         int itemId = intent.getIntExtra(Constants.ID, 0);
+        mItemQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
+        String strAvailableQuantity = mItemQuantity + "";
         String description = intent.getStringExtra(Constants.DESCRIPTION);
+        String formatPrice = "Php " + intent.getStringExtra(Constants.FORMAT_PRICE);
         String picture = intent.getStringExtra(Constants.PICTURE);
-        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
+        TextView txtAvailableQuantity = (TextView) findViewById(R.id.txtAvailableQuantity);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
         mSpinnerStarsToUse = (Spinner) findViewById(R.id.spinnerStarsToUse);
@@ -70,8 +74,9 @@ public class BuyItemActivity extends AppCompatActivity {
 
         String itemName = intent.getStringExtra(Constants.ITEM_NAME);
         txtItem.setText(itemName);
+        txtAvailableQuantity.setText(strAvailableQuantity);
         txtDescription.setText(description);
-        txtPrice.setText(getResources().getString(R.string.peso) + formatPrice);
+        txtPrice.setText(formatPrice);
 
         Picasso.with(this)
                 .load(picture)
@@ -96,44 +101,46 @@ public class BuyItemActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Please wait. . .");
 
-        if (mRdWithDiscount.isChecked()) {
-            buyWithDiscount(progressDialog);
-        } else {
-            buyItem(progressDialog);
-        }
+        EditText txtQuantity = (EditText) findViewById(R.id.txtQuantity);
+
+        int quantity = 0;
+        if(!"".equals(txtQuantity.getText().toString()))
+            quantity = Integer.parseInt(txtQuantity.getText().toString());
+
+        if(quantity <= mItemQuantity && quantity > 0) {
+            data.put(Constants.QUANTITY, quantity + "");
+            if (mRdWithDiscount.isChecked())
+                buyWithDiscount(progressDialog);
+            else {
+                data.put(Constants.STARS_TO_USE, "");
+                buyItem(progressDialog);
+            }
+        } else
+            Toast.makeText(BuyItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
     }
 
     public void buyItem(ProgressDialog progressDialog) {
-        EditText txtQuantity = (EditText) findViewById(R.id.txtQuantity);
-        int quantity = Integer.parseInt(txtQuantity.getText().toString());
-        int itemQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
-
-        if(quantity <= itemQuantity && quantity > 0) {
-            data.put(Constants.QUANTITY, quantity + "");
-            Server.buyItem(data, progressDialog, new Ajax.Callbacks() {
-                @Override
-                public void success(String responseBody) {
-                    try {
-                        JSONObject json = new JSONObject(responseBody);
-                        if (json.getInt("status") == 201) {
-                            Toast.makeText(BuyItemActivity.this, intent.getStringExtra(Constants.ITEM_NAME) + " is now reserved.", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(BuyItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+        Server.buyItem(data, progressDialog, new Ajax.Callbacks() {
+            @Override
+            public void success(String responseBody) {
+                try {
+                    JSONObject json = new JSONObject(responseBody);
+                    if (json.getInt("status") == 201) {
+                        Toast.makeText(BuyItemActivity.this, intent.getStringExtra(Constants.ITEM_NAME) + " is now reserved.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(BuyItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            }
 
-                @Override
-                public void error(int statusCode, String responseBody, String statusText) {
-                    Toast.makeText(BuyItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            Toast.makeText(BuyItemActivity.this, "Invalid quantity", Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public void error(int statusCode, String responseBody, String statusText) {
+                Toast.makeText(BuyItemActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void buyWithDiscount(final ProgressDialog progressDialog) {
@@ -155,46 +162,25 @@ public class BuyItemActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            starsToUse = Integer.parseInt(mSpinnerStarsToUse.getSelectedItem().toString());
-            if (starsToUse < 50) {
-                buyItem.setMessage("Stars to use should be greater than or equal to 50.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.dismiss();
-                            }
-                        });
-            } else if (starsToUse > 150) {
-                buyItem.setMessage("Stars to use should not be greater than 150.")
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.dismiss();
-                            }
-                        });
-            } else {
-                ReservedItem ri = new ReservedItem();
-                ri.setStars_to_use(starsToUse);
-                calculateDiscount();
-                calculateDiscountedPrice(price);
-                buyItem.setMessage("Discount:\t" + Utils.formatDouble(calculateDiscount() * 100) + "%\n" +
-                        "Original Price:\t" + Utils.formatFloat(price) + "\n" +
-                        "Discounted Price: \t" + Utils.formatDouble(calculateDiscountedPrice(price)) + "\n" +
-                        "Stars Remaining: " + getStarsRemaining())
-                        .setCancelable(true)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                data.put(Constants.STARS_TO_USE, "" + getStarsToUse());
-                                buyItem(progressDialog);
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-            }
+            ReservedItem reservedItem = new ReservedItem();
+            reservedItem.setStars_to_use(starsToUse);
+            buyItem.setMessage("Discount:\t" + Utils.formatDouble(calculateDiscount() * 100) + "%\n" +
+                    "Original Price:\t" + Utils.formatFloat(price) + "\n" +
+                    "Discounted Price: \t" + Utils.formatDouble(calculateDiscountedPrice(price)) + "\n" +
+                    "Stars Remaining: " + getStarsRemaining())
+                    .setCancelable(true)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            data.put(Constants.STARS_TO_USE, "" + getStarsToUse());
+                            buyItem(progressDialog);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
         }
 
         AlertDialog alert = buyItem.create();

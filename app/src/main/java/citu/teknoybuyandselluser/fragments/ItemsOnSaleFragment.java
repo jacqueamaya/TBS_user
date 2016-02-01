@@ -92,9 +92,12 @@ public class ItemsOnSaleFragment extends Fragment {
                             intent = new Intent(getActivity().getBaseContext(), ReservedItemActivity.class);
                             intent.putExtra(Constants.ID, reservation.getItem().getId());
                             intent.putExtra(Constants.RESERVATION_ID, reservation.getId());
+                            intent.putExtra(Constants.ITEM_CODE, reservation.getItem_code());
                             intent.putExtra(Constants.ITEM_NAME, reservation.getItem().getName());
                             intent.putExtra(Constants.DESCRIPTION, reservation.getItem().getDescription());
+                            intent.putExtra(Constants.PAYMENT, reservation.getPayment());
                             intent.putExtra(Constants.PRICE, reservation.getItem().getPrice());
+                            intent.putExtra(Constants.QUANTITY, reservation.getQuantity());
                             intent.putExtra(Constants.STARS_REQUIRED, reservation.getItem().getStars_required());
                             intent.putExtra(Constants.STARS_TO_USE, reservation.getStars_to_use());
                             intent.putExtra(Constants.DISCOUNTED_PRICE, reservation.getDiscountedPrice());

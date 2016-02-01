@@ -40,32 +40,44 @@ public class ReservedItemActivity extends AppCompatActivity {
 
         intent = getIntent();
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        float price = intent.getFloatExtra(Constants.PRICE, 0);
-        int mStarsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
-        int mStarsToUse = intent.getIntExtra(Constants.STARS_TO_USE, 0);
+        int quantity = intent.getIntExtra(Constants.QUANTITY, 0);
+        int starsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
+        int starsToUse = intent.getIntExtra(Constants.STARS_TO_USE, 0);
         float discountedPrice = intent.getFloatExtra(Constants.DISCOUNTED_PRICE, 0);
-        String picture = intent.getStringExtra(Constants.PICTURE);
+        float payment = intent.getFloatExtra(Constants.PAYMENT, 0);
+        float price = intent.getFloatExtra(Constants.PRICE, 0);
         long reservedDate = intent.getLongExtra(Constants.RESERVED_DATE, 0);
+        String itemCode = "Item Code: " + intent.getStringExtra(Constants.ITEM_CODE);
+        String description = intent.getStringExtra(Constants.DESCRIPTION);
+        String picture = intent.getStringExtra(Constants.PICTURE);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
+        TextView txtItemCode = (TextView) findViewById(R.id.txtItemCode);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
-        TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
+        TextView txtPayment = (TextView) findViewById(R.id.txtPayment);
+        TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
         TextView txtReservedDate = (TextView) findViewById(R.id.txtReservedDate);
         ImageView imgPreview = (ImageView) findViewById(R.id.preview);
 
         txtItem.setText(mItemName);
+        txtItemCode.setText(itemCode);
         txtDescription.setText(description);
 
+        String strDonated = starsRequired + " stars required (Donated)";
+        String strPriceWithoutStars = "Php " + Utils.formatFloat(payment);
+        String strPriceWithStarsToUse = "Php " + Utils.formatFloat(payment) + " (" + starsToUse + " stars used)";
+        String strQuantity = quantity + "";
+
+        txtQuantity.setText(strQuantity);
         if (price != 0) {
-            if(mStarsToUse != 0) {
-                txtPrice.setText("Php " + Utils.formatFloat(discountedPrice) + " (" + mStarsToUse + " stars used)");
+            if(starsToUse != 0) {
+                txtPayment.setText(strPriceWithStarsToUse);
             } else {
-                txtPrice.setText("Php " + Utils.formatFloat(price));
+                txtPayment.setText(strPriceWithoutStars);
             }
         }
         else {
-            txtPrice.setText(mStarsRequired + " stars required (Donated)");
+            txtPayment.setText(strDonated);
         }
 
         Picasso.with(this)

@@ -25,14 +25,15 @@ public class RentedItemDetailActivity extends AppCompatActivity {
         setupToolbar();
 
         Intent intent = getIntent();
-        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        String picture = intent.getStringExtra(Constants.PICTURE);
-        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
         float penalty = intent.getFloatExtra(Constants.PENALTY, 0);
         int quantity = intent.getIntExtra(Constants.QUANTITY, 1);
         long rentDate = intent.getLongExtra(Constants.RENT_DATE, 0);
         long rentExpiration = intent.getLongExtra(Constants.RENT_EXPIRATION, 0);
+        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
+        String description = intent.getStringExtra(Constants.DESCRIPTION);
+        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        String strPenalty = "Penalty: Php " + penalty;
+        String picture = intent.getStringExtra(Constants.PICTURE);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -50,7 +51,7 @@ public class RentedItemDetailActivity extends AppCompatActivity {
         if(penalty != 0) {
             imgPenalty.setVisibility(View.VISIBLE);
             txtPenalty.setVisibility(View.VISIBLE);
-            txtPenalty.setText("Penalty: " + getResources().getString(R.string.peso) + " " + penalty);
+            txtPenalty.setText(strPenalty);
         } else {
             imgPenalty.setVisibility(View.GONE);
             txtPenalty.setVisibility(View.GONE);
