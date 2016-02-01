@@ -4,7 +4,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="#e6e6e6">
 
     <RelativeLayout
         android:id="@+id/appbar"
@@ -29,90 +30,64 @@
                 android:id="@+id/flContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingLeft="16dp"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
-
-                <ImageView
-                    android:id="@+id/shoppingcart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/shop_24dp"
-                    android:tint="@color/Louie" />
 
                 <EditText
                     android:id="@+id/txtItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/textbox"
+                    android:paddingLeft="15dp"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="#959595"
+                    android:textColorHint="#959595"
+                    android:textSize="14dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@id/shoppingcart"
                     android:hint="Item"
-                    android:padding="10dp"
-                    android:background="@drawable/textbox"
                     android:inputType="textCapSentences"
-                    android:textColorHint="@color/SlateGray" />
-
-                <ImageView
-                    android:id="@+id/description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/shoppingcart"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/edit_24dp"
-                    android:tint="@color/Louie" />
+                    />
 
                 <EditText
                     android:id="@+id/txtDescription"
+                    android:inputType="textMultiLine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/textbox"
+                    android:paddingLeft="15dp"
+                    android:textColor="#959595"
+                    android:textColorHint="#959595"
+                    android:textSize="14dp"
                     android:layout_below="@id/txtItem"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="15dp"
-                    android:layout_toRightOf="@+id/description"
-                    android:background="@drawable/textbox"
                     android:padding="10dp"
                     android:hint="Description"
                     android:gravity="top"
-                    android:inputType="textMultiLine"
                     android:isScrollContainer="true"
                     android:scrollbars="vertical"
                     android:maxLines="8"
-                    android:lines="5"
-                    android:textColorHint="@color/SlateGray" />
-
-                <ImageView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/description"
-                    android:layout_marginTop="100dp"
-                    android:src="@drawable/money_24dp"
-                    android:tint="@color/Louie" />
+                    android:lines="5"/>
 
                 <EditText
                     android:id="@+id/txtPrice"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/textbox"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="#959595"
+                    android:textColorHint="#959595"
+                    android:textSize="14dp"
                     android:layout_below="@id/txtDescription"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@id/price"
-                    android:background="@drawable/textbox"
                     android:padding="10dp"
                     android:hint="Price"
-                    android:inputType="numberDecimal"
-                    android:textColorHint="@color/SlateGray" />
-
-                <ImageView
-                    android:id="@+id/picture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/price"
-                    android:layout_marginTop="15dp"
-                    android:src="@drawable/thumb_24dp"
-                    android:tint="@color/Louie" />
+                    android:inputType="numberDecimal" />
 
                 <TextView
                     android:id="@+id/txtPicture"
@@ -124,8 +99,8 @@
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@id/picture"
                     android:text="Photo"
-                    android:textColor="@color/Black"
-                    android:textSize="18dp" />
+                    android:textColor="#959595"
+                    android:textSize="14dp" />
 
                 <Button
                     android:id="@+id/btnBrowse"
@@ -135,7 +110,7 @@
                     android:layout_gravity="left"
                     android:layout_marginTop="15dp"
                     android:layout_toRightOf="@id/txtPicture"
-                    android:background="@drawable/roundedbutton"
+                    android:background="@drawable/positivebutton"
                     android:text="Browse"
                     android:textColor="@color/White" />
 
@@ -147,17 +122,10 @@
                     android:id="@+id/frameLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/picture"
+                    android:layout_below="@id/txtPicture"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp">
 
-                    <!--<ImageView
-                        android:id="@+id/preview"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/thumbsq_24dp" />  -->
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/preview"
                         android:layout_width="wrap_content"
