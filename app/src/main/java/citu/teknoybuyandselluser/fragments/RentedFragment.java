@@ -98,7 +98,7 @@ public class RentedFragment extends Fragment {
                             intent.putExtra(Constants.STARS_REQUIRED, rent.getItem().getStars_required());
                             intent.putExtra(Constants.FORMAT_PRICE, Utils.formatFloat(rent.getItem().getPrice()));
                             intent.putExtra(Constants.PENALTY, rent.getPenalty());
-                            intent.putExtra(Constants.QUANTITY, rent.getItem().getQuantity());
+                            intent.putExtra(Constants.QUANTITY, rent.getQuantity());
                             intent.putExtra(Constants.RENT_DATE, rent.getRent_date());
                             intent.putExtra(Constants.RENT_EXPIRATION, rent.getRent_expiration());
                             startActivity(intent);

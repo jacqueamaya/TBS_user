@@ -99,7 +99,6 @@ public class Server {
                 ! data.containsKey(Constants.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
-        Log.e(TAG,data.toString());
 
         Ajax.post(Constants.URL_BUY_ITEM, progressDialog, data, callbacks);
     }
@@ -111,8 +110,6 @@ public class Server {
                 ! data.containsKey(Constants.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
-
-
 
         Ajax.post(Constants.URL_RENT_ITEM, progressDialog, data, callbacks);
     }

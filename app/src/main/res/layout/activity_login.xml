@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:text=" Sign up"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/MaroonDark"
+            android:textColor="@color/Marooner"
             android:textSize="14sp"
             android:textStyle="bold" />
 

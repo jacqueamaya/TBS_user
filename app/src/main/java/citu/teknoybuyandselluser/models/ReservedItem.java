@@ -7,11 +7,14 @@ public class ReservedItem {
     private static final int DIVISOR = 1000;
 
     private int id;
-    private UserProfile buyer;
+    private int quantity;
+    private int stars_to_use;
+    private float payment;
     private Item item;
     private long reserved_date;
     private long reserved_expiration;
-    private int stars_to_use;
+    private String item_code;
+    private UserProfile buyer;
 
     private String status;
     private String str_reserved_date = Utils.parseDate(reserved_date);
@@ -81,4 +84,15 @@ public class ReservedItem {
         return item.getPrice() * (1 - discount);
     }
 
+    public float getPayment() {
+        return payment;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getItem_code() {
+        return item_code;
+    }
 }

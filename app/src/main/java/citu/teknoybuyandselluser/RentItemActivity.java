@@ -27,10 +27,8 @@ import java.util.Map;
 public class RentItemActivity extends AppCompatActivity {
 
     private int mQuantity;
-    private String mItemName;
-
-    private ProgressDialog mProgressDialog;
     private Map<String, String> data;
+    private String mItemName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,29 +41,30 @@ public class RentItemActivity extends AppCompatActivity {
 
         Intent intent;
         intent = getIntent();
-        int mItemId = intent.getIntExtra(Constants.ID, 0);
+        int itemId = intent.getIntExtra(Constants.ID, 0);
         mItemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String mDescription = intent.getStringExtra(Constants.DESCRIPTION);
         mQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
-        String mPicture = intent.getStringExtra(Constants.PICTURE);
-        String mFormatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        String availableQuantity = mQuantity + "";
+        String description = intent.getStringExtra(Constants.DESCRIPTION);
+        String formatPrice = "Php " + intent.getStringExtra(Constants.FORMAT_PRICE);
+        String picture = intent.getStringExtra(Constants.PICTURE);
 
-        TextView mTxtItem = (TextView) findViewById(R.id.txtItem);
-        TextView mTxtDescription = (TextView) findViewById(R.id.txtDescription);
-        TextView mTxtPrice = (TextView) findViewById(R.id.txtPrice);
-        Button mBtnRentItem = (Button) findViewById(R.id.btnRentItem);
-        ImageView mImgItem = (ImageView) findViewById(R.id.imgItem);
+        TextView txtItem = (TextView) findViewById(R.id.txtItem);
+        TextView txtAvailableQuantity = (TextView) findViewById(R.id.txtAvailableQuantity);
+        TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
+        TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
+        Button btnRentItem = (Button) findViewById(R.id.btnRentItem);
+        ImageView imgItem = (ImageView) findViewById(R.id.imgItem);
 
-        mProgressDialog = new ProgressDialog(this);
-
-        mTxtItem.setText(mItemName);
-        mTxtDescription.setText(mDescription);
-        mTxtPrice.setText("Php " + mFormatPrice);
+        txtItem.setText(mItemName);
+        txtAvailableQuantity.setText(availableQuantity);
+        txtDescription.setText(description);
+        txtPrice.setText(formatPrice);
 
         Picasso.with(this)
-                .load(mPicture)
+                .load(picture)
                 .placeholder(R.drawable.thumbsq_24dp)
-                .into(mImgItem);
+                .into(imgItem);
 
         setTitle(mItemName);
 
@@ -73,9 +72,9 @@ public class RentItemActivity extends AppCompatActivity {
 
         String user = getUserName();
         data.put(Constants.RENTER, user);
-        data.put(Constants.ID, "" + mItemId);
+        data.put(Constants.ID, "" + itemId);
 
-        mBtnRentItem.setOnClickListener(new View.OnClickListener() {
+        btnRentItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onRent(v);
@@ -84,12 +83,10 @@ public class RentItemActivity extends AppCompatActivity {
     }
 
     public void onRent(View view) {
+        ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");
-        rentItem();
-    }
 
-    public void rentItem() {
         EditText txtQuantity = (EditText) findViewById(R.id.txtQuantity);
         int quantity = Integer.parseInt(txtQuantity.getText().toString());
 

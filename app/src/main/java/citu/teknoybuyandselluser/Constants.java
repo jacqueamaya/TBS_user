@@ -24,9 +24,11 @@ public class Constants {
     public static final String CATEGORY = "category_name";
     public static final String DESCRIPTION = "description";
     public static final String ID = "item_id";
+    public static final String ITEM_CODE = "item_code";
     public static final String ITEM_NAME = "item_name";
     public static final String NAME = "name";
     public static final String OWNER = "owner";
+    public static final String PAYMENT = "payment";
     public static final String PRICE = "price";
     public static final String QUANTITY = "quantity";
     public static final String DISCOUNTED_PRICE = "discounted_price";
@@ -62,7 +64,6 @@ public class Constants {
 
     public static final String URL_REGISTER = "http://"+URL+"/api/register";
     public static final String URL_LOGIN = "http://"+URL+"/api/login";
-    public static final String URL_CHANGE_PASSWORD = "http://"+URL+"/api/change_password";
     public static final String URL_EDIT_PROFILE = "http://"+URL+"/api/edit_profile";
     public static final String URL_SELL_ITEM = "http://"+URL+"/api/sell_item";
     public static final String URL_FOR_RENT_ITEM = "http://"+URL+"/api/for_rent_item";
@@ -89,6 +90,44 @@ public class Constants {
     public static final String URL_RESERVED_ITEMS_FOR_RENT = "http://"+URL+"/api-x/reserved_items_for_rent";
     public static final String URL_RESERVED_ITEMS_FOR_DONATION = "http://"+URL+"/api-x/reserved_items_for_donation";
     public static final String URL_CATEGORIES = "http://"+URL+"/api-x/categories/";
+
+    public static final class UrlUser {
+        public static final String BASE_URL = "http://tbs-admin.herokuapp.com/";
+
+        public static final String URL_UPLOAD = "https://api.imgur.com/3/image";
+        public static final String URL_REGISTER = "api/register";
+        public static final String URL_LOGIN = "api/login";
+        public static final String URL_CHANGE_PASSWORD = "api/change_password";
+        public static final String URL_EDIT_PROFILE = "api/edit_profile";
+        public static final String URL_SELL_ITEM = "api/sell_item";
+        public static final String URL_FOR_RENT_ITEM = "api/for_rent_item";
+        public static final String URL_EDIT_ITEM = "api/edit_item";
+        public static final String URL_DELETE_ITEM = "api/delete_item";
+        public static final String URL_BUY_ITEM = "api/buy_item";
+        public static final String URL_RENT_ITEM = "hapi/rent_item";
+        public static final String URL_CANCEL_BUY_ITEM = "api/cancel_reserved_item";
+        public static final String URL_GET_ITEM = "api/get_donated_item";
+        public static final String URL_DONATE_ITEM = "api/donate_item";
+
+        public static final String URL_USER = "api-x/profile";
+        public static final String URL_NOTIFICATION = "api-x/user_notifications";
+        public static final String URL_ITEMS_TO_SELL = "api-x/items_to_sell";
+        public static final String URL_ITEMS_FOR_RENT = "api-x/items_for_rent";
+        public static final String URL_PENDING_ITEMS = "api-x/pending_items";
+        public static final String URL_AVAILABLE_ITEMS_TO_SELL = "api-x/available_items_to_sell";
+        public static final String URL_AVAILABLE_ITEMS_FOR_RENT = "api-x/available_items_for_rent";
+        public static final String URL_ITEMS_TO_DONATE = "api-x/items_to_donate";
+        public static final String URL_ALL_DONATIONS = "api-x/all_donations";
+        public static final String URL_RENTED_ITEMS = "api-x/rented_items";
+        public static final String URL_RESERVED_ITEMS = "api-x/reservation_requests";
+        public static final String URL_RESERVED_ITEMS_ON_SALE = "api-x/reserved_items_on_sale";
+        public static final String URL_RESERVED_ITEMS_FOR_RENT = "api-x/reserved_items_for_rent";
+        public static final String URL_RESERVED_ITEMS_FOR_DONATION = "api-x/reserved_items_for_donation";
+        public static final String URL_CATEGORIES = "api-x/categories/";
+    }
+
+    public static final String RESULT = "result";
+    public static final String RESPONSE = "response";
 
     public static final class Sort {
         public static final String DATE = "date";
