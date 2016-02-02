@@ -97,7 +97,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@id/picture"
                     android:text="Photo"
                     android:textColor="#959595"
                     android:textSize="14dp" />

@@ -35,5 +35,4 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'io.realm:realm-android:0.87.1'
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.8'
->>>>>>> 04a2f153dbe441fc5001cf0a619a5cebd492d3e4
 }
