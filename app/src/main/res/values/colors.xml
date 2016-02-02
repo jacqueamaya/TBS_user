@@ -140,14 +140,24 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
+    <color name="GreyDark">#8C000000</color>
 
-    <!--Tabs Color Scheme -->
+    <!--Tabs Color Scheme
     <color name="colorPrimary">#FFD700</color>
     <color name="colorPrimaryDark">#FFD700</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#89343B</color>
+    Tabs Color Scheme -->
+
+    <!--Tabs Color Scheme -->
+    <color name="colorPrimary">#f4cd47</color>
+    <color name="colorPrimaryDark">#e4b673</color>
+    <color name="textColorPrimary">#695371</color>
+    <color name="windowBackground">#fcf5d2</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#80333c</color>
     <!--Tabs Color Scheme -->
 
 

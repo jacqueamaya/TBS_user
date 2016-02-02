@@ -48,13 +48,15 @@
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="#959595"
-                        android:textColorHint="#959595"
+                        android:textColorHint="#b7b4b4"
                         android:textSize="14dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
                         android:hint="Item"
                         android:inputType="textCapSentences"
-                        />
+                        android:drawableLeft="@drawable/ic_cursor"
+                        android:drawablePadding="8dp" />
+
 
                     <EditText
                         android:id="@+id/inputDescription"
@@ -68,14 +70,16 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/inputItem"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="10dp"
                         android:isScrollContainer="true"
                         android:scrollbars="vertical"
                         android:maxLines="5"
                         android:lines="3"
                         android:textSize="14dp"
                         android:textColor="#959595"
-                        android:textColorHint="#959595" />
+                        android:textColorHint="#b7b4b4"
+                        android:drawableLeft="@drawable/ic_clipboard"
+                        android:drawablePadding="8dp"/>
 
                     <EditText
                         android:id="@+id/inputPrice"
@@ -86,13 +90,15 @@
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="#959595"
-                        android:textColorHint="#959595"
+                        android:textColorHint="#b7b4b4"
                         android:textSize="14dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_below="@id/inputDescription"
                         android:hint="Price"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal"
+                        android:drawableLeft="@drawable/ic_cash"
+                        android:drawablePadding="8dp"/>
 
                     <EditText
                         android:id="@+id/inputQuantity"
@@ -103,14 +109,16 @@
                         android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="#959595"
-                        android:textColorHint="#959595"
+                        android:textColorHint="#b7b4b4"
                         android:textSize="14dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_below="@id/inputPrice"
                         android:layout_toRightOf="@id/quantity"
                         android:hint="Quantity"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:drawableLeft="@drawable/ic_tag"
+                        android:drawablePadding="8dp"/>
 
                     <TextView
                         android:id="@+id/txtPicture"
@@ -150,7 +158,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/btnBrowse"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="40dp">
+                        android:layout_marginTop="25dp">
 
                         <ImageView
                             android:id="@+id/preview"
@@ -162,10 +170,10 @@
                         <ProgressBar
                             android:id="@+id/progressUpload"
                             style="?android:attr/progressBarStyleSmall"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_gravity="center"
                             android:indeterminate="true" />
 
                     </FrameLayout>

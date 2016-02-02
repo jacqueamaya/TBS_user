@@ -66,27 +66,44 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_cash_multiple_white"
+                                android:tint="#BF000000"
+                                android:paddingTop="16dp"
+                                android:paddingLeft="18dp"
+                                android:paddingRight="5dp"/>
+
                             <TextView
                                 android:id="@+id/txtPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_coins"
-                                android:drawableStart="@drawable/ic_coins"
-                                android:padding="16dp"
-                                android:text="@string/item_price_zero"
-                                android:textColor="@color/Black"
+                                android:paddingTop="16dp"
+                                android:paddingRight="16dp"
+                                android:text="0.0"
+                                android:textColor="@color/GreyDark"
                                 android:textSize="16sp"
                                 android:textStyle="normal" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_weight_white"
+                                android:tint="#BF000000"
+                                android:paddingTop="16dp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="5dp"/>
 
                             <TextView
                                 android:id="@+id/txtAvailableQuantity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_cart"
-                                android:drawableStart="@drawable/ic_cart"
-                                android:padding="16dp"
-                                android:text="@string/item_quantity_dummy"
-                                android:textColor="@color/Black"
+                                android:drawablePadding="2dp"
+                                android:paddingTop="16dp"
+                                android:paddingRight="16dp"
+                                android:text="5"
+                                android:textColor="@color/GreyDark"
                                 android:textSize="16sp"
                                 android:textStyle="normal" />
 
@@ -94,19 +111,22 @@
                                 android:id="@+id/lblQuantity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="16dp"
-                                android:text="@string/item_qty"
-                                android:textColor="@color/Black"
+                                android:paddingTop="16dp"
+                                android:paddingRight="5dp"
+                                android:text="Qty."
+                                android:textColor="@color/GreyDark"
+                                android:textStyle="bold"
                                 android:textSize="16sp" />
 
                             <EditText
                                 android:id="@+id/txtQuantity"
                                 android:layout_width="60dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="16dp"
                                 android:layout_marginRight="16dp"
+                                android:textColor="@color/GreyDark"
                                 android:inputType="number"
-                                android:padding="16dp"
+                                android:paddingTop="16dp"
+                                android:paddingRight="16dp"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
