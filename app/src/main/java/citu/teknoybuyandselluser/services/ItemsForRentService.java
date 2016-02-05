@@ -59,6 +59,7 @@ public class ItemsForRentService extends IntentService {
         Intent intent = new Intent(ItemsForRentService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, 1);
         intent.putExtra(Constants.RESPONSE, responseBody);
+        intent.putExtra("type", "Rent");
         sendBroadcast(intent);
     }
 
@@ -66,6 +67,7 @@ public class ItemsForRentService extends IntentService {
         Intent intent = new Intent(ItemsForRentService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, -1);
         intent.putExtra(Constants.RESPONSE,  responseBody);
+        intent.putExtra("type", "Rent");
         sendBroadcast(intent);
     }
 }

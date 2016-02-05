@@ -70,7 +70,6 @@ public class PendingFragment extends Fragment {
         Realm realm = Realm.getDefaultInstance();
         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 
-        callPendingService();
         RealmResults<Item> items = realm.where(Item.class).findAll();
 
         if(items.isEmpty()) {
@@ -131,12 +130,14 @@ public class PendingFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            swipeRefreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
-            itemsAdapter.notifyDataSetChanged();
-            Log.e(TAG, intent.getStringExtra("response"));
-            if(intent.getIntExtra("result",0) == -1){
-                Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+            if(intent.getStringExtra("type").equals("Pending")) {
+                swipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+                itemsAdapter.notifyDataSetChanged();
+                Log.e(TAG, intent.getStringExtra("response"));
+                if (intent.getIntExtra("result", 0) == -1) {
+                    Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+                }
             }
         }
     }

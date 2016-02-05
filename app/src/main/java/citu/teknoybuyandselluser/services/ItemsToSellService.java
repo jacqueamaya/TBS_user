@@ -59,6 +59,7 @@ public class ItemsToSellService extends IntentService {
         Intent intent = new Intent(ItemsToSellService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, 1);
         intent.putExtra(Constants.RESPONSE, responseBody);
+        intent.putExtra("type", "Sell");
         sendBroadcast(intent);
     }
 
@@ -66,6 +67,7 @@ public class ItemsToSellService extends IntentService {
         Intent intent = new Intent(ItemsToSellService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, -1);
         intent.putExtra(Constants.RESPONSE,  responseBody);
+        intent.putExtra("type", "Sell");
         sendBroadcast(intent);
     }
 }

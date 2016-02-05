@@ -67,7 +67,7 @@ public class RentFragment extends Fragment {
 
         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
         Realm realm = Realm.getDefaultInstance();
-        callItemsForRentService();
+
         RealmResults<Item> items = realm.where(Item.class).findAll();
 
         if(items.isEmpty()) {
@@ -108,6 +108,8 @@ public class RentFragment extends Fragment {
         return view;
     }
 
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -137,12 +139,14 @@ public class RentFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            swipeRefreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
-            itemsAdapter.notifyDataSetChanged();
-            Log.e(TAG, intent.getStringExtra("response"));
-            if(intent.getIntExtra("result",0) == -1){
-                Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+            if(intent.getStringExtra("type").equals("Rent")) {
+                swipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+                itemsAdapter.notifyDataSetChanged();
+                Log.e(TAG, intent.getStringExtra("response"));
+                if (intent.getIntExtra("result", 0) == -1) {
+                    Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+                }
             }
         }
     }

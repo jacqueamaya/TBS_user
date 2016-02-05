@@ -45,6 +45,7 @@ public class SellFragment extends Fragment {
 
     private SellItemsAdapter itemsAdapter;
     private ProgressBar progressBar;
+    private FragmentActivity activity;
     private ItemsRefreshBroadcastReceiver receiver;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -62,6 +63,7 @@ public class SellFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sell, container, false);
+        activity = getActivity();
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
@@ -71,7 +73,7 @@ public class SellFragment extends Fragment {
 
         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
         Realm realm = Realm.getDefaultInstance();
-        callItemsToSellService();
+
         RealmResults<Item> items = realm.where(Item.class).findAll();
 
         if(items.isEmpty()) {
@@ -118,7 +120,6 @@ public class SellFragment extends Fragment {
         super.onResume();
         callItemsToSellService();
 
-        FragmentActivity activity = getActivity();
         activity.registerReceiver(receiver, new IntentFilter(ItemsToSellService.class.getCanonicalName()));
         itemsAdapter.notifyDataSetChanged();
 
@@ -128,7 +129,7 @@ public class SellFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unregisterReceiver(receiver);
+        activity.unregisterReceiver(receiver);
     }
 
     public void callItemsToSellService() {
@@ -141,12 +142,14 @@ public class SellFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            swipeRefreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
-            itemsAdapter.notifyDataSetChanged();
-            Log.e(TAG, intent.getStringExtra("response"));
-            if(intent.getIntExtra("result",0) == -1){
-                Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+            if(intent.getStringExtra("type").equals("Sell")) {
+                swipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+                itemsAdapter.notifyDataSetChanged();
+                Log.e(TAG, intent.getStringExtra("response"));
+                if (intent.getIntExtra("result", 0) == -1) {
+                    Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+                }
             }
         }
     }

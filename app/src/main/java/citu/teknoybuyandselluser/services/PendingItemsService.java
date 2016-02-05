@@ -59,6 +59,7 @@ public class PendingItemsService extends IntentService {
         Intent intent = new Intent(PendingItemsService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, 1);
         intent.putExtra(Constants.RESPONSE, responseBody);
+        intent.putExtra("type", "Pending");
         sendBroadcast(intent);
     }
 
@@ -66,6 +67,7 @@ public class PendingItemsService extends IntentService {
         Intent intent = new Intent(PendingItemsService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, -1);
         intent.putExtra(Constants.RESPONSE,  responseBody);
+        intent.putExtra("type", "Pending");
         sendBroadcast(intent);
     }
 }
