@@ -58,7 +58,7 @@ public class RentedFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
 
-        getRentedItems();
+        //getRentedItems();
         return view;
     }
 
@@ -118,10 +118,10 @@ public class RentedFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getRentedItems();
+        //getRentedItems();
 
-        Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
+        /*Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
         service.putExtra(Constants.User.USERNAME, user);
-        getActivity().startService(service);
+        getActivity().startService(service);*/
     }
 }

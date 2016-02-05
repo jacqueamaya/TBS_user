@@ -64,7 +64,7 @@ public class DonateFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
 
-        getDonateItems();
+        //getDonateItems();
 
         FloatingActionButton fab= (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -127,10 +127,10 @@ public class DonateFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getDonateItems();
-
+        //getDonateItems();
+/*
         Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
         service.putExtra(Constants.User.USERNAME, user);
-        getActivity().startService(service);
+        getActivity().startService(service);*/
     }
 }

@@ -1,6 +1,10 @@
 package citu.teknoybuyandselluser.models;
 
-public class Category {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class Category extends RealmObject{
+    @PrimaryKey
     private int id;
     private String category_name;
 

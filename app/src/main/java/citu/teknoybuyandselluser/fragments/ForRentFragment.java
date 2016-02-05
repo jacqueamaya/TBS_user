@@ -100,11 +100,11 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onResume() {
         super.onResume();
-        getAllItemsForRent();
+        /*getAllItemsForRent();
 
         Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
         service.putExtra(Constants.User.USERNAME, mUsername);
-        getActivity().startService(service);
+        getActivity().startService(service);*/
     }
 
     public void setItemClickListener(AdapterView<?> adapterView) {

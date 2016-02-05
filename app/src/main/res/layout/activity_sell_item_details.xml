@@ -5,29 +5,30 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/appbar"
+        <!-- The ActionBar -->
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <!-- The ActionBar -->
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
 
             <!-- The main content view -->
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/flContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
@@ -37,153 +38,126 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginTop="30dp"
-                    android:src="@drawable/thumbsq_24dp"/>
+                    android:src="@drawable/thumbsq_24dp" />
 
-                <TableLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="140dp">
-
-                    <TableRow
-                        android:id="@+id/tableRow1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/shoppingcart"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
-                        android:layout_below="@+id/preview"
                         android:layout_marginTop="30dp"
                         android:src="@drawable/shop_24dp"
                         android:tint="@color/Louie" />
 
                     <TextView
                         android:id="@+id/txtItem"
-                        android:layout_width="280dp"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/preview"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="25dp"
-                        android:layout_toRightOf="@id/shoppingcart"
+                        android:background="@drawable/textbox"
+                        android:enabled="false"
+                        android:padding="10dp"
                         android:text="Item"
                         android:textColor="@color/Black"
-                        android:textSize="18sp"
-                        android:background="@drawable/textbox"
-                        android:padding="10dp"
-                        android:enabled="false"/>
-                    </TableRow>
+                        android:textSize="18sp" />
+                </LinearLayout>
 
-                    <TableRow
-                        android:id="@+id/tableRow2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/description"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
-                        android:layout_below="@id/shoppingcart"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/edit_24dp"
                         android:tint="@color/Louie" />
 
                     <TextView
                         android:id="@+id/txtDescription"
-                        android:layout_width="match_parent"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/txtItem"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@+id/description"
-                        android:text="Description"
-                        android:textColorHint="@color/Black"
-                        android:textColor="@color/Black"
-                        android:textSize="18sp"
                         android:background="@drawable/textbox"
-                        android:padding="10dp"
+                        android:enabled="false"
+                        android:gravity="top"
                         android:inputType="textMultiLine"
                         android:lines="5"
                         android:maxLines="5"
-                        android:gravity="top"
-                        android:enabled="false"/>
-                    </TableRow>
+                        android:padding="10dp"
+                        android:text="Description"
+                        android:textColor="@color/Black"
+                        android:textColorHint="@color/Black"
+                        android:textSize="18sp" />
+                </LinearLayout>
 
-                    <TableRow
-                        android:id="@+id/tableRow3"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/price"
                         android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/money_24dp"
+                        android:tint="@color/Louie" />
+
+                    <TextView
+                        android:id="@+id/txtPrice"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/textbox"
+                        android:enabled="false"
+                        android:padding="10dp"
+                        android:text="Price"
+                        android:textColor="@color/Black"
+                        android:textColorHint="@color/Black"
+                        android:textSize="18sp" />
+                </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@id/description"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/money_24dp"
-                            android:tint="@color/Louie" />
-
-                        <TextView
-                            android:id="@+id/txtPrice"
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txtDescription"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/price"
-                            android:text="Price"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:enabled="false"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/quantity"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-                            android:layout_below="@id/description"
                             android:layout_marginTop="10dp"
                             android:src="@drawable/quantity_24dp"
                             android:tint="@color/Louie" />
 
                         <TextView
                             android:id="@+id/txtQuantity"
-                            android:layout_width="280dp"
+                            android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/txtDescription"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/price"
-                            android:text="Quantity"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
+                             android:background="@drawable/textbox"
+                            android:enabled="false"
                             android:padding="10dp"
-                            android:enabled="false"/>
+                            android:text="Quantity"
+                            android:textColor="@color/Black"
+                            android:textColorHint="@color/Black"
+                            android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
-                    </TableRow>
-
-                </TableLayout>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-    </ScrollView>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -194,5 +168,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_view" />
-
 </android.support.v4.widget.DrawerLayout>

@@ -1,10 +1,14 @@
 package citu.teknoybuyandselluser.models;
 
-public class Notification {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class Notification extends RealmObject{
+    @PrimaryKey
     private int id;
-    private Users target;
-    private Users maker;
+
+    private User target;
+    private User maker;
     private Item item;
     private String message;
     private String notification_type;
@@ -20,19 +24,19 @@ public class Notification {
         this.id = id;
     }
 
-    public Users getTarget() {
+    public User getTarget() {
         return target;
     }
 
-    public void setTarget(Users target) {
+    public void setTarget(User target) {
         this.target = target;
     }
 
-    public Users getMaker() {
+    public User getMaker() {
         return maker;
     }
 
-    public void setMaker(Users maker) {
+    public void setMaker(User maker) {
         this.maker = maker;
     }
 

@@ -1,61 +1,84 @@
 package citu.teknoybuyandselluser;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import java.util.ArrayList;
-
-import citu.teknoybuyandselluser.adapters.NotificationListAdapter;
+import citu.teknoybuyandselluser.adapters.NotificationsAdapter;
 import citu.teknoybuyandselluser.models.Notification;
+import citu.teknoybuyandselluser.services.NotificationService;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class NotificationsActivity extends BaseActivity {
-    private Gson gson  = new Gson();
+    private static final String TAG = "NotificationsActivity";
+    private NotificationsAdapter notificationsAdapter;
+    private NotificationRefreshBroadcastReceiver notificationRefreshBroadcastReceiver;
+    private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
-        Fresco.initialize(this);
         setContentView(R.layout.activity_notifications);
         setupUI();
 
         final TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
+        progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
         progressBar.setVisibility(View.GONE);
+        notificationRefreshBroadcastReceiver = new NotificationRefreshBroadcastReceiver();
 
-        Server.getNotifications(getUserName(), progressBar, new Ajax.Callbacks() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Notification> notifications = realm.where(Notification.class).findAll();
+
+        if(notifications.isEmpty()) {
+            Log.e(TAG, "No notifications cached" + notifications.size());
+            txtMessage.setText("No notifications cached");
+        }
+
+        notificationsAdapter = new NotificationsAdapter(notifications);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listViewNotif);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(NotificationsActivity.this));
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
+        recyclerView.setAdapter(notificationsAdapter);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void success(String responseBody) {
-                ArrayList<Notification> notifications;
-                notifications = gson.fromJson(responseBody, new TypeToken<ArrayList<Notification>>(){}.getType());
-                    if (notifications.size() == 0) {
-
-                        txtMessage.setText(getResources().getString(R.string.no_notifications));
-                        txtMessage.setVisibility(View.VISIBLE);
-                    } else {
-
-                        ListView lv = (ListView) findViewById(R.id.listViewNotif);
-                        NotificationListAdapter listAdapter = new NotificationListAdapter(NotificationsActivity.this, R.layout.item_notification, notifications);
-                        lv.setAdapter(listAdapter);
-                    }
-            }
-
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Toast.makeText(NotificationsActivity.this, "Unable to connect to server", Toast.LENGTH_SHORT).show();
+            public void onRefresh() {
+                Toast.makeText(NotificationsActivity.this, "Refreshing ...", Toast.LENGTH_SHORT).show();
+                // call this after refreshing is done
+                getNotifications();
+                notificationsAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        getNotifications();
+
     }
+    private void getNotifications() {
+        Intent intent = new Intent(this, NotificationService.class);
+        intent.putExtra(Constants.User.USERNAME, getUserName());
+        startService(intent);
+    }
+
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
@@ -65,9 +88,24 @@ public class NotificationsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        registerReceiver(notificationRefreshBroadcastReceiver, new IntentFilter(NotificationService.class.getCanonicalName()));
+        notificationsAdapter.notifyDataSetChanged();
+    }
 
-        Intent service = new Intent(NotificationsActivity.this, ExpirationCheckerService.class);
-        service.putExtra(Constants.User.USERNAME, getUserName());
-        startService(service);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(notificationRefreshBroadcastReceiver);
+    }
+
+    private class NotificationRefreshBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            Log.e(TAG, intent.getStringExtra("response"));
+        }
+
     }
 }
