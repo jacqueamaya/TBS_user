@@ -39,7 +39,6 @@ public class NotificationService extends IntentService {
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
-                realm.where(Notification.class).findAll().clear();
                 realm.copyToRealmOrUpdate(notifications);
                 realm.commitTransaction();
                 realm.close();

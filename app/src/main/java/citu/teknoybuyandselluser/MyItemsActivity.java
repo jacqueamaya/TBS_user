@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -15,6 +14,7 @@ import citu.teknoybuyandselluser.fragments.PendingFragment;
 import citu.teknoybuyandselluser.fragments.RentFragment;
 import citu.teknoybuyandselluser.fragments.RentedFragment;
 import citu.teknoybuyandselluser.fragments.SellFragment;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15

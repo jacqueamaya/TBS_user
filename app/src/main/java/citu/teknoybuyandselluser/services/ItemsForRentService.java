@@ -11,8 +11,8 @@ import java.util.List;
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ServiceManager;
 import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.RentItem;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import retrofit.Call;
 import retrofit.Response;
 
@@ -30,16 +30,15 @@ public class ItemsForRentService extends IntentService {
         String username = intent.getStringExtra(Constants.User.USERNAME);
         TBSUserInterface service = ServiceManager.getInstance();
         try {
-            Call<List<Item>> call = service.getItemsForRent(username);
-            Response<List<Item>> response = call.execute();
+            Call<List<RentItem>> call = service.getItemsForRent(username);
+            Response<List<RentItem>> response = call.execute();
 
             if(response.code() == HttpURLConnection.HTTP_OK){
-                List<Item> items = response.body();
+                List<RentItem> items = response.body();
                 Log.e(TAG, response.body().toString());
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
-                realm.where(Item.class).findAll().clear();
                 realm.copyToRealmOrUpdate(items);
                 realm.commitTransaction();
                 realm.close();
@@ -59,7 +58,6 @@ public class ItemsForRentService extends IntentService {
         Intent intent = new Intent(ItemsForRentService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, 1);
         intent.putExtra(Constants.RESPONSE, responseBody);
-        intent.putExtra("type", "Rent");
         sendBroadcast(intent);
     }
 
@@ -67,7 +65,6 @@ public class ItemsForRentService extends IntentService {
         Intent intent = new Intent(ItemsForRentService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, -1);
         intent.putExtra(Constants.RESPONSE,  responseBody);
-        intent.putExtra("type", "Rent");
         sendBroadcast(intent);
     }
 }

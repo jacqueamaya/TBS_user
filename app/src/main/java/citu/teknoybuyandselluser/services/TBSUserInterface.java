@@ -3,9 +3,14 @@ package citu.teknoybuyandselluser.services;
 import java.util.List;
 
 import citu.teknoybuyandselluser.Constants;
+import citu.teknoybuyandselluser.models.DonateItem;
 import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.models.Notification;
+import citu.teknoybuyandselluser.models.PendingItem;
+import citu.teknoybuyandselluser.models.RentItem;
+import citu.teknoybuyandselluser.models.RentedItem;
 import citu.teknoybuyandselluser.models.ResponseStatus;
+import citu.teknoybuyandselluser.models.SellItem;
 import citu.teknoybuyandselluser.models.User;
 import citu.teknoybuyandselluser.models.UserProfile;
 import retrofit.Call;
@@ -118,19 +123,19 @@ public interface TBSUserInterface {
     Call<List<Notification>> getNotifications(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.PENDING_ITEMS)
-    Call<List<Item>> getPendingItems(@Query(Constants.User.USERNAME) String username);
+    Call<List<PendingItem>> getPendingItems(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.ITEMS_TO_SELL)
-    Call<List<Item>> getItemsToSell(@Query(Constants.User.USERNAME) String username);
+    Call<List<SellItem>> getItemsToSell(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.ITEMS_FOR_RENT)
-    Call<List<Item>> getItemsForRent(@Query(Constants.User.USERNAME) String username);
+    Call<List<RentItem>> getItemsForRent(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.ITEMS_TO_DONATE)
-    Call<List<Item>> getItemsToDonate(@Query(Constants.User.USERNAME) String username);
+    Call<List<DonateItem>> getItemsToDonate(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.RENTED_ITEMS)
-    Call<List<Item>> getRentedItems(@Query(Constants.User.USERNAME) String username);
+    Call<List<RentedItem>> getRentedItems(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.RESERVED_ITEMS_ON_SALE)
     Call<List<Item>> getReservedItemsOnSale(@Query(Constants.User.USERNAME) String username);

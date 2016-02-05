@@ -17,6 +17,7 @@ import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.RentItemDetailsActivity;
 import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.RentItem;
 import io.realm.RealmResults;
 
 /**
@@ -26,9 +27,9 @@ public class RentItemsAdapter extends RecyclerView.Adapter<RentItemsAdapter.Item
 
     private static final String TAG = "RentItemsAdapter";
 
-    private RealmResults<Item> mItems;
+    private RealmResults<RentItem> mItems;
 
-    public RentItemsAdapter(RealmResults<Item> items) {
+    public RentItemsAdapter(RealmResults<RentItem> items) {
         mItems = items;
     }
 
@@ -41,7 +42,7 @@ public class RentItemsAdapter extends RecyclerView.Adapter<RentItemsAdapter.Item
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        Item item = mItems.get(position);
+        RentItem item = mItems.get(position);
         holder.itemImage.setImageURI(Uri.parse(item.getPicture()));
         holder.itemName.setText(Utils.capitalize(item.getName()));
     }
@@ -70,7 +71,7 @@ public class RentItemsAdapter extends RecyclerView.Adapter<RentItemsAdapter.Item
         public void onClick(View view) {
             Context context = view.getContext();
             int position = getAdapterPosition();
-            Item item = mItems.get(position);
+            RentItem item = mItems.get(position);
             Intent intent;
             intent = new Intent(context, RentItemDetailsActivity.class);
             intent.putExtra(Constants.Item.ID, item.getId());

@@ -18,6 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
+
 public class StarsCollectedActivity extends BaseActivity {
 
     private static final String TAG = "StarsCollected";

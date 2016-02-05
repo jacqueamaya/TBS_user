@@ -17,6 +17,7 @@ import citu.teknoybuyandselluser.PendingItemActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.PendingItem;
 import io.realm.RealmResults;
 
 /**
@@ -25,13 +26,13 @@ import io.realm.RealmResults;
 public class PendingItemsAdapter extends RecyclerView.Adapter<PendingItemsAdapter.ItemViewHolder> {
     private static final String TAG = "PendingItemsAdapter";
 
-    private RealmResults<Item> mItems;
+    private RealmResults<PendingItem> mItems;
 
-    public PendingItemsAdapter(RealmResults<Item> items) {
+    public PendingItemsAdapter(RealmResults<PendingItem> items) {
         mItems = items;
     }
 
-    public void updateData (RealmResults<Item> items) {
+    public void updateData (RealmResults<PendingItem> items) {
         mItems = items;
         notifyDataSetChanged();
     }
@@ -45,7 +46,7 @@ public class PendingItemsAdapter extends RecyclerView.Adapter<PendingItemsAdapte
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        Item item = mItems.get(position);
+        PendingItem item = mItems.get(position);
         holder.itemImage.setImageURI(Uri.parse(item.getPicture()));
         holder.itemName.setText(Utils.capitalize(item.getName()));
     }
@@ -74,7 +75,7 @@ public class PendingItemsAdapter extends RecyclerView.Adapter<PendingItemsAdapte
         public void onClick(View view) {
             Context context = view.getContext();
             int position = getAdapterPosition();
-            Item item = mItems.get(position);
+            PendingItem item = mItems.get(position);
             Intent intent;
             intent = new Intent(context, PendingItemActivity.class);
             intent.putExtra(Constants.Item.ID, item.getId());
@@ -89,5 +90,4 @@ public class PendingItemsAdapter extends RecyclerView.Adapter<PendingItemsAdapte
             context.startActivity(intent);
         }
     }
-
 }

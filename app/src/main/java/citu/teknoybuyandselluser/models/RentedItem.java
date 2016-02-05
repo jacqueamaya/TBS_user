@@ -1,16 +1,20 @@
 package citu.teknoybuyandselluser.models;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Batistil on 1/20/2016.
  */
-public class RentedItem {
+public class RentedItem extends RealmObject{
+    @PrimaryKey
     private int id;
-    private Users renter;
+    private User renter;
     private Item item;
     private int quantity;
     private String item_code;
     private long rent_date;
-    private long  rent_expiration;
+    private long rent_expiration;
     private float penalty;
 
     public int getId() {
@@ -21,11 +25,11 @@ public class RentedItem {
         this.id = id;
     }
 
-    public Users getRenter() {
+    public User getRenter() {
         return renter;
     }
 
-    public void setRenter(Users renter) {
+    public void setRenter(User renter) {
         this.renter = renter;
     }
 

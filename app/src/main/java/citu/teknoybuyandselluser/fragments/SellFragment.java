@@ -24,11 +24,11 @@ import android.widget.Toast;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.ExpirationCheckerService;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.SellItemActivity;
 import citu.teknoybuyandselluser.adapters.SellItemsAdapter;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.SellItem;
 import citu.teknoybuyandselluser.services.ItemsToSellService;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -45,7 +45,6 @@ public class SellFragment extends Fragment {
 
     private SellItemsAdapter itemsAdapter;
     private ProgressBar progressBar;
-    private FragmentActivity activity;
     private ItemsRefreshBroadcastReceiver receiver;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -63,7 +62,6 @@ public class SellFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sell, container, false);
-        activity = getActivity();
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
@@ -74,7 +72,7 @@ public class SellFragment extends Fragment {
         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
         Realm realm = Realm.getDefaultInstance();
 
-        RealmResults<Item> items = realm.where(Item.class).findAll();
+        RealmResults<SellItem> items = realm.where(SellItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
 
         if(items.isEmpty()) {
             Log.e(TAG, "No items cached" + items.size());
@@ -82,7 +80,8 @@ public class SellFragment extends Fragment {
             txtMessage.setVisibility(View.VISIBLE);
             String errorMessage = "No items to sell";
             txtMessage.setText(errorMessage);
-        }
+        } else
+            txtMessage.setVisibility(View.GONE);
 
         itemsAdapter = new SellItemsAdapter(items);
         recyclerView = (RecyclerView) view.findViewById(R.id.listViewSellItems);
@@ -120,6 +119,7 @@ public class SellFragment extends Fragment {
         super.onResume();
         callItemsToSellService();
 
+        FragmentActivity activity = getActivity();
         activity.registerReceiver(receiver, new IntentFilter(ItemsToSellService.class.getCanonicalName()));
         itemsAdapter.notifyDataSetChanged();
 
@@ -129,7 +129,7 @@ public class SellFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        activity.unregisterReceiver(receiver);
+        getActivity().unregisterReceiver(receiver);
     }
 
     public void callItemsToSellService() {
@@ -142,14 +142,12 @@ public class SellFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra("type").equals("Sell")) {
-                swipeRefreshLayout.setRefreshing(false);
-                progressBar.setVisibility(View.GONE);
-                itemsAdapter.notifyDataSetChanged();
-                Log.e(TAG, intent.getStringExtra("response"));
-                if (intent.getIntExtra("result", 0) == -1) {
-                    Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
-                }
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            itemsAdapter.notifyDataSetChanged();
+            Log.e(TAG, intent.getStringExtra("response"));
+            if (intent.getIntExtra("result", 0) == -1) {
+                Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
             }
         }
     }

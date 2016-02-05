@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,24 +12,29 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import citu.teknoybuyandselluser.Constants;
+import citu.teknoybuyandselluser.DonateItemDetailsActivity;
+import citu.teknoybuyandselluser.PendingItemActivity;
 import citu.teknoybuyandselluser.R;
-import citu.teknoybuyandselluser.SellItemDetailsActivity;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.models.Item;
-import citu.teknoybuyandselluser.models.SellItem;
+import citu.teknoybuyandselluser.models.DonateItem;
+import citu.teknoybuyandselluser.models.PendingItem;
 import io.realm.RealmResults;
 
 /**
  ** Created by jack on 5/02/16.
  */
-public class SellItemsAdapter extends RecyclerView.Adapter<SellItemsAdapter.ItemViewHolder> {
+public class DonateItemsAdapter extends RecyclerView.Adapter<DonateItemsAdapter.ItemViewHolder> {
+    private static final String TAG = "DonateItemsAdapter";
 
-    private static final String TAG = "SellItemsAdapter";
+    private RealmResults<DonateItem> mItems;
 
-    private RealmResults<SellItem> mItems;
-
-    public SellItemsAdapter(RealmResults<SellItem> items) {
+    public DonateItemsAdapter(RealmResults<DonateItem> items) {
         mItems = items;
+    }
+
+    public void updateData (RealmResults<DonateItem> items) {
+        mItems = items;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -42,7 +46,7 @@ public class SellItemsAdapter extends RecyclerView.Adapter<SellItemsAdapter.Item
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        SellItem item = mItems.get(position);
+        DonateItem item = mItems.get(position);
         holder.itemImage.setImageURI(Uri.parse(item.getPicture()));
         holder.itemName.setText(Utils.capitalize(item.getName()));
     }
@@ -71,15 +75,15 @@ public class SellItemsAdapter extends RecyclerView.Adapter<SellItemsAdapter.Item
         public void onClick(View view) {
             Context context = view.getContext();
             int position = getAdapterPosition();
-            SellItem item = mItems.get(position);
+            DonateItem item = mItems.get(position);
             Intent intent;
-            intent = new Intent(context, SellItemDetailsActivity.class);
+            intent = new Intent(context, DonateItemDetailsActivity.class);
             intent.putExtra(Constants.Item.ID, item.getId());
             intent.putExtra(Constants.Item.ITEM_NAME, item.getName());
             intent.putExtra(Constants.Item.DESCRIPTION, item.getDescription());
-            intent.putExtra(Constants.Item.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
             intent.putExtra(Constants.Item.PICTURE, item.getPicture());
             intent.putExtra(Constants.Item.QUANTITY, item.getQuantity());
+            intent.putExtra(Constants.Item.STARS_REQUIRED, item.getStars_required());
 
             context.startActivity(intent);
         }

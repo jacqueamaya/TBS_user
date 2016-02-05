@@ -23,10 +23,10 @@ import android.widget.Toast;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.ExpirationCheckerService;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.adapters.PendingItemsAdapter;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.PendingItem;
 import citu.teknoybuyandselluser.services.PendingItemsService;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -70,7 +70,7 @@ public class PendingFragment extends Fragment {
         Realm realm = Realm.getDefaultInstance();
         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 
-        RealmResults<Item> items = realm.where(Item.class).findAll();
+        RealmResults<PendingItem> items = realm.where(PendingItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
 
         if(items.isEmpty()) {
             Log.e(TAG, "No items cached" + items.size());
@@ -130,14 +130,12 @@ public class PendingFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra("type").equals("Pending")) {
-                swipeRefreshLayout.setRefreshing(false);
-                progressBar.setVisibility(View.GONE);
-                itemsAdapter.notifyDataSetChanged();
-                Log.e(TAG, intent.getStringExtra("response"));
-                if (intent.getIntExtra("result", 0) == -1) {
-                    Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
-                }
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            itemsAdapter.notifyDataSetChanged();
+            Log.e(TAG, intent.getStringExtra("response"));
+            if (intent.getIntExtra("result", 0) == -1) {
+                Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
             }
         }
     }

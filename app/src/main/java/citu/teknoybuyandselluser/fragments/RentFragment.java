@@ -24,11 +24,11 @@ import android.widget.Toast;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.ExpirationCheckerService;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 import citu.teknoybuyandselluser.ForRentItemActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.adapters.RentItemsAdapter;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.RentItem;
 import citu.teknoybuyandselluser.services.ItemsForRentService;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -68,7 +68,7 @@ public class RentFragment extends Fragment {
         TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
         Realm realm = Realm.getDefaultInstance();
 
-        RealmResults<Item> items = realm.where(Item.class).findAll();
+        RealmResults<RentItem> items = realm.where(RentItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
 
         if(items.isEmpty()) {
             Log.e(TAG, "No items cached" + items.size());

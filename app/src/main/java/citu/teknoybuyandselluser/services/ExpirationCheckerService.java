@@ -1,18 +1,14 @@
-package citu.teknoybuyandselluser;
+package citu.teknoybuyandselluser.services;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 
+import citu.teknoybuyandselluser.ServiceManager;
 import citu.teknoybuyandselluser.models.ResponseStatus;
-import citu.teknoybuyandselluser.services.TBSUserInterface;
 import retrofit.Call;
 import retrofit.Response;
 

@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import citu.teknoybuyandselluser.adapters.NotificationsAdapter;
@@ -44,11 +43,13 @@ public class NotificationsActivity extends BaseActivity {
         notificationRefreshBroadcastReceiver = new NotificationRefreshBroadcastReceiver();
 
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Notification> notifications = realm.where(Notification.class).findAll();
+        RealmResults<Notification> notifications = realm.where(Notification.class).equalTo(Constants.Item.ITEM_OWNER_USER_USERNAME, getUserName()).findAll();
 
         if(notifications.isEmpty()) {
             Log.e(TAG, "No notifications cached" + notifications.size());
-            txtMessage.setText("No notifications cached");
+            txtMessage.setVisibility(View.VISIBLE);
+            String message = "No notifications cached";
+            txtMessage.setText(message);
         }
 
         notificationsAdapter = new NotificationsAdapter(notifications);

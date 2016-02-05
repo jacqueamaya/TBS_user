@@ -11,6 +11,7 @@ import java.util.List;
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ServiceManager;
 import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models.PendingItem;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import retrofit.Call;
@@ -30,16 +31,15 @@ public class PendingItemsService extends IntentService {
         String username = intent.getStringExtra(Constants.User.USERNAME);
         TBSUserInterface service = ServiceManager.getInstance();
         try {
-            Call<List<Item>> call = service.getPendingItems(username);
-            Response<List<Item>> response = call.execute();
+            Call<List<PendingItem>> call = service.getPendingItems(username);
+            Response<List<PendingItem>> response = call.execute();
 
             if(response.code() == HttpURLConnection.HTTP_OK){
-                List<Item> items = response.body();
+                List<PendingItem> items = response.body();
                 Log.e(TAG, response.body().toString());
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
-                realm.where(Item.class).findAll().clear();
                 realm.copyToRealmOrUpdate(items);
                 realm.commitTransaction();
                 realm.close();

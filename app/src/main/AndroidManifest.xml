@@ -105,10 +105,10 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".ExpirationCheckerService"
+            android:name=".services.ExpirationCheckerService"
             android:exported="false" />
         <service
-            android:name=".ExpirationCheckerService"
+            android:name=".services.ExpirationCheckerService"
             android:exported="false" />
 
         <activity android:name=".RentedItemDetailActivity" />

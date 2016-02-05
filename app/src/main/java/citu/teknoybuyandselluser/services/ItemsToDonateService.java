@@ -10,6 +10,7 @@ import java.util.List;
 
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ServiceManager;
+import citu.teknoybuyandselluser.models.DonateItem;
 import citu.teknoybuyandselluser.models.Item;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -30,16 +31,15 @@ public class ItemsToDonateService extends IntentService {
         String username = intent.getStringExtra(Constants.User.USERNAME);
         TBSUserInterface service = ServiceManager.getInstance();
         try {
-            Call<List<Item>> call = service.getItemsToDonate(username);
-            Response<List<Item>> response = call.execute();
+            Call<List<DonateItem>> call = service.getItemsToDonate(username);
+            Response<List<DonateItem>> response = call.execute();
 
             if(response.code() == HttpURLConnection.HTTP_OK){
-                List<Item> items = response.body();
+                List<DonateItem> items = response.body();
                 Log.e(TAG, response.body().toString());
 
-                Realm realm = Realm.getInstance(new RealmConfiguration.Builder(this).build());
+                Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
-                realm.where(Item.class).findAll().clear();
                 realm.copyToRealmOrUpdate(items);
                 realm.commitTransaction();
                 realm.close();

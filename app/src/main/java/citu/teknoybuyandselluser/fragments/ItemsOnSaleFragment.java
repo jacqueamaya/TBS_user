@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.ExpirationCheckerService;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.ReservedItemActivity;
 import citu.teknoybuyandselluser.Server;
