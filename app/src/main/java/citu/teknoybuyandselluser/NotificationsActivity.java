@@ -37,19 +37,22 @@ public class NotificationsActivity extends BaseActivity {
         setContentView(R.layout.activity_notifications);
         setupUI();
 
-        final TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
         progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
         progressBar.setVisibility(View.GONE);
         notificationRefreshBroadcastReceiver = new NotificationRefreshBroadcastReceiver();
+    }
 
+    private void getNotifications() {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Notification> notifications = realm.where(Notification.class).equalTo(Constants.Item.ITEM_OWNER_USER_USERNAME, getUserName()).findAll();
-
+        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
         if(notifications.isEmpty()) {
             Log.e(TAG, "No notifications cached" + notifications.size());
             txtMessage.setVisibility(View.VISIBLE);
             String message = "No notifications cached";
             txtMessage.setText(message);
+        } else {
+            txtMessage.setVisibility(View.GONE);
         }
 
         notificationsAdapter = new NotificationsAdapter(notifications);
@@ -65,16 +68,14 @@ public class NotificationsActivity extends BaseActivity {
             public void onRefresh() {
                 Toast.makeText(NotificationsActivity.this, "Refreshing ...", Toast.LENGTH_SHORT).show();
                 // call this after refreshing is done
-                getNotifications();
+                startNotificationService();
                 notificationsAdapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
-        getNotifications();
-
     }
-    private void getNotifications() {
+
+    private void startNotificationService() {
         Intent intent = new Intent(this, NotificationService.class);
         intent.putExtra(Constants.User.USERNAME, getUserName());
         startService(intent);
@@ -89,6 +90,7 @@ public class NotificationsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        getNotifications();
         registerReceiver(notificationRefreshBroadcastReceiver, new IntentFilter(NotificationService.class.getCanonicalName()));
         notificationsAdapter.notifyDataSetChanged();
     }

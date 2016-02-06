@@ -78,8 +78,7 @@ public class SellFragment extends Fragment {
             Log.e(TAG, "No items cached" + items.size());
             //progressBar.setVisibility(View.VISIBLE);
             txtMessage.setVisibility(View.VISIBLE);
-            String errorMessage = "No items to sell";
-            txtMessage.setText(errorMessage);
+            txtMessage.setText(getResources().getString(R.string.no_items_to_sell));
         } else
             txtMessage.setVisibility(View.GONE);
 
@@ -145,8 +144,8 @@ public class SellFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
             itemsAdapter.notifyDataSetChanged();
-            Log.e(TAG, intent.getStringExtra("response"));
-            if (intent.getIntExtra("result", 0) == -1) {
+            Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
+            if (intent.getIntExtra(Constants.RESULT, 0) == -1) {
                 Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
             }
         }

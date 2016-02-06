@@ -9,6 +9,9 @@ import citu.teknoybuyandselluser.models.Notification;
 import citu.teknoybuyandselluser.models.PendingItem;
 import citu.teknoybuyandselluser.models.RentItem;
 import citu.teknoybuyandselluser.models.RentedItem;
+import citu.teknoybuyandselluser.models.ReservedItemForRent;
+import citu.teknoybuyandselluser.models.ReservedItemOnSale;
+import citu.teknoybuyandselluser.models.ReservedItemToDonate;
 import citu.teknoybuyandselluser.models.ResponseStatus;
 import citu.teknoybuyandselluser.models.SellItem;
 import citu.teknoybuyandselluser.models.User;
@@ -138,13 +141,13 @@ public interface TBSUserInterface {
     Call<List<RentedItem>> getRentedItems(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.RESERVED_ITEMS_ON_SALE)
-    Call<List<Item>> getReservedItemsOnSale(@Query(Constants.User.USERNAME) String username);
+    Call<List<ReservedItemOnSale>> getReservedItemsOnSale(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.RESERVED_ITEMS_FOR_RENT)
-    Call<List<Item>> getReservedItemsForRent(@Query(Constants.User.USERNAME) String username);
+    Call<List<ReservedItemForRent>> getReservedItemsForRent(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.RESERVED_ITEMS_FOR_DONATION)
-    Call<List<Item>> getReservedItemsForDonation(@Query(Constants.User.USERNAME) String username);
+    Call<List<ReservedItemToDonate>> getReservedItemsForDonation(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.AVAILABLE_ITEMS_TO_SELL)
     Call<List<Item>> getAvailableItemsToSell(@Query(Constants.User.USERNAME) String username);

@@ -74,8 +74,7 @@ public class RentedFragment extends Fragment {
             Log.e(TAG, "No items cached" + items.size());
             //progressBar.setVisibility(View.VISIBLE);
             txtMessage.setVisibility(View.VISIBLE);
-            String errorMessage = "No rented items";
-            txtMessage.setText(errorMessage);
+            txtMessage.setText(getResources().getString(R.string.no_rented_items));
         } else {
             txtMessage.setVisibility(View.GONE);
         }
@@ -132,8 +131,8 @@ public class RentedFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
             itemsAdapter.notifyDataSetChanged();
-            Log.e(TAG, intent.getStringExtra("response"));
-            if (intent.getIntExtra("result", 0) == -1) {
+            Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
+            if (intent.getIntExtra(Constants.RESULT, 0) == -1) {
                 Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
             }
         }
