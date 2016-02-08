@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -33,7 +34,7 @@ import citu.teknoybuyandselluser.models.ImageInfo;
 public class ForRentItemActivity extends AppCompatActivity {
     private static final String TAG = "ForRentItemActivity";
 
-    private ImageView mImgPreview;
+    private SimpleDraweeView mImgPreview;
     private ImageInfo mImgInfo;
 
     @Override
@@ -46,7 +47,7 @@ public class ForRentItemActivity extends AppCompatActivity {
         setupToolbar();
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
-        mImgPreview = (ImageView) findViewById(R.id.preview);
+        mImgPreview = (SimpleDraweeView) findViewById(R.id.preview);
         btnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,23 +113,27 @@ public class ForRentItemActivity extends AppCompatActivity {
         EditText txtDescription = (EditText) findViewById(R.id.inputDescription);
         EditText txtPrice = (EditText) findViewById(R.id.inputPrice);
         EditText txtQuantity = (EditText) findViewById(R.id.inputQuantity);
+        EditText txtRentDuration = (EditText) findViewById(R.id.inputRentDuration);
 
         Map<String, String> data = new HashMap<>();
         String name = txtItem.getText().toString().trim();
         String desc = txtDescription.getText().toString().trim();
         String price = txtPrice.getText().toString().trim();
         String quantity = txtQuantity.getText().toString().trim();
+        String rentDuration = txtRentDuration.getText().toString().trim();
 
         if (!name.equals("")
                 && !desc.equals("")
                 && !price.equals("")
                 && !quantity.equals("")
+                && !rentDuration.equals("")
                 && mImgInfo != null) {
             data.put(Constants.OWNER, getUserName());
             data.put(Constants.NAME, name);
             data.put(Constants.DESCRIPTION, desc);
             data.put(Constants.PRICE, price);
             data.put(Constants.QUANTITY, quantity);
+            data.put(Constants.RENT_DURATION, rentDuration);
             data.put(Constants.IMAGE_URL, mImgInfo.getLink());
 
             ProgressDialog mProgressDialog = new ProgressDialog(this);

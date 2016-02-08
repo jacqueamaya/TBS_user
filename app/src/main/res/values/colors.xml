@@ -151,14 +151,20 @@
     <color name="colorAccent">#89343B</color>
     Tabs Color Scheme -->
 
-    <!--Tabs Color Scheme -->
+    <!--Tabs Color Scheme
     <color name="colorPrimary">#f4cd47</color>
     <color name="colorPrimaryDark">#e4b673</color>
     <color name="textColorPrimary">#695371</color>
     <color name="windowBackground">#fcf5d2</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#80333c</color>
-    <!--Tabs Color Scheme -->
+    Tabs Color Scheme -->
 
+    <color name="colorPrimary">#80333c</color>
+    <color name="colorPrimaryDark">#e4b673</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#fcf5d2</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#f4cd47</color>
 
 </resources>

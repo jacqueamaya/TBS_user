@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class SellItemActivity extends AppCompatActivity {
 
     private static final String TAG = "SellItemActivity";
 
-    private ImageView mImgPreview;
+    private SimpleDraweeView mImgPreview;
     private ImageInfo mImgInfo;
 
     @Override
@@ -48,7 +49,7 @@ public class SellItemActivity extends AppCompatActivity {
         setupToolbar();
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
-        mImgPreview =  (ImageView) findViewById(R.id.preview);
+        mImgPreview =  (SimpleDraweeView) findViewById(R.id.preview);
         btnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

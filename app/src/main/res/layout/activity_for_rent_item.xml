@@ -4,6 +4,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#99ffffe0"
     android:fitsSystemWindows="true">
 
     <RelativeLayout
@@ -47,14 +48,14 @@
                         android:paddingLeft="15dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        android:textColor="#959595"
-                        android:textColorHint="#b7b4b4"
+                        android:textColor="@color/GreyDark"
+                        android:textColorHint="#73000000"
                         android:textSize="14dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
                         android:hint="Item"
                         android:inputType="textCapSentences"
-                        android:drawableLeft="@drawable/ic_cursor"
+                        android:drawableLeft="@drawable/ic_cursor_maroon"
                         android:drawablePadding="8dp" />
 
 
@@ -76,9 +77,9 @@
                         android:maxLines="5"
                         android:lines="3"
                         android:textSize="14dp"
-                        android:textColor="#959595"
-                        android:textColorHint="#b7b4b4"
-                        android:drawableLeft="@drawable/ic_clipboard"
+                        android:textColor="@color/GreyDark"
+                        android:textColorHint="#73000000"
+                        android:drawableLeft="@drawable/ic_clipboard_maroon"
                         android:drawablePadding="8dp"/>
 
                     <EditText
@@ -89,15 +90,15 @@
                         android:paddingLeft="16dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        android:textColor="#959595"
-                        android:textColorHint="#b7b4b4"
+                        android:textColor="@color/GreyDark"
+                        android:textColorHint="#73000000"
                         android:textSize="14dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_below="@id/inputDescription"
                         android:hint="Price"
                         android:inputType="numberDecimal"
-                        android:drawableLeft="@drawable/ic_cash"
+                        android:drawableLeft="@drawable/ic_cash_maroon"
                         android:drawablePadding="8dp"/>
 
                     <EditText
@@ -108,34 +109,53 @@
                         android:paddingLeft="15dp"
                         android:padding="10dp"
                         android:singleLine="true"
-                        android:textColor="#959595"
-                        android:textColorHint="#b7b4b4"
+                        android:textColor="@color/GreyDark"
+                        android:textColorHint="#73000000"
                         android:textSize="14dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_below="@id/inputPrice"
                         android:hint="Quantity"
                         android:inputType="numberDecimal"
-                        android:drawableLeft="@drawable/ic_tag"
+                        android:drawableLeft="@drawable/ic_tag_maroon"
+                        android:drawablePadding="8dp"/>
+
+                    <EditText
+                        android:id="@+id/inputRentDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textbox"
+                        android:paddingLeft="15dp"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/GreyDark"
+                        android:textColorHint="#73000000"
+                        android:textSize="14dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@id/inputQuantity"
+                        android:hint="Rent Duration (days)"
+                        android:inputType="number"
+                        android:drawableLeft="@drawable/ic_calendar_maroon"
                         android:drawablePadding="8dp"/>
 
                     <TextView
                         android:id="@+id/txtPicture"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/inputQuantity"
+                        android:layout_below="@id/inputRentDuration"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="20dp"
                         android:text="Photo"
-                        android:textColor="#959595"
+                        android:textColor="@color/GreyDark"
                         android:textSize="14dp" />
 
                     <Button
                         android:id="@+id/btnBrowse"
                         android:layout_width="220dp"
                         android:layout_height="33dp"
-                        android:layout_below="@id/inputQuantity"
+                        android:layout_below="@id/inputRentDuration"
                         android:layout_gravity="left"
                         android:layout_toRightOf="@id/txtPicture"
                         android:layout_marginTop="15dp"
@@ -152,25 +172,25 @@
 
                     <FrameLayout
                         android:id="@+id/frameLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="325dp"
                         android:layout_below="@id/btnBrowse"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="25dp">
 
-                        <ImageView
+                        <com.facebook.drawee.view.SimpleDraweeView
                             android:id="@+id/preview"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:layout_marginTop="20dp"
-                            android:src="@drawable/thumbsq_24dp" />
+                            android:layout_height="325dp"
+                            android:layout_marginTop="10dp"
+                            app:placeholderImage="@drawable/thumbsq_24dp"/>
 
                         <ProgressBar
                             android:id="@+id/progressUpload"
                             style="?android:attr/progressBarStyleSmall"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="10dp"
                             android:layout_gravity="center"
                             android:indeterminate="true" />
 

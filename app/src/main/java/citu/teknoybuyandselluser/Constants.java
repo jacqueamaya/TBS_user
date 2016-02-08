@@ -6,6 +6,7 @@ package citu.teknoybuyandselluser;
 public class Constants {
     public static final String MY_PREFS_NAME = "UserPreferences";
 
+
     public static final class User {
         public static final String ID_NUMBER = "id_number";
         public static final String USERNAME = "username";
@@ -23,6 +24,7 @@ public class Constants {
     public static final String RENTER = "renter";
     public static final String CATEGORY = "category_name";
     public static final String DESCRIPTION = "description";
+    public static final String RENT_DURATION = "rentDuration";
     public static final String ID = "item_id";
     public static final String ITEM_CODE = "item_code";
     public static final String ITEM_NAME = "item_name";
