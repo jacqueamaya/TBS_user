@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.PendingItemActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.models.PendingItem;
 import io.realm.RealmResults;
 
@@ -24,17 +22,11 @@ import io.realm.RealmResults;
  ** Created by jack on 5/02/16.
  */
 public class PendingItemsAdapter extends RecyclerView.Adapter<PendingItemsAdapter.ItemViewHolder> {
-    private static final String TAG = "PendingItemsAdapter";
 
     private RealmResults<PendingItem> mItems;
 
     public PendingItemsAdapter(RealmResults<PendingItem> items) {
         mItems = items;
-    }
-
-    public void updateData (RealmResults<PendingItem> items) {
-        mItems = items;
-        notifyDataSetChanged();
     }
 
     @Override
@@ -69,7 +61,6 @@ public class PendingItemsAdapter extends RecyclerView.Adapter<PendingItemsAdapte
 
             itemView.setOnClickListener(this);
         }
-
 
         @Override
         public void onClick(View view) {

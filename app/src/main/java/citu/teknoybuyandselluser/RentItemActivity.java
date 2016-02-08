@@ -41,13 +41,13 @@ public class RentItemActivity extends AppCompatActivity {
 
         Intent intent;
         intent = getIntent();
-        int itemId = intent.getIntExtra(Constants.ID, 0);
-        mItemName = intent.getStringExtra(Constants.ITEM_NAME);
-        mQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
+        int itemId = intent.getIntExtra(Constants.Item.ID, 0);
+        mItemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        mQuantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
         String availableQuantity = mQuantity + "";
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        String formatPrice = "Php " + intent.getStringExtra(Constants.FORMAT_PRICE);
-        String picture = intent.getStringExtra(Constants.PICTURE);
+        String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        String formatPrice = "Php " + intent.getStringExtra(Constants.Item.FORMAT_PRICE);
+        String picture = intent.getStringExtra(Constants.Item.PICTURE);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtAvailableQuantity = (TextView) findViewById(R.id.txtAvailableQuantity);
@@ -71,8 +71,8 @@ public class RentItemActivity extends AppCompatActivity {
         data = new HashMap<>();
 
         String user = getUserName();
-        data.put(Constants.RENTER, user);
-        data.put(Constants.ID, "" + itemId);
+        data.put(Constants.Item.RENTER, user);
+        data.put(Constants.Item.ID, "" + itemId);
 
         btnRentItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +91,7 @@ public class RentItemActivity extends AppCompatActivity {
         int quantity = Integer.parseInt(txtQuantity.getText().toString());
 
         if(quantity <= mQuantity && quantity > 0) {
-            data.put(Constants.QUANTITY, quantity + "");
+            data.put(Constants.Item.QUANTITY, quantity + "");
             Server.rentItem(data, mProgressDialog, new Ajax.Callbacks() {
                 @Override
                 public void success(String responseBody) {

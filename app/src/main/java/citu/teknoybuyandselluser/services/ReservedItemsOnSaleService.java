@@ -1,6 +1,5 @@
 package citu.teknoybuyandselluser.services;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
@@ -16,10 +15,11 @@ import retrofit.Call;
 import retrofit.Response;
 
 /**
- ** Created by jack on 5/02/16.
+ ** Created by jack on 8/02/16.
  */
-public class ReservedItemsOnSaleService extends IntentService {
+public class ReservedItemsOnSaleService extends ConnectionService {
     public static final String TAG = "ReservedItemsOnSale";
+    public static final String ACTION = ReservedItemsOnSaleService.class.getCanonicalName();
 
     public ReservedItemsOnSaleService() {
         super(TAG);
@@ -44,28 +44,14 @@ public class ReservedItemsOnSaleService extends IntentService {
                 realm.commitTransaction();
                 realm.close();
 
-                notifySuccess("Successful");
+                notifySuccess(ACTION, "Successful");
             }else{
                 String error = response.errorBody().string();
                 Log.e(TAG, "Error: " + error);
-                notifyFailure("Error");
+                notifyFailure(ACTION, "Error");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    protected void notifySuccess(String responseBody){
-        Intent intent = new Intent(ItemsToDonateService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, 1);
-        intent.putExtra(Constants.RESPONSE, responseBody);
-        sendBroadcast(intent);
-    }
-
-    protected void notifyFailure(String responseBody){
-        Intent intent = new Intent(ItemsToDonateService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, -1);
-        intent.putExtra(Constants.RESPONSE,  responseBody);
-        sendBroadcast(intent);
     }
 }

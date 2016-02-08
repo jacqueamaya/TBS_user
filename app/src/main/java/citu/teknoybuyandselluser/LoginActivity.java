@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mTxtPassword;
     private TextView mTxtErrorMessage;
     private ProgressDialog mLoginProgress;
+    private ProgressBar progressBar;
 
     private String mStrUsername;
     private String mStrPassword;
@@ -42,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         mTxtPassword = (EditText) findViewById(R.id.txtPassword);
         TextView txtSignUp = (TextView) findViewById(R.id.txtSignup);
         mTxtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
+        progressBar = (ProgressBar) findViewById(R.id.progressLogin);
         mLoginProgress = new ProgressDialog(this);
 
         SharedPreferences sp = this.getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
@@ -66,9 +69,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLogin(View view){
-        mLoginProgress.setIndeterminate(true);
+        /*mLoginProgress.setIndeterminate(true);
         mLoginProgress.setCancelable(false);
-        mLoginProgress.setMessage("Please wait. . .");
+        mLoginProgress.setMessage("Please wait. . .");*/
+
         mStrUsername = mTxtUsername.getText().toString().trim();
         mStrPassword = mTxtPassword.getText().toString();
         loginUser();
@@ -79,20 +83,20 @@ public class LoginActivity extends AppCompatActivity {
         if (mStrUsername.isEmpty() || mStrPassword.isEmpty() || "".equals(mStrUsername.trim()) || "".equals(mStrPassword.trim())) {
             Toast.makeText(LoginActivity.this, "Please input username and password", Toast.LENGTH_SHORT).show();
         } else {
-            /*ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+            ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
             NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
 
-            if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {*/
-                mLoginProgress.show();
-
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                //mLoginProgress.show();
+                progressBar.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(this, LoginService.class);
                 intent.putExtra(Constants.User.USERNAME, mStrUsername);
                 intent.putExtra(Constants.User.PASSWORD, mStrPassword);
                 startService(intent);
                 Log.e(TAG, "starting service");
-            /*} else {
+            } else {
                 Toast.makeText(LoginActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
-            }*/
+            }
         }
     }
 
@@ -125,7 +129,8 @@ public class LoginActivity extends AppCompatActivity {
             String lastName = intent.getStringExtra(Constants.User.LAST_NAME);
             String picture = intent.getStringExtra(Constants.User.PICTURE);
 
-            mLoginProgress.hide();
+            //mLoginProgress.hide();
+            progressBar.setVisibility(View.GONE);
 
             if (result == 1) {
                 SharedPreferences.Editor editor = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE).edit();
@@ -133,8 +138,8 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString(Constants.User.PASSWORD, password);
                 editor.putString(Constants.User.FIRST_NAME, firstName);
                 editor.putString(Constants.User.LAST_NAME, lastName);
+                editor.putString(Constants.User.PICTURE, picture);
                 editor.putInt(Constants.User.STARS_COLLECTED, starsCollected);
-                editor.putString(Constants.PICTURE, picture);
                 editor.apply();
                 finish();
                 startActivity(new Intent(LoginActivity.this, NotificationsActivity.class));

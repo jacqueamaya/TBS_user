@@ -1,6 +1,5 @@
 package citu.teknoybuyandselluser.services;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
@@ -12,12 +11,12 @@ import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ServiceManager;
 import citu.teknoybuyandselluser.models.Notification;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import retrofit.Call;
 import retrofit.Response;
 
-public class NotificationService extends IntentService {
+public class NotificationService extends ConnectionService {
     public static final String TAG = "NotificationService";
+    public static final String ACTION = NotificationService.class.getCanonicalName();
 
     public NotificationService() {
         super(TAG);
@@ -29,7 +28,6 @@ public class NotificationService extends IntentService {
         String username = intent.getStringExtra(Constants.User.USERNAME);
         TBSUserInterface service = ServiceManager.getInstance();
         try {
-
             Call<List<Notification>> call = service.getNotifications(username);
             Response<List<Notification>> response = call.execute();
 
@@ -43,30 +41,16 @@ public class NotificationService extends IntentService {
                 realm.commitTransaction();
                 realm.close();
 
-                notifySuccess("Successful");
+                notifySuccess(ACTION, "Successful");
             }else{
                 String error = response.errorBody().string();
                 Log.e(TAG, "Error: " + error);
-                notifyFailure("Error");
+                notifyFailure(ACTION, "Error");
             }
 
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
-            notifyFailure("Unable to connect to server");
+            notifyFailure(ACTION, "Unable to connect to server");
         }
-    }
-
-    protected void notifySuccess(String responseBody){
-        Intent intent = new Intent(NotificationService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, 1);
-        intent.putExtra(Constants.RESPONSE, responseBody);
-        sendBroadcast(intent);
-    }
-
-    protected void notifyFailure(String responseBody){
-        Intent intent = new Intent(NotificationService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, -1);
-        intent.putExtra(Constants.RESPONSE,  responseBody);
-        sendBroadcast(intent);
     }
 }

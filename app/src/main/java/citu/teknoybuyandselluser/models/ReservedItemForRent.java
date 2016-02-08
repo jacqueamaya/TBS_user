@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
 public class ReservedItemForRent extends RealmObject{
     @PrimaryKey
     private int id;
-    private UserProfile buyer;
+    private User buyer;
     private Item item;
     private float payment;
     private int quantity;
@@ -27,11 +27,11 @@ public class ReservedItemForRent extends RealmObject{
         this.id = id;
     }
 
-    public UserProfile getBuyer() {
+    public User getBuyer() {
         return buyer;
     }
 
-    public void setBuyer(UserProfile buyer) {
+    public void setBuyer(User buyer) {
         this.buyer = buyer;
     }
 

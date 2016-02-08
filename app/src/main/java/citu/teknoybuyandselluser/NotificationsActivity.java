@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,10 +26,15 @@ import io.realm.RealmResults;
 
 public class NotificationsActivity extends BaseActivity {
     private static final String TAG = "NotificationsActivity";
+
     private NotificationsAdapter notificationsAdapter;
-    private NotificationRefreshBroadcastReceiver notificationRefreshBroadcastReceiver;
+    private NotificationRefreshBroadcastReceiver broadcastReceiver;
+    private RealmResults<Notification> notifications;
+
     private ProgressBar progressBar;
+    private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView txtMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,31 +44,19 @@ public class NotificationsActivity extends BaseActivity {
         setupUI();
 
         progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
-        progressBar.setVisibility(View.GONE);
-        notificationRefreshBroadcastReceiver = new NotificationRefreshBroadcastReceiver();
-    }
+        recyclerView = (RecyclerView) findViewById(R.id.listViewNotif);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        txtMessage = (TextView) findViewById(R.id.txtMessage);
 
-    private void getNotifications() {
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Notification> notifications = realm.where(Notification.class).equalTo(Constants.Item.ITEM_OWNER_USER_USERNAME, getUserName()).findAll();
-        TextView txtMessage = (TextView) findViewById(R.id.txtMessage);
-        if(notifications.isEmpty()) {
-            Log.e(TAG, "No notifications cached" + notifications.size());
-            txtMessage.setVisibility(View.VISIBLE);
-            String message = "No notifications cached";
-            txtMessage.setText(message);
-        } else {
-            txtMessage.setVisibility(View.GONE);
-        }
-
+        notifications = realm.where(Notification.class).equalTo(Constants.Item.ITEM_OWNER_USER_USERNAME, getUserName()).findAll();
         notificationsAdapter = new NotificationsAdapter(notifications);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listViewNotif);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(NotificationsActivity.this));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
         recyclerView.setAdapter(notificationsAdapter);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,14 +67,27 @@ public class NotificationsActivity extends BaseActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        broadcastReceiver = new NotificationRefreshBroadcastReceiver();
     }
 
     private void startNotificationService() {
         Intent intent = new Intent(this, NotificationService.class);
         intent.putExtra(Constants.User.USERNAME, getUserName());
         startService(intent);
+        txtMessage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
+    public void showHideErrorMessage() {
+        if(notifications.isEmpty()) {
+            Log.e(TAG, "No notifications cached" + notifications.size());
+            txtMessage.setVisibility(View.VISIBLE);
+            txtMessage.setText(getResources().getString(R.string.no_notifications));
+        } else {
+            txtMessage.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public boolean checkItemClicked(MenuItem menuItem) {
@@ -90,15 +97,16 @@ public class NotificationsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getNotifications();
-        registerReceiver(notificationRefreshBroadcastReceiver, new IntentFilter(NotificationService.class.getCanonicalName()));
+        startNotificationService();
+
+        registerReceiver(broadcastReceiver, new IntentFilter(NotificationService.ACTION));
         notificationsAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(notificationRefreshBroadcastReceiver);
+        unregisterReceiver(broadcastReceiver);
     }
 
     private class NotificationRefreshBroadcastReceiver extends BroadcastReceiver {
@@ -107,7 +115,12 @@ public class NotificationsActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
-            Log.e(TAG, intent.getStringExtra("response"));
+            showHideErrorMessage();
+            notificationsAdapter.notifyDataSetChanged();
+            Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
+            if (intent.getIntExtra(Constants.RESULT, 0) == -1) {
+                Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+            }
         }
 
     }

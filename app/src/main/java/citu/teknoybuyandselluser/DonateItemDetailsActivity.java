@@ -6,10 +6,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 public class DonateItemDetailsActivity extends AppCompatActivity {
@@ -25,17 +25,17 @@ public class DonateItemDetailsActivity extends AppCompatActivity {
 
         Intent intent;
         intent = getIntent();
-        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        int quantity = intent.getIntExtra(Constants.QUANTITY, 1);
-        String picture = intent.getStringExtra(Constants.PICTURE);
-        int starsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
+        String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
+        String picture = intent.getStringExtra(Constants.Item.PICTURE);
+        int starsRequired = intent.getIntExtra(Constants.Item.STARS_REQUIRED, 0);
 
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
         TextView txtDescription = (TextView) findViewById(R.id.txtDetails);
         TextView txtNumStars = (TextView) findViewById(R.id.txtNumStars);
         TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
-        ImageView imgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
+        SimpleDraweeView imgThumbnail = (SimpleDraweeView) findViewById(R.id.imgThumbnail);
 
         txtTitle.setText(itemName);
         txtDescription.setText(description);

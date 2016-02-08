@@ -19,7 +19,7 @@ import java.util.List;
 
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models_old.Item;
 
 /**
  ** Created by Jacquelyn on 9/20/2015.

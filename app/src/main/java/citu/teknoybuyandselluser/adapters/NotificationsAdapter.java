@@ -1,6 +1,5 @@
 package citu.teknoybuyandselluser.adapters;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +17,11 @@ import io.realm.RealmResults;
  ** Created by jack on 2/02/16.
  */
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.NotificationViewHolder> {
-    private static final String TAG = "NotificationsAdapter";
 
     private RealmResults<Notification> mNotifications;
 
     public NotificationsAdapter(RealmResults<Notification> notifications) {
         mNotifications = notifications;
-    }
-
-    public void updateData (RealmResults<Notification> notifications) {
-        mNotifications = notifications;
-        notifyDataSetChanged();
     }
 
     @Override

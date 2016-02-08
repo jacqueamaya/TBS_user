@@ -130,12 +130,12 @@ public class SellItemActivity extends AppCompatActivity {
                 && !price.equals("")
                 && !quantity.equals("")
                 && mImgInfo != null) {
-            data.put(Constants.OWNER, user);
-            data.put(Constants.NAME, name);
-            data.put(Constants.DESCRIPTION, desc);
-            data.put(Constants.PRICE, price);
-            data.put(Constants.QUANTITY, quantity);
-            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+            data.put(Constants.Item.OWNER, user);
+            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.DESCRIPTION, desc);
+            data.put(Constants.Item.PRICE, price);
+            data.put(Constants.Item.QUANTITY, quantity);
+            data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
 
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Please wait. . .");

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,11 +26,11 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
 import citu.teknoybuyandselluser.adapters.GridAdapter;
-import citu.teknoybuyandselluser.models.Category;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models_old.Category;
+import citu.teknoybuyandselluser.models_old.Item;
 import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 
-public class DonationsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
+public class DonationsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
     private ProgressBar progressBar;
 
     private Category categories[];
@@ -54,6 +55,17 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
         progressBar.setVisibility(View.GONE);
 
         getCategories();
+
+        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(DonationsActivity.this, "Refreshing ...", Toast.LENGTH_SHORT).show();
+                // call this after refreshing is done
+                getAllItems();
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
@@ -81,15 +93,21 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchQuery = query;
-                gridAdapter.getFilter().filter(searchQuery + "," + category);
-                return true;
+                if (gridAdapter != null) {
+                    gridAdapter.getFilter().filter(searchQuery + "," + category);
+                    return true;
+                }
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchQuery = newText;
-                gridAdapter.getFilter().filter(searchQuery + "," + category);
-                return true;
+                if (gridAdapter != null) {
+                    gridAdapter.getFilter().filter(searchQuery + "," + category);
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -99,13 +117,15 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id) {
-            case R.id.nav_sort_by_date:
-                gridAdapter.sortItems(Constants.Sort.DATE);
-                break;
-            case R.id.nav_sort_by_name:
-                gridAdapter.sortItems(Constants.Sort.NAME);
-                break;
+        if(gridAdapter != null) {
+            switch (id) {
+                case R.id.nav_sort_by_date:
+                    gridAdapter.sortItems(Constants.Sort.DATE);
+                    break;
+                case R.id.nav_sort_by_name:
+                    gridAdapter.sortItems(Constants.Sort.NAME);
+                    break;
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -145,22 +165,7 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
                         setItemSelectedListener(spinnerCategory);
                     }
 
-                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Item item = gridAdapter.getDisplayView().get(position);
-
-                            Intent intent;
-                            intent = new Intent(DonationsActivity.this, DonatedItemActivity.class);
-                            intent.putExtra(Constants.ID, item.getId());
-                            intent.putExtra(Constants.ITEM_NAME, item.getName());
-                            intent.putExtra(Constants.DESCRIPTION, item.getDescription());
-                            intent.putExtra(Constants.QUANTITY, item.getQuantity());
-                            intent.putExtra(Constants.PICTURE, item.getPicture());
-                            intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
-                            startActivity(intent);
-                        }
-                    });
+                    setItemClickListener(gridView);
                 }
             }
 
@@ -196,6 +201,10 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
         });
     }
 
+    public void setItemClickListener(GridView gridView){
+        gridView.setOnItemClickListener(this);
+    }
+
     public void setItemSelectedListener(Spinner spinner) {
         spinner.setOnItemSelectedListener(this);
     }
@@ -209,7 +218,9 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
                 if (category.equals("All")) {
                     category = "";
                 }
-                gridAdapter.getFilter().filter(category);
+
+                if(gridAdapter != null)
+                    gridAdapter.getFilter().filter(category);
                 break;
         }
     }
@@ -217,5 +228,20 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        Item item = gridAdapter.getDisplayView().get(position);
+
+        Intent intent;
+        intent = new Intent(DonationsActivity.this, DonatedItemActivity.class);
+        intent.putExtra(Constants.Item.ID, item.getId());
+        intent.putExtra(Constants.Item.ITEM_NAME, item.getName());
+        intent.putExtra(Constants.Item.DESCRIPTION, item.getDescription());
+        intent.putExtra(Constants.Item.QUANTITY, item.getQuantity());
+        intent.putExtra(Constants.Item.PICTURE, item.getPicture());
+        intent.putExtra(Constants.Item.STARS_REQUIRED, item.getStars_required());
+        startActivity(intent);
     }
 }

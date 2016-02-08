@@ -22,7 +22,6 @@ import io.realm.RealmResults;
  ** Created by jack on 5/02/16.
  */
 public class ReservedItemsForRentAdapter extends RecyclerView.Adapter<ReservedItemsForRentAdapter.ItemViewHolder> {
-    private static final String TAG = "ReservedItemsForRentAdapter";
 
     private RealmResults<ReservedItemForRent> mItems;
 

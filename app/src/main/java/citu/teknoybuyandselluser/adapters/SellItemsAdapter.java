@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.SellItemDetailsActivity;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.models.SellItem;
 import io.realm.RealmResults;
 
@@ -24,8 +22,6 @@ import io.realm.RealmResults;
  ** Created by jack on 5/02/16.
  */
 public class SellItemsAdapter extends RecyclerView.Adapter<SellItemsAdapter.ItemViewHolder> {
-
-    private static final String TAG = "SellItemsAdapter";
 
     private RealmResults<SellItem> mItems;
 

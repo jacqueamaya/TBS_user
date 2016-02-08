@@ -22,7 +22,6 @@ import io.realm.RealmResults;
  ** Created by jack on 5/02/16.
  */
 public class ReservedItemsOnSaleAdapter extends RecyclerView.Adapter<ReservedItemsOnSaleAdapter.ItemViewHolder> {
-    private static final String TAG = "ReservedItemsOnSaleAdapter";
 
     private RealmResults<ReservedItemOnSale> mItems;
 

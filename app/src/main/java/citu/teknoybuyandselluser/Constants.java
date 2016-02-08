@@ -26,8 +26,9 @@ public class Constants {
 
     public static final class Item {
         public static final String OWNER_USER_USERNAME = "owner.user.username";
-        public static final String BUYER_USER_USERNAME = "buyer.user.username";
         public static final String ITEM_OWNER_USER_USERNAME = "item.owner.user.username";
+        public static final String BUYER_USERNAME = "buyer.username";
+        public static final String RENTER_USERNAME = "renter.username";
         public static final String BUYER = "buyer";
         public static final String RENTER = "renter";
         public static final String CATEGORY = "category_name";
@@ -45,6 +46,7 @@ public class Constants {
         public static final String PICTURE = "picture";
         public static final String PURPOSE = "purpose";
         public static final String RENT_DATE = "rent_date";
+        public static final String RENT_DURATION = "rent_duration";
         public static final String RENT_EXPIRATION = "rent_expiration";
         public static final String RESERVED_DATE = "reserved_date";
         public static final String RESERVATION_ID = "reservation_id";
@@ -54,33 +56,6 @@ public class Constants {
         public static final String IMAGE_URL = "url";
         public static final String FORMAT_PRICE = "formatPrice";
     }
-
-    public static final String BUYER = "buyer";
-    public static final String RENTER = "renter";
-    public static final String CATEGORY = "category_name";
-    public static final String DESCRIPTION = "description";
-    public static final String RENT_DURATION = "rentDuration";
-    public static final String ID = "item_id";
-    public static final String ITEM_CODE = "item_code";
-    public static final String ITEM_NAME = "item_name";
-    public static final String NAME = "name";
-    public static final String OWNER = "owner";
-    public static final String PAYMENT = "payment";
-    public static final String PRICE = "price";
-    public static final String QUANTITY = "quantity";
-    public static final String DISCOUNTED_PRICE = "discounted_price";
-    public static final String PENALTY = "penalty";
-    public static final String PICTURE = "picture";
-    public static final String PURPOSE = "purpose";
-    public static final String RENT_DATE = "rent_date";
-    public static final String RENT_EXPIRATION = "rent_expiration";
-    public static final String RESERVED_DATE = "reserved_date";
-    public static final String RESERVATION_ID = "reservation_id";
-    public static final String STARS_REQUIRED = "stars_required";
-    public static final String STARS_TO_USE = "stars_to_use";
-    public static final String STATUS = "status";
-    public static final String IMAGE_URL = "url";
-    public static final String FORMAT_PRICE = "formatPrice";
 
     public static final int INDEX_USER_IMAGE = (int) (Math.random()*10);
     public static final int USER_IMAGES[] =

@@ -123,11 +123,11 @@ public class DonateItemActivity extends AppCompatActivity {
                 && !desc.equals("")
                 && !quantity.equals("")
                 && mImgInfo != null) {
-            data.put(Constants.OWNER, getUserName());
-            data.put(Constants.NAME, name);
-            data.put(Constants.DESCRIPTION, desc);
-            data.put(Constants.QUANTITY, quantity);
-            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+            data.put(Constants.Item.OWNER, getUserName());
+            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.DESCRIPTION, desc);
+            data.put(Constants.Item.QUANTITY, quantity);
+            data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
 
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Please wait. . .");

@@ -1,6 +1,5 @@
 package citu.teknoybuyandselluser.services;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
@@ -10,15 +9,15 @@ import java.util.List;
 
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ServiceManager;
-import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.models.SellItem;
 import io.realm.Realm;
 import retrofit.Call;
 import retrofit.Response;
 
 
-public class ItemsToSellService extends IntentService {
+public class ItemsToSellService extends ConnectionService {
     public static final String TAG = "ItemsToSellService";
+    public static final String ACTION = ItemsToSellService.class.getCanonicalName();
 
     public ItemsToSellService() {
         super(TAG);
@@ -43,28 +42,14 @@ public class ItemsToSellService extends IntentService {
                 realm.commitTransaction();
                 realm.close();
 
-                notifySuccess("Successful");
+                notifySuccess(ACTION, "Successful");
             }else{
                 String error = response.errorBody().string();
                 Log.e(TAG, "Error: " + error);
-                notifyFailure("Error");
+                notifyFailure(ACTION, "Error");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    protected void notifySuccess(String responseBody){
-        Intent intent = new Intent(ItemsToSellService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, 1);
-        intent.putExtra(Constants.RESPONSE, responseBody);
-        sendBroadcast(intent);
-    }
-
-    protected void notifyFailure(String responseBody){
-        Intent intent = new Intent(ItemsToSellService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, -1);
-        intent.putExtra(Constants.RESPONSE,  responseBody);
-        sendBroadcast(intent);
     }
 }

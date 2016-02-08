@@ -25,15 +25,15 @@ public class RentedItemDetailActivity extends AppCompatActivity {
         setupToolbar();
 
         Intent intent = getIntent();
-        float penalty = intent.getFloatExtra(Constants.PENALTY, 0);
-        int quantity = intent.getIntExtra(Constants.QUANTITY, 1);
-        long rentDate = intent.getLongExtra(Constants.RENT_DATE, 0);
-        long rentExpiration = intent.getLongExtra(Constants.RENT_EXPIRATION, 0);
-        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        float penalty = intent.getFloatExtra(Constants.Item.PENALTY, 0);
+        int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
+        long rentDate = intent.getLongExtra(Constants.Item.RENT_DATE, 0);
+        long rentExpiration = intent.getLongExtra(Constants.Item.RENT_EXPIRATION, 0);
+        String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
         String strPenalty = "Penalty: Php " + penalty;
-        String picture = intent.getStringExtra(Constants.PICTURE);
+        String picture = intent.getStringExtra(Constants.Item.PICTURE);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -62,7 +62,7 @@ public class RentedItemDetailActivity extends AppCompatActivity {
 
         Picasso.with(this)
                 .load(picture)
-                .placeholder(R.drawable.thumb_24dp)
+                .placeholder(R.drawable.thumbsq_24dp)
                 .into(imgPreview);
 
         setTitle(itemName);

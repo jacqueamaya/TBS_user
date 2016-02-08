@@ -10,15 +10,15 @@ import java.util.List;
 
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ServiceManager;
-import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.models.RentItem;
 import io.realm.Realm;
 import retrofit.Call;
 import retrofit.Response;
 
 
-public class ItemsForRentService extends IntentService {
+public class ItemsForRentService extends ConnectionService {
     public static final String TAG = "ItemsForRentService";
+    public static final String ACTION = ItemsForRentService.class.getCanonicalName();
 
     public ItemsForRentService() {
         super(TAG);
@@ -43,28 +43,14 @@ public class ItemsForRentService extends IntentService {
                 realm.commitTransaction();
                 realm.close();
 
-                notifySuccess("Successful");
+                notifySuccess(ACTION, "Successful");
             }else{
                 String error = response.errorBody().string();
                 Log.e(TAG, "Error: " + error);
-                notifyFailure("Error");
+                notifyFailure(ACTION, "Error");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    protected void notifySuccess(String responseBody){
-        Intent intent = new Intent(ItemsForRentService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, 1);
-        intent.putExtra(Constants.RESPONSE, responseBody);
-        sendBroadcast(intent);
-    }
-
-    protected void notifyFailure(String responseBody){
-        Intent intent = new Intent(ItemsForRentService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, -1);
-        intent.putExtra(Constants.RESPONSE,  responseBody);
-        sendBroadcast(intent);
     }
 }

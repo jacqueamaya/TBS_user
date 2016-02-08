@@ -19,7 +19,7 @@ import java.util.List;
 
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models_old.Item;
 
 /**
  ** Created by Janna Tapitha on 1/20/2016.
@@ -27,8 +27,8 @@ import citu.teknoybuyandselluser.models.Item;
 public class GridAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater inflater;
 
-    private ArrayList<citu.teknoybuyandselluser.models.Item> mOriginalValues;
-    private ArrayList<citu.teknoybuyandselluser.models.Item> mDisplayedValues;
+    private ArrayList<Item> mOriginalValues;
+    private ArrayList<Item> mDisplayedValues;
 
     public GridAdapter(Context context, ArrayList<Item> list) {
         inflater = LayoutInflater.from(context);

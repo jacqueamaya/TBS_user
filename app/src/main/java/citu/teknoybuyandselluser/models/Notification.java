@@ -1,5 +1,6 @@
 package citu.teknoybuyandselluser.models;
 
+import citu.teknoybuyandselluser.models.Item;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 

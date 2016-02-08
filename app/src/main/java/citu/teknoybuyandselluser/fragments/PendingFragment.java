@@ -40,16 +40,18 @@ import io.realm.RealmResults;
 public class PendingFragment extends Fragment {
     private static final String TAG = "PendingFragment";
 
-    private PendingItemsAdapter itemsAdapter;
-    private ProgressBar progressBar;
     private ItemsRefreshBroadcastReceiver receiver;
+    private PendingItemsAdapter itemsAdapter;
+    private RealmResults<PendingItem> items;
+
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView txtMessage;
+
     private String user;
 
-    public PendingFragment() {
-
-    }
+    public PendingFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,26 +65,16 @@ public class PendingFragment extends Fragment {
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
+        recyclerView = (RecyclerView) view.findViewById(R.id.listViewPending);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        receiver = new ItemsRefreshBroadcastReceiver();
+        txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 
         Realm realm = Realm.getDefaultInstance();
-        TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-
-        RealmResults<PendingItem> items = realm.where(PendingItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
-
-        if(items.isEmpty()) {
-            Log.e(TAG, "No items cached" + items.size());
-            //progressBar.setVisibility(View.VISIBLE);
-            txtMessage.setVisibility(View.VISIBLE);
-            txtMessage.setText(getResources().getString(R.string.no_pending_items));
-        } else {
-            txtMessage.setVisibility(View.GONE);
-        }
-
+        items = realm.where(PendingItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
         itemsAdapter = new PendingItemsAdapter(items);
-        recyclerView = (RecyclerView) view.findViewById(R.id.listViewPending);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).build());
@@ -98,6 +90,9 @@ public class PendingFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        receiver = new ItemsRefreshBroadcastReceiver();
+
         return view;
     }
 
@@ -107,7 +102,7 @@ public class PendingFragment extends Fragment {
         callPendingService();
 
         FragmentActivity activity = getActivity();
-        activity.registerReceiver(receiver, new IntentFilter(PendingItemsService.class.getCanonicalName()));
+        activity.registerReceiver(receiver, new IntentFilter(PendingItemsService.ACTION));
         itemsAdapter.notifyDataSetChanged();
 
         activity.startService(new Intent(activity, ExpirationCheckerService.class));
@@ -123,6 +118,18 @@ public class PendingFragment extends Fragment {
         Intent intent = new Intent(getActivity().getBaseContext(), PendingItemsService.class);
         intent.putExtra(Constants.User.USERNAME, user);
         getActivity().startService(intent);
+        txtMessage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void showHideErrorMessage() {
+        if(items.isEmpty()) {
+            Log.e(TAG, "No pending items cached" + items.size());
+            txtMessage.setVisibility(View.VISIBLE);
+            txtMessage.setText(getResources().getString(R.string.no_pending_items));
+        } else {
+            txtMessage.setVisibility(View.GONE);
+        }
     }
 
     private class ItemsRefreshBroadcastReceiver extends BroadcastReceiver {
@@ -131,6 +138,7 @@ public class PendingFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
+            showHideErrorMessage();
             itemsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
             if (intent.getIntExtra(Constants.RESULT, 0) == -1) {

@@ -103,17 +103,12 @@
             android:name=".RentItemActivity"
             android:label="@string/title_activity_rent_item"
             android:screenOrientation="portrait" />
-
-        <service
-            android:name=".services.ExpirationCheckerService"
-            android:exported="false" />
-        <service
-            android:name=".services.ExpirationCheckerService"
-            android:exported="false" />
-
         <activity android:name=".RentedItemDetailActivity" />
         <activity android:name=".SearchActivity" />
 
+        <service
+            android:name=".services.ExpirationCheckerService"
+            android:exported="false" />
         <service
             android:name=".services.LoginService"
             android:exported="false" />
@@ -134,7 +129,25 @@
             android:exported="false" />
         <service
             android:name=".services.RentedItemsService"
-            android:exported="false"></service>
+            android:exported="false"/>
+        <service
+            android:name=".services.ReservedItemsOnSaleService"
+            android:exported="false"/>
+        <service
+            android:name=".services.ReservedItemsForRentService"
+            android:exported="false"/>
+        <service
+            android:name=".services.ReservedItemsToDonateService"
+            android:exported="false"/>
+        <service
+            android:name=".services.AllDonationsService"
+            android:exported="false"/>
+        <service
+            android:name=".services.AvailableItemsToSellService"
+            android:exported="false"/>
+        <service
+            android:name=".services.AvailableItemsForRentService"
+            android:exported="false"/>
     </application>
 
 </manifest>

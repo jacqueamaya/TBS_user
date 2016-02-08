@@ -3,8 +3,10 @@ package citu.teknoybuyandselluser.services;
 import java.util.List;
 
 import citu.teknoybuyandselluser.Constants;
+import citu.teknoybuyandselluser.models.AvailableDonation;
+import citu.teknoybuyandselluser.models.AvailableItemForRent;
+import citu.teknoybuyandselluser.models.AvailableItemToSell;
 import citu.teknoybuyandselluser.models.DonateItem;
-import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.models.Notification;
 import citu.teknoybuyandselluser.models.PendingItem;
 import citu.teknoybuyandselluser.models.RentItem;
@@ -14,14 +16,12 @@ import citu.teknoybuyandselluser.models.ReservedItemOnSale;
 import citu.teknoybuyandselluser.models.ReservedItemToDonate;
 import citu.teknoybuyandselluser.models.ResponseStatus;
 import citu.teknoybuyandselluser.models.SellItem;
-import citu.teknoybuyandselluser.models.User;
 import citu.teknoybuyandselluser.models.UserProfile;
 import retrofit.Call;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -150,11 +150,11 @@ public interface TBSUserInterface {
     Call<List<ReservedItemToDonate>> getReservedItemsForDonation(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.AVAILABLE_ITEMS_TO_SELL)
-    Call<List<Item>> getAvailableItemsToSell(@Query(Constants.User.USERNAME) String username);
+    Call<List<AvailableItemToSell>> getAvailableItemsToSell(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.AVAILABLE_ITEMS_FOR_RENT)
-    Call<List<Item>> getAvailableItemsForRent(@Query(Constants.User.USERNAME) String username);
+    Call<List<AvailableItemForRent>> getAvailableItemsForRent(@Query(Constants.User.USERNAME) String username);
 
     @GET(Constants.UrlUser.ALL_DONATIONS)
-    Call<List<Item>> getAllDonations(@Query(Constants.User.USERNAME) String username);
+    Call<List<AvailableDonation>> getAllDonations(@Query(Constants.User.USERNAME) String username);
 }

@@ -1,8 +1,6 @@
 package citu.teknoybuyandselluser.services;
 
-import android.app.IntentService;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.IOException;
@@ -18,8 +16,9 @@ import citu.teknoybuyandselluser.models.UserProfile;
 import retrofit.Call;
 import retrofit.Response;
 
-public class LoginService extends IntentService {
+public class LoginService extends ConnectionService {
     public static final String TAG = "LoginService";
+    public static final String ACTION = LoginService.class.getCanonicalName();
 
     public LoginService() {
         super(TAG);
@@ -47,16 +46,16 @@ public class LoginService extends IntentService {
                     getUser(service, username);
                 } else {
                     Log.e(TAG, "Login Error: " + statusText);
-                    notifyFailure("Invalid username or password");
+                    notifyFailure(ACTION, "Invalid username or password");
                 }
             } else {
                 Log.e(TAG, "HTTP " + statusCode);
                 Log.e(TAG, response.errorBody().string());
-                notifyFailure("Invalid username or password");
+                notifyFailure(ACTION, "Invalid username or password");
             }
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
-            notifyFailure("Unable to connect to server");
+            notifyFailure(ACTION, "Unable to connect to server");
         }
     }
 
@@ -76,12 +75,12 @@ public class LoginService extends IntentService {
             }else{
                 String error = response.errorBody().string();
                 Log.e(TAG, "Get user Error: " + error);
-                notifyFailure("User not found");
+                notifyFailure(ACTION, "User not found");
             }
 
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
-            notifyFailure("Unable to connect to server");
+            notifyFailure(ACTION, "Unable to connect to server");
         }
     }
 
@@ -96,13 +95,6 @@ public class LoginService extends IntentService {
         intent.putExtra(Constants.User.LAST_NAME, student.getLast_name());
         intent.putExtra(Constants.User.STARS_COLLECTED, userProfile.getStars_collected());
         intent.putExtra(Constants.User.PICTURE, userProfile.getPicture());
-        sendBroadcast(intent);
-    }
-
-    protected void notifyFailure(String responseBody) {
-        Intent intent = new Intent(LoginService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, -1);
-        intent.putExtra(Constants.RESPONSE, responseBody);
         sendBroadcast(intent);
     }
 }

@@ -50,10 +50,10 @@ public class Server {
     }
 
     public static void sellItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.OWNER) ||
-                ! data.containsKey(Constants.NAME) ||
-                ! data.containsKey(Constants.DESCRIPTION) ||
-                ! data.containsKey(Constants.PRICE)) {
+        if ( ! data.containsKey(Constants.Item.OWNER) ||
+                ! data.containsKey(Constants.Item.NAME) ||
+                ! data.containsKey(Constants.Item.DESCRIPTION) ||
+                ! data.containsKey(Constants.Item.PRICE)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -61,11 +61,11 @@ public class Server {
     }
 
     public static void forRentItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.OWNER) ||
-                ! data.containsKey(Constants.NAME) ||
-                ! data.containsKey(Constants.DESCRIPTION) ||
-                ! data.containsKey(Constants.PRICE) ||
-                ! data.containsKey(Constants.QUANTITY)) {
+        if ( ! data.containsKey(Constants.Item.OWNER) ||
+                ! data.containsKey(Constants.Item.NAME) ||
+                ! data.containsKey(Constants.Item.DESCRIPTION) ||
+                ! data.containsKey(Constants.Item.PRICE) ||
+                ! data.containsKey(Constants.Item.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -73,11 +73,11 @@ public class Server {
     }
 
     public static void editItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.OWNER) ||
-                ! data.containsKey(Constants.ID) ||
-                ! data.containsKey(Constants.NAME) ||
-                ! data.containsKey(Constants.DESCRIPTION) ||
-                ! data.containsKey(Constants.PRICE)) {
+        if ( ! data.containsKey(Constants.Item.OWNER) ||
+                ! data.containsKey(Constants.Item.ID) ||
+                ! data.containsKey(Constants.Item.NAME) ||
+                ! data.containsKey(Constants.Item.DESCRIPTION) ||
+                ! data.containsKey(Constants.Item.PRICE)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -85,8 +85,8 @@ public class Server {
     }
 
     public static void deleteItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.OWNER) ||
-                ! data.containsKey(Constants.ID)) {
+        if ( ! data.containsKey(Constants.Item.OWNER) ||
+                ! data.containsKey(Constants.Item.ID)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -94,9 +94,9 @@ public class Server {
     }
 
     public static void buyItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.BUYER) ||
-                ! data.containsKey(Constants.ID) ||
-                ! data.containsKey(Constants.QUANTITY)) {
+        if ( ! data.containsKey(Constants.Item.BUYER) ||
+                ! data.containsKey(Constants.Item.ID) ||
+                ! data.containsKey(Constants.Item.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -105,9 +105,9 @@ public class Server {
 
     public static void rentItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
         Log.e(TAG,data.toString());
-        if ( ! data.containsKey(Constants.RENTER) ||
-                ! data.containsKey(Constants.ID) ||
-                ! data.containsKey(Constants.QUANTITY)) {
+        if ( ! data.containsKey(Constants.Item.RENTER) ||
+                ! data.containsKey(Constants.Item.ID) ||
+                ! data.containsKey(Constants.Item.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -115,9 +115,9 @@ public class Server {
     }
 
     public static void cancelBuyItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.BUYER) ||
-                ! data.containsKey(Constants.ID) ||
-                ! data.containsKey(Constants.RESERVATION_ID)) {
+        if ( ! data.containsKey(Constants.Item.BUYER) ||
+                ! data.containsKey(Constants.Item.ID) ||
+                ! data.containsKey(Constants.Item.RESERVATION_ID)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -125,8 +125,8 @@ public class Server {
     }
 
     public static void getItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.BUYER) ||
-                ! data.containsKey(Constants.ID)) {
+        if ( ! data.containsKey(Constants.Item.BUYER) ||
+                ! data.containsKey(Constants.Item.ID)) {
             throw new RuntimeException("Missing data.");
         }
 
@@ -134,9 +134,9 @@ public class Server {
     }
 
     public static void donateItem (Map<String, String> data, ProgressDialog progressDialog, Ajax.Callbacks callbacks) {
-        if ( ! data.containsKey(Constants.OWNER) ||
-                ! data.containsKey(Constants.NAME) ||
-                ! data.containsKey(Constants.DESCRIPTION)) {
+        if ( ! data.containsKey(Constants.Item.OWNER) ||
+                ! data.containsKey(Constants.Item.NAME) ||
+                ! data.containsKey(Constants.Item.DESCRIPTION)) {
             throw new RuntimeException("Missing data.");
         }
 

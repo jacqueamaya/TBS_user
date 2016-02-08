@@ -1,23 +1,12 @@
 package citu.teknoybuyandselluser.models;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
-import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.Utils;
+import citu.teknoybuyandselluser.models.Category;
+import citu.teknoybuyandselluser.models.UserProfile;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by Jacquelyn on 9/20/2015.
+ ** Created by Jacquelyn on 9/20/2015.
  */
 public class Item extends RealmObject{
     @PrimaryKey

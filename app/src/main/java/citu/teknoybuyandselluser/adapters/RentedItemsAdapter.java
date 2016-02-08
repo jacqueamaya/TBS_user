@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.PendingItemActivity;
 import citu.teknoybuyandselluser.R;
+import citu.teknoybuyandselluser.RentedItemDetailActivity;
 import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.models.RentedItem;
 import io.realm.RealmResults;
@@ -23,7 +22,6 @@ import io.realm.RealmResults;
  ** Created by Batistil on 1/20/2016.
  */
 public class RentedItemsAdapter extends RecyclerView.Adapter<RentedItemsAdapter.ItemViewHolder> {
-    private static final String TAG = "RentedItemsAdapter";
 
     private RealmResults<RentedItem> mItems;
 
@@ -71,7 +69,7 @@ public class RentedItemsAdapter extends RecyclerView.Adapter<RentedItemsAdapter.
             int position = getAdapterPosition();
             RentedItem rentedItem = mItems.get(position);
             Intent intent;
-            intent = new Intent(context, PendingItemActivity.class);
+            intent = new Intent(context, RentedItemDetailActivity.class);
             intent.putExtra(Constants.Item.ID, rentedItem.getId());
             intent.putExtra(Constants.Item.ITEM_NAME, rentedItem.getItem().getName());
             intent.putExtra(Constants.Item.DESCRIPTION, rentedItem.getItem().getDescription());

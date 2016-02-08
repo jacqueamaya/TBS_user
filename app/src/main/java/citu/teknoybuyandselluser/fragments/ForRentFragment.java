@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +30,8 @@ import citu.teknoybuyandselluser.RentItemActivity;
 import citu.teknoybuyandselluser.Server;
 import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.adapters.GridAdapter;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models_old.Item;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
@@ -37,7 +40,7 @@ import citu.teknoybuyandselluser.models.Item;
 public class ForRentFragment extends Fragment implements AdapterView.OnItemClickListener{
     private static final String TAG = "For Rent Fragment";
     private GridAdapter mGridAdapter;
-    private Gson mGson = new Gson();
+    private Gson gson = new Gson();
     private String mUsername;
     private View view = null;
 
@@ -53,8 +56,20 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemClick
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         mUsername = prefs.getString(Constants.User.USERNAME, "");
-
         ((MakeTransactionsActivity) getActivity()).getCategories();
+
+        getAllItemsForRent();
+
+        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getActivity(), "Refreshing ...", Toast.LENGTH_SHORT).show();
+                // call this after refreshing is done
+                getAllItemsForRent();
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         return view;
     }
@@ -67,8 +82,7 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemClick
         Server.getAvailableItemsForRent(mUsername, progressBar, new Ajax.Callbacks() {
             @Override
             public void success(String responseBody) {
-                ArrayList<Item> availableItems = mGson.fromJson(responseBody, new TypeToken<ArrayList<Item>>() {
-                }.getType());
+                ArrayList<Item> availableItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>() {}.getType());
 
                 TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
                 GridView gridView = (GridView) view.findViewById(R.id.gridViewForRent);
@@ -99,11 +113,9 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onResume() {
         super.onResume();
-        /*getAllItemsForRent();
 
-        Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
-        service.putExtra(Constants.User.USERNAME, mUsername);
-        getActivity().startService(service);*/
+        FragmentActivity activity = getActivity();
+        activity.startService(new Intent(activity, ExpirationCheckerService.class));
     }
 
     public void setItemClickListener(AdapterView<?> adapterView) {
@@ -116,14 +128,14 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemClick
 
         Intent intent;
         intent = new Intent(getActivity().getBaseContext(), RentItemActivity.class);
-        intent.putExtra(Constants.ID, item.getId());
-        intent.putExtra(Constants.ITEM_NAME, item.getName());
-        intent.putExtra(Constants.DESCRIPTION, item.getDescription());
-        intent.putExtra(Constants.PRICE, item.getPrice());
-        intent.putExtra(Constants.QUANTITY, item.getQuantity());
-        intent.putExtra(Constants.PICTURE, item.getPicture());
-        intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
-        intent.putExtra(Constants.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
+        intent.putExtra(Constants.Item.ID, item.getId());
+        intent.putExtra(Constants.Item.ITEM_NAME, item.getName());
+        intent.putExtra(Constants.Item.DESCRIPTION, item.getDescription());
+        intent.putExtra(Constants.Item.PRICE, item.getPrice());
+        intent.putExtra(Constants.Item.QUANTITY, item.getQuantity());
+        intent.putExtra(Constants.Item.PICTURE, item.getPicture());
+        intent.putExtra(Constants.Item.STARS_REQUIRED, item.getStars_required());
+        intent.putExtra(Constants.Item.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
 
         startActivity(intent);
     }

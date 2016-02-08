@@ -2,6 +2,7 @@ package citu.teknoybuyandselluser.models;
 
 
 import citu.teknoybuyandselluser.Utils;
+import citu.teknoybuyandselluser.models_old.Item;
 
 public class ReservedItem {
     private static final int DIVISOR = 1000;

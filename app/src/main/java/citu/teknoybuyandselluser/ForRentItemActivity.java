@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -128,13 +127,13 @@ public class ForRentItemActivity extends AppCompatActivity {
                 && !quantity.equals("")
                 && !rentDuration.equals("")
                 && mImgInfo != null) {
-            data.put(Constants.OWNER, getUserName());
-            data.put(Constants.NAME, name);
-            data.put(Constants.DESCRIPTION, desc);
-            data.put(Constants.PRICE, price);
-            data.put(Constants.QUANTITY, quantity);
-            data.put(Constants.RENT_DURATION, rentDuration);
-            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+            data.put(Constants.Item.OWNER, getUserName());
+            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.DESCRIPTION, desc);
+            data.put(Constants.Item.PRICE, price);
+            data.put(Constants.Item.QUANTITY, quantity);
+            data.put(Constants.Item.RENT_DURATION, rentDuration);
+            data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
 
             ProgressDialog mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setIndeterminate(true);

@@ -23,7 +23,6 @@ import io.realm.RealmResults;
  ** Created by jack on 5/02/16.
  */
 public class ReservedItemsToDonateAdapter extends RecyclerView.Adapter<ReservedItemsToDonateAdapter.ItemViewHolder> {
-    private static final String TAG = "ReservedItemsToDonate";
 
     private RealmResults<ReservedItemToDonate> mItems;
 

@@ -39,11 +39,15 @@ import io.realm.RealmResults;
 public class ItemsForRentFragment extends Fragment {
     private static final String TAG = "Items For Rent Fragment";
 
-    private ReservedItemsForRentAdapter itemsAdapter;
-    private ProgressBar progressBar;
     private ItemsRefreshBroadcastReceiver receiver;
+    private RealmResults<ReservedItemForRent> items;
+    private ReservedItemsForRentAdapter itemsAdapter;
+
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView txtMessage;
+
     private String user;
 
     public ItemsForRentFragment() {}
@@ -62,25 +66,14 @@ public class ItemsForRentFragment extends Fragment {
         user = prefs.getString(Constants.User.USERNAME, "");
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
+        recyclerView = (RecyclerView) view.findViewById(R.id.listViewItemsForRent);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        receiver = new ItemsRefreshBroadcastReceiver();
+        txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 
         Realm realm = Realm.getDefaultInstance();
-        TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-
-        RealmResults<ReservedItemForRent> items = realm.where(ReservedItemForRent.class).equalTo(Constants.Item.BUYER_USER_USERNAME, user).findAll();
-
-        if(items.isEmpty()) {
-            Log.e(TAG, "No items cached" + items.size());
-            //progressBar.setVisibility(View.VISIBLE);
-            txtMessage.setVisibility(View.VISIBLE);
-            txtMessage.setText(getResources().getString(R.string.no_reserved_items_for_rent));
-        } else {
-            txtMessage.setVisibility(View.GONE);
-        }
-
+        items = realm.where(ReservedItemForRent.class).equalTo(Constants.Item.BUYER_USERNAME, user).findAll();
         itemsAdapter = new ReservedItemsForRentAdapter(items);
-        recyclerView = (RecyclerView) view.findViewById(R.id.listViewItemsForRent);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).build());
@@ -96,6 +89,9 @@ public class ItemsForRentFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        receiver = new ItemsRefreshBroadcastReceiver();
+
         return view;
     }
 
@@ -121,6 +117,18 @@ public class ItemsForRentFragment extends Fragment {
         Intent intent = new Intent(getActivity().getBaseContext(), ReservedItemsForRentService.class);
         intent.putExtra(Constants.User.USERNAME, user);
         getActivity().startService(intent);
+        txtMessage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void showHideErrorMessage() {
+        if(items.isEmpty()) {
+            Log.e(TAG, "No reserved items for rent cached" + items.size());
+            txtMessage.setVisibility(View.VISIBLE);
+            txtMessage.setText(getResources().getString(R.string.no_reserved_items_for_rent));
+        } else {
+            txtMessage.setVisibility(View.GONE);
+        }
     }
 
     private class ItemsRefreshBroadcastReceiver extends BroadcastReceiver {
@@ -129,6 +137,7 @@ public class ItemsForRentFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
+            showHideErrorMessage();
             itemsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
             if (intent.getIntExtra(Constants.RESULT, 0) == -1) {

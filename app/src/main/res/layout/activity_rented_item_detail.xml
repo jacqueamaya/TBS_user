@@ -5,29 +5,28 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/appbar"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <!-- The ActionBar -->
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar">
 
-            <!-- The main content view -->
             <RelativeLayout
                 android:id="@+id/flContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
@@ -37,254 +36,189 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginTop="30dp"
-                    android:src="@drawable/thumbsq_24dp"/>
+                    android:src="@drawable/thumbsq_24dp" />
 
-                <TableLayout
+                <ImageView
+                    android:id="@+id/shoppingcart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_below="@+id/preview"
+                    android:layout_alignTop="@+id/txtItem"
+                    android:src="@drawable/shop_24dp"
+                    android:tint="@color/Louie" />
+
+                <TextView
+                    android:id="@+id/txtItem"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="140dp">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/preview"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@id/shoppingcart"
+                    android:background="@drawable/textbox"
+                    android:enabled="false"
+                    android:padding="10dp"
+                    android:text="@string/item_name"
+                    android:textColor="@color/Black"
+                    android:textSize="18sp" />
 
-                    <TableRow
-                        android:id="@+id/tableRow1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                <ImageView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/shoppingcart"
+                    android:layout_alignTop="@+id/txtDescription"
+                    android:src="@drawable/edit_24dp"
+                    android:tint="@color/Louie" />
 
-                        <ImageView
-                            android:id="@+id/shoppingcart"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@+id/preview"
-                            android:layout_marginTop="30dp"
-                            android:src="@drawable/shop_24dp"
-                            android:tint="@color/Louie" />
+                <TextView
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtItem"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/description"
+                    android:background="@drawable/textbox"
+                    android:enabled="false"
+                    android:gravity="top"
+                    android:lines="5"
+                    android:maxLines="5"
+                    android:padding="10dp"
+                    android:text="@string/item_description"
+                    android:textColor="@color/Black"
+                    android:textColorHint="@color/Black"
+                    android:textSize="18sp" />
 
-                        <TextView
-                            android:id="@+id/txtItem"
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/preview"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="25dp"
-                            android:layout_toRightOf="@id/shoppingcart"
-                            android:text="Item"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:enabled="false"/>
-                    </TableRow>
+                <ImageView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/description"
+                    android:layout_alignTop="@+id/txtPrice"
+                    android:src="@drawable/money_24dp"
+                    android:tint="@color/Louie" />
 
-                    <TableRow
-                        android:id="@+id/tableRow2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                <TextView
+                    android:id="@+id/txtPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtDescription"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/price"
+                    android:background="@drawable/textbox"
+                    android:enabled="false"
+                    android:padding="10dp"
+                    android:text="@string/item_price"
+                    android:textColor="@color/Black"
+                    android:textColorHint="@color/Black"
+                    android:textSize="18sp" />
 
-                        <ImageView
-                            android:id="@+id/description"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@id/shoppingcart"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/edit_24dp"
-                            android:tint="@color/Louie" />
+                <ImageView
+                    android:id="@+id/penalty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/price"
+                    android:layout_alignTop="@+id/txtPenalty"
+                    android:src="@drawable/money_24dp"
+                    android:tint="@color/Louie"
+                    android:visibility="gone" />
 
-                        <TextView
-                            android:id="@+id/txtDescription"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txtItem"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/description"
-                            android:text="Description"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:inputType="textMultiLine"
-                            android:lines="5"
-                            android:maxLines="5"
-                            android:gravity="top"
-                            android:enabled="false"/>
-                    </TableRow>
+                <TextView
+                    android:id="@+id/txtPenalty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtPrice"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/penalty"
+                    android:background="@drawable/textbox"
+                    android:enabled="false"
+                    android:padding="10dp"
+                    android:text="Penalty"
+                    android:textColor="@color/Black"
+                    android:textColorHint="@color/Black"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
-                    <TableRow
-                        android:id="@+id/tableRow3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                <ImageView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/penalty"
+                    android:layout_alignTop="@+id/txtQuantity"
+                    android:src="@drawable/quantity_24dp"
+                    android:tint="@color/Louie" />
 
-                        <ImageView
-                            android:id="@+id/price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@id/description"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/money_24dp"
-                            android:tint="@color/Louie" />
+                <TextView
+                    android:id="@+id/txtQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtPenalty"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/quantity"
+                    android:background="@drawable/textbox"
+                    android:enabled="false"
+                    android:padding="10dp"
+                    android:text="@string/item_quantity"
+                    android:textColor="@color/Black"
+                    android:textColorHint="@color/Black"
+                    android:textSize="18sp" />
 
-                        <TextView
-                            android:id="@+id/txtPrice"
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txtDescription"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/price"
-                            android:text="Price"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:enabled="false"/>
+                <ImageView
+                    android:id="@+id/rentDate"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/quantity"
+                    android:layout_alignTop="@+id/txtRentDate"
+                    android:src="@drawable/ic_calendar_clock"
+                    android:tint="@color/Louie" />
 
-                    </TableRow>
+                <TextView
+                    android:id="@+id/txtRentDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtQuantity"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/rentDate"
+                    android:background="@drawable/textbox"
+                    android:enabled="false"
+                    android:padding="10dp"
+                    android:text="Rent Date"
+                    android:textColor="@color/Black"
+                    android:textColorHint="@color/Black"
+                    android:textSize="18sp" />
 
-                    <TableRow
-                        android:id="@+id/tableRow4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                <ImageView
+                    android:id="@+id/rentExpiry"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/rentDate"
+                    android:layout_alignTop="@+id/txtRentExpiry"
+                    android:src="@drawable/ic_calendar_clock"
+                    android:tint="@color/Louie" />
 
-                        <ImageView
-                            android:id="@+id/penalty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@id/price"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/money_24dp"
-                            android:tint="@color/Louie"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/txtPenalty"
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txtPrice"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/penalty"
-                            android:text="Penalty"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:enabled="false"
-                            android:visibility="gone" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
-
-                        <ImageView
-                            android:id="@+id/quantity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@id/penalty"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/quantity_24dp"
-                            android:tint="@color/Louie" />
-
-                        <TextView
-                            android:id="@+id/txtQuantity"
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txtPenalty"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/quantity"
-                            android:text="Quantity"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:enabled="false"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
-
-                        <ImageView
-                            android:id="@+id/rentDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@id/quantity"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/input_status_small"
-                            android:tint="@color/Louie" />
-
-                        <TextView
-                            android:id="@+id/txtRentDate"
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txtQuantity"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/rentDate"
-                            android:text="Rent Date"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:enabled="false"/>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dip" >
-
-                        <ImageView
-                            android:id="@+id/rentExpiry"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_below="@id/rentDate"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/input_status_small"
-                            android:tint="@color/Louie" />
-
-                        <TextView
-                            android:id="@+id/txtRentExpiry"
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txtRentDate"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toRightOf="@+id/rentExpiry"
-                            android:text="Rent Expiry"
-                            android:textColorHint="@color/Black"
-                            android:textColor="@color/Black"
-                            android:textSize="18sp"
-                            android:background="@drawable/textbox"
-                            android:padding="10dp"
-                            android:enabled="false"/>
-
-                    </TableRow>
-
-                </TableLayout>
-
+                <TextView
+                    android:id="@+id/txtRentExpiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtRentDate"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/rentExpiry"
+                    android:background="@drawable/textbox"
+                    android:enabled="false"
+                    android:padding="10dp"
+                    android:text="Rent Expiry"
+                    android:textColor="@color/Black"
+                    android:textColorHint="@color/Black"
+                    android:textSize="18sp" />
             </RelativeLayout>
-
-        </RelativeLayout>
-
-    </ScrollView>
+        </ScrollView>
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

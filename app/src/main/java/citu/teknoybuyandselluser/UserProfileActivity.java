@@ -97,7 +97,7 @@ public class UserProfileActivity extends BaseActivity {
         data.put(Constants.User.NEW_PASSWORD, newPassword);
         data.put(Constants.User.CONFIRM_PASSWORD, confirmNewPassword);
         if(mImgInfo != null) {
-            data.put(Constants.PICTURE, mImgInfo.getLink());
+            data.put(Constants.User.PICTURE, mImgInfo.getLink());
         }
 
         mProgressDialog.setIndeterminate(true);

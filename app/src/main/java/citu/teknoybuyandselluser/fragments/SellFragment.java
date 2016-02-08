@@ -43,15 +43,18 @@ import io.realm.RealmResults;
 public class SellFragment extends Fragment {
     private static final String TAG = "SellFragment";
 
-    private SellItemsAdapter itemsAdapter;
-    private ProgressBar progressBar;
     private ItemsRefreshBroadcastReceiver receiver;
+    private RealmResults<SellItem> items;
+    private SellItemsAdapter itemsAdapter;
+
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView txtMessage;
+
     private String user;
 
-    public SellFragment() {
-    }
+    public SellFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,29 +68,21 @@ public class SellFragment extends Fragment {
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        receiver = new ItemsRefreshBroadcastReceiver();
-
-        TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-        Realm realm = Realm.getDefaultInstance();
-
-        RealmResults<SellItem> items = realm.where(SellItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
-
-        if(items.isEmpty()) {
-            Log.e(TAG, "No items cached" + items.size());
-            //progressBar.setVisibility(View.VISIBLE);
-            txtMessage.setVisibility(View.VISIBLE);
-            txtMessage.setText(getResources().getString(R.string.no_items_to_sell));
-        } else
-            txtMessage.setVisibility(View.GONE);
-
-        itemsAdapter = new SellItemsAdapter(items);
         recyclerView = (RecyclerView) view.findViewById(R.id.listViewSellItems);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        txtMessage = (TextView) view.findViewById(R.id.txtMessage);
+
+        Realm realm = Realm.getDefaultInstance();
+        items = realm.where(SellItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
+        itemsAdapter = new SellItemsAdapter(items);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).build());
         recyclerView.setAdapter(itemsAdapter);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -103,12 +98,11 @@ public class SellFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(getActivity().getBaseContext(), SellItemActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getActivity().getBaseContext(), SellItemActivity.class));
             }
         });
 
+        receiver = new ItemsRefreshBroadcastReceiver();
 
         return view;
     }
@@ -135,6 +129,18 @@ public class SellFragment extends Fragment {
         Intent intent = new Intent(getActivity().getBaseContext(), ItemsToSellService.class);
         intent.putExtra(Constants.User.USERNAME, user);
         getActivity().startService(intent);
+        txtMessage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void showHideErrorMessage() {
+        if(items.isEmpty()) {
+            Log.e(TAG, "No items to sell cached" + items.size());
+            txtMessage.setVisibility(View.VISIBLE);
+            txtMessage.setText(getResources().getString(R.string.no_items_to_sell));
+        } else {
+            txtMessage.setVisibility(View.GONE);
+        }
     }
 
     private class ItemsRefreshBroadcastReceiver extends BroadcastReceiver {
@@ -143,6 +149,7 @@ public class SellFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
+            showHideErrorMessage();
             itemsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
             if (intent.getIntExtra(Constants.RESULT, 0) == -1) {

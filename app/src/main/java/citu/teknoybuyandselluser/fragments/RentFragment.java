@@ -40,11 +40,16 @@ import io.realm.RealmResults;
 
 public class RentFragment extends Fragment {
     private static final String TAG = "RentFragment";
-    private RentItemsAdapter itemsAdapter;
-    private ProgressBar progressBar;
+
     private ItemsRefreshBroadcastReceiver receiver;
+    private RealmResults<RentItem> items;
+    private RentItemsAdapter itemsAdapter;
+
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView txtMessage;
+
     private String user;
 
     public RentFragment() {}
@@ -61,24 +66,16 @@ public class RentFragment extends Fragment {
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        receiver = new ItemsRefreshBroadcastReceiver();
-
-        TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-        Realm realm = Realm.getDefaultInstance();
-
-        RealmResults<RentItem> items = realm.where(RentItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
-
-        if(items.isEmpty()) {
-            Log.e(TAG, "No items cached" + items.size());
-            //progressBar.setVisibility(View.VISIBLE);
-            txtMessage.setVisibility(View.VISIBLE);
-            txtMessage.setText(getResources().getString(R.string.no_items_for_rent));
-        }
-
-        itemsAdapter = new RentItemsAdapter(items);
         recyclerView = (RecyclerView) view.findViewById(R.id.listViewRentItems);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        txtMessage = (TextView) view.findViewById(R.id.txtMessage);
+
+        Realm realm = Realm.getDefaultInstance();
+        items = realm.where(RentItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
+        itemsAdapter = new RentItemsAdapter(items);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).build());
@@ -99,15 +96,14 @@ public class RentFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(getActivity().getBaseContext(), ForRentItemActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getActivity().getBaseContext(), ForRentItemActivity.class));
             }
         });
+
+        receiver = new ItemsRefreshBroadcastReceiver();
+
         return view;
     }
-
-
 
     @Override
     public void onResume() {
@@ -132,6 +128,18 @@ public class RentFragment extends Fragment {
         Intent intent = new Intent(activity.getBaseContext(), ItemsForRentService.class);
         intent.putExtra(Constants.User.USERNAME, user);
         activity.startService(intent);
+        txtMessage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void showHideErrorMessage() {
+        if(items.isEmpty()) {
+            Log.e(TAG, "No items for rent cached" + items.size());
+            txtMessage.setVisibility(View.VISIBLE);
+            txtMessage.setText(getResources().getString(R.string.no_items_for_rent));
+        } else {
+            txtMessage.setVisibility(View.GONE);
+        }
     }
 
     private class ItemsRefreshBroadcastReceiver extends BroadcastReceiver {
@@ -140,6 +148,7 @@ public class RentFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
+            showHideErrorMessage();
             itemsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
             if (intent.getIntExtra(Constants.RESULT, 0) == -1) {

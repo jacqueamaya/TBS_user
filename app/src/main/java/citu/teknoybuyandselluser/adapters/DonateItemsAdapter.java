@@ -13,28 +13,20 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.DonateItemDetailsActivity;
-import citu.teknoybuyandselluser.PendingItemActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.models.DonateItem;
-import citu.teknoybuyandselluser.models.PendingItem;
 import io.realm.RealmResults;
 
 /**
  ** Created by jack on 5/02/16.
  */
 public class DonateItemsAdapter extends RecyclerView.Adapter<DonateItemsAdapter.ItemViewHolder> {
-    private static final String TAG = "DonateItemsAdapter";
 
     private RealmResults<DonateItem> mItems;
 
     public DonateItemsAdapter(RealmResults<DonateItem> items) {
         mItems = items;
-    }
-
-    public void updateData (RealmResults<DonateItem> items) {
-        mItems = items;
-        notifyDataSetChanged();
     }
 
     @Override
