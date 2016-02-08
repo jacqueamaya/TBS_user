@@ -14,6 +14,7 @@ import citu.teknoybuyandselluser.fragments.PendingFragment;
 import citu.teknoybuyandselluser.fragments.RentFragment;
 import citu.teknoybuyandselluser.fragments.RentedFragment;
 import citu.teknoybuyandselluser.fragments.SellFragment;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
@@ -45,6 +46,22 @@ public class MyItemsActivity extends BaseActivity {
         adapter.addFragment(new DonateFragment(), "Donate");
         adapter.addFragment(new RentedFragment(), "Rented");
         viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

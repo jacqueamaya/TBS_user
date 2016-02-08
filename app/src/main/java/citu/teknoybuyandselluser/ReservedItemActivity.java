@@ -43,10 +43,9 @@ public class ReservedItemActivity extends AppCompatActivity {
         int quantity = intent.getIntExtra(Constants.QUANTITY, 0);
         int starsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
         int starsToUse = intent.getIntExtra(Constants.STARS_TO_USE, 0);
-        float discountedPrice = intent.getFloatExtra(Constants.DISCOUNTED_PRICE, 0);
         float payment = intent.getFloatExtra(Constants.PAYMENT, 0);
-        float price = intent.getFloatExtra(Constants.PRICE, 0);
         long reservedDate = intent.getLongExtra(Constants.RESERVED_DATE, 0);
+
         String itemCode = "Item Code: " + intent.getStringExtra(Constants.ITEM_CODE);
         String description = intent.getStringExtra(Constants.DESCRIPTION);
         String picture = intent.getStringExtra(Constants.PICTURE);
@@ -69,16 +68,14 @@ public class ReservedItemActivity extends AppCompatActivity {
         String strQuantity = quantity + "";
 
         txtQuantity.setText(strQuantity);
-        if (price != 0) {
-            if(starsToUse != 0) {
+        if (payment != 0) {
+            if(starsToUse != 0)
                 txtPayment.setText(strPriceWithStarsToUse);
-            } else {
+            else
                 txtPayment.setText(strPriceWithoutStars);
-            }
         }
-        else {
+        else
             txtPayment.setText(strDonated);
-        }
 
         Picasso.with(this)
                 .load(picture)

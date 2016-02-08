@@ -1,163 +1,88 @@
 package citu.teknoybuyandselluser.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
+import citu.teknoybuyandselluser.Constants;
+import citu.teknoybuyandselluser.PendingItemActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.models.Item;
 import citu.teknoybuyandselluser.models.RentedItem;
+import io.realm.RealmResults;
 
 /**
- * Created by Batistil on 1/20/2016.
+ ** Created by Batistil on 1/20/2016.
  */
-public class RentedItemsAdapter extends BaseAdapter implements Filterable {
-    private Context mContext;
-    private int id;
+public class RentedItemsAdapter extends RecyclerView.Adapter<RentedItemsAdapter.ItemViewHolder> {
+    private static final String TAG = "RentedItemsAdapter";
 
-    private ArrayList<RentedItem> mOriginalValues;
-    private ArrayList<RentedItem> mDisplayedValues;
+    private RealmResults<RentedItem> mItems;
 
-    public RentedItemsAdapter(Context context, int textViewResourceId, ArrayList<RentedItem> list) {
-        mContext = context;
-        id = textViewResourceId;
-        mOriginalValues = list;
-        mDisplayedValues = list;
+    public RentedItemsAdapter(RealmResults<RentedItem> items) {
+        mItems = items;
     }
 
     @Override
-    public int getCount() {
-        return mDisplayedValues.size();
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.list_item, parent, false);
+        return new ItemViewHolder(view);
     }
 
     @Override
-    public Object getItem(int position) {
-        return position;
+    public void onBindViewHolder(ItemViewHolder holder, int position) {
+        RentedItem rentedItem = mItems.get(position);
+        holder.itemImage.setImageURI(Uri.parse(rentedItem.getItem().getPicture()));
+        holder.itemName.setText(Utils.capitalize(rentedItem.getItem().getName()));
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public int getItemCount() {
+        return mItems.size();
     }
 
-    @Override
-    public View getView(int position, View v, ViewGroup parent) {
-        RentedItem item  = mDisplayedValues.get(position);
-        View mView = v;
-        if (mView == null) {
-            LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            mView = vi.inflate(id, null);
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        SimpleDraweeView itemImage;
+        TextView itemName;
+
+        public ItemViewHolder(View itemView) {
+            super(itemView);
+
+            itemImage = (SimpleDraweeView) itemView.findViewById(R.id.image);
+            itemName = (TextView) itemView.findViewById(R.id.textViewItem);
+
+            itemView.setOnClickListener(this);
         }
 
-        TextView text = (TextView) mView.findViewById(R.id.textViewItem);
-        ImageView image = (ImageView) mView.findViewById(R.id.image);
-        Picasso.with(mContext)
-                .load(item.getItem().getPicture())
-                .placeholder(R.drawable.thumbsq_24dp)
-                .resize(50, 50)
-                .centerCrop()
-                .into(image);
 
-        String message;
-        message = "<b>" + item.getItem().getName() + "</b>";
-        text.setText(Html.fromHtml(message));
+        @Override
+        public void onClick(View view) {
+            Context context = view.getContext();
+            int position = getAdapterPosition();
+            RentedItem rentedItem = mItems.get(position);
+            Intent intent;
+            intent = new Intent(context, PendingItemActivity.class);
+            intent.putExtra(Constants.Item.ID, rentedItem.getId());
+            intent.putExtra(Constants.Item.ITEM_NAME, rentedItem.getItem().getName());
+            intent.putExtra(Constants.Item.DESCRIPTION, rentedItem.getItem().getDescription());
+            intent.putExtra(Constants.Item.PICTURE, rentedItem.getItem().getPicture());
+            intent.putExtra(Constants.Item.FORMAT_PRICE, Utils.formatFloat(rentedItem.getItem().getPrice()));
+            intent.putExtra(Constants.Item.PENALTY, rentedItem.getPenalty());
+            intent.putExtra(Constants.Item.QUANTITY, rentedItem.getQuantity());
+            intent.putExtra(Constants.Item.RENT_DATE, rentedItem.getRent_date());
+            intent.putExtra(Constants.Item.RENT_EXPIRATION, rentedItem.getRent_expiration());
 
-        return mView;
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results = new FilterResults();
-                List<RentedItem> FilteredArrList = new ArrayList<>();
-                String searchByCategory[] = constraint.toString().split(",");
-
-                if (mOriginalValues == null) {
-                    mOriginalValues = new ArrayList<>(mDisplayedValues); // saves the original data in mOriginalValues
-                }
-
-                if (constraint == "" || constraint.length() == 0 || searchByCategory.length == 0) {
-                    // set the Original result to return
-                    results.count = mOriginalValues.size();
-                    results.values = mOriginalValues;
-                } else {
-                    for (int i = 0; i < mOriginalValues.size(); i++) {
-                        String name = mOriginalValues.get(i).getItem().getName();
-                        String category = mOriginalValues.get(i).getItem().getCategory().getCategory_name();
-                        if(searchByCategory.length == 2) {
-                            if (category.equals(searchByCategory[1]) && name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
-                                FilteredArrList.add(mOriginalValues.get(i));
-                            }
-                        } else {
-                            if (category.equals(constraint.toString()) || name.toLowerCase().contains(searchByCategory[0].toLowerCase())) {
-                                FilteredArrList.add(mOriginalValues.get(i));
-                            }
-                        }
-                        // set the Filtered result to return
-                        results.count = FilteredArrList.size();
-                        results.values = FilteredArrList;
-                    }
-                }
-
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                mDisplayedValues = (ArrayList<RentedItem>) results.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
-
-    public List<RentedItem> getDisplayView() {
-        return mDisplayedValues;
-    }
-
-    public void sortItems(String sortBy) {
-        switch (sortBy) {
-            case "price":
-                Comparator<RentedItem> priceComparator = new Comparator<RentedItem>() {
-                    public int compare(RentedItem obj1, RentedItem obj2) {
-                        return obj1.getItem().getPrice() < obj2.getItem().getPrice() ? -1 : obj1.getItem().getPrice() > obj2.getItem().getPrice() ? 1 : 0;
-                    }
-                };
-                Collections.sort(mDisplayedValues, priceComparator);
-                break;
-            case "name":
-                Comparator<RentedItem> nameComparator = new Comparator<RentedItem>() {
-                    public int compare(RentedItem obj1, RentedItem obj2) {
-                        return obj1.getItem().getName().compareTo(obj2.getItem().getName());
-                    }
-                };
-                Collections.sort(mDisplayedValues, nameComparator);
-                break;
-            default:
-                Comparator<RentedItem> dateComparator = new Comparator<RentedItem>() {
-                    public int compare(RentedItem obj1, RentedItem obj2) {
-                        return Utils.parseDate(obj1.getItem().getDate_approved()).compareTo(Utils.parseDate(obj2.getItem().getDate_approved()));
-                    }
-                };
-                Collections.sort(mDisplayedValues, Collections.reverseOrder(dateComparator));
-                break;
+            context.startActivity(intent);
         }
-        notifyDataSetChanged();
     }
 }

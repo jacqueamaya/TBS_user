@@ -13,11 +13,14 @@ import java.util.Date;
 
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.Utils;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Jacquelyn on 9/20/2015.
  */
-public class Item {
+public class Item extends RealmObject{
+    @PrimaryKey
     private int id;
     private UserProfile owner;
     private String name;
@@ -27,6 +30,7 @@ public class Item {
     private String purpose;
     private float price;
     private int quantity;
+    private int reserved_quantity;
     private String picture;
     private int stars_required;
     private int stars_to_use;
@@ -84,7 +88,7 @@ public class Item {
         return purpose;
     }
 
-    public void He (String purpose) {
+    public void setPurpose(String purpose) {
         this.purpose = purpose;
     }
 
@@ -102,6 +106,14 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getReserved_quantity() {
+        return reserved_quantity;
+    }
+
+    public void setReserved_quantity(int reserved_quantity) {
+        this.reserved_quantity = reserved_quantity;
     }
 
     public String getPicture() {

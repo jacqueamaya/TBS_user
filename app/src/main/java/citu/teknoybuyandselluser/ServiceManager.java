@@ -12,7 +12,7 @@ import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
 /**
- * Created by jack on 1/02/16.
+ ** Created by jack on 1/02/16.
  */
 public class ServiceManager {
     private static TBSUserInterface SOLE_INSTANCE;

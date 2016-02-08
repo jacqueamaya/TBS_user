@@ -92,12 +92,6 @@
                 android:text="@string/log_in"
                 android:textColor="@color/White" />
 
-            <ProgressBar
-                android:id="@+id/progressGetUser"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:indeterminate="true" />
         </FrameLayout>
     </LinearLayout>
 

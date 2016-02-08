@@ -2,14 +2,19 @@ package citu.teknoybuyandselluser.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.List;
 
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ServiceManager;
 import citu.teknoybuyandselluser.models.ResponseStatus;
+import citu.teknoybuyandselluser.models.Student;
+import citu.teknoybuyandselluser.models.User;
+import citu.teknoybuyandselluser.models.UserProfile;
 import retrofit.Call;
 import retrofit.Response;
 
@@ -22,6 +27,7 @@ public class LoginService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.e(TAG, "handle intent");
         String username = intent.getStringExtra(Constants.User.USERNAME);
         String password = intent.getStringExtra(Constants.User.PASSWORD);
 
@@ -38,27 +44,58 @@ public class LoginService extends IntentService {
                 String statusText = status.getStatusText();
                 if (status.getStatus() == HttpURLConnection.HTTP_OK) {
                     Log.i(TAG, "status code: " + status.getStatus());
-                    Log.i(TAG, "Login Success: " + statusText);
-                    notifySuccess(statusText);
+                    getUser(service, username);
                 } else {
                     Log.e(TAG, "Login Error: " + statusText);
-                    notifyFailure(statusText);
+                    notifyFailure("Invalid username or password");
                 }
             } else {
                 Log.e(TAG, "HTTP " + statusCode);
                 Log.e(TAG, response.errorBody().string());
-                notifyFailure(response.errorBody().string());
+                notifyFailure("Invalid username or password");
             }
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
-            notifyFailure(e.getMessage());
+            notifyFailure("Unable to connect to server");
         }
     }
 
-    protected void notifySuccess(String responseBody) {
+    protected void getUser(TBSUserInterface service, String username) {
+        try {
+            Log.e(TAG, username);
+            Call<List<UserProfile>> call = service.getUser(username);
+            Response<List<UserProfile>> response = call.execute();
+
+            if(response.code() == HttpURLConnection.HTTP_OK){
+                List<UserProfile> user = response.body();
+                Log.e(TAG, response.body().toString());
+
+                UserProfile userProfile = user.get(0);
+                notifySuccess(userProfile);
+                Log.e(TAG, "Successful login");
+            }else{
+                String error = response.errorBody().string();
+                Log.e(TAG, "Get user Error: " + error);
+                notifyFailure("User not found");
+            }
+
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage(), e);
+            notifyFailure("Unable to connect to server");
+        }
+    }
+
+    protected void notifySuccess(UserProfile userProfile) {
+        Student student = userProfile.getStudent();
+        User user = userProfile.getUser();
         Intent intent = new Intent(LoginService.class.getCanonicalName());
         intent.putExtra(Constants.RESULT, 1);
-        intent.putExtra(Constants.RESPONSE, responseBody);
+        intent.putExtra(Constants.User.USERNAME, user.getUsername());
+        intent.putExtra(Constants.User.USERNAME, user.getUsername());
+        intent.putExtra(Constants.User.FIRST_NAME, student.getFirst_name());
+        intent.putExtra(Constants.User.LAST_NAME, student.getLast_name());
+        intent.putExtra(Constants.User.STARS_COLLECTED, userProfile.getStars_collected());
+        intent.putExtra(Constants.User.PICTURE, userProfile.getPicture());
         sendBroadcast(intent);
     }
 

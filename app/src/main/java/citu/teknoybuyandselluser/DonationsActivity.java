@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import citu.teknoybuyandselluser.adapters.GridAdapter;
 import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 
 public class DonationsActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
     private ProgressBar progressBar;

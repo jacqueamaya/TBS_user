@@ -38,12 +38,19 @@
                 android:textSize="20sp"
                 android:visibility="gone" />
 
-            <ListView
-                android:id="@+id/listViewNotif"
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:color="@color/Gray" />
+                android:layout_alignParentTop="true">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/listViewNotif"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:color="@color/Gray" />
+
+            </android.support.v4.widget.SwipeRefreshLayout>
         </RelativeLayout>
     </LinearLayout>
 

@@ -197,10 +197,6 @@ public class Server {
         Ajax.get(Constants.URL_RENTED_ITEMS + "/?username=" + username, progress, callbacks);
     }
 
-    public static void getAllReservations (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
-        Ajax.get(Constants.URL_RESERVED_ITEMS + "/?username=" + username, progress, callbacks);
-    }
-
     public static void getReservedItemsOnSale (String username, ProgressBar progress, Ajax.Callbacks callbacks) {
         Ajax.get(Constants.URL_RESERVED_ITEMS_ON_SALE + "/?username=" + username, progress, callbacks);
     }

@@ -1,33 +1,35 @@
 package citu.teknoybuyandselluser.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import java.util.ArrayList;
-
-import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.ExpirationCheckerService;
+import citu.teknoybuyandselluser.adapters.ReservedItemsToDonateAdapter;
+import citu.teknoybuyandselluser.models.ReservedItemToDonate;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 import citu.teknoybuyandselluser.R;
-import citu.teknoybuyandselluser.ReservedItemActivity;
-import citu.teknoybuyandselluser.Server;
-import citu.teknoybuyandselluser.adapters.ReservedItemsAdapter;
-import citu.teknoybuyandselluser.models.ReservedItem;
+import citu.teknoybuyandselluser.services.ReservedItemsToDonateService;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  ** 0.01 Initial Codes                                          - J. Pedrano    - 12/24/2015
@@ -36,11 +38,13 @@ import citu.teknoybuyandselluser.models.ReservedItem;
 
 public class ItemsForDonationFragment extends Fragment {
     private static final String TAG = "Items For Donation";
-    private View view = null;
 
+    private ReservedItemsToDonateAdapter itemsAdapter;
+    private ProgressBar progressBar;
+    private ItemsRefreshBroadcastReceiver receiver;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private String user;
-
-    private Gson gson = new Gson();
 
     public ItemsForDonationFragment() {}
 
@@ -52,77 +56,84 @@ public class ItemsForDonationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_items_for_donation, container, false);
+        View view = inflater.inflate(R.layout.fragment_items_for_donation, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
 
-        getReservedItemsForDonation();
-        return view;
-    }
+        progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        receiver = new ItemsRefreshBroadcastReceiver();
 
-    public void getReservedItemsForDonation() {
+        Realm realm = Realm.getDefaultInstance();
+        TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
 
-        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
-        progressBar.setVisibility(View.GONE);
+        RealmResults<ReservedItemToDonate> items = realm.where(ReservedItemToDonate.class).equalTo(Constants.Item.BUYER_USER_USERNAME, user).findAll();
 
-        Server.getReservedItemsForDonation(user, progressBar, new Ajax.Callbacks() {
+        if(items.isEmpty()) {
+            Log.e(TAG, "No items cached" + items.size());
+            //progressBar.setVisibility(View.VISIBLE);
+            txtMessage.setVisibility(View.VISIBLE);
+            txtMessage.setText(getResources().getString(R.string.no_reserved_items_for_donation));
+        } else {
+            txtMessage.setVisibility(View.GONE);
+        }
+
+        itemsAdapter = new ReservedItemsToDonateAdapter(items);
+        recyclerView = (RecyclerView) view.findViewById(R.id.listViewItemsForDonation);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).build());
+        recyclerView.setAdapter(itemsAdapter);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void success(String responseBody) {
-                ArrayList<ReservedItem> reservations = gson.fromJson(responseBody, new TypeToken<ArrayList<ReservedItem>>(){}.getType());
-
-                    ListView lv = (ListView) view.findViewById(R.id.listViewItemsForDonation);
-                    TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                    if (reservations.size() == 0) {
-                        txtMessage.setText(getResources().getString(R.string.no_reserved_items_for_donation));
-                        txtMessage.setVisibility(View.VISIBLE);
-                        lv.setVisibility(View.GONE);
-                    } else {
-                        txtMessage.setVisibility(View.GONE);
-                        ReservedItemsAdapter listAdapter = new ReservedItemsAdapter(getActivity().getBaseContext(), R.layout.list_item, reservations);
-                        lv.setVisibility(View.VISIBLE);
-                        lv.setAdapter(listAdapter);
-                        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                ReservedItem reservation = (ReservedItem) parent.getItemAtPosition(position);
-
-                                Intent intent;
-                                intent = new Intent(getActivity().getBaseContext(), ReservedItemActivity.class);
-                                intent.putExtra(Constants.ID, reservation.getItem().getId());
-                                intent.putExtra(Constants.RESERVATION_ID, reservation.getId());
-                                intent.putExtra(Constants.ITEM_CODE, reservation.getItem_code());
-                                intent.putExtra(Constants.ITEM_NAME, reservation.getItem().getName());
-                                intent.putExtra(Constants.DESCRIPTION, reservation.getItem().getDescription());
-                                intent.putExtra(Constants.PAYMENT, reservation.getPayment());
-                                intent.putExtra(Constants.PRICE, reservation.getItem().getPrice());
-                                intent.putExtra(Constants.QUANTITY, reservation.getQuantity());
-                                intent.putExtra(Constants.STARS_REQUIRED, reservation.getItem().getStars_required());
-                                intent.putExtra(Constants.STARS_TO_USE, reservation.getStars_to_use());
-                                intent.putExtra(Constants.PICTURE, reservation.getItem().getPicture());
-                                intent.putExtra(Constants.RESERVED_DATE, reservation.getReserved_date());
-
-                                startActivity(intent);
-                            }
-                        });
-                    }
-            }
-
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Log.v(TAG, "Request error");
-                Toast.makeText(getActivity().getBaseContext(), "Unable to connect to server", Toast.LENGTH_SHORT).show();
+            public void onRefresh() {
+                Toast.makeText(getActivity(), "Refreshing ...", Toast.LENGTH_SHORT).show();
+                // call this after refreshing is done
+                callReservedItemsForDonationService();
+                itemsAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getReservedItemsForDonation();
+        callReservedItemsForDonationService();
 
-        Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
-        service.putExtra(Constants.User.USERNAME, user);
-        getActivity().startService(service);
+        FragmentActivity activity = getActivity();
+        activity.registerReceiver(receiver, new IntentFilter(ReservedItemsToDonateService.class.getCanonicalName()));
+        itemsAdapter.notifyDataSetChanged();
+
+        activity.startService(new Intent(activity, ExpirationCheckerService.class));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(receiver);
+    }
+
+    public void callReservedItemsForDonationService() {
+        Intent intent = new Intent(getActivity().getBaseContext(), ReservedItemsToDonateService.class);
+        intent.putExtra(Constants.User.USERNAME, user);
+        getActivity().startService(intent);
+    }
+
+    private class ItemsRefreshBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            itemsAdapter.notifyDataSetChanged();
+            Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
+            if (intent.getIntExtra(Constants.RESULT, 0) == -1) {
+                Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 }
