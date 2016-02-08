@@ -38,8 +38,11 @@ public class SellItemDetailsActivity extends AppCompatActivity {
 
         txtItem.setText(itemName);
         txtDescription.setText(description);
-        txtPrice.setText("" + formatPrice);
-        txtQuantity.setText("" + quantity);
+        txtPrice.setText("Php" + formatPrice);
+        if (quantity == 1)
+            txtQuantity.setText("" + quantity + "pc.");
+        else
+            txtQuantity.setText("" + quantity + "pcs.");
 
         Picasso.with(this)
                 .load(picture)

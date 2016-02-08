@@ -40,7 +40,11 @@ public class DonateItemDetailsActivity extends AppCompatActivity {
         txtTitle.setText(itemName);
         txtDescription.setText(description);
         txtNumStars.setText("" + starsRequired);
-        txtQuantity.setText("" + quantity);
+
+        if (quantity == 1)
+            txtQuantity.setText("" + quantity + "pc.");
+        else
+            txtQuantity.setText("" + quantity + "pcs.");
 
         Picasso.with(this)
                 .load(picture)

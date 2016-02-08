@@ -38,7 +38,7 @@ public class RentedItemDetailActivity extends AppCompatActivity {
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
-        ImageView imgPenalty = (ImageView) findViewById(R.id.penalty);
+        TextView lblPenalty = (TextView) findViewById(R.id.lblPenalty);
         TextView txtPenalty = (TextView) findViewById(R.id.txtPenalty);
         TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
         TextView txtRentDate = (TextView) findViewById(R.id.txtRentDate);
@@ -47,16 +47,23 @@ public class RentedItemDetailActivity extends AppCompatActivity {
 
         txtItem.setText(itemName);
         txtDescription.setText(description);
-        txtPrice.setText("" + formatPrice);
+        txtPrice.setText("Php" + formatPrice);
         if(penalty != 0) {
-            imgPenalty.setVisibility(View.VISIBLE);
+            //imgPenalty.setVisibility(View.VISIBLE);
+            lblPenalty.setVisibility(View.VISIBLE);
             txtPenalty.setVisibility(View.VISIBLE);
             txtPenalty.setText(strPenalty);
         } else {
-            imgPenalty.setVisibility(View.GONE);
+            //imgPenalty.setVisibility(View.GONE);
+            lblPenalty.setVisibility(View.GONE);
             txtPenalty.setVisibility(View.GONE);
         }
-        txtQuantity.setText("" + quantity);
+
+        if (quantity == 1)
+            txtQuantity.setText("" + quantity + "pc.");
+        else
+            txtQuantity.setText("" + quantity + "pcs.");
+
         txtRentDate.setText("Rent Date: " + Utils.parseDate(rentDate));
         txtRentExpiry.setText("Rent Expiration: " + Utils.parseDate(rentExpiration));
 
