@@ -1,19 +1,21 @@
 package citu.teknoybuyandselluser.models;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Batistil on 12/28/2015.
  */
-public class UserProfile {
-    private Users user;
+public class UserProfile extends RealmObject{
+    private User user;
     private Student student;
     private int stars_collected;
     private String picture;
 
-    public Users getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Users user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

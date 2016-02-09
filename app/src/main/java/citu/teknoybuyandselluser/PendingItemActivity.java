@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -40,8 +39,8 @@ public class PendingItemActivity extends AppCompatActivity {
     private EditText mTxtItem;
     private EditText mTxtDescription;
     private EditText mTxtPrice;
-    private ImageView mImgPreview;
     private ProgressDialog mProgressDialog;
+    private SimpleDraweeView mImgPreview;
 
     private int mItemId;
     private float mPrice;
@@ -64,12 +63,12 @@ public class PendingItemActivity extends AppCompatActivity {
 
         Intent intent;
         intent = getIntent();
-        mItemId = intent.getIntExtra(Constants.ID, 0);
-        mItemName = intent.getStringExtra(Constants.ITEM_NAME);
-        mDescription = intent.getStringExtra(Constants.DESCRIPTION);
-        mPrice = intent.getFloatExtra(Constants.PRICE, 0);
-        mPicture = intent.getStringExtra(Constants.PICTURE);
-        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        mItemId = intent.getIntExtra(Constants.Item.ID, 0);
+        mItemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        mDescription = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        mPrice = intent.getFloatExtra(Constants.Item.PRICE, 0);
+        mPicture = intent.getStringExtra(Constants.Item.PICTURE);
+        String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
         mPurpose = intent.getStringExtra("purpose");
 
         mTxtItem = (EditText) findViewById(R.id.txtItem);
@@ -81,13 +80,15 @@ public class PendingItemActivity extends AppCompatActivity {
 
         mTxtItem.setText(mItemName);
         mTxtDescription.setText(mDescription);
+        String strPrice;
         if(mPrice == 0.0) {
-            mTxtPrice.setText("(To Donate)");
+            strPrice = "(To Donate)";
             mTxtPrice.setEnabled(false);
         } else {
-            mTxtPrice.setText("" + formatPrice);
+            strPrice = "" + formatPrice;
             mTxtPrice.setEnabled(true);
         }
+        mTxtPrice.setText(strPrice);
 
         Picasso.with(this)
                 .load(mPicture)
@@ -145,14 +146,14 @@ public class PendingItemActivity extends AppCompatActivity {
         if(name.equals(mItemName) && desc.equals(mDescription) && price == mPrice && mImgInfo == null) {
             Toast.makeText(PendingItemActivity.this, "No changes have been made", Toast.LENGTH_SHORT).show();
         } else {
-            data.put(Constants.OWNER, user);
-            data.put(Constants.ID, ""+mItemId);
+            data.put(Constants.Item.OWNER, user);
+            data.put(Constants.Item.ID, ""+mItemId);
 
-            data.put(Constants.NAME, name);
-            data.put(Constants.DESCRIPTION, desc);
-            data.put(Constants.PRICE, "" + price);
+            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.DESCRIPTION, desc);
+            data.put(Constants.Item.PRICE, "" + price);
             if(mImgInfo != null) {
-                data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+                data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
             }
 
             mProgressDialog.setIndeterminate(true);
@@ -203,8 +204,8 @@ public class PendingItemActivity extends AppCompatActivity {
     public void deleteItem () {
         Map<String, String> data = new HashMap<>();
         String userName = getUserName();
-        data.put(Constants.OWNER, userName);
-        data.put(Constants.ID, "" + mItemId);
+        data.put(Constants.Item.OWNER, userName);
+        data.put(Constants.Item.ID, "" + mItemId);
 
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Please wait. . .");

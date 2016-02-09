@@ -55,12 +55,12 @@ public class BuyItemActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
 
         intent = getIntent();
-        int itemId = intent.getIntExtra(Constants.ID, 0);
-        mItemQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
+        int itemId = intent.getIntExtra(Constants.Item.ID, 0);
+        mItemQuantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
         String strAvailableQuantity = mItemQuantity + "";
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        String formatPrice = "Php " + intent.getStringExtra(Constants.FORMAT_PRICE);
-        String picture = intent.getStringExtra(Constants.PICTURE);
+        String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        String formatPrice = "Php " + intent.getStringExtra(Constants.Item.FORMAT_PRICE);
+        String picture = intent.getStringExtra(Constants.Item.PICTURE);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtAvailableQuantity = (TextView) findViewById(R.id.txtAvailableQuantity);
@@ -72,7 +72,7 @@ public class BuyItemActivity extends AppCompatActivity {
         Button btnBuyItem = (Button) findViewById(R.id.btnBuyItem);
         SimpleDraweeView imgItem = (SimpleDraweeView) findViewById(R.id.imgItem);
 
-        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
+        String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
         txtItem.setText(itemName);
         txtAvailableQuantity.setText(strAvailableQuantity);
         txtDescription.setText(description);
@@ -85,8 +85,8 @@ public class BuyItemActivity extends AppCompatActivity {
 
         setTitle(itemName);
         data = new HashMap<>();
-        data.put(Constants.BUYER, getUserName());
-        data.put(Constants.ID, "" + itemId);
+        data.put(Constants.Item.BUYER, getUserName());
+        data.put(Constants.Item.ID, "" + itemId);
 
         btnBuyItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,11 +108,11 @@ public class BuyItemActivity extends AppCompatActivity {
             quantity = Integer.parseInt(txtQuantity.getText().toString());
 
         if(quantity <= mItemQuantity && quantity > 0) {
-            data.put(Constants.QUANTITY, quantity + "");
+            data.put(Constants.Item.QUANTITY, quantity + "");
             if (mRdWithDiscount.isChecked())
                 buyWithDiscount(progressDialog);
             else {
-                data.put(Constants.STARS_TO_USE, "");
+                data.put(Constants.Item.STARS_TO_USE, "");
                 buyItem(progressDialog);
             }
         } else
@@ -126,7 +126,7 @@ public class BuyItemActivity extends AppCompatActivity {
                 try {
                     JSONObject json = new JSONObject(responseBody);
                     if (json.getInt("status") == 201) {
-                        Toast.makeText(BuyItemActivity.this, intent.getStringExtra(Constants.ITEM_NAME) + " is now reserved.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BuyItemActivity.this, intent.getStringExtra(Constants.Item.ITEM_NAME) + " is now reserved.", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         Toast.makeText(BuyItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
@@ -148,7 +148,7 @@ public class BuyItemActivity extends AppCompatActivity {
         buyItem.setTitle("Buy With Discount");
         buyItem.setIcon(R.drawable.ic_star_black_24dp);
 
-        float price = intent.getFloatExtra(Constants.PRICE, 0);
+        float price = intent.getFloatExtra(Constants.Item.PRICE, 0);
         int starsCollected = getUserStarsCollected();
 
         int starsToUse = getStarsToUse();
@@ -171,7 +171,7 @@ public class BuyItemActivity extends AppCompatActivity {
                     .setCancelable(true)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            data.put(Constants.STARS_TO_USE, "" + getStarsToUse());
+                            data.put(Constants.Item.STARS_TO_USE, "" + getStarsToUse());
                             buyItem(progressDialog);
                         }
                     })

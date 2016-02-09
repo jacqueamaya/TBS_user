@@ -1,9 +1,13 @@
 package citu.teknoybuyandselluser.models;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Batistil on 12/28/2015.
  */
-public class Student {
+public class Student extends RealmObject{
+    @PrimaryKey
     private String id_number;
     private String first_name;
     private String last_name;

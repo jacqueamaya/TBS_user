@@ -1,36 +1,37 @@
 package citu.teknoybuyandselluser.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import java.util.ArrayList;
-
-import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.ExpirationCheckerService;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 import citu.teknoybuyandselluser.ForRentItemActivity;
 import citu.teknoybuyandselluser.R;
-import citu.teknoybuyandselluser.RentItemDetailsActivity;
-import citu.teknoybuyandselluser.Server;
-import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.adapters.ItemsListAdapter;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.adapters.RentItemsAdapter;
+import citu.teknoybuyandselluser.models.RentItem;
+import citu.teknoybuyandselluser.services.ItemsForRentService;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  ** 0.01 Initial Codes                          - J. Pedrano    - 12/24/2015
@@ -38,12 +39,18 @@ import citu.teknoybuyandselluser.models.Item;
  */
 
 public class RentFragment extends Fragment {
-    private View view = null;
-    private ItemsListAdapter listAdapter;
+    private static final String TAG = "RentFragment";
+
+    private ItemsRefreshBroadcastReceiver receiver;
+    private RealmResults<RentItem> items;
+    private RentItemsAdapter itemsAdapter;
+
+    private ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView txtMessage;
 
     private String user;
-
-    private Gson gson = new Gson();
 
     public RentFragment() {}
 
@@ -55,82 +62,98 @@ public class RentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_rent, container, false);
+        View view = inflater.inflate(R.layout.fragment_rent, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
 
-        getRentItems();
+        progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
+        recyclerView = (RecyclerView) view.findViewById(R.id.listViewRentItems);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        txtMessage = (TextView) view.findViewById(R.id.txtMessage);
+
+        Realm realm = Realm.getDefaultInstance();
+        items = realm.where(RentItem.class).equalTo(Constants.Item.OWNER_USER_USERNAME, user).findAll();
+        itemsAdapter = new RentItemsAdapter(items);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).build());
+        recyclerView.setAdapter(itemsAdapter);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getActivity(), "Refreshing ...", Toast.LENGTH_SHORT).show();
+                // call this after refreshing is done
+                callItemsForRentService();
+                itemsAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(getActivity().getBaseContext(), ForRentItemActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getActivity().getBaseContext(), ForRentItemActivity.class));
             }
         });
+
+        receiver = new ItemsRefreshBroadcastReceiver();
+
         return view;
-    }
-
-    public void getRentItems() {
-
-        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
-        progressBar.setVisibility(View.GONE);
-
-        Server.getItemsForRent(user, progressBar, new Ajax.Callbacks() {
-            @Override
-            public void success(String responseBody) {
-                ArrayList<Item> mOwnedItems = gson.fromJson(responseBody, new TypeToken<ArrayList<Item>>(){}.getType());
-                ListView listView;
-
-                    TextView txtMessage = (TextView) view.findViewById(R.id.txtMessage);
-                    listView = (ListView) view.findViewById(R.id.listViewRentItems);
-                    if (mOwnedItems.size() == 0) {
-                        txtMessage.setText(getResources().getString(R.string.no_items_for_rent));
-                        txtMessage.setVisibility(View.VISIBLE);
-                        listView.setVisibility(View.GONE);
-                    } else {
-                        txtMessage.setVisibility(View.GONE);
-                        listAdapter = new ItemsListAdapter(getActivity().getBaseContext(), R.layout.list_item, mOwnedItems);
-                        listView.setVisibility(View.VISIBLE);
-                        listView.setAdapter(listAdapter);
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Item item = listAdapter.getDisplayView().get(position);
-
-                                Intent intent;
-                                intent = new Intent(getActivity().getBaseContext(), RentItemDetailsActivity.class);
-                                intent.putExtra(Constants.ID, item.getId());
-                                intent.putExtra(Constants.ITEM_NAME, item.getName());
-                                intent.putExtra(Constants.DESCRIPTION, item.getDescription());
-                                intent.putExtra(Constants.PICTURE, item.getPicture());
-                                intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
-                                intent.putExtra(Constants.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
-                                intent.putExtra(Constants.QUANTITY, item.getQuantity());
-                                intent.putExtra(Constants.STATUS, item.getStatus());
-                                startActivity(intent);
-                            }
-                        });
-                    }
-            }
-
-            @Override
-            public void error(int statusCode, String responseBody, String statusText) {
-                Toast.makeText(getActivity().getBaseContext(), "Unable to connect to server", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getRentItems();
+        callItemsForRentService();
 
-        Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
-        service.putExtra(Constants.User.USERNAME, user);
-        getActivity().startService(service);
+        FragmentActivity activity = getActivity();
+        activity.registerReceiver(receiver, new IntentFilter(ItemsForRentService.class.getCanonicalName()));
+        itemsAdapter.notifyDataSetChanged();
+
+        activity.startService(new Intent(activity, ExpirationCheckerService.class));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(receiver);
+    }
+
+    public void callItemsForRentService() {
+        FragmentActivity activity = getActivity();
+        Intent intent = new Intent(activity.getBaseContext(), ItemsForRentService.class);
+        intent.putExtra(Constants.User.USERNAME, user);
+        activity.startService(intent);
+        txtMessage.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void showHideErrorMessage() {
+        if(items.isEmpty()) {
+            Log.e(TAG, "No items for rent cached" + items.size());
+            txtMessage.setVisibility(View.VISIBLE);
+            txtMessage.setText(getResources().getString(R.string.no_items_for_rent));
+        } else {
+            txtMessage.setVisibility(View.GONE);
+        }
+    }
+
+    private class ItemsRefreshBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            showHideErrorMessage();
+            itemsAdapter.notifyDataSetChanged();
+            Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
+            if (intent.getIntExtra(Constants.RESULT, 0) == -1) {
+                Snackbar.make(recyclerView, "No internet connection", Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 }

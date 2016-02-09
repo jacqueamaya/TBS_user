@@ -67,26 +67,44 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_cash_multiple_white"
+                                android:tint="@color/colorAccent"
+                                android:paddingTop="16dp"
+                                android:paddingLeft="18dp"
+                                android:paddingRight="5dp"/>
+
                             <TextView
                                 android:id="@+id/txtPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:drawableLeft="@drawable/ic_coins"
-                                android:padding="16dp"
+                                android:paddingTop="16dp"
+                                android:paddingRight="16dp"
                                 android:text="0.0"
-                                android:textColor="@color/Black"
+                                android:textColor="@color/GreyDark"
                                 android:textSize="16sp"
                                 android:textStyle="normal" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_quantity"
+                                android:tint="@color/colorAccent"
+                                android:paddingTop="16dp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="5dp"/>
 
                             <TextView
                                 android:id="@+id/txtAvailableQuantity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:drawableLeft="@drawable/ic_cart"
-                                android:padding="16dp"
+                                android:drawablePadding="2dp"
+                                android:paddingTop="16dp"
+                                android:paddingRight="16dp"
                                 android:text="5"
-                                android:textColor="@color/Black"
+                                android:textColor="@color/GreyDark"
                                 android:textSize="16sp"
                                 android:textStyle="normal" />
 
@@ -94,9 +112,11 @@
                                 android:id="@+id/lblQuantity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="16dp"
+                                android:paddingTop="16dp"
+                                android:paddingRight="5dp"
                                 android:text="Qty."
-                                android:textColor="@color/Black"
+                                android:textColor="@color/GreyDark"
+                                android:textStyle="bold"
                                 android:textSize="16sp" />
 
                             <EditText
@@ -104,8 +124,10 @@
                                 android:layout_width="60dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="16dp"
+                                android:textColor="@color/GreyDark"
                                 android:inputType="number"
-                                android:padding="16dp"
+                                android:paddingTop="16dp"
+                                android:paddingRight="16dp"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -114,6 +136,7 @@
                             android:id="@+id/rdGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingTop="16dp"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp">
 
@@ -124,7 +147,8 @@
                                 android:checked="true"
                                 android:onClick="hideInputStars"
                                 android:text="@string/without_discount"
-                                android:textSize="16sp" />
+                                android:textSize="16sp"
+                                android:textColor="@color/GreyDark"/>
 
                             <RadioButton
                                 android:id="@+id/rdWithDiscount"
@@ -132,7 +156,8 @@
                                 android:layout_height="wrap_content"
                                 android:onClick="showInputStars"
                                 android:text="@string/with_discount"
-                                android:textSize="16sp" />
+                                android:textSize="16sp"
+                                android:textColor="@color/GreyDark"/>
                         </RadioGroup>
 
                         <Spinner
@@ -151,7 +176,7 @@
                             android:layout_height="wrap_content"
                             android:padding="16dp"
                             android:text="@string/item_details"
-                            android:textColor="@color/Black"
+                            android:textColor="@color/GreyDark"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -163,7 +188,7 @@
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
                             android:text="This section contains the details of the selected item."
-                            android:textColor="@color/Black"
+                            android:textColor="@color/GreyDark"
                             android:textSize="16sp"
                             android:textStyle="normal" />
 
@@ -178,7 +203,7 @@
                             style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/Louie"
+                            android:background="#80333c"
                             android:text="Buy Item"
                             android:textColor="@color/White"
                             android:textSize="20sp"

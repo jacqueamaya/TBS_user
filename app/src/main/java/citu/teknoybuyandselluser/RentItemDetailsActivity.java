@@ -31,12 +31,12 @@ public class RentItemDetailsActivity extends AppCompatActivity {
         setupToolbar();
 
         Intent intent = getIntent();
-        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        String picture = intent.getStringExtra(Constants.PICTURE);
-        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
-        int quantity = intent.getIntExtra(Constants.QUANTITY, 1);
-        String status = intent.getStringExtra(Constants.STATUS);
+        String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        String picture = intent.getStringExtra(Constants.Item.PICTURE);
+        String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
+        int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
+        String status = intent.getStringExtra(Constants.Item.STATUS);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -53,7 +53,7 @@ public class RentItemDetailsActivity extends AppCompatActivity {
 
         Picasso.with(this)
                 .load(picture)
-                .placeholder(R.drawable.thumb_24dp)
+                .placeholder(R.drawable.thumbsq_24dp)
                 .into(imgPreview);
 
         setTitle(itemName);

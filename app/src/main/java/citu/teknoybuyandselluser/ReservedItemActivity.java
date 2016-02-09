@@ -39,17 +39,16 @@ public class ReservedItemActivity extends AppCompatActivity {
         setupToolbar();
 
         intent = getIntent();
-        mItemName = intent.getStringExtra(Constants.ITEM_NAME);
-        int quantity = intent.getIntExtra(Constants.QUANTITY, 0);
-        int starsRequired = intent.getIntExtra(Constants.STARS_REQUIRED, 0);
-        int starsToUse = intent.getIntExtra(Constants.STARS_TO_USE, 0);
-        float discountedPrice = intent.getFloatExtra(Constants.DISCOUNTED_PRICE, 0);
-        float payment = intent.getFloatExtra(Constants.PAYMENT, 0);
-        float price = intent.getFloatExtra(Constants.PRICE, 0);
-        long reservedDate = intent.getLongExtra(Constants.RESERVED_DATE, 0);
-        String itemCode = "Item Code: " + intent.getStringExtra(Constants.ITEM_CODE);
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        String picture = intent.getStringExtra(Constants.PICTURE);
+        mItemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 0);
+        int starsRequired = intent.getIntExtra(Constants.Item.STARS_REQUIRED, 0);
+        int starsToUse = intent.getIntExtra(Constants.Item.STARS_TO_USE, 0);
+        float payment = intent.getFloatExtra(Constants.Item.PAYMENT, 0);
+        long reservedDate = intent.getLongExtra(Constants.Item.RESERVED_DATE, 0);
+
+        String itemCode = "Item Code: " + intent.getStringExtra(Constants.Item.ITEM_CODE);
+        String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        String picture = intent.getStringExtra(Constants.Item.PICTURE);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtItemCode = (TextView) findViewById(R.id.txtItemCode);
@@ -69,19 +68,18 @@ public class ReservedItemActivity extends AppCompatActivity {
         String strQuantity = quantity + "";
 
         txtQuantity.setText(strQuantity);
-        if (price != 0) {
-            if(starsToUse != 0) {
+        if (payment != 0) {
+            if(starsToUse != 0)
                 txtPayment.setText(strPriceWithStarsToUse);
-            } else {
+            else
                 txtPayment.setText(strPriceWithoutStars);
-            }
         }
-        else {
+        else
             txtPayment.setText(strDonated);
-        }
 
         Picasso.with(this)
                 .load(picture)
+                .placeholder(R.drawable.thumbsq_24dp)
                 .into(imgPreview);
 
         txtReservedDate.setText(Utils.parseDate(reservedDate));
@@ -112,14 +110,14 @@ public class ReservedItemActivity extends AppCompatActivity {
     }
 
     public void cancelBuyItem () {
-        int itemId = intent.getIntExtra(Constants.ID, 0);
-        int reservationId = intent.getIntExtra(Constants.RESERVATION_ID, 0);
+        int itemId = intent.getIntExtra(Constants.Item.ID, 0);
+        int reservationId = intent.getIntExtra(Constants.Item.RESERVATION_ID, 0);
 
         Map<String, String> data = new HashMap<>();
         String user = getUserName();
-        data.put(Constants.BUYER, user);
-        data.put(Constants.ID, "" + itemId);
-        data.put(Constants.RESERVATION_ID, "" + reservationId);
+        data.put(Constants.Item.BUYER, user);
+        data.put(Constants.Item.ID, "" + itemId);
+        data.put(Constants.Item.RESERVATION_ID, "" + reservationId);
 
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);

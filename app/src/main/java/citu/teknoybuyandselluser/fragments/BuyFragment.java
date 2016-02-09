@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +25,13 @@ import java.util.ArrayList;
 import citu.teknoybuyandselluser.Ajax;
 import citu.teknoybuyandselluser.BuyItemActivity;
 import citu.teknoybuyandselluser.Constants;
-import citu.teknoybuyandselluser.ExpirationCheckerService;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 import citu.teknoybuyandselluser.MakeTransactionsActivity;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.Server;
 import citu.teknoybuyandselluser.Utils;
 import citu.teknoybuyandselluser.adapters.GridAdapter;
-import citu.teknoybuyandselluser.models.Item;
+import citu.teknoybuyandselluser.models_old.Item;
 
 
 /**
@@ -39,7 +41,7 @@ import citu.teknoybuyandselluser.models.Item;
 public class BuyFragment extends Fragment implements AdapterView.OnItemClickListener{
     private static final String TAG = "Buy Fragment";
 
-    private GridAdapter gridAdapter;
+    private GridAdapter mGridAdapter;
     private Gson gson = new Gson();
     private String user;
     private View view = null;
@@ -56,8 +58,20 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemClickList
 
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
-
         ((MakeTransactionsActivity) getActivity()).getCategories();
+
+        getAllItemsToSell();
+
+        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(getActivity(), "Refreshing ...", Toast.LENGTH_SHORT).show();
+                // call this after refreshing is done
+                getAllItemsToSell();
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         return view;
     }
@@ -82,9 +96,9 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemClickList
                 } else {
                     txtMessage.setVisibility(View.GONE);
 
-                    gridAdapter = new GridAdapter(getActivity(), availableItems);
-                    ((MakeTransactionsActivity) getActivity()).setGridAdapterForBuy(gridAdapter);
-                    gridView.setAdapter(gridAdapter);
+                    mGridAdapter = new GridAdapter(getActivity(), availableItems);
+                    ((MakeTransactionsActivity) getActivity()).setGridAdapterForBuy(mGridAdapter);
+                    gridView.setAdapter(mGridAdapter);
                     gridView.setVisibility(View.VISIBLE);
                     setItemClickListener(gridView);
                     ((MakeTransactionsActivity) getActivity()).populateCategories();
@@ -102,11 +116,9 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemClickList
     @Override
     public void onResume() {
         super.onResume();
-        getAllItemsToSell();
 
-        Intent service = new Intent(getActivity().getBaseContext(), ExpirationCheckerService.class);
-        service.putExtra("username", user);
-        getActivity().startService(service);
+        FragmentActivity activity = getActivity();
+        activity.startService(new Intent(activity, ExpirationCheckerService.class));
     }
 
     public void setItemClickListener(AdapterView<?> adapterView) {
@@ -115,19 +127,18 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemClickList
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Item item = gridAdapter.getDisplayView().get(i);
+        Item item = mGridAdapter.getDisplayView().get(i);
 
-        Log.e(TAG, item.getName());
         Intent intent;
         intent = new Intent(getActivity().getBaseContext(), BuyItemActivity.class);
-        intent.putExtra(Constants.ID, item.getId());
-        intent.putExtra(Constants.ITEM_NAME, item.getName());
-        intent.putExtra(Constants.DESCRIPTION, item.getDescription());
-        intent.putExtra(Constants.PRICE, item.getPrice());
-        intent.putExtra(Constants.QUANTITY, item.getQuantity());
-        intent.putExtra(Constants.PICTURE, item.getPicture());
-        intent.putExtra(Constants.STARS_REQUIRED, item.getStars_required());
-        intent.putExtra(Constants.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
+        intent.putExtra(Constants.Item.ID, item.getId());
+        intent.putExtra(Constants.Item.ITEM_NAME, item.getName());
+        intent.putExtra(Constants.Item.DESCRIPTION, item.getDescription());
+        intent.putExtra(Constants.Item.PRICE, item.getPrice());
+        intent.putExtra(Constants.Item.QUANTITY, item.getQuantity());
+        intent.putExtra(Constants.Item.PICTURE, item.getPicture());
+        intent.putExtra(Constants.Item.STARS_REQUIRED, item.getStars_required());
+        intent.putExtra(Constants.Item.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
 
         startActivity(intent);
     }

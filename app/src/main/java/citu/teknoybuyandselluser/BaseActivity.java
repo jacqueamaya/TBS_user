@@ -29,7 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         SimpleDraweeView imgUser = (SimpleDraweeView) findViewById(R.id.imgUser);
 
         mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
-        String mPicture = mSharedPreferences.getString(Constants.PICTURE, null);
+        String mPicture = mSharedPreferences.getString(Constants.User.PICTURE, null);
         if(null == mPicture || mPicture.isEmpty() || mPicture.equals("")) {
             imgUser.setImageResource(Constants.USER_IMAGES[Constants.INDEX_USER_IMAGE]);
         } else {
@@ -148,7 +148,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public String getUserPicture() {
-        return mSharedPreferences.getString(Constants.PICTURE, "");
+        return mSharedPreferences.getString(Constants.User.PICTURE, "");
     }
 
     public abstract boolean checkItemClicked(MenuItem menuItem);

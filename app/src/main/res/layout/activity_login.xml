@@ -82,7 +82,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btnLogin"
@@ -96,11 +96,13 @@
                 android:textColor="@color/White" />
 
             <ProgressBar
-                android:id="@+id/progressGetUser"
+                android:id="@+id/progressLogin"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:indeterminate="true" />
+                android:indeterminate="true"
+                android:visibility="gone"/>
+
         </FrameLayout>
     </LinearLayout>
 

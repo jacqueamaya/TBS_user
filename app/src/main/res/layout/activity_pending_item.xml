@@ -4,8 +4,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="#e6e6e6">
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/appbar"
@@ -34,22 +33,46 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignLeft="@+id/linearLayout"
+                    android:layout_alignStart="@+id/linearLayout"
+                    android:text="Item Name"
+                    android:id="@+id/lblItemName"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:padding="5dp" />
+
                 <EditText
                     android:id="@+id/txtItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblItemName"
+                    android:layout_marginLeft="5dp"
                     android:background="@drawable/textbox"
                     android:paddingLeft="15dp"
                     android:padding="10dp"
                     android:singleLine="true"
-                    android:textColor="#959595"
+                    android:textColor="#CC000000"
                     android:textColorHint="#959595"
                     android:textSize="14dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
                     android:hint="Item"
-                    android:inputType="textCapSentences"
-                    />
+                    android:inputType="textCapSentences"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/linearLayout"
+                    android:layout_alignStart="@+id/linearLayout"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/txtItem"
+                    android:text="Description"
+                    android:id="@+id/lblDescription"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:padding="5dp" />
 
                 <EditText
                     android:id="@+id/txtDescription"
@@ -57,13 +80,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/textbox"
+                    android:layout_below="@id/lblDescription"
+                    android:layout_marginLeft="5dp"
                     android:paddingLeft="15dp"
-                    android:textColor="#959595"
+                    android:textColor="#CC000000"
                     android:textColorHint="#959595"
                     android:textSize="14dp"
-                    android:layout_below="@id/txtItem"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
                     android:padding="10dp"
                     android:hint="Description"
                     android:gravity="top"
@@ -72,19 +94,31 @@
                     android:maxLines="8"
                     android:lines="5"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/linearLayout"
+                    android:layout_alignStart="@+id/linearLayout"
+                    android:layout_below="@id/txtDescription"
+                    android:layout_marginTop="5dp"
+                    android:text="Price"
+                    android:id="@+id/lblPrice"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textColor="@color/colorPrimary" />
+
                 <EditText
                     android:id="@+id/txtPrice"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/textbox"
+                    android:layout_below="@id/lblPrice"
+                    android:layout_marginLeft="5dp"
                     android:paddingLeft="15dp"
                     android:singleLine="true"
-                    android:textColor="#959595"
+                    android:textColor="#CC000000"
                     android:textColorHint="#959595"
                     android:textSize="14dp"
-                    android:layout_below="@id/txtDescription"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="20dp"
                     android:padding="10dp"
                     android:hint="Price"
                     android:inputType="numberDecimal" />
@@ -97,9 +131,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@id/picture"
                     android:text="Photo"
-                    android:textColor="#959595"
+                    android:textColor="#CC000000"
                     android:textSize="14dp" />
 
                 <Button
@@ -116,30 +149,32 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@+id/lblItemName"
+                    android:layout_alignRight="@+id/linearLayout"
+                    android:layout_alignEnd="@+id/linearLayout" />
 
                 <FrameLayout
                     android:id="@+id/frameLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="325dp"
                     android:layout_below="@id/txtPicture"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="10dp">
 
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/preview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="325dp"
+                        android:layout_marginTop="10dp"
                         app:placeholderImage="@drawable/thumb_24dp"/>
 
                     <ProgressBar
                         android:id="@+id/progressUpload"
                         style="?android:attr/progressBarStyleSmall"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="50dp"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
                         android:indeterminate="true" />
 
                 </FrameLayout>
@@ -149,10 +184,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/frameLayout"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     android:paddingBottom="20dp"
-                    android:paddingTop="16dp">
+                    android:paddingTop="16dp"
+                    android:id="@+id/linearLayout">
 
                     <Button
                         android:id="@+id/btnSaveItem"

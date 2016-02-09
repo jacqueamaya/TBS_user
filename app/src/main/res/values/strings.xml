@@ -93,7 +93,7 @@
     <string name="categories">Categories</string>
 
     <!-- Error Messages -->
-    <string name="no_notifications">No new notifications</string>
+    <string name="no_notifications">No notifications</string>
     <string name="no_pending_items">No pending items</string>
     <string name="no_donations">No available donations</string>
     <string name="no_reserved_items_on_sale">No reserved items on sale</string>

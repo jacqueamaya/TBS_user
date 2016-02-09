@@ -28,7 +28,7 @@
             android:layout_gravity="bottom"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
-            android:singleLine="false"
+            android:singleLine="true"
             android:textColor="@android:color/white" />
 
         <ImageView
@@ -38,7 +38,8 @@
             android:layout_toLeftOf="@+id/quantity"
             android:layout_toStartOf="@+id/quantity"
             android:contentDescription="@string/item_quantity"
-            android:src="@drawable/ic_quantity" />
+            android:src="@drawable/ic_quantity"
+            android:tint="#FFFFFF"/>
 
         <TextView
             android:id="@+id/quantity"

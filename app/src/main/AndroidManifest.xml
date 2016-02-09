@@ -3,9 +3,11 @@
     package="citu.teknoybuyandselluser">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".UserApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -101,20 +103,51 @@
             android:name=".RentItemActivity"
             android:label="@string/title_activity_rent_item"
             android:screenOrientation="portrait" />
-
-        <service
-            android:name=".ExpirationCheckerService"
-            android:exported="false" />
-        <service
-            android:name=".ExpirationCheckerService"
-            android:exported="false" />
-
         <activity android:name=".RentedItemDetailActivity" />
         <activity android:name=".SearchActivity" />
 
         <service
+            android:name=".services.ExpirationCheckerService"
+            android:exported="false" />
+        <service
             android:name=".services.LoginService"
-            android:exported="false"></service>
+            android:exported="false" />
+        <service
+            android:name=".services.NotificationService"
+            android:exported="false" />
+        <service
+            android:name=".services.PendingItemsService"
+            android:exported="false" />
+        <service
+            android:name=".services.ItemsToSellService"
+            android:exported="false" />
+        <service
+            android:name=".services.ItemsForRentService"
+            android:exported="false" />
+        <service
+            android:name=".services.ItemsToDonateService"
+            android:exported="false" />
+        <service
+            android:name=".services.RentedItemsService"
+            android:exported="false"/>
+        <service
+            android:name=".services.ReservedItemsOnSaleService"
+            android:exported="false"/>
+        <service
+            android:name=".services.ReservedItemsForRentService"
+            android:exported="false"/>
+        <service
+            android:name=".services.ReservedItemsToDonateService"
+            android:exported="false"/>
+        <service
+            android:name=".services.AllDonationsService"
+            android:exported="false"/>
+        <service
+            android:name=".services.AvailableItemsToSellService"
+            android:exported="false"/>
+        <service
+            android:name=".services.AvailableItemsForRentService"
+            android:exported="false"/>
     </application>
 
 </manifest>

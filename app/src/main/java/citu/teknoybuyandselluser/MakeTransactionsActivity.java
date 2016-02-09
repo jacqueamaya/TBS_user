@@ -27,7 +27,8 @@ import citu.teknoybuyandselluser.adapters.GridAdapter;
 import citu.teknoybuyandselluser.adapters.ViewPagerAdapter;
 import citu.teknoybuyandselluser.fragments.BuyFragment;
 import citu.teknoybuyandselluser.fragments.ForRentFragment;
-import citu.teknoybuyandselluser.models.Category;
+import citu.teknoybuyandselluser.models_old.Category;
+import citu.teknoybuyandselluser.services.ExpirationCheckerService;
 
 /**
  ** 0.01 initially created by J. Pedrano on 12/24/15
@@ -98,21 +99,29 @@ public class MakeTransactionsActivity extends BaseActivity implements AdapterVie
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchQuery = query;
-                if(buyFragment.getUserVisibleHint())
+                boolean canQuery = false;
+                if (buyFragment.getUserVisibleHint() && gridAdapterForBuy != null) {
                     gridAdapterForBuy.getFilter().filter(searchQuery);
-                else if(forRentFragment.getUserVisibleHint())
+                    canQuery = true;
+                } else if (forRentFragment.getUserVisibleHint() && gridAdapterForRent != null) {
                     gridAdapterForRent.getFilter().filter(searchQuery);
-                return true;
+                    canQuery = true;
+                }
+                return canQuery;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchQuery = newText;
-                if(buyFragment.getUserVisibleHint())
+                boolean canQuery = false;
+                if (buyFragment.getUserVisibleHint() && gridAdapterForBuy != null) {
                     gridAdapterForBuy.getFilter().filter(searchQuery);
-                else if(forRentFragment.getUserVisibleHint())
+                    canQuery = true;
+                } else if (forRentFragment.getUserVisibleHint() && gridAdapterForRent != null) {
                     gridAdapterForRent.getFilter().filter(searchQuery);
-                return true;
+                    canQuery = true;
+                }
+                return canQuery;
             }
         });
 
@@ -122,7 +131,7 @@ public class MakeTransactionsActivity extends BaseActivity implements AdapterVie
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(buyFragment.getUserVisibleHint()) {
+        if(buyFragment.getUserVisibleHint() && gridAdapterForBuy != null) {
             switch (id) {
                 case R.id.nav_sort_by_date:
                     gridAdapterForBuy.sortItems(Constants.Sort.DATE);
@@ -133,9 +142,8 @@ public class MakeTransactionsActivity extends BaseActivity implements AdapterVie
                 case R.id.nav_sort_by_price:
                     gridAdapterForBuy.sortItems(Constants.Sort.PRICE);
                     break;
-
             }
-        } else if(forRentFragment.getUserVisibleHint()) {
+        } else if(forRentFragment.getUserVisibleHint() && gridAdapterForRent != null) {
             switch (id) {
                 case R.id.nav_sort_by_date:
                     gridAdapterForRent.sortItems(Constants.Sort.DATE);
@@ -199,7 +207,9 @@ public class MakeTransactionsActivity extends BaseActivity implements AdapterVie
                 if (category.equals("All")) {
                     category = "";
                 }
-                gridAdapterForBuy.getFilter().filter(category);
+                if(gridAdapterForBuy != null)
+                    gridAdapterForBuy.getFilter().filter(category);
+
                 if(gridAdapterForRent != null)
                     gridAdapterForRent.getFilter().filter(category);
                 break;

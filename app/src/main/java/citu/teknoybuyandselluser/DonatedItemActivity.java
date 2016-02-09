@@ -42,9 +42,9 @@ public class DonatedItemActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
 
         intent = getIntent();
-        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        String picture = intent.getStringExtra(Constants.PICTURE);
+        String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        String picture = intent.getStringExtra(Constants.Item.PICTURE);
 
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
         TextView txtDescription = (TextView) findViewById(R.id.txtDetails);
@@ -77,7 +77,7 @@ public class DonatedItemActivity extends AppCompatActivity {
     }
 
     private int getStarsRequired() {
-        return (intent.getIntExtra(Constants.STARS_REQUIRED, 0));
+        return (intent.getIntExtra(Constants.Item.STARS_REQUIRED, 0));
     }
 
     public void onGetItem(View view) {
@@ -86,15 +86,18 @@ public class DonatedItemActivity extends AppCompatActivity {
         String user = prefs.getString("username", "");
         EditText txtQuantity = (EditText) findViewById(R.id.txtQuantity);
 
-        int quantity = Integer.parseInt(txtQuantity.getText().toString());
-        int itemId = intent.getIntExtra(Constants.ID, 0);
-        int itemQuantity = intent.getIntExtra(Constants.QUANTITY, 1);
+        int itemId = intent.getIntExtra(Constants.Item.ID, 0);
+        int itemQuantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
 
-        data.put(Constants.BUYER, user);
-        data.put(Constants.ID, "" + itemId);
+        data.put(Constants.Item.BUYER, user);
+        data.put(Constants.Item.ID, "" + itemId);
+
+        int quantity = 0;
+        if(!"".equals(txtQuantity.getText().toString()))
+            quantity = Integer.parseInt(txtQuantity.getText().toString());
 
         if(quantity <= itemQuantity && quantity > 0) {
-            data.put(Constants.QUANTITY, quantity + "");
+            data.put(Constants.Item.QUANTITY, quantity + "");
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Please wait. . .");
 

@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -31,7 +32,7 @@ import citu.teknoybuyandselluser.models.ImageInfo;
 
 public class DonateItemActivity extends AppCompatActivity {
 
-    private ImageView mImgPreview;
+    private SimpleDraweeView mImgPreview;
     private ProgressDialog mProgressDialog;
 
     private ImageInfo mImgInfo;
@@ -52,7 +53,7 @@ public class DonateItemActivity extends AppCompatActivity {
         mProgressBar.setVisibility(View.INVISIBLE);
 
         Button mBtnBrowse = (Button) findViewById(R.id.btnBrowse);
-        mImgPreview =  (ImageView) findViewById(R.id.preview);
+        mImgPreview =  (SimpleDraweeView) findViewById(R.id.preview);
         mBtnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,11 +123,11 @@ public class DonateItemActivity extends AppCompatActivity {
                 && !desc.equals("")
                 && !quantity.equals("")
                 && mImgInfo != null) {
-            data.put(Constants.OWNER, getUserName());
-            data.put(Constants.NAME, name);
-            data.put(Constants.DESCRIPTION, desc);
-            data.put(Constants.QUANTITY, quantity);
-            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+            data.put(Constants.Item.OWNER, getUserName());
+            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.DESCRIPTION, desc);
+            data.put(Constants.Item.QUANTITY, quantity);
+            data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
 
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Please wait. . .");

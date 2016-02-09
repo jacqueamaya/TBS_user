@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class SellItemActivity extends AppCompatActivity {
 
     private static final String TAG = "SellItemActivity";
 
-    private ImageView mImgPreview;
+    private SimpleDraweeView mImgPreview;
     private ImageInfo mImgInfo;
 
     @Override
@@ -48,7 +49,7 @@ public class SellItemActivity extends AppCompatActivity {
         setupToolbar();
 
         Button btnBrowse = (Button) findViewById(R.id.btnBrowse);
-        mImgPreview =  (ImageView) findViewById(R.id.preview);
+        mImgPreview =  (SimpleDraweeView) findViewById(R.id.preview);
         btnBrowse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,12 +130,12 @@ public class SellItemActivity extends AppCompatActivity {
                 && !price.equals("")
                 && !quantity.equals("")
                 && mImgInfo != null) {
-            data.put(Constants.OWNER, user);
-            data.put(Constants.NAME, name);
-            data.put(Constants.DESCRIPTION, desc);
-            data.put(Constants.PRICE, price);
-            data.put(Constants.QUANTITY, quantity);
-            data.put(Constants.IMAGE_URL, mImgInfo.getLink());
+            data.put(Constants.Item.OWNER, user);
+            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.DESCRIPTION, desc);
+            data.put(Constants.Item.PRICE, price);
+            data.put(Constants.Item.QUANTITY, quantity);
+            data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
 
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Please wait. . .");

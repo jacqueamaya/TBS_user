@@ -25,20 +25,20 @@ public class RentedItemDetailActivity extends AppCompatActivity {
         setupToolbar();
 
         Intent intent = getIntent();
-        float penalty = intent.getFloatExtra(Constants.PENALTY, 0);
-        int quantity = intent.getIntExtra(Constants.QUANTITY, 1);
-        long rentDate = intent.getLongExtra(Constants.RENT_DATE, 0);
-        long rentExpiration = intent.getLongExtra(Constants.RENT_EXPIRATION, 0);
-        String itemName = intent.getStringExtra(Constants.ITEM_NAME);
-        String description = intent.getStringExtra(Constants.DESCRIPTION);
-        String formatPrice = intent.getStringExtra(Constants.FORMAT_PRICE);
+        float penalty = intent.getFloatExtra(Constants.Item.PENALTY, 0);
+        int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
+        long rentDate = intent.getLongExtra(Constants.Item.RENT_DATE, 0);
+        long rentExpiration = intent.getLongExtra(Constants.Item.RENT_EXPIRATION, 0);
+        String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
+        String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
         String strPenalty = "Penalty: Php " + penalty;
-        String picture = intent.getStringExtra(Constants.PICTURE);
+        String picture = intent.getStringExtra(Constants.Item.PICTURE);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
-        ImageView imgPenalty = (ImageView) findViewById(R.id.penalty);
+        TextView lblPenalty = (TextView) findViewById(R.id.lblPenalty);
         TextView txtPenalty = (TextView) findViewById(R.id.txtPenalty);
         TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
         TextView txtRentDate = (TextView) findViewById(R.id.txtRentDate);
@@ -47,22 +47,29 @@ public class RentedItemDetailActivity extends AppCompatActivity {
 
         txtItem.setText(itemName);
         txtDescription.setText(description);
-        txtPrice.setText("" + formatPrice);
+        txtPrice.setText("Php" + formatPrice);
         if(penalty != 0) {
-            imgPenalty.setVisibility(View.VISIBLE);
+            //imgPenalty.setVisibility(View.VISIBLE);
+            lblPenalty.setVisibility(View.VISIBLE);
             txtPenalty.setVisibility(View.VISIBLE);
             txtPenalty.setText(strPenalty);
         } else {
-            imgPenalty.setVisibility(View.GONE);
+            //imgPenalty.setVisibility(View.GONE);
+            lblPenalty.setVisibility(View.GONE);
             txtPenalty.setVisibility(View.GONE);
         }
-        txtQuantity.setText("" + quantity);
+
+        if (quantity == 1)
+            txtQuantity.setText("" + quantity + "pc.");
+        else
+            txtQuantity.setText("" + quantity + "pcs.");
+
         txtRentDate.setText("Rent Date: " + Utils.parseDate(rentDate));
         txtRentExpiry.setText("Rent Expiration: " + Utils.parseDate(rentExpiration));
 
         Picasso.with(this)
                 .load(picture)
-                .placeholder(R.drawable.thumb_24dp)
+                .placeholder(R.drawable.thumbsq_24dp)
                 .into(imgPreview);
 
         setTitle(itemName);
