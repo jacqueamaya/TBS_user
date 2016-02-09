@@ -53,7 +53,7 @@ public class LoginService extends ConnectionService {
                 Log.e(TAG, response.errorBody().string());
                 notifyFailure(ACTION, "Invalid username or password");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
             notifyFailure(ACTION, "Unable to connect to server");
         }
