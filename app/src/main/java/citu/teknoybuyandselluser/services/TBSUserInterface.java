@@ -6,6 +6,7 @@ import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.models.AvailableDonation;
 import citu.teknoybuyandselluser.models.AvailableItemForRent;
 import citu.teknoybuyandselluser.models.AvailableItemToSell;
+import citu.teknoybuyandselluser.models.Category;
 import citu.teknoybuyandselluser.models.DonateItem;
 import citu.teknoybuyandselluser.models.Notification;
 import citu.teknoybuyandselluser.models.PendingItem;
@@ -157,4 +158,7 @@ public interface TBSUserInterface {
 
     @GET(Constants.UrlUser.ALL_DONATIONS)
     Call<List<AvailableDonation>> getAllDonations(@Query(Constants.User.USERNAME) String username);
+
+    @GET(Constants.UrlUser.CATEGORIES)
+    Call<List<Category>> getCategories();
 }

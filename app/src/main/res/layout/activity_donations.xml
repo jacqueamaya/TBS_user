@@ -46,11 +46,11 @@
 
                 <ProgressBar
                     android:id="@+id/progressGetItems"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerInParent="true"
                     android:indeterminate="true"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/txtMessage"
@@ -90,8 +90,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/LightYellow"
+        android:background="@color/DrawerCol"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/White"
+        app:itemTextColor="@color/White"
         app:menu="@menu/drawer_view" />
 </android.support.v4.widget.DrawerLayout>

@@ -1,240 +1,217 @@
-<android.support.v4.widget.DrawerLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/appbar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/appbar"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content" />
 
-        <!-- The ActionBar -->
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/toolbar">
+
+        <RelativeLayout
+            android:id="@+id/flContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="10dp"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
 
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/toolbar">
-
-            <!-- The main content view -->
             <RelativeLayout
-                android:id="@+id/flContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="10dp"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <EditText
+                    android:id="@+id/inputItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_cursor_maroon"
+                    android:drawablePadding="8dp"
+                    android:hint="Item"
+                    android:inputType="textCapSentences"
+                    android:padding="10dp"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/GreyDark"
+                    android:textColorHint="#73000000"
+                    android:textSize="14dp" />
+
+
+                <EditText
+                    android:id="@+id/inputDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/inputItem"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_clipboard_maroon"
+                    android:drawablePadding="8dp"
+                    android:gravity="top"
+                    android:hint="Description"
+                    android:inputType="textMultiLine"
+                    android:isScrollContainer="true"
+                    android:lines="3"
+                    android:maxLines="5"
+                    android:padding="10dp"
+                    android:paddingLeft="15dp"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/GreyDark"
+                    android:textColorHint="#73000000"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/inputPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/inputDescription"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_cash_maroon"
+                    android:drawablePadding="8dp"
+                    android:hint="Price"
+                    android:inputType="numberDecimal"
+                    android:padding="10dp"
+                    android:paddingLeft="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/GreyDark"
+                    android:textColorHint="#73000000"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/inputQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/inputPrice"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_tag_maroon"
+                    android:drawablePadding="8dp"
+                    android:hint="Quantity"
+                    android:inputType="numberDecimal"
+                    android:padding="10dp"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/GreyDark"
+                    android:textColorHint="#73000000"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/inputRentDuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/inputQuantity"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_calendar_maroon"
+                    android:drawablePadding="8dp"
+                    android:hint="Rent Duration (days)"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/GreyDark"
+                    android:textColorHint="#73000000"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/txtPicture"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/inputRentDuration"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Photo"
+                    android:textColor="@color/GreyDark"
+                    android:textSize="14dp" />
 
-                    <EditText
-                        android:id="@+id/inputItem"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/textbox"
-                        android:paddingLeft="15dp"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/GreyDark"
-                        android:textColorHint="#73000000"
-                        android:textSize="14dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:hint="Item"
-                        android:inputType="textCapSentences"
-                        android:drawableLeft="@drawable/ic_cursor_maroon"
-                        android:drawablePadding="8dp" />
-
-
-                    <EditText
-                        android:id="@+id/inputDescription"
-                        android:hint="Description"
-                        android:inputType="textMultiLine"
-                        android:background="@drawable/textbox"
-                        android:gravity="top"
-                        android:paddingLeft="15dp"
-                        android:padding="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/inputItem"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:isScrollContainer="true"
-                        android:scrollbars="vertical"
-                        android:maxLines="5"
-                        android:lines="3"
-                        android:textSize="14dp"
-                        android:textColor="@color/GreyDark"
-                        android:textColorHint="#73000000"
-                        android:drawableLeft="@drawable/ic_clipboard_maroon"
-                        android:drawablePadding="8dp"/>
-
-                    <EditText
-                        android:id="@+id/inputPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/textbox"
-                        android:paddingLeft="16dp"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/GreyDark"
-                        android:textColorHint="#73000000"
-                        android:textSize="14dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_below="@id/inputDescription"
-                        android:hint="Price"
-                        android:inputType="numberDecimal"
-                        android:drawableLeft="@drawable/ic_cash_maroon"
-                        android:drawablePadding="8dp"/>
-
-                    <EditText
-                        android:id="@+id/inputQuantity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/textbox"
-                        android:paddingLeft="15dp"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/GreyDark"
-                        android:textColorHint="#73000000"
-                        android:textSize="14dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_below="@id/inputPrice"
-                        android:hint="Quantity"
-                        android:inputType="numberDecimal"
-                        android:drawableLeft="@drawable/ic_tag_maroon"
-                        android:drawablePadding="8dp"/>
-
-                    <EditText
-                        android:id="@+id/inputRentDuration"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/textbox"
-                        android:paddingLeft="15dp"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="@color/GreyDark"
-                        android:textColorHint="#73000000"
-                        android:textSize="14dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_below="@id/inputQuantity"
-                        android:hint="Rent Duration (days)"
-                        android:inputType="number"
-                        android:drawableLeft="@drawable/ic_calendar_maroon"
-                        android:drawablePadding="8dp"/>
-
-                    <TextView
-                        android:id="@+id/txtPicture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/inputRentDuration"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Photo"
-                        android:textColor="@color/GreyDark"
-                        android:textSize="14dp" />
-
-                    <Button
-                        android:id="@+id/btnBrowse"
-                        android:layout_width="220dp"
-                        android:layout_height="33dp"
-                        android:layout_below="@id/inputRentDuration"
-                        android:layout_gravity="left"
-                        android:layout_toRightOf="@id/txtPicture"
-                        android:layout_marginTop="15dp"
-                        android:background="@drawable/positivebutton"
-                        android:text="Browse"
-                        android:textColor="@color/White"
-                        android:textSize="14dp"/>
+                <Button
+                    android:id="@+id/btnBrowse"
+                    android:layout_width="220dp"
+                    android:layout_height="33dp"
+                    android:layout_below="@id/inputRentDuration"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@id/txtPicture"
+                    android:background="@drawable/positivebutton"
+                    android:text="Browse"
+                    android:textColor="@color/White"
+                    android:textSize="14dp" />
 
 
-                    <Space
-                        android:id="@+id/space"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp" />
+                <Space
+                    android:id="@+id/space"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
 
-                    <FrameLayout
-                        android:id="@+id/frameLayout"
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="325dp"
+                    android:layout_below="@id/btnBrowse"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/preview"
                         android:layout_width="match_parent"
                         android:layout_height="325dp"
-                        android:layout_below="@id/btnBrowse"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="25dp">
+                        android:layout_marginTop="10dp"
+                        app:placeholderImage="@drawable/thumbsq_24dp" />
 
-                        <com.facebook.drawee.view.SimpleDraweeView
-                            android:id="@+id/preview"
-                            android:layout_width="match_parent"
-                            android:layout_height="325dp"
-                            android:layout_marginTop="10dp"
-                            app:placeholderImage="@drawable/thumbsq_24dp"/>
+                    <ProgressBar
+                        android:id="@+id/progressUpload"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:indeterminate="true"
+                        android:visibility="gone" />
 
-                        <ProgressBar
-                            android:id="@+id/progressUpload"
-                            style="?android:attr/progressBarStyleSmall"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_gravity="center"
-                            android:indeterminate="true"
-                            android:visibility="gone"/>
+                </FrameLayout>
 
-                    </FrameLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/frameLayout"
+                    android:gravity="center|bottom"
+                    android:orientation="vertical"
+                    android:weightSum="1">
 
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/btnForRentItem"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/frameLayout"
-                        android:gravity="center|bottom"
-                        android:orientation="vertical"
-                        android:weightSum="1">
-                        <Button
-                            android:id="@+id/btnForRentItem"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginTop="25dp"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/positivebutton"
-                            android:onClick="onForRent"
-                            android:src="@drawable/button_sell"
-                            android:text="For Rent"
-                            android:textColor="@color/White" />
-                    </LinearLayout>
-
-                </RelativeLayout>
-
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="25dp"
+                        android:background="@drawable/positivebutton"
+                        android:onClick="onForRent"
+                        android:src="@drawable/button_sell"
+                        android:text="For Rent"
+                        android:textColor="@color/White" />
+                </LinearLayout>
             </RelativeLayout>
-
-        </ScrollView>
-
-    </RelativeLayout>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/LightYellow"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_view" />
-
-</android.support.v4.widget.DrawerLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
 

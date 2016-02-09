@@ -7,40 +7,39 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.List;
 
-import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.ServiceManager;
-import citu.teknoybuyandselluser.models.AvailableItemForRent;
+import citu.teknoybuyandselluser.models.Category;
+
 import io.realm.Realm;
 import retrofit.Call;
 import retrofit.Response;
 
 /**
- ** Created by jack on 6/02/16.
+ ** Created by jack on 9/02/16.
  */
-public class AvailableItemsForRentService extends ConnectionService {
-    public static final String TAG = "AvailableItemsForRent";
-    public static final String ACTION = AvailableItemsForRentService.class.getCanonicalName();
+public class AllCategoriesService extends ConnectionService {
+    public static final String TAG = "AllCategoriesService";
+    public static final String ACTION = AllCategoriesService.class.getCanonicalName();
 
-    public AvailableItemsForRentService() {
-        super(TAG + "Service");
+    public AllCategoriesService() {
+        super(TAG);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.e(TAG, "Getting Available Items for Rent...");
-        String username = intent.getStringExtra(Constants.User.USERNAME);
+        Log.e(TAG, "Getting Available Donations...");
         TBSUserInterface service = ServiceManager.getInstance();
         try {
-            Call<List<AvailableItemForRent>> call = service.getAvailableItemsForRent(username);
-            Response<List<AvailableItemForRent>> response = call.execute();
+            Call<List<Category>> call = service.getCategories();
+            Response<List<Category>> response = call.execute();
 
             if(response.code() == HttpURLConnection.HTTP_OK){
-                List<AvailableItemForRent> items = response.body();
+                List<Category> categories = response.body();
                 Log.e(TAG, response.body().toString());
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
-                realm.copyToRealmOrUpdate(items);
+                realm.copyToRealmOrUpdate(categories);
                 realm.commitTransaction();
                 realm.close();
 
