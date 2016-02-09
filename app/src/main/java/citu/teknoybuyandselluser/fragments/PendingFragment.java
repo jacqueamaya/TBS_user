@@ -118,8 +118,10 @@ public class PendingFragment extends Fragment {
             Intent intent = new Intent(activity, PendingItemsService.class);
             intent.putExtra(Constants.User.USERNAME, user);
             getActivity().startService(intent);
-        } else
-            Snackbar.make(recyclerView, Constants.NO_INTERNET_CONNECTION, Snackbar.LENGTH_SHORT).show();
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+            Snackbar.make(recyclerView, Constants.NO_INTERNET_CONNECTION, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     public void showHideErrorMessage() {
