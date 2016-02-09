@@ -140,6 +140,7 @@ public class Constants {
 
     public static final String RESULT = "result";
     public static final String RESPONSE = "response";
+    public static final String NO_INTERNET_CONNECTION = "No Internet Connection";
 
     public static final class Sort {
         public static final String DATE = "date";

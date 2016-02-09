@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,9 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -45,7 +45,6 @@ public class RentFragment extends Fragment {
     private RealmResults<RentItem> items;
     private RentItemsAdapter itemsAdapter;
 
-    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView txtMessage;
@@ -67,7 +66,6 @@ public class RentFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
         recyclerView = (RecyclerView) view.findViewById(R.id.listViewRentItems);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         txtMessage = (TextView) view.findViewById(R.id.txtMessage);
@@ -84,11 +82,8 @@ public class RentFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(getActivity(), "Refreshing ...", Toast.LENGTH_SHORT).show();
-                // call this after refreshing is done
                 callItemsForRentService();
                 itemsAdapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -125,11 +120,15 @@ public class RentFragment extends Fragment {
 
     public void callItemsForRentService() {
         FragmentActivity activity = getActivity();
-        Intent intent = new Intent(activity.getBaseContext(), ItemsForRentService.class);
-        intent.putExtra(Constants.User.USERNAME, user);
-        activity.startService(intent);
-        txtMessage.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+        ConnectivityManager manager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
+
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+            Intent intent = new Intent(activity, ItemsForRentService.class);
+            intent.putExtra(Constants.User.USERNAME, user);
+            activity.startService(intent);
+        } else
+            Snackbar.make(recyclerView, Constants.NO_INTERNET_CONNECTION, Snackbar.LENGTH_SHORT).show();
     }
 
     public void showHideErrorMessage() {
@@ -147,7 +146,6 @@ public class RentFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
             showHideErrorMessage();
             itemsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));

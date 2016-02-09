@@ -67,7 +67,7 @@
                             android:paddingRight="5dp"
                             android:paddingTop="16dp"
                             android:src="@drawable/ic_cash_multiple_white"
-                            android:tint="#BF000000" />
+                            android:tint="@color/colorAccent" />
 
                         <TextView
                             android:id="@+id/txtPrice"
@@ -87,7 +87,7 @@
                             android:paddingRight="5dp"
                             android:paddingTop="16dp"
                             android:src="@drawable/ic_weight_white"
-                            android:tint="#BF000000" />
+                            android:tint="@color/colorAccent" />
 
                         <TextView
                             android:id="@+id/txtAvailableQuantity"

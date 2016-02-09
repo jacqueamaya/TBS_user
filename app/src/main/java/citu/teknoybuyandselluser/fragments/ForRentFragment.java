@@ -64,8 +64,6 @@ public class ForRentFragment extends Fragment implements AdapterView.OnItemClick
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(getActivity(), "Refreshing ...", Toast.LENGTH_SHORT).show();
-                // call this after refreshing is done
                 getAllItemsForRent();
                 refreshLayout.setRefreshing(false);
             }
