@@ -14,7 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:contentDescription="@string/register"
-        android:src="@drawable/register" />
+        android:src="@drawable/register"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"/>
 
     <LinearLayout
         android:layout_width="200dp"
@@ -109,7 +112,7 @@
 
     <Space
         android:layout_width="wrap_content"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -122,21 +125,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:buttonTint="@color/White"
+            android:buttonTint="@color/WhiteTrans"
             android:onClick="openDialog"
             android:text="@string/agree"
             android:textColor="@color/White" />
+
     </LinearLayout>
 
     <Space
         android:layout_width="wrap_content"
-        android:layout_height="10dp" />
+        android:layout_height="5dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="5dp">
 
         <Button
             android:id="@+id/btnRegister"
@@ -158,4 +163,5 @@
             android:onClick="onCancel"
             android:text="@string/cancel" />
     </LinearLayout>
+
 </LinearLayout>
