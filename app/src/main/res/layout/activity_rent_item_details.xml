@@ -40,8 +40,77 @@
                         android:layout_height="325dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitXY" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="68dp"
+                        android:layout_marginTop="-68dp"
+                        android:background="#8a000000"
+                        android:orientation="vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
 
-                    <TextView
+                        <TextView
+                            android:id="@+id/txtItem"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:singleLine="true"
+                            android:text="Lemonney Snicket Book Set"
+                            android:textColor="@color/White"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/txtPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:drawableLeft="@drawable/ic_cash_white"
+                                android:drawablePadding="5dp"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text="Php "
+                                android:textColor="@color/White"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/txtQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:layout_toRightOf="@+id/txtPrice"
+                                android:drawableLeft="@drawable/ic_cart"
+                                android:drawablePadding="5dp"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text=" 10"
+                                android:textColor="@color/White"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/txtRentDuration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/txtQuantity"
+                                android:drawableLeft="@drawable/ic_calendar"
+                                android:drawablePadding="5dp"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text=" 10"
+                                android:textColor="@color/White"
+                                android:textSize="14sp" />
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <!--<TextView
                         android:id="@+id/txtItem"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
@@ -121,7 +190,7 @@
                             android:textColor="@color/GreyDark"
                             android:textSize="16sp"
                             android:textStyle="normal" />
-                    </LinearLayout>
+                    </LinearLayout>-->
 
                     <TextView
                         android:id="@+id/lblDetails"

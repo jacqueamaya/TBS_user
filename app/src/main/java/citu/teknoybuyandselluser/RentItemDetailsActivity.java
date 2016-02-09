@@ -36,20 +36,31 @@ public class RentItemDetailsActivity extends AppCompatActivity {
         String picture = intent.getStringExtra(Constants.Item.PICTURE);
         String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
         int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
+        int rentDuration = intent.getIntExtra(Constants.Item.RENT_DURATION, 1);
         String status = intent.getStringExtra(Constants.Item.STATUS);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView txtPrice = (TextView) findViewById(R.id.txtPrice);
         TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
-        TextView txtStatus = (TextView) findViewById(R.id.txtStatus);
+        //TextView txtStatus = (TextView) findViewById(R.id.txtStatus);
+        TextView txtRentDuration = (TextView) findViewById(R.id.txtRentDuration);
         ImageView imgPreview = (ImageView) findViewById(R.id.preview);
 
         txtItem.setText(itemName);
         txtDescription.setText(description);
-        txtPrice.setText("" + formatPrice);
-        txtQuantity.setText("" + quantity);
-        txtStatus.setText(status);
+        txtPrice.setText("Php" + formatPrice);
+
+        if (quantity == 1)
+            txtQuantity.setText("" + quantity + "pc.");
+        else
+            txtQuantity.setText("" + quantity + "pcs.");
+
+        if (rentDuration == 1)
+            txtRentDuration.setText("" + rentDuration + "day");
+        else
+            txtRentDuration.setText("" + rentDuration + "days");
+        //txtStatus.setText(status);
 
         Picasso.with(this)
                 .load(picture)
