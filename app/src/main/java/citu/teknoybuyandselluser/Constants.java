@@ -31,7 +31,8 @@ public class Constants {
         public static final String RENTER_USERNAME = "renter.username";
         public static final String BUYER = "buyer";
         public static final String RENTER = "renter";
-        public static final String CATEGORY = "category_name";
+        public static final String CATEGORY_NAME = "category.category_name";
+        public static final String DATE_APPROVED = "date_approved";
         public static final String DESCRIPTION = "description";
         public static final String ID = "item_id";
         public static final String ITEM_CODE = "item_code";
@@ -49,6 +50,7 @@ public class Constants {
         public static final String RENT_DURATION = "rent_duration";
         public static final String RENT_EXPIRATION = "rent_expiration";
         public static final String RESERVED_DATE = "reserved_date";
+        public static final String RESERVED_QUANTITY = "reserved_quantity";
         public static final String RESERVATION_ID = "reservation_id";
         public static final String STARS_REQUIRED = "stars_required";
         public static final String STARS_TO_USE = "stars_to_use";
@@ -139,6 +141,7 @@ public class Constants {
 
     public static final String RESULT = "result";
     public static final String RESPONSE = "response";
+    public static final String NO_INTERNET_CONNECTION = "No Internet Connection";
 
     public static final class Sort {
         public static final String DATE = "date";

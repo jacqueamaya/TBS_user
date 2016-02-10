@@ -60,8 +60,6 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(DonationsActivity.this, "Refreshing ...", Toast.LENGTH_SHORT).show();
-                // call this after refreshing is done
                 getAllItems();
                 refreshLayout.setRefreshing(false);
             }
@@ -159,7 +157,7 @@ public class DonationsActivity extends BaseActivity implements AdapterView.OnIte
 
                     if(categoryNames.length != 0) {
                         Spinner spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(DonationsActivity.this, android.R.layout.simple_spinner_item, categoryNames);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(DonationsActivity.this, R.layout.spinner_item, categoryNames);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinnerCategory.setAdapter(adapter);
                         setItemSelectedListener(spinnerCategory);

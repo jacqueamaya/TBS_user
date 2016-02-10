@@ -44,7 +44,6 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
-                        android:entries="@array/categories"
                         android:paddingBottom="10dp" />
                 </RelativeLayout>
             </android.support.design.widget.AppBarLayout>
@@ -78,7 +77,7 @@
         android:background="@color/DrawerCol"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_view"
         app:itemIconTint="@color/White"
-        app:itemTextColor="@color/White"/>
+        app:itemTextColor="@color/White"
+        app:menu="@menu/drawer_view" />
 </android.support.v4.widget.DrawerLayout>

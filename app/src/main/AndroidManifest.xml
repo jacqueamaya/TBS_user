@@ -148,6 +148,9 @@
         <service
             android:name=".services.AvailableItemsForRentService"
             android:exported="false"/>
+        <service
+            android:name=".services.AllCategoriesService"
+            android:exported="false"/>
     </application>
 
 </manifest>

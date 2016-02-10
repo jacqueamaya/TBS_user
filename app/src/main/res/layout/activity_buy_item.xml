@@ -1,232 +1,208 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/appbar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/appbar"
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:id="@+id/flContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:scrollbars="none">
 
-        <!-- The ActionBar -->
-        <include
-            layout="@layout/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- The main content view -->
-        <ScrollView
-            android:id="@+id/flContent"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="8dp">
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:orientation="vertical"
-                    app:cardCornerRadius="8dp">
+                    android:orientation="vertical">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/imgItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="325dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/txtItem"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="-48dp"
+                        android:background="#8a000000"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="Item Name"
+                        android:textColor="@color/White"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        <com.facebook.drawee.view.SimpleDraweeView
-                            android:id="@+id/imgItem"
-                            android:layout_width="match_parent"
-                            android:layout_height="325dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitXY" />
-
-                        <TextView
-                            android:id="@+id/txtItem"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="-48dp"
-                            android:background="#8a000000"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="Item Name"
-                            android:textColor="@color/White"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_cash_multiple_white"
-                                android:tint="@color/colorAccent"
-                                android:paddingTop="16dp"
-                                android:paddingLeft="18dp"
-                                android:paddingRight="5dp"/>
-
-                            <TextView
-                                android:id="@+id/txtPrice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="16dp"
-                                android:paddingRight="16dp"
-                                android:text="0.0"
-                                android:textColor="@color/GreyDark"
-                                android:textSize="16sp"
-                                android:textStyle="normal" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_quantity"
-                                android:tint="@color/colorAccent"
-                                android:paddingTop="16dp"
-                                android:paddingLeft="16dp"
-                                android:paddingRight="5dp"/>
-
-                            <TextView
-                                android:id="@+id/txtAvailableQuantity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawablePadding="2dp"
-                                android:paddingTop="16dp"
-                                android:paddingRight="16dp"
-                                android:text="5"
-                                android:textColor="@color/GreyDark"
-                                android:textSize="16sp"
-                                android:textStyle="normal" />
-
-                            <TextView
-                                android:id="@+id/lblQuantity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="16dp"
-                                android:paddingRight="5dp"
-                                android:text="Qty."
-                                android:textColor="@color/GreyDark"
-                                android:textStyle="bold"
-                                android:textSize="16sp" />
-
-                            <EditText
-                                android:id="@+id/txtQuantity"
-                                android:layout_width="60dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="16dp"
-                                android:textColor="@color/GreyDark"
-                                android:inputType="number"
-                                android:paddingTop="16dp"
-                                android:paddingRight="16dp"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-
-
-                        <RadioGroup
-                            android:id="@+id/rdGroup"
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingLeft="18dp"
+                            android:paddingRight="5dp"
                             android:paddingTop="16dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp">
-
-                            <RadioButton
-                                android:id="@+id/rdWithoutDiscount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:checked="true"
-                                android:onClick="hideInputStars"
-                                android:text="@string/without_discount"
-                                android:textSize="16sp"
-                                android:textColor="@color/GreyDark"/>
-
-                            <RadioButton
-                                android:id="@+id/rdWithDiscount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:onClick="showInputStars"
-                                android:text="@string/with_discount"
-                                android:textSize="16sp"
-                                android:textColor="@color/GreyDark"/>
-                        </RadioGroup>
-
-                        <Spinner
-                            android:id="@+id/spinnerStarsToUse"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:entries="@array/stars_to_use"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:visibility="gone" />
+                            android:src="@drawable/ic_cash_multiple_white"
+                            android:tint="@color/colorAccent" />
 
                         <TextView
-                            android:id="@+id/lblDetails"
+                            android:id="@+id/txtPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="16dp"
-                            android:text="@string/item_details"
+                            android:paddingRight="16dp"
+                            android:paddingTop="16dp"
+                            android:text="0.0"
+                            android:textColor="@color/GreyDark"
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="16dp"
+                            android:src="@drawable/ic_quantity"
+                            android:tint="@color/colorAccent" />
+
+                        <TextView
+                            android:id="@+id/txtAvailableQuantity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="2dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="16dp"
+                            android:text="5"
+                            android:textColor="@color/GreyDark"
+                            android:textSize="16sp"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/lblQuantity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="5dp"
+                            android:paddingTop="16dp"
+                            android:text="Qty."
                             android:textColor="@color/GreyDark"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/txtDescription"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/txtQuantity"
+                            android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="16dp"
-                            android:paddingLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:inputType="number"
                             android:paddingRight="16dp"
-                            android:text="This section contains the details of the selected item."
+                            android:paddingTop="16dp"
                             android:textColor="@color/GreyDark"
-                            android:textSize="16sp"
-                            android:textStyle="normal" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@color/White"
-                            android:padding="16dp" />
-
-                        <Button
-                            android:id="@+id/btnBuyItem"
-                            style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#80333c"
-                            android:text="Buy Item"
-                            android:textColor="@color/White"
-                            android:textSize="20sp"
-                            android:textStyle="normal" />
-
+                            android:textSize="16sp" />
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
 
-            </LinearLayout>
+                    <RadioGroup
+                        android:id="@+id/rdGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp">
 
-        </ScrollView>
+                        <RadioButton
+                            android:id="@+id/rdWithoutDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:onClick="hideInputStars"
+                            android:text="@string/without_discount"
+                            android:textColor="@color/GreyDark"
+                            android:textSize="16sp" />
 
-    </LinearLayout>
+                        <RadioButton
+                            android:id="@+id/rdWithDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="showInputStars"
+                            android:text="@string/with_discount"
+                            android:textColor="@color/GreyDark"
+                            android:textSize="16sp" />
+                    </RadioGroup>
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/LightYellow"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_view" />
+                    <Spinner
+                        android:id="@+id/spinnerStarsToUse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:entries="@array/stars_to_use"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:visibility="gone" />
 
-</android.support.v4.widget.DrawerLayout>
+                    <TextView
+                        android:id="@+id/lblDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="@string/item_details"
+                        android:textColor="@color/GreyDark"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="16dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:text="This section contains the details of the selected item."
+                        android:textColor="@color/GreyDark"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/White"
+                        android:padding="16dp" />
+
+                    <Button
+                        android:id="@+id/btnBuyItem"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#80333c"
+                        android:text="Buy Item"
+                        android:textColor="@color/White"
+                        android:textSize="20sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

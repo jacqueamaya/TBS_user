@@ -4,24 +4,25 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by jack on 5/02/16.
+ ** Created by jack on 5/02/16.
  */
 public class RentItem extends RealmObject{
     @PrimaryKey
     private int id;
-    private UserProfile owner;
-    private String name;
-    private String description;
     private Category category;
-    private String status;
+    private String description;
+    private String name;
+    private String picture;
     private String purpose;
+    private String status;
     private float price;
     private int quantity;
+    private int rent_duration;
     private int reserved_quantity;
-    private String picture;
     private int stars_required;
     private int stars_to_use;
     private long date_approved;
+    private UserProfile owner;
 
     public int getId() {
         return id;
@@ -133,5 +134,13 @@ public class RentItem extends RealmObject{
 
     public void setDate_approved(long date_approved) {
         this.date_approved = date_approved;
+    }
+
+    public int getRent_duration() {
+        return rent_duration;
+    }
+
+    public void setRent_duration(int rent_duration) {
+        this.rent_duration = rent_duration;
     }
 }

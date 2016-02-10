@@ -76,6 +76,8 @@ public class RentItemsAdapter extends RecyclerView.Adapter<RentItemsAdapter.Item
             intent.putExtra(Constants.Item.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
             intent.putExtra(Constants.Item.PICTURE, item.getPicture());
             intent.putExtra(Constants.Item.QUANTITY, item.getQuantity());
+            intent.putExtra(Constants.Item.RENT_DURATION, item.getRent_duration());
+            intent.putExtra(Constants.Item.RESERVED_QUANTITY, item.getReserved_quantity());
             intent.putExtra(Constants.Item.STATUS, item.getStatus());
 
             context.startActivity(intent);

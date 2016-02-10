@@ -1,6 +1,5 @@
 package citu.teknoybuyandselluser.services;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
@@ -18,8 +17,9 @@ import retrofit.Response;
 /**
  ** Created by jack on 6/02/16.
  */
-public class AllDonationsService extends IntentService {
+public class AllDonationsService extends ConnectionService {
     public static final String TAG = "AllDonationsService";
+    public static final String ACTION = AllDonationsService.class.getCanonicalName();
 
     public AllDonationsService() {
         super(TAG);
@@ -44,28 +44,14 @@ public class AllDonationsService extends IntentService {
                 realm.commitTransaction();
                 realm.close();
 
-                notifySuccess("Successful");
+                notifySuccess(ACTION, "Successful");
             }else{
                 String error = response.errorBody().string();
                 Log.e(TAG, "Error: " + error);
-                notifyFailure("Error");
+                notifyFailure(ACTION, "Error");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    protected void notifySuccess(String responseBody){
-        Intent intent = new Intent(ItemsForRentService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, 1);
-        intent.putExtra(Constants.RESPONSE, responseBody);
-        sendBroadcast(intent);
-    }
-
-    protected void notifyFailure(String responseBody){
-        Intent intent = new Intent(ItemsForRentService.class.getCanonicalName());
-        intent.putExtra(Constants.RESULT, -1);
-        intent.putExtra(Constants.RESPONSE,  responseBody);
-        sendBroadcast(intent);
     }
 }

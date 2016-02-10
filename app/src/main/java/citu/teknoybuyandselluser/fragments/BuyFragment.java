@@ -66,8 +66,6 @@ public class BuyFragment extends Fragment implements AdapterView.OnItemClickList
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(getActivity(), "Refreshing ...", Toast.LENGTH_SHORT).show();
-                // call this after refreshing is done
                 getAllItemsToSell();
                 refreshLayout.setRefreshing(false);
             }

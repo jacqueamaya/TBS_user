@@ -1,6 +1,5 @@
 package citu.teknoybuyandselluser;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mTxtUsername;
     private EditText mTxtPassword;
     private TextView mTxtErrorMessage;
-    private ProgressDialog mLoginProgress;
     private ProgressBar progressBar;
 
     private String mStrUsername;
@@ -45,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         TextView txtSignUp = (TextView) findViewById(R.id.txtSignup);
         mTxtErrorMessage = (TextView) findViewById(R.id.txtLoginErrorMessage);
         progressBar = (ProgressBar) findViewById(R.id.progressLogin);
-        mLoginProgress = new ProgressDialog(this);
 
         SharedPreferences sp = this.getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
         if(sp.getString(Constants.User.USERNAME, null) != null) {

@@ -52,7 +52,7 @@
         android:background="@color/DrawerCol"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_view"
+        app:itemIconTint="@color/White"
         app:itemTextColor="@color/White"
-        app:itemIconTint="@color/White"/>
+        app:menu="@menu/drawer_view" />
 </android.support.v4.widget.DrawerLayout>

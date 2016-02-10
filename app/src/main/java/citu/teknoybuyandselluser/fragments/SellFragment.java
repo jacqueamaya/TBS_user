@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,9 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -47,7 +47,6 @@ public class SellFragment extends Fragment {
     private RealmResults<SellItem> items;
     private SellItemsAdapter itemsAdapter;
 
-    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView txtMessage;
@@ -69,7 +68,6 @@ public class SellFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
         recyclerView = (RecyclerView) view.findViewById(R.id.listViewSellItems);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         txtMessage = (TextView) view.findViewById(R.id.txtMessage);
@@ -86,11 +84,8 @@ public class SellFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(getActivity(), "Refreshing ...", Toast.LENGTH_SHORT).show();
-                // call this after refreshing is done
                 callItemsToSellService();
                 itemsAdapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -126,11 +121,18 @@ public class SellFragment extends Fragment {
     }
 
     public void callItemsToSellService() {
-        Intent intent = new Intent(getActivity().getBaseContext(), ItemsToSellService.class);
-        intent.putExtra(Constants.User.USERNAME, user);
-        getActivity().startService(intent);
-        txtMessage.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+        FragmentActivity activity = getActivity();
+        ConnectivityManager manager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
+
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+            Intent intent = new Intent(activity, ItemsToSellService.class);
+            intent.putExtra(Constants.User.USERNAME, user);
+            activity.startService(intent);
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+            Snackbar.make(recyclerView, Constants.NO_INTERNET_CONNECTION, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     public void showHideErrorMessage() {
@@ -148,7 +150,6 @@ public class SellFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
             showHideErrorMessage();
             itemsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));

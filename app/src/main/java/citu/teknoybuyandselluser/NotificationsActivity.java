@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,9 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -31,7 +31,6 @@ public class NotificationsActivity extends BaseActivity {
     private NotificationRefreshBroadcastReceiver broadcastReceiver;
     private RealmResults<Notification> notifications;
 
-    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView txtMessage;
@@ -43,7 +42,6 @@ public class NotificationsActivity extends BaseActivity {
         setContentView(R.layout.activity_notifications);
         setupUI();
 
-        progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
         recyclerView = (RecyclerView) findViewById(R.id.listViewNotif);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
         txtMessage = (TextView) findViewById(R.id.txtMessage);
@@ -60,11 +58,9 @@ public class NotificationsActivity extends BaseActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(NotificationsActivity.this, "Refreshing ...", Toast.LENGTH_SHORT).show();
                 // call this after refreshing is done
                 startNotificationService();
                 notificationsAdapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -72,11 +68,15 @@ public class NotificationsActivity extends BaseActivity {
     }
 
     private void startNotificationService() {
-        Intent intent = new Intent(this, NotificationService.class);
-        intent.putExtra(Constants.User.USERNAME, getUserName());
-        startService(intent);
-        txtMessage.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
+
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+            Intent intent = new Intent(this, NotificationService.class);
+            intent.putExtra(Constants.User.USERNAME, getUserName());
+            startService(intent);
+        } else
+            Snackbar.make(recyclerView, Constants.NO_INTERNET_CONNECTION, Snackbar.LENGTH_LONG).show();
     }
 
     public void showHideErrorMessage() {
@@ -114,7 +114,6 @@ public class NotificationsActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
-            progressBar.setVisibility(View.GONE);
             showHideErrorMessage();
             notificationsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));
