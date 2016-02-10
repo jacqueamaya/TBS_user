@@ -4,19 +4,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_notifications"
-            android:icon="@drawable/notif_user"
+            android:icon="@drawable/ic_person"
             android:title="@string/menu_notifications" />
         <item
             android:id="@+id/nav_my_items"
-            android:icon="@drawable/shop_ic"
+            android:icon="@drawable/ic_res"
             android:title="@string/menu_my_items"/>
         <item
             android:id="@+id/nav_reserved_items"
-            android:icon="@drawable/reserved_ic"
+            android:icon="@drawable/ic_inbox"
             android:title="@string/menu_reserved_items"/>
         <item
             android:id="@+id/nav_make_transactions"
-            android:icon="@drawable/transaction_ic"
+            android:icon="@drawable/ic_trans"
             android:title="@string/menu_make_transactions"/>
         <item
             android:id="@+id/nav_stars_collected"
@@ -24,7 +24,7 @@
             android:title="@string/menu_stars_collected" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/glyph_logout"
+            android:icon="@drawable/ic_exit"
             android:title="@string/menu_logout" />
     </group>
 
