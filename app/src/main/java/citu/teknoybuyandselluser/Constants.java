@@ -50,6 +50,7 @@ public class Constants {
         public static final String RENT_DURATION = "rent_duration";
         public static final String RENT_EXPIRATION = "rent_expiration";
         public static final String RESERVED_DATE = "reserved_date";
+        public static final String RESERVED_QUANTITY = "reserved_quantity";
         public static final String RESERVATION_ID = "reservation_id";
         public static final String STARS_REQUIRED = "stars_required";
         public static final String STARS_TO_USE = "stars_to_use";

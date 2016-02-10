@@ -37,7 +37,6 @@ public class RentItemDetailsActivity extends AppCompatActivity {
         String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
         int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
         int rentDuration = intent.getIntExtra(Constants.Item.RENT_DURATION, 1);
-        String status = intent.getStringExtra(Constants.Item.STATUS);
 
         TextView txtItem = (TextView) findViewById(R.id.txtItem);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -60,7 +59,6 @@ public class RentItemDetailsActivity extends AppCompatActivity {
             txtRentDuration.setText("" + rentDuration + "day");
         else
             txtRentDuration.setText("" + rentDuration + "days");
-        //txtStatus.setText(status);
 
         Picasso.with(this)
                 .load(picture)
