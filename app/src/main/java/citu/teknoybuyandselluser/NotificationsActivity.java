@@ -47,7 +47,7 @@ public class NotificationsActivity extends BaseActivity {
         txtMessage = (TextView) findViewById(R.id.txtMessage);
 
         Realm realm = Realm.getDefaultInstance();
-        notifications = realm.where(Notification.class).equalTo(Constants.Item.ITEM_OWNER_USER_USERNAME, getUserName()).findAll();
+        notifications = realm.where(Notification.class).findAll();
         notificationsAdapter = new NotificationsAdapter(notifications);
 
         recyclerView.setHasFixedSize(true);
