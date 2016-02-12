@@ -85,7 +85,7 @@ public class PendingItemActivity extends AppCompatActivity {
             strPrice = "(To Donate)";
             mTxtPrice.setEnabled(false);
         } else {
-            strPrice = "" + formatPrice;
+            strPrice = "Php" + formatPrice;
             mTxtPrice.setEnabled(true);
         }
         mTxtPrice.setText(strPrice);

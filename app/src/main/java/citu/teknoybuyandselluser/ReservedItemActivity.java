@@ -46,7 +46,7 @@ public class ReservedItemActivity extends AppCompatActivity {
         float payment = intent.getFloatExtra(Constants.Item.PAYMENT, 0);
         long reservedDate = intent.getLongExtra(Constants.Item.RESERVED_DATE, 0);
 
-        String itemCode = "Item Code: " + intent.getStringExtra(Constants.Item.ITEM_CODE);
+        String itemCode = "" + intent.getStringExtra(Constants.Item.ITEM_CODE);
         String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
         String picture = intent.getStringExtra(Constants.Item.PICTURE);
 
@@ -65,9 +65,12 @@ public class ReservedItemActivity extends AppCompatActivity {
         String strDonated = starsRequired + " stars required (Donated)";
         String strPriceWithoutStars = "Php " + Utils.formatFloat(payment);
         String strPriceWithStarsToUse = "Php " + Utils.formatFloat(payment) + " (" + starsToUse + " stars used)";
-        String strQuantity = quantity + "";
-
-        txtQuantity.setText(strQuantity);
+        if (quantity == 1)
+            txtQuantity.setText("" + quantity + "pc.");
+        else
+            txtQuantity.setText("" + quantity + "pcs.");
+        //String strQuantity = quantity + "";
+        //txtQuantity.setText(strQuantity);
         if (payment != 0) {
             if(starsToUse != 0)
                 txtPayment.setText(strPriceWithStarsToUse);

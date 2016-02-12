@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -46,6 +47,7 @@ public class DonateFragment extends Fragment {
     private ItemsRefreshBroadcastReceiver receiver;
     private RealmResults<DonateItem> items;
 
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView txtMessage;
@@ -68,6 +70,7 @@ public class DonateFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         user = prefs.getString(Constants.User.USERNAME, "");
 
+        progressBar = (ProgressBar) view.findViewById(R.id.progressGetItems);
         recyclerView = (RecyclerView) view.findViewById(R.id.listViewDonateItems);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         txtMessage = (TextView) view.findViewById(R.id.txtMessage);
@@ -129,9 +132,12 @@ public class DonateFragment extends Fragment {
             Intent intent = new Intent(activity, ItemsToDonateService.class);
             intent.putExtra(Constants.User.USERNAME, user);
             activity.startService(intent);
+            if(items.isEmpty())
+                progressBar.setVisibility(View.VISIBLE);
         } else {
             swipeRefreshLayout.setRefreshing(false);
-            Snackbar.make(recyclerView, Constants.NO_INTERNET_CONNECTION, Snackbar.LENGTH_LONG).show();
+            progressBar.setVisibility(View.GONE);
+            showHideErrorMessage();
         }
     }
 
@@ -142,6 +148,7 @@ public class DonateFragment extends Fragment {
             txtMessage.setText(getResources().getString(R.string.no_items_to_donate));
         } else {
             txtMessage.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -150,6 +157,7 @@ public class DonateFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
             showHideErrorMessage();
             itemsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));

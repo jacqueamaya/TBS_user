@@ -31,11 +31,11 @@ public class DonateItemDetailsActivity extends AppCompatActivity {
         String picture = intent.getStringExtra(Constants.Item.PICTURE);
         int starsRequired = intent.getIntExtra(Constants.Item.STARS_REQUIRED, 0);
 
-        TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
-        TextView txtDescription = (TextView) findViewById(R.id.txtDetails);
+        TextView txtTitle = (TextView) findViewById(R.id.txtItem);
+        TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView txtNumStars = (TextView) findViewById(R.id.txtNumStars);
         TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
-        SimpleDraweeView imgThumbnail = (SimpleDraweeView) findViewById(R.id.imgThumbnail);
+        SimpleDraweeView imgThumbnail = (SimpleDraweeView) findViewById(R.id.preview);
 
         txtTitle.setText(itemName);
         txtDescription.setText(description);

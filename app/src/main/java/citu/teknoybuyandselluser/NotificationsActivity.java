@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -31,6 +32,7 @@ public class NotificationsActivity extends BaseActivity {
     private NotificationRefreshBroadcastReceiver broadcastReceiver;
     private RealmResults<Notification> notifications;
 
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView txtMessage;
@@ -42,12 +44,13 @@ public class NotificationsActivity extends BaseActivity {
         setContentView(R.layout.activity_notifications);
         setupUI();
 
+        progressBar = (ProgressBar) findViewById(R.id.progressGetNotifs);
         recyclerView = (RecyclerView) findViewById(R.id.listViewNotif);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
         txtMessage = (TextView) findViewById(R.id.txtMessage);
 
         Realm realm = Realm.getDefaultInstance();
-        notifications = realm.where(Notification.class).equalTo(Constants.Item.ITEM_OWNER_USER_USERNAME, getUserName()).findAll();
+        notifications = realm.where(Notification.class).equalTo(Constants.Item.TARGET_USERNAME, getUserName()).findAll();
         notificationsAdapter = new NotificationsAdapter(notifications);
 
         recyclerView.setHasFixedSize(true);
@@ -75,8 +78,13 @@ public class NotificationsActivity extends BaseActivity {
             Intent intent = new Intent(this, NotificationService.class);
             intent.putExtra(Constants.User.USERNAME, getUserName());
             startService(intent);
-        } else
+            if(notifications.isEmpty())
+                progressBar.setVisibility(View.VISIBLE);
+        } else {
             Snackbar.make(recyclerView, Constants.NO_INTERNET_CONNECTION, Snackbar.LENGTH_LONG).show();
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     public void showHideErrorMessage() {
@@ -86,6 +94,7 @@ public class NotificationsActivity extends BaseActivity {
             txtMessage.setText(getResources().getString(R.string.no_notifications));
         } else {
             txtMessage.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -114,6 +123,7 @@ public class NotificationsActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
             showHideErrorMessage();
             notificationsAdapter.notifyDataSetChanged();
             Log.e(TAG, intent.getStringExtra(Constants.RESPONSE));

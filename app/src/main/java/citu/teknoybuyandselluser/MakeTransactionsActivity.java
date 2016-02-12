@@ -4,7 +4,10 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
@@ -163,9 +166,18 @@ public class MakeTransactionsActivity extends BaseActivity implements AdapterVie
     protected void onResume() {
         super.onResume();
 
-        Intent service = new Intent(MakeTransactionsActivity.this, ExpirationCheckerService.class);
-        service.putExtra(Constants.User.USERNAME, getUserName());
-        startService(service);
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
+        Snackbar snack = Snackbar.make(findViewById(R.id.viewpager), Constants.NO_INTERNET_CONNECTION, Snackbar.LENGTH_LONG);
+
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+            snack.dismiss();
+            Intent service = new Intent(MakeTransactionsActivity.this, ExpirationCheckerService.class);
+            service.putExtra(Constants.User.USERNAME, getUserName());
+            startService(service);
+        } else {
+            snack.dismiss();
+        }
     }
 
     public void getCategories() {

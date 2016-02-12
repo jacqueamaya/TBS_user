@@ -111,9 +111,9 @@ public class DonateItemActivity extends AppCompatActivity {
     public void onDonate(View view) {
         Map<String, String> data = new HashMap<>();
 
-        EditText txtItem = (EditText) findViewById(R.id.txtItem);
-        EditText txtDescription = (EditText) findViewById(R.id.txtDescription);
-        EditText txtQuantity = (EditText) findViewById(R.id.txtQuantity);
+        EditText txtItem = (EditText) findViewById(R.id.inputItem);
+        EditText txtDescription = (EditText) findViewById(R.id.inputDescription);
+        EditText txtQuantity = (EditText) findViewById(R.id.inputQuantity);
 
         String name = txtItem.getText().toString().trim();
         String desc = txtDescription.getText().toString().trim();

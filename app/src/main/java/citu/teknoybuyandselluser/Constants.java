@@ -25,6 +25,7 @@ public class Constants {
     }
 
     public static final class Item {
+        public static final String TARGET_USERNAME = "target.username";
         public static final String OWNER_USER_USERNAME = "owner.user.username";
         public static final String ITEM_OWNER_USER_USERNAME = "item.owner.user.username";
         public static final String BUYER_USERNAME = "buyer.username";
