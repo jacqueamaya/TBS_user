@@ -22,7 +22,7 @@
             android:layout_height="fill_parent"
             android:layout_below="@+id/toolbar">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/flContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,39 +34,32 @@
                 android:paddingStart="@dimen/activity_vertical_margin"
                 android:paddingTop="@dimen/activity_vertical_margin">
 
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/framePicture"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true">
+                    android:layout_height="wrap_content">
 
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/profpic"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="20dp"
+                        android:layout_gravity="center_vertical"
                         app:placeholderImage="@drawable/input_user"
                         app:roundAsCircle="true" />
 
                     <ProgressBar
                         android:id="@+id/progressUpload"
                         style="?android:attr/progressBarStyleSmall"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_centerInParent="true"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
                         android:indeterminate="true"
                         android:visibility="gone" />
-                </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/framePicture"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@string/user_name"
-                    android:src="@drawable/user_24dp"
-                    android:tint="@color/Louie" />
+
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/txtUsername"
@@ -76,49 +69,32 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/username"
-                    android:layout_toRightOf="@id/username"
                     android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_user"
+
+                    android:drawablePadding="8dp"
                     android:padding="10dp"
                     android:text="@string/user_name"
                     android:textColorHint="@color/SlateGray"
                     android:textSize="18sp" />
 
-                <ImageView
-                    android:id="@+id/new_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/username"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@string/new_username"
-                    android:src="@drawable/newuser_24dp"
-                    android:tint="@color/Louie" />
 
                 <EditText
                     android:id="@+id/inputNewUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtUsername"
+                    android:drawableLeft="@drawable/ic_newuser"
+                    android:drawablePadding="8dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/new_username"
-                    android:layout_toRightOf="@id/new_username"
                     android:background="@drawable/textbox"
                     android:hint="@string/new_username"
                     android:inputType="textCapSentences"
                     android:padding="10dp"
                     android:textColorHint="@color/SlateGray" />
 
-                <ImageView
-                    android:id="@+id/currentPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/new_username"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@string/current_password"
-                    android:src="@drawable/currentpass_24dp"
-                    android:tint="@color/Louie" />
 
                 <EditText
                     android:id="@+id/inputCurrentPassword"
@@ -128,24 +104,15 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/currentPassword"
-                    android:layout_toRightOf="@id/currentPassword"
                     android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_curpass"
+                    android:drawablePadding="8dp"
                     android:fontFamily="Calibri"
                     android:hint="@string/current_password"
                     android:inputType="textPassword"
                     android:padding="10dp"
                     android:textColorHint="@color/SlateGray" />
 
-                <ImageView
-                    android:id="@+id/newPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/currentPassword"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@string/new_password"
-                    android:src="@drawable/newpass_24dp"
-                    android:tint="@color/Louie" />
 
                 <EditText
                     android:id="@+id/inputNewPassword"
@@ -155,24 +122,17 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/newPassword"
-                    android:layout_toRightOf="@id/newPassword"
                     android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_newpass"
+                    android:drawablePadding="8dp"
                     android:hint="@string/new_password"
                     android:inputType="textPassword"
                     android:padding="10dp"
                     android:textColorHint="@color/SlateGray" />
 
-                <ImageView
-                    android:id="@+id/confirmPassword"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/newPassword"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@string/confirm_password"
-                    android:src="@drawable/confirmpass_24dp"
-                    android:tint="@color/Louie" />
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                 <EditText
                     android:id="@+id/inputConfirmPassword"
                     android:layout_width="match_parent"
@@ -181,24 +141,21 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@id/confirmPassword"
-                    android:layout_toRightOf="@id/confirmPassword"
                     android:background="@drawable/textbox"
+                    android:drawableLeft="@drawable/ic_confirm"
+                    android:drawablePadding="8dp"
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword"
                     android:padding="10dp"
                     android:textColorHint="@color/SlateGray" />
 
-                <ImageView
-                    android:id="@+id/photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/confirmPassword"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@string/photo"
-                    android:src="@drawable/img_24dp"
-                    android:tint="@color/Louie" />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/txtPicture"
                     android:layout_width="wrap_content"
@@ -207,29 +164,25 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toEndOf="@id/photo"
-                    android:layout_toRightOf="@id/photo"
+                    android:layout_marginTop="5dp"
                     android:text="@string/photo"
                     android:textColor="@color/Black"
                     android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/btnBrowse"
-                    android:layout_width="220dp"
+                    android:layout_width="150dp"
                     android:layout_height="33dp"
                     android:layout_below="@id/inputConfirmPassword"
                     android:layout_gravity="start"
-                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_toEndOf="@id/txtPicture"
-                    android:layout_toRightOf="@id/txtPicture"
+                    android:layout_marginTop="30dp"
                     android:background="@drawable/roundedbutton"
                     android:text="@string/browse"
                     android:textColor="@color/White"
                     android:textSize="16sp" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -255,7 +208,7 @@
                         android:text="@string/edit_profile"
                         android:textColor="@color/White" />
                 </LinearLayout>
-            </RelativeLayout>
+            </LinearLayout>
         </ScrollView>
     </RelativeLayout>
 
