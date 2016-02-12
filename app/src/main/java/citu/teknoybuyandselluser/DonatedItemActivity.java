@@ -47,12 +47,12 @@ public class DonatedItemActivity extends AppCompatActivity {
         String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
         String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
         String picture = intent.getStringExtra(Constants.Item.PICTURE);
-        int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
+        int availableQuantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
 
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView txtNumStars = (TextView) findViewById(R.id.txtNumStars);
-        TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
+        TextView txtAvailableQuantity = (TextView) findViewById(R.id.txtAvailableQuantity);
         Button btnGetItem = (Button) findViewById(R.id.btnGetItem);
         ImageView imgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
 
@@ -62,10 +62,10 @@ public class DonatedItemActivity extends AppCompatActivity {
         txtDescription.setText(description);
         txtNumStars.setText("" + getStarsRequired());
 
-        if (quantity == 1)
-            txtQuantity.setText("" + quantity + "pc.");
+        if (availableQuantity == 1)
+            txtAvailableQuantity.setText("" + availableQuantity + "pc.");
         else
-            txtQuantity.setText("" + quantity + "pcs.");
+            txtAvailableQuantity.setText("" + availableQuantity + "pcs.");
 
         Picasso.with(this)
                 .load(picture)
