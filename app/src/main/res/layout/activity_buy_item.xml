@@ -41,89 +41,84 @@
                         android:adjustViewBounds="true"
                         android:scaleType="fitXY" />
 
-                    <TextView
-                        android:id="@+id/txtItem"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginTop="-48dp"
-                        android:background="#8a000000"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:text="Item Name"
-                        android:textColor="@color/White"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="18dp"
-                            android:paddingRight="5dp"
-                            android:paddingTop="16dp"
-                            android:src="@drawable/ic_cash_multiple_white"
-                            android:tint="@color/colorAccent" />
+                        android:layout_height="68dp"
+                        android:layout_marginTop="-68dp"
+                        android:background="#8a000000"
+                        android:orientation="vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
 
                         <TextView
-                            android:id="@+id/txtPrice"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/txtItem"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingRight="16dp"
-                            android:paddingTop="16dp"
-                            android:text="0.0"
-                            android:textColor="@color/GreyDark"
-                            android:textSize="16sp"
-                            android:textStyle="normal" />
+                            android:layout_marginTop="10dp"
+                            android:singleLine="true"
+                            android:text="Lemonney Snicket Book Set"
+                            android:textColor="@color/White"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="5dp"
-                            android:paddingTop="16dp"
-                            android:src="@drawable/ic_quantity"
-                            android:tint="@color/colorAccent" />
+                            android:layout_marginTop="6dp">
 
-                        <TextView
-                            android:id="@+id/txtAvailableQuantity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="2dp"
-                            android:paddingRight="16dp"
-                            android:paddingTop="16dp"
-                            android:text="5"
-                            android:textColor="@color/GreyDark"
-                            android:textSize="16sp"
-                            android:textStyle="normal" />
+                            <TextView
+                                android:id="@+id/txtPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:drawableLeft="@drawable/ic_cash_white"
+                                android:drawablePadding="5dp"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text="Php "
+                                android:textColor="@color/White"
+                                android:textSize="14sp" />
 
-                        <TextView
-                            android:id="@+id/lblQuantity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="5dp"
-                            android:paddingTop="16dp"
-                            android:text="Qty."
-                            android:textColor="@color/GreyDark"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/txtAvailableQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/txtPrice"
+                                android:drawableLeft="@drawable/ic_cart"
+                                android:drawablePadding="5dp"
+                                android:paddingRight="20dp"
+                                android:gravity="center_vertical"
+                                android:singleLine="true"
+                                android:text=" 10"
+                                android:textColor="@color/White"
+                                android:textSize="14sp" />
 
-                        <EditText
-                            android:id="@+id/txtQuantity"
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="16dp"
-                            android:inputType="number"
-                            android:paddingRight="16dp"
-                            android:paddingTop="16dp"
-                            android:textColor="@color/GreyDark"
-                            android:textSize="16sp" />
+                            <TextView
+                                android:id="@+id/lblQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/txtAvailableQuantity"
+                                android:paddingRight="5dp"
+                                android:text="Qty."
+                                android:textColor="@color/White"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/txtQuantity"
+                                android:layout_width="60dp"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/lblQuantity"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginTop="-10dp"
+                                android:inputType="number"
+                                android:paddingRight="16dp"
+                                android:textColor="@color/White"
+                                android:textSize="14sp" />
+
+                        </RelativeLayout>
+
                     </LinearLayout>
-
 
                     <RadioGroup
                         android:id="@+id/rdGroup"

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,11 +47,13 @@ public class DonatedItemActivity extends AppCompatActivity {
         String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
         String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
         String picture = intent.getStringExtra(Constants.Item.PICTURE);
+        int quantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
 
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
-        TextView txtDescription = (TextView) findViewById(R.id.txtDetails);
+        TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
         TextView txtNumStars = (TextView) findViewById(R.id.txtNumStars);
-        ImageView btnGetItem = (ImageView) findViewById(R.id.btnGetItem);
+        TextView txtQuantity = (TextView) findViewById(R.id.txtQuantity);
+        Button btnGetItem = (Button) findViewById(R.id.btnGetItem);
         ImageView imgThumbnail = (ImageView) findViewById(R.id.imgThumbnail);
 
         mProgressDialog = new ProgressDialog(this);
@@ -57,6 +61,11 @@ public class DonatedItemActivity extends AppCompatActivity {
         txtTitle.setText(itemName);
         txtDescription.setText(description);
         txtNumStars.setText("" + getStarsRequired());
+
+        if (quantity == 1)
+            txtQuantity.setText("" + quantity + "pc.");
+        else
+            txtQuantity.setText("" + quantity + "pcs.");
 
         Picasso.with(this)
                 .load(picture)
