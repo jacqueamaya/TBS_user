@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public final class Utils {
@@ -32,7 +34,11 @@ public final class Utils {
     }
 
     public static String formatFloat(float price){
-        return String.format("%.2f", price);
+        //return String.format("%.2f", price);
+        NumberFormat numberFormatter = NumberFormat.getNumberInstance(Locale.US);
+        numberFormatter.setMinimumFractionDigits(2);
+        numberFormatter.setMaximumFractionDigits(2);
+        return numberFormatter.format(price);
     }
 
     public static String formatDouble(double price){
