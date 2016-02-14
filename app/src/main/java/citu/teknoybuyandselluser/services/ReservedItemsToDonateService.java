@@ -40,6 +40,7 @@ public class ReservedItemsToDonateService extends ConnectionService {
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
+                realm.where(ReservedItemToDonate.class).findAll().clear();
                 realm.copyToRealmOrUpdate(items);
                 realm.commitTransaction();
                 realm.close();

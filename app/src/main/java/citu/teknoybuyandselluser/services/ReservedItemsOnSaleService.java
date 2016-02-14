@@ -40,6 +40,7 @@ public class ReservedItemsOnSaleService extends ConnectionService {
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
+                realm.where(ReservedItemOnSale.class).findAll().clear();
                 realm.copyToRealmOrUpdate(items);
                 realm.commitTransaction();
                 realm.close();

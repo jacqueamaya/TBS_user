@@ -40,6 +40,7 @@ public class ReservedItemsForRentService extends ConnectionService{
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
+                realm.where(ReservedItemForRent.class).findAll().clear();
                 realm.copyToRealmOrUpdate(items);
                 realm.commitTransaction();
                 realm.close();

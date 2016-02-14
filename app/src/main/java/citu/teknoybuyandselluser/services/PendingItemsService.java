@@ -38,6 +38,7 @@ public class PendingItemsService extends ConnectionService {
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
+                realm.where(PendingItem.class).findAll().clear();
                 realm.copyToRealmOrUpdate(items);
                 realm.commitTransaction();
                 realm.close();

@@ -1,6 +1,5 @@
 package citu.teknoybuyandselluser.services;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
@@ -39,6 +38,7 @@ public class ItemsForRentService extends ConnectionService {
 
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
+                realm.where(RentItem.class).findAll().clear();
                 realm.copyToRealmOrUpdate(items);
                 realm.commitTransaction();
                 realm.close();
