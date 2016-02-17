@@ -1,7 +1,9 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -148,9 +150,21 @@ public class SellItemActivity extends AppCompatActivity {
                         json = new JSONObject(responseBody);
                         String response = json.getString("statusText");
                         if (response.equals("Item created")) {
-                            Utils.alertInfo(SellItemActivity.this, "You have successfully sent your request to sell your item. Please go to the TBS office and show your item for the administrator's approval.");
+                            //Utils.alertInfo(SellItemActivity.this, "You have successfully sent your request to sell your item. Please go to the TBS office and show your item for the administrator's approval.");
                             //Toast.makeText(SellItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
-                            finish();
+                            //finish();
+                            new AlertDialog.Builder(SellItemActivity.this)
+                                    .setMessage("You have successfully sent your request to sell your item. Please go to the TBS office and show your item for the administrator's approval.")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            finish();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
                         } else {
                             Toast.makeText(SellItemActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
