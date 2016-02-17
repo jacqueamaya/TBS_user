@@ -40,11 +40,13 @@ public class PendingItemActivity extends AppCompatActivity {
     private EditText mTxtDescription;
     private EditText mTxtPrice;
     private EditText mTxtQuantity;
+    private EditText mTxtRentDuration;
     private ProgressDialog mProgressDialog;
     private SimpleDraweeView mImgPreview;
 
     private int mItemId;
     private int mQuantity;
+    private int mRentDuration;
     private float mPrice;
     private String mDescription;
     private String mItemName;
@@ -72,6 +74,7 @@ public class PendingItemActivity extends AppCompatActivity {
         mPrice = intent.getFloatExtra(Constants.Item.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.Item.PICTURE);
         mQuantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
+        mRentDuration = intent.getIntExtra(Constants.Item.RENT_DURATION, 1);
         String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
         mPurpose = intent.getStringExtra("purpose");
 
@@ -79,6 +82,7 @@ public class PendingItemActivity extends AppCompatActivity {
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
         mTxtPrice = (EditText) findViewById(R.id.txtPrice);
         mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
+        mTxtRentDuration = (EditText) findViewById(R.id.txtRentDuration);
         mImgPreview = (SimpleDraweeView) findViewById(R.id.preview);
 
         mProgressDialog = new ProgressDialog(this);
@@ -95,6 +99,16 @@ public class PendingItemActivity extends AppCompatActivity {
             mTxtPrice.setEnabled(true);
         }
         mTxtPrice.setText(strPrice);
+
+        String strRentDuration;
+        if(mRentDuration == 0) {
+            strRentDuration = "(Not For Rent)";
+            mTxtRentDuration.setEnabled(false);
+        } else {
+            strRentDuration = mRentDuration + "day/s";
+            mTxtRentDuration.setEnabled(true);
+        }
+        mTxtRentDuration.setText(strRentDuration);
 
         String strQuantity = mQuantity + "";
         mTxtQuantity.setText(strQuantity);
