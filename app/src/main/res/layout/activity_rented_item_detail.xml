@@ -162,7 +162,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:text="Penalty"
-                        android:textColor="@color/GreyDark"
+                        android:textColor="@color/DarkRed"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -174,7 +174,7 @@
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:text="Php"
-                        android:textColor="@color/GreyDark"
+                        android:textColor="@color/DarkRed"
                         android:textSize="16sp"
                         android:textStyle="normal" />
 

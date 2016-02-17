@@ -70,7 +70,7 @@ public class ReservedItemsForRentAdapter extends RecyclerView.Adapter<ReservedIt
             ReservedItemForRent reservedItemForRent = mItems.get(position);
             Intent intent;
             intent = new Intent(context, ReservedItemActivity.class);
-            intent.putExtra(Constants.Item.ID, reservedItemForRent.getId());
+            intent.putExtra(Constants.Item.ID, reservedItemForRent.getItem().getId());
             intent.putExtra(Constants.Item.RESERVATION_ID, reservedItemForRent.getId());
             intent.putExtra(Constants.Item.ITEM_CODE, reservedItemForRent.getItem_code());
             intent.putExtra(Constants.Item.ITEM_NAME, reservedItemForRent.getItem().getName());

@@ -15,7 +15,6 @@ import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.ReservedItemActivity;
 import citu.teknoybuyandselluser.Utils;
-import citu.teknoybuyandselluser.models.ReservedItemForRent;
 import citu.teknoybuyandselluser.models.ReservedItemToDonate;
 import io.realm.RealmResults;
 
@@ -71,7 +70,7 @@ public class ReservedItemsToDonateAdapter extends RecyclerView.Adapter<ReservedI
             ReservedItemToDonate reservedItemToDonate = mItems.get(position);
             Intent intent;
             intent = new Intent(context, ReservedItemActivity.class);
-            intent.putExtra(Constants.Item.ID, reservedItemToDonate.getId());
+            intent.putExtra(Constants.Item.ID, reservedItemToDonate.getItem().getId());
             intent.putExtra(Constants.Item.RESERVATION_ID, reservedItemToDonate.getId());
             intent.putExtra(Constants.Item.ITEM_CODE, reservedItemToDonate.getItem_code());
             intent.putExtra(Constants.Item.ITEM_NAME, reservedItemToDonate.getItem().getName());

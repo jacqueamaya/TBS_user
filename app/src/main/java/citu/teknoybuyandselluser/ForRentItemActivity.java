@@ -150,7 +150,7 @@ public class ForRentItemActivity extends AppCompatActivity {
                     try {
                         json = new JSONObject(responseBody);
                         String response = json.getString("statusText");
-                        if (response.equals("Item created")) {
+                        if (json.getInt("status") == 201) {
                             //Toast.makeText(ForRentItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
                             finish();
                             showAlertDialog();

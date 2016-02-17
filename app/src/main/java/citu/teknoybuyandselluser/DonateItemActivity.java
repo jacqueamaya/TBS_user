@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import citu.teknoybuyandselluser.models.DonateItem;
 import citu.teknoybuyandselluser.models.ImageInfo;
 
 public class DonateItemActivity extends AppCompatActivity {
