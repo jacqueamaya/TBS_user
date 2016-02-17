@@ -140,7 +140,8 @@ public class DonateItemActivity extends AppCompatActivity {
                         json = new JSONObject(responseBody);
                         String response = json.getString("statusText");
                         if (response.equals("Item created")) {
-                            Toast.makeText(DonateItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
+                            Utils.alertInfo(SellItemActivity.this, "You have successfully sent your request to donate your item. Please go to the TBS office and show your item for the administrator's approval.");
+                            //Toast.makeText(DonateItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(DonateItemActivity.this, response, Toast.LENGTH_SHORT).show();
