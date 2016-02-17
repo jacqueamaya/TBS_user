@@ -1,6 +1,8 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -14,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class DonateItemActivity extends AppCompatActivity {
 
     private ImageInfo mImgInfo;
     private ProgressBar mProgressBar;
+
+    private String mItemName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,16 +118,16 @@ public class DonateItemActivity extends AppCompatActivity {
         EditText txtDescription = (EditText) findViewById(R.id.inputDescription);
         EditText txtQuantity = (EditText) findViewById(R.id.inputQuantity);
 
-        String name = txtItem.getText().toString().trim();
+        mItemName = txtItem.getText().toString().trim();
         String desc = txtDescription.getText().toString().trim();
         String quantity = txtQuantity.getText().toString().trim();
 
-        if(!name.equals("")
+        if(!mItemName.equals("")
                 && !desc.equals("")
                 && !quantity.equals("")
                 && mImgInfo != null) {
             data.put(Constants.Item.OWNER, getUserName());
-            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.NAME, mItemName);
             data.put(Constants.Item.DESCRIPTION, desc);
             data.put(Constants.Item.QUANTITY, quantity);
             data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
@@ -139,9 +142,10 @@ public class DonateItemActivity extends AppCompatActivity {
                     try {
                         json = new JSONObject(responseBody);
                         String response = json.getString("statusText");
-                        if (response.equals("Item created")) {
-                            Toast.makeText(DonateItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
+                        if (json.getInt("status") == 201) {
+                            //Toast.makeText(DonateItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
                             finish();
+                            showAlertDialog();
                         } else {
                             Toast.makeText(DonateItemActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
@@ -176,6 +180,21 @@ public class DonateItemActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder donateItem = new AlertDialog.Builder(this);
+        donateItem.setTitle("Donate Item Reminder");
+        donateItem.setMessage("Your item, " + mItemName + ", is now pending for TBS Admin approval. " +
+                "Please show your item to be donated to the TBS Admin within three(3) days. " +
+                "Otherwise, your item will expire and will be deleted from Pending list.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        donateItem.create().show();
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.models.AvailableItemForRent;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
@@ -72,12 +73,24 @@ public class AvailableItemsForRentAdapter extends RealmBaseAdapter<AvailableItem
     }
 
     public void filter(CharSequence constraint) {
-        updateRealmResults(
-                Realm.getDefaultInstance()
-                        .where(AvailableItemForRent.class)
-                        .contains(Constants.Item.NAME, constraint.toString())
-                        .contains(Constants.Item.CATEGORY_NAME, constraint.toString())
-                        .findAll()
-        );
+        String splitString[] = constraint.toString().split(",");
+        if(splitString.length == 2) {
+            updateRealmResults(
+                    Realm.getDefaultInstance()
+                            .where(AvailableItemForRent.class)
+                            .contains(Constants.Item.NAME, constraint.toString(), Case.INSENSITIVE)
+                            .contains(Constants.Item.CATEGORY_CATEGORY_NAME, constraint.toString())
+                            .findAll()
+            );
+        } else {
+            updateRealmResults(
+                    Realm.getDefaultInstance()
+                            .where(AvailableItemForRent.class)
+                            .contains(Constants.Item.NAME, constraint.toString(), Case.INSENSITIVE)
+                            .or()
+                            .contains(Constants.Item.CATEGORY_CATEGORY_NAME, constraint.toString())
+                            .findAll()
+            );
+        }
     }
 }

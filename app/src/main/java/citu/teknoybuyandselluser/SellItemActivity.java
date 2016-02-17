@@ -1,7 +1,9 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -16,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class SellItemActivity extends AppCompatActivity {
 
     private SimpleDraweeView mImgPreview;
     private ImageInfo mImgInfo;
+
+    private String mItemName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,18 +123,18 @@ public class SellItemActivity extends AppCompatActivity {
         Map<String, String> data = new HashMap<>();
         SharedPreferences prefs = getSharedPreferences(Constants.MY_PREFS_NAME, Context.MODE_PRIVATE);
         String user = prefs.getString(Constants.User.USERNAME, null);
-        String name = mTxtItem.getText().toString().trim();
+        mItemName = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
         String price = mTxtPrice.getText().toString().trim();
         String quantity = mTxtQuantity.getText().toString().trim();
 
-        if(!name.equals("")
+        if(!mItemName.equals("")
                 && !desc.equals("")
                 && !price.equals("")
                 && !quantity.equals("")
                 && mImgInfo != null) {
             data.put(Constants.Item.OWNER, user);
-            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.NAME, mItemName);
             data.put(Constants.Item.DESCRIPTION, desc);
             data.put(Constants.Item.PRICE, price);
             data.put(Constants.Item.QUANTITY, quantity);
@@ -148,8 +151,9 @@ public class SellItemActivity extends AppCompatActivity {
                         json = new JSONObject(responseBody);
                         String response = json.getString("statusText");
                         if (response.equals("Item created")) {
-                            Toast.makeText(SellItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SellItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
                             finish();
+                            showAlertDialog();
                         } else {
                             Toast.makeText(SellItemActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
@@ -174,6 +178,21 @@ public class SellItemActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder sellItem = new AlertDialog.Builder(this);
+        sellItem.setTitle("Sell Item Reminder");
+        sellItem.setMessage("Your item, " + mItemName + ", is now pending for TBS Admin approval. " +
+                "Please show your item for sale to the TBS Admin within three(3) days. " +
+                "Otherwise, your item will expire and will be deleted from Pending list.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        sellItem.create().show();
     }
 
     @Override

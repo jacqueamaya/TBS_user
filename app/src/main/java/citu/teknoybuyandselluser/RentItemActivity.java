@@ -1,6 +1,8 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -98,8 +100,9 @@ public class RentItemActivity extends AppCompatActivity {
                     try {
                         JSONObject json = new JSONObject(responseBody);
                         if (json.getInt("status") == 201) {
-                            Toast.makeText(RentItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(RentItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
                             finish();
+                            showAlertDialog();
                         } else {
                             Toast.makeText(RentItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
                         }
@@ -129,6 +132,21 @@ public class RentItemActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder rentItem = new AlertDialog.Builder(this);
+        rentItem.setTitle("Rent Item Reminder");
+        rentItem.setMessage(Utils.capitalize(mItemName) + ", is now reserved. " +
+                "Please wait within three(3) days for the renter to give the item to TBS Admin. " +
+                "Otherwise, your reservation will expire and will be deleted from Reserved Items for Rent list.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        rentItem.create().show();
     }
 
     @Override

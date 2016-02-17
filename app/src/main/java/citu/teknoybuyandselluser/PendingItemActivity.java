@@ -39,13 +39,16 @@ public class PendingItemActivity extends AppCompatActivity {
     private EditText mTxtItem;
     private EditText mTxtDescription;
     private EditText mTxtPrice;
+    private EditText mTxtQuantity;
     private ProgressDialog mProgressDialog;
     private SimpleDraweeView mImgPreview;
 
     private int mItemId;
+    private int mQuantity;
     private float mPrice;
     private String mDescription;
     private String mItemName;
+    private String newName;
     private String mPicture;
     private String mPurpose;
 
@@ -68,18 +71,21 @@ public class PendingItemActivity extends AppCompatActivity {
         mDescription = intent.getStringExtra(Constants.Item.DESCRIPTION);
         mPrice = intent.getFloatExtra(Constants.Item.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.Item.PICTURE);
+        mQuantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
         String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
         mPurpose = intent.getStringExtra("purpose");
 
         mTxtItem = (EditText) findViewById(R.id.txtItem);
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
         mTxtPrice = (EditText) findViewById(R.id.txtPrice);
+        mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
         mImgPreview = (SimpleDraweeView) findViewById(R.id.preview);
 
         mProgressDialog = new ProgressDialog(this);
 
         mTxtItem.setText(mItemName);
         mTxtDescription.setText(mDescription);
+
         String strPrice;
         if(mPrice == 0.0) {
             strPrice = "(To Donate)";
@@ -89,6 +95,9 @@ public class PendingItemActivity extends AppCompatActivity {
             mTxtPrice.setEnabled(true);
         }
         mTxtPrice.setText(strPrice);
+
+        String strQuantity = mQuantity + "";
+        mTxtQuantity.setText(strQuantity);
 
         Picasso.with(this)
                 .load(mPicture)
@@ -111,47 +120,52 @@ public class PendingItemActivity extends AppCompatActivity {
 
     public void onEditItem(View view) {
 
-        String name = mTxtItem.getText().toString().trim();
+        newName = mTxtItem.getText().toString().trim();
         String desc = mTxtDescription.getText().toString().trim();
         String priceStr = mTxtPrice.getText().toString().trim();
+        String strQuantity = mTxtQuantity.getText().toString().trim();
 
         if(mPurpose.equals("Sell")) {
 
-            if(!name.equals("")
+            if(!newName.equals("")
                     && !desc.equals("")
                     && (mImgInfo != null || !mPicture.equals(""))
-                    && !priceStr.equals("")) {
-
-                float price = Float.parseFloat(mTxtPrice.getText().toString().trim());
-                editItem(name, desc, price);
+                    && !priceStr.equals("")
+                    && !strQuantity.equals("")) {
+                float price = Float.parseFloat(priceStr);
+                int quantity = Integer.parseInt(strQuantity);
+                editItem(desc, price, quantity);
             } else {
                 Log.v(TAG,"missing input");
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
-         }else {
-            if(!name.equals("")
-                && !desc.equals("")
-                && (mImgInfo != null || !mPicture.equals(""))) {
-                    editItem(name, desc, 0);
+         } else {
+            if(!newName.equals("")
+                    && !desc.equals("")
+                    && (mImgInfo != null || !mPicture.equals(""))
+                    && !strQuantity.equals("")) {
+                int quantity = Integer.parseInt(strQuantity);
+                editItem(desc, 0, quantity);
             } else {
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public void editItem(String name, String desc, float price) {
+    public void editItem(String desc, float price, int quantity) {
         Map<String, String> data = new HashMap<>();
         String user = getUserName();
 
-        if(name.equals(mItemName) && desc.equals(mDescription) && price == mPrice && mImgInfo == null) {
+        if(newName.equals(mItemName) && desc.equals(mDescription) && price == mPrice && mImgInfo == null && quantity == mQuantity) {
             Toast.makeText(PendingItemActivity.this, "No changes have been made", Toast.LENGTH_SHORT).show();
         } else {
             data.put(Constants.Item.OWNER, user);
             data.put(Constants.Item.ID, ""+mItemId);
 
-            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.NAME, newName);
             data.put(Constants.Item.DESCRIPTION, desc);
             data.put(Constants.Item.PRICE, "" + price);
+            data.put(Constants.Item.QUANTITY, "" + quantity);
             if(mImgInfo != null) {
                 data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
             }
@@ -165,7 +179,13 @@ public class PendingItemActivity extends AppCompatActivity {
                     JSONObject json;
                     try {
                         json = new JSONObject(responseBody);
-                        Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                        if (json.getInt("status") == 201) {
+                            //Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                            finish();
+                            showAlertDialog();
+                        } else {
+                            Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -214,7 +234,7 @@ public class PendingItemActivity extends AppCompatActivity {
             @Override
             public void success(String responseBody) {
                 Log.d(TAG, "Delete Item success");
-                Toast.makeText(PendingItemActivity.this, "Delete Item Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PendingItemActivity.this, "You have successfully deleted your item.", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
@@ -229,6 +249,34 @@ public class PendingItemActivity extends AppCompatActivity {
     private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
+    }
+
+    public String getUserName() {
+        SharedPreferences mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
+        return mSharedPreferences.getString(Constants.User.USERNAME, "");
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder editItem = new AlertDialog.Builder(this);
+        editItem.setTitle("Edit Item Reminder");
+        editItem.setMessage("Your edited item, " + newName + ", is now pending for TBS Admin approval. " +
+                "Please show your item to the TBS Admin within three(3) days. " +
+                "Otherwise, your item will expire and will be deleted from Pending list.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        editItem.create().show();
     }
 
     @Override
@@ -272,19 +320,6 @@ public class PendingItemActivity extends AppCompatActivity {
                 });
             }
         }
-    }
-
-    public String getUserName() {
-        SharedPreferences mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
-        return mSharedPreferences.getString(Constants.User.USERNAME, "");
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

@@ -74,6 +74,7 @@ public class PendingItemsAdapter extends RecyclerView.Adapter<PendingItemsAdapte
             intent.putExtra(Constants.Item.DESCRIPTION, item.getDescription());
             intent.putExtra(Constants.Item.PRICE, item.getPrice());
             intent.putExtra(Constants.Item.PICTURE, item.getPicture());
+            intent.putExtra(Constants.Item.QUANTITY, item.getQuantity());
             intent.putExtra(Constants.Item.STARS_REQUIRED, item.getStars_required());
             intent.putExtra(Constants.Item.FORMAT_PRICE, Utils.formatFloat(item.getPrice()));
             intent.putExtra(Constants.Item.PURPOSE, item.getPurpose());

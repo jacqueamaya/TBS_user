@@ -77,7 +77,8 @@ public class Server {
                 ! data.containsKey(Constants.Item.ID) ||
                 ! data.containsKey(Constants.Item.NAME) ||
                 ! data.containsKey(Constants.Item.DESCRIPTION) ||
-                ! data.containsKey(Constants.Item.PRICE)) {
+                ! data.containsKey(Constants.Item.PRICE) ||
+                ! data.containsKey(Constants.Item.QUANTITY)) {
             throw new RuntimeException("Missing data.");
         }
 

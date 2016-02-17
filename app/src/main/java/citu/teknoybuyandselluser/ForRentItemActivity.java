@@ -1,6 +1,8 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -35,6 +37,8 @@ public class ForRentItemActivity extends AppCompatActivity {
 
     private SimpleDraweeView mImgPreview;
     private ImageInfo mImgInfo;
+
+    private String mItemName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,20 +119,20 @@ public class ForRentItemActivity extends AppCompatActivity {
         EditText txtRentDuration = (EditText) findViewById(R.id.inputRentDuration);
 
         Map<String, String> data = new HashMap<>();
-        String name = txtItem.getText().toString().trim();
+        mItemName = txtItem.getText().toString().trim();
         String desc = txtDescription.getText().toString().trim();
         String price = txtPrice.getText().toString().trim();
         String quantity = txtQuantity.getText().toString().trim();
         String rentDuration = txtRentDuration.getText().toString().trim();
 
-        if (!name.equals("")
+        if (!mItemName.equals("")
                 && !desc.equals("")
                 && !price.equals("")
                 && !quantity.equals("")
                 && !rentDuration.equals("")
                 && mImgInfo != null) {
             data.put(Constants.Item.OWNER, getUserName());
-            data.put(Constants.Item.NAME, name);
+            data.put(Constants.Item.NAME, mItemName);
             data.put(Constants.Item.DESCRIPTION, desc);
             data.put(Constants.Item.PRICE, price);
             data.put(Constants.Item.QUANTITY, quantity);
@@ -147,8 +151,9 @@ public class ForRentItemActivity extends AppCompatActivity {
                         json = new JSONObject(responseBody);
                         String response = json.getString("statusText");
                         if (response.equals("Item created")) {
-                            Toast.makeText(ForRentItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ForRentItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
                             finish();
+                            showAlertDialog();
                         } else {
                             Toast.makeText(ForRentItemActivity.this, response, Toast.LENGTH_SHORT).show();
                         }
@@ -179,6 +184,21 @@ public class ForRentItemActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder forRentItem = new AlertDialog.Builder(this);
+        forRentItem.setTitle("Item For Rent Reminder");
+        forRentItem.setMessage("Your item, " + mItemName + ", is now pending for TBS Admin approval. " +
+                "Please show your item for rent to the TBS Admin within three(3) days. " +
+                "Otherwise, your item will expire and will be deleted from Pending list.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        forRentItem.create().show();
     }
 
     @Override

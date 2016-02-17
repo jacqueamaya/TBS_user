@@ -32,7 +32,8 @@ public class Constants {
         public static final String RENTER_USERNAME = "renter.username";
         public static final String BUYER = "buyer";
         public static final String RENTER = "renter";
-        public static final String CATEGORY_NAME = "category.category_name";
+        public static final String CATEGORY_NAME = "category_name";
+        public static final String CATEGORY_CATEGORY_NAME = "category.category_name";
         public static final String DATE_APPROVED = "date_approved";
         public static final String DESCRIPTION = "description";
         public static final String ID = "item_id";

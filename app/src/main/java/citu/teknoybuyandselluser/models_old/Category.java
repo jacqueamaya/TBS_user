@@ -1,5 +1,7 @@
 package citu.teknoybuyandselluser.models_old;
 
+import io.realm.RealmObject;
+
 /**
  ** Created by jack on 6/02/16.
  */

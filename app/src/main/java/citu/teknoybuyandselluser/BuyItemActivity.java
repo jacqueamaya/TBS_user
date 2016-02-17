@@ -43,6 +43,8 @@ public class BuyItemActivity extends AppCompatActivity {
 
     private SharedPreferences mSharedPreferences;
 
+    private String itemName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
@@ -72,7 +74,7 @@ public class BuyItemActivity extends AppCompatActivity {
         Button btnBuyItem = (Button) findViewById(R.id.btnBuyItem);
         SimpleDraweeView imgItem = (SimpleDraweeView) findViewById(R.id.imgItem);
 
-        String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
         txtItem.setText(itemName);
         txtAvailableQuantity.setText(strAvailableQuantity);
         txtDescription.setText(description);
@@ -126,8 +128,9 @@ public class BuyItemActivity extends AppCompatActivity {
                 try {
                     JSONObject json = new JSONObject(responseBody);
                     if (json.getInt("status") == 201) {
-                        Toast.makeText(BuyItemActivity.this, intent.getStringExtra(Constants.Item.ITEM_NAME) + " is now reserved.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(BuyItemActivity.this, intent.getStringExtra(Constants.Item.ITEM_NAME) + " is now reserved.", Toast.LENGTH_SHORT).show();
                         finish();
+                        showAlertDialog();
                     } else {
                         Toast.makeText(BuyItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
                     }
@@ -236,6 +239,21 @@ public class BuyItemActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder buyItem = new AlertDialog.Builder(this);
+        buyItem.setTitle("Buy Item Reminder");
+        buyItem.setMessage(Utils.capitalize(itemName) + ", is now reserved. " +
+                "Please wait within three(3) days for the seller to give the item to TBS Admin. " +
+                "Otherwise, your reservation will expire and will be deleted from Reserved Items on Sale list.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        buyItem.create().show();
     }
 
     @Override

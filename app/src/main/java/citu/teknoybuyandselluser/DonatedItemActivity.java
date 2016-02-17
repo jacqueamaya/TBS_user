@@ -1,7 +1,9 @@
 package citu.teknoybuyandselluser;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,6 +34,8 @@ public class DonatedItemActivity extends AppCompatActivity {
     private ProgressDialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
 
+    private String itemName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(0, 0);
@@ -44,7 +48,7 @@ public class DonatedItemActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences(Constants.MY_PREFS_NAME, MODE_PRIVATE);
 
         intent = getIntent();
-        String itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
+        itemName = intent.getStringExtra(Constants.Item.ITEM_NAME);
         String description = intent.getStringExtra(Constants.Item.DESCRIPTION);
         String picture = intent.getStringExtra(Constants.Item.PICTURE);
         int availableQuantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
@@ -115,9 +119,13 @@ public class DonatedItemActivity extends AppCompatActivity {
                 public void success(String responseBody) {
                     try {
                         JSONObject json = new JSONObject(responseBody);
-                        String statusText = json.getString("statusText");
-                        Toast.makeText(DonatedItemActivity.this, statusText, Toast.LENGTH_SHORT).show();
-                        finish();
+                        if (json.getInt("status") == 201) {
+                            finish();
+                            showAlertDialog();
+                        } else {
+                            String statusText = json.getString("statusText");
+                            Toast.makeText(DonatedItemActivity.this, statusText, Toast.LENGTH_SHORT).show();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -148,6 +156,21 @@ public class DonatedItemActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder rentItem = new AlertDialog.Builder(this);
+        rentItem.setTitle("Rent Item Reminder");
+        rentItem.setMessage(Utils.capitalize(itemName) + ", is now reserved. " +
+                "Please wait within three(3) days for the donor to give the item to TBS Admin. " +
+                "Otherwise, your reservation will expire and will be deleted from Reserved Items for Donation list.")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        rentItem.create().show();
     }
 
     @Override

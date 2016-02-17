@@ -115,10 +115,39 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:id="@+id/lblQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/linearLayout"
+                android:layout_alignStart="@+id/linearLayout"
+                android:layout_below="@id/txtPrice"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:text="Quantity"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/lblQuantity"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/textbox"
+                android:hint="Quantity"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
+                android:paddingLeft="15dp"
+                android:singleLine="true"
+                android:textColor="#CC000000"
+                android:textColorHint="#959595"
+                android:textSize="14dp" />
+
+            <TextView
                 android:id="@+id/txtPicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtPrice"
+                android:layout_below="@id/txtQuantity"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
@@ -130,7 +159,7 @@
                 android:id="@+id/btnBrowse"
                 android:layout_width="220dp"
                 android:layout_height="33dp"
-                android:layout_below="@id/txtPrice"
+                android:layout_below="@id/txtQuantity"
                 android:layout_gravity="left"
                 android:layout_marginTop="15dp"
                 android:layout_toRightOf="@id/txtPicture"

@@ -27,7 +27,7 @@ public class AllCategoriesService extends ConnectionService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.e(TAG, "Getting Available Donations...");
+        Log.e(TAG, "Getting All Categories...");
         TBSUserInterface service = ServiceManager.getInstance();
         try {
             Call<List<Category>> call = service.getCategories();

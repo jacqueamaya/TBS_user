@@ -13,6 +13,7 @@ import citu.teknoybuyandselluser.Constants;
 import citu.teknoybuyandselluser.R;
 import citu.teknoybuyandselluser.models.AvailableDonation;
 
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
@@ -73,12 +74,24 @@ public class AllDonationsAdapter extends RealmBaseAdapter<AvailableDonation> {
     }
 
     public void filter(CharSequence constraint) {
-        updateRealmResults(
-                Realm.getDefaultInstance()
-                        .where(AvailableDonation.class)
-                        .contains(Constants.Item.NAME, constraint.toString())
-                        .contains(Constants.Item.CATEGORY_NAME, constraint.toString())
-                        .findAll()
-        );
+        String splitString[] = constraint.toString().split(",");
+        if(splitString.length == 2) {
+            updateRealmResults(
+                    Realm.getDefaultInstance()
+                            .where(AvailableDonation.class)
+                            .contains(Constants.Item.NAME, constraint.toString(), Case.INSENSITIVE)
+                            .contains(Constants.Item.CATEGORY_CATEGORY_NAME, constraint.toString())
+                            .findAll()
+            );
+        } else {
+            updateRealmResults(
+                    Realm.getDefaultInstance()
+                            .where(AvailableDonation.class)
+                            .contains(Constants.Item.NAME, constraint.toString(), Case.INSENSITIVE)
+                            .or()
+                            .contains(Constants.Item.CATEGORY_CATEGORY_NAME, constraint.toString())
+                            .findAll()
+            );
+        }
     }
 }
