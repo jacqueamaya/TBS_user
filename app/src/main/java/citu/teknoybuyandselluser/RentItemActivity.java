@@ -101,7 +101,6 @@ public class RentItemActivity extends AppCompatActivity {
                         JSONObject json = new JSONObject(responseBody);
                         if (json.getInt("status") == 201) {
                             //Toast.makeText(RentItemActivity.this, mItemName + " is now reserved.", Toast.LENGTH_SHORT).show();
-                            finish();
                             showAlertDialog();
                         } else {
                             Toast.makeText(RentItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
@@ -144,6 +143,7 @@ public class RentItemActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
+                        RentItemActivity.this.finish();
                     }
                 });
         rentItem.create().show();

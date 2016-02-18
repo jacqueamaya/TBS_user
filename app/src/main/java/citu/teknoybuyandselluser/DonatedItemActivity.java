@@ -120,7 +120,6 @@ public class DonatedItemActivity extends AppCompatActivity {
                     try {
                         JSONObject json = new JSONObject(responseBody);
                         if (json.getInt("status") == 201) {
-                            finish();
                             showAlertDialog();
                         } else {
                             String statusText = json.getString("statusText");
@@ -168,6 +167,7 @@ public class DonatedItemActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
+                        DonatedItemActivity.this.finish();
                     }
                 });
         rentItem.create().show();

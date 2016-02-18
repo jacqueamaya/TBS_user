@@ -145,7 +145,6 @@ public class DonateItemActivity extends AppCompatActivity {
                         String response = json.getString("statusText");
                         if (json.getInt("status") == 201) {
                             //Toast.makeText(DonateItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
-                            finish();
                             showAlertDialog();
                         } else {
                             Toast.makeText(DonateItemActivity.this, response, Toast.LENGTH_SHORT).show();
@@ -193,6 +192,7 @@ public class DonateItemActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
+                        DonateItemActivity.this.finish();
                     }
                 });
         donateItem.create().show();

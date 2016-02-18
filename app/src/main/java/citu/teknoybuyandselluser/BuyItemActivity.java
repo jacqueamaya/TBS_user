@@ -129,7 +129,6 @@ public class BuyItemActivity extends AppCompatActivity {
                     JSONObject json = new JSONObject(responseBody);
                     if (json.getInt("status") == 201) {
                         //Toast.makeText(BuyItemActivity.this, intent.getStringExtra(Constants.Item.ITEM_NAME) + " is now reserved.", Toast.LENGTH_SHORT).show();
-                        finish();
                         showAlertDialog();
                     } else {
                         Toast.makeText(BuyItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
@@ -251,6 +250,7 @@ public class BuyItemActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
+                        BuyItemActivity.this.finish();
                     }
                 });
         buyItem.create().show();

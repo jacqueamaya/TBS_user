@@ -152,7 +152,6 @@ public class ForRentItemActivity extends AppCompatActivity {
                         String response = json.getString("statusText");
                         if (json.getInt("status") == 201) {
                             //Toast.makeText(ForRentItemActivity.this, "Item has been created", Toast.LENGTH_SHORT).show();
-                            finish();
                             showAlertDialog();
                         } else {
                             Toast.makeText(ForRentItemActivity.this, response, Toast.LENGTH_SHORT).show();
@@ -196,6 +195,7 @@ public class ForRentItemActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
+                        ForRentItemActivity.this.finish();
                     }
                 });
         forRentItem.create().show();
