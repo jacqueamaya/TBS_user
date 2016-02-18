@@ -117,23 +117,21 @@ public class MainActivity extends AppCompatActivity {
         if (chkAgreeTerms.isChecked()) {
             AlertDialog.Builder termsAndConditions = new AlertDialog.Builder(this);
             termsAndConditions.setTitle("TBS Terms and Conditions");
-            termsAndConditions.setMessage("USER in General" + "\n" +
+            termsAndConditions.setMessage("USER" + "\n" +
                             "1.\tUser should be a bona fide student of Cebu Institute of Technology University.\n" +
                             "2.\tUser should register an account in order to use the mobile application.\n" +
-                            "3.\tA user can be a seller, a buyer, and a donor depending on the transaction he is going to make. User becomes a seller when he sells an item to his prospect buyers. User becomes a buyer when he buys items available in the application. User becomes a donor when he donates an item to his fellow TBS users.\n" +
-                            "4.\tA user receives a certain number of stars as incentive for making a transaction. These stars can be used to get discount from items. These can also be used to get an award which will be coming from the donated items.\n" +
+                            "3.\tA user can be a seller, a buyer, a renter, and a donor depending on the transaction he is going to make. \n" +
+                            "4.\tA user receives a certain number of stars as incentive for making a transaction. " +
+                            "When an item has been bought, the stars that will be given to the owner will be 10% of the price of the item. The stars that will be given to the buyer will also be 10% of the price of the item." +
+                            "When an item has been rented, the stars that will be given to the owner will be 10% of the price of the item. The stars that will be given to the renter will also be 10% of the price of the item." +
+                            "When a buyer buys an item with discount, he will not be awarded with stars. " +
+                            "These stars can also be used to get an award which will be coming from the donated items. When a user donates an item, the stars he will receive will be 20% of the stars set by the administrator.\n" +
+                            "5.\tIn every transaction, TBS developers will get a 10& share and the remaining 90% will be for the users. When an item has been bought or rented, 10% of the money will go to the TBS developers and 90% will go to the users.  " +
+                            "In case of unreturned rented items on the set expiration date, penalties will be fined to the renters. 10% of the penalty will go to the TBS developers and 90% will go to the user.\n" +
                             "\nADMINISTRATOR\n" +
                             "1.\tThe administrator takes control of the transactions made by the users.\n" +
-                            "2.\tIn case a user sells an item, the administrator will receive the form submitted by the seller. He shall wait for the seller’s item and when the item is on-hand, he shall check its condition. If the item is in good condition, he shall approve the item to be sold and set the stars for that certain item. If the item is not in good condition, he shall reject the item.\n" +
-                            "\nSELLER\n" +
-                            "1.\tWhen user sells an item, he shall fill-up the “Sell Item” form and submit it to the administrator. He shall meet the administrator within 3 days upon his submission of the “Sell Item” form or else, his submission of the form will become void.\n" +
-                            "2.\tWhen the seller’s item has been bought, he will receive a notification from the administrator and that he must hand the item.\n" +
-                            "3.\tWhen the seller’s item has been claimed by the buyer, he will receive another notification from the administrator and that he should claim his money.\n" +
-                            "4.\tFor every time the seller sells an item, he gets a certain number of stars which will be determined by the administrator.\n" +
-                            "\nBUYER\n" +
-                            "1.\tWhen a user buys an item, he shall wait for a notification coming from the administrator telling him that the item is already on-hand and that he can now claim the item.\n" +
-                            "2.\tA buyer can get a discount depending on the required stars of the item and his collected stars. If the stars he collected are enough for the item, then he can get a discount.\n"
-            )
+                            "2.\tThe administrator has the right to approve or deny requested items for sale, for rent and for donation. " +
+                            "An item will be approved if it is of good condition and if the information you have entered about the item is true and correct.\n ")
                     .setCancelable(false)
                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
