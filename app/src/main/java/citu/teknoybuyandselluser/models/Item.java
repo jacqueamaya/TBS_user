@@ -24,7 +24,6 @@ public class Item extends RealmObject{
     private int stars_required;
     private int stars_to_use;
     private long date_approved;
-
     public int getId() {
         return id;
     }

@@ -74,7 +74,7 @@ public class PendingItemActivity extends AppCompatActivity {
         mPrice = intent.getFloatExtra(Constants.Item.PRICE, 0);
         mPicture = intent.getStringExtra(Constants.Item.PICTURE);
         mQuantity = intent.getIntExtra(Constants.Item.QUANTITY, 1);
-        mRentDuration = intent.getIntExtra(Constants.Item.RENT_DURATION, 1);
+        mRentDuration = intent.getIntExtra(Constants.Item.RENT_DURATION, 0);
         String formatPrice = intent.getStringExtra(Constants.Item.FORMAT_PRICE);
         mPurpose = intent.getStringExtra("purpose");
 
@@ -82,7 +82,7 @@ public class PendingItemActivity extends AppCompatActivity {
         mTxtDescription = (EditText) findViewById(R.id.txtDescription);
         mTxtPrice = (EditText) findViewById(R.id.txtPrice);
         mTxtQuantity = (EditText) findViewById(R.id.txtQuantity);
-        mTxtRentDuration = (EditText) findViewById(R.id.txtRentDuration);
+        mTxtRentDuration = (EditText) findViewById(R.id.txtEditRentDuration);
         mImgPreview = (SimpleDraweeView) findViewById(R.id.preview);
 
         mProgressDialog = new ProgressDialog(this);
@@ -138,6 +138,7 @@ public class PendingItemActivity extends AppCompatActivity {
         String desc = mTxtDescription.getText().toString().trim();
         String priceStr = mTxtPrice.getText().toString().trim();
         String strQuantity = mTxtQuantity.getText().toString().trim();
+        String strRentDuration = mTxtRentDuration.getText().toString().trim();
 
         if(mPurpose.equals("Sell")) {
 
@@ -148,29 +149,45 @@ public class PendingItemActivity extends AppCompatActivity {
                     && !strQuantity.equals("")) {
                 float price = Float.parseFloat(priceStr);
                 int quantity = Integer.parseInt(strQuantity);
-                editItem(desc, price, quantity);
+                editItem(desc, price, quantity, 0);
             } else {
                 Log.v(TAG,"missing input");
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
-         } else {
+         } else if(mPurpose.equals("Rent")) {
+
+            if(!newName.equals("")
+                    && !desc.equals("")
+                    && (mImgInfo != null || !mPicture.equals(""))
+                    && !priceStr.equals("")
+                    && !strQuantity.equals("")
+                    && !strRentDuration.equals("")) {
+                float price = Float.parseFloat(priceStr);
+                int quantity = Integer.parseInt(strQuantity);
+                int rentDuration = Integer.parseInt(strRentDuration);
+                editItem(desc, price, quantity, rentDuration);
+            } else {
+                Log.v(TAG,"missing input");
+                Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+            }
+        } else {
             if(!newName.equals("")
                     && !desc.equals("")
                     && (mImgInfo != null || !mPicture.equals(""))
                     && !strQuantity.equals("")) {
                 int quantity = Integer.parseInt(strQuantity);
-                editItem(desc, 0, quantity);
+                editItem(desc, 0, quantity, 0);
             } else {
                 Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public void editItem(String desc, float price, int quantity) {
+    public void editItem(String desc, float price, int quantity, int rentDuration) {
         Map<String, String> data = new HashMap<>();
         String user = getUserName();
 
-        if(newName.equals(mItemName) && desc.equals(mDescription) && price == mPrice && mImgInfo == null && quantity == mQuantity) {
+        if(newName.equals(mItemName) && desc.equals(mDescription) && price == mPrice && mImgInfo == null && quantity == mQuantity && rentDuration == mRentDuration) {
             Toast.makeText(PendingItemActivity.this, "No changes have been made", Toast.LENGTH_SHORT).show();
         } else {
             data.put(Constants.Item.OWNER, user);
@@ -180,6 +197,7 @@ public class PendingItemActivity extends AppCompatActivity {
             data.put(Constants.Item.DESCRIPTION, desc);
             data.put(Constants.Item.PRICE, "" + price);
             data.put(Constants.Item.QUANTITY, "" + quantity);
+            data.put(Constants.Item.RENT_DURATION, "" + rentDuration);
             if(mImgInfo != null) {
                 data.put(Constants.Item.IMAGE_URL, mImgInfo.getLink());
             }

@@ -17,6 +17,7 @@ public class PendingItem extends RealmObject {
     private String purpose;
     private float price;
     private int quantity;
+    private int rent_duration;
     private int reserved_quantity;
     private String picture;
     private int stars_required;
@@ -133,5 +134,13 @@ public class PendingItem extends RealmObject {
 
     public void setDate_approved(long date_approved) {
         this.date_approved = date_approved;
+    }
+
+    public int getRent_duration() {
+        return rent_duration;
+    }
+
+    public void setRent_duration(int rent_duration) {
+        this.rent_duration = rent_duration;
     }
 }
