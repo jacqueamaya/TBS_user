@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                             "When an item has been rented, the stars that will be given to the owner will be 10% of the price of the item. The stars that will be given to the renter will also be 10% of the price of the item." +
                             "When a buyer buys an item with discount, he will not be awarded with stars. " +
                             "These stars can also be used to get an award which will be coming from the donated items. When a user donates an item, the stars he will receive will be 20% of the stars set by the administrator.\n" +
-                            "5.\tIn every transaction, TBS developers will get a 10& share and the remaining 90% will be for the users. When an item has been bought or rented, 10% of the money will go to the TBS developers and 90% will go to the users.  " +
+                            "5.\tIn every transaction, TBS developers will get a 10% share and the remaining 90% will be for the users. When an item has been bought or rented, 10% of the money will go to the TBS developers and 90% will go to the users.  " +
                             "In case of unreturned rented items on the set expiration date, penalties will be fined to the renters. 10% of the penalty will go to the TBS developers and 90% will go to the user.\n" +
                             "\nADMINISTRATOR\n" +
                             "1.\tThe administrator takes control of the transactions made by the users.\n" +
