@@ -113,7 +113,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_toRightOf="@id/txtPicture"
                     android:background="@drawable/positivebutton"
-                    android:text="Browse"
+                    android:text="Upload Photo"
                     android:textColor="@color/White"
                     android:textSize="14dp" />
 

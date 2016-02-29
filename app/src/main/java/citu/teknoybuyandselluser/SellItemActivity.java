@@ -2,13 +2,18 @@ package citu.teknoybuyandselluser;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -28,20 +33,23 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import citu.teknoybuyandselluser.models.ImageInfo;
-import citu.teknoybuyandselluser.models.SellItem;
 
 public class SellItemActivity extends AppCompatActivity {
-
+    private static final int SELECT_PICTURE_REQUEST_CODE = 1;
     private static final String TAG = "SellItemActivity";
 
     private SimpleDraweeView mImgPreview;
     private ImageInfo mImgInfo;
 
     private String mItemName;
+    private Uri outputFileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +71,39 @@ public class SellItemActivity extends AppCompatActivity {
     }
 
     private void selectImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 1);
+        // Determine Uri of camera image to save.
+        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "TBS" + File.separator);
+        root.mkdirs();
+        final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
+        final File sdImageMainDirectory = new File(root, fname);
+        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
+        // Camera.
+        final List<Intent> cameraIntents = new ArrayList<>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for(ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            cameraIntents.add(intent);
+        }
+
+        // Filesystem.
+        final Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Image Source");
+
+        // Add the camera options.
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+        startActivityForResult(chooserIntent, SELECT_PICTURE_REQUEST_CODE);
     }
 
     @Override
@@ -74,42 +113,56 @@ public class SellItemActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                Uri selectedImage = data.getData();
-                String[] filePath = {MediaStore.Images.Media.DATA};
-                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-                assert c != null;
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                c.close();
-                Server.upload(picturePath, progressBar, new Ajax.Callbacks() {
-                    @Override
-                    public void success(String responseBody) {
-                        Log.v(TAG, "successfully posted");
-                        Log.v(TAG, responseBody);
+            if (requestCode == SELECT_PICTURE_REQUEST_CODE) {
+                String picturePath = "";
+                final boolean isCamera;
+                isCamera = data == null || MediaStore.ACTION_IMAGE_CAPTURE.equals(data.getAction());
 
-                        JSONObject json;
-                        try {
-                            json = new JSONObject(responseBody);
-                            mImgInfo = ImageInfo.getImageInfo(json);
-                            Picasso.with(SellItemActivity.this)
-                                    .load(mImgInfo.getLink())
-                                    .placeholder(R.drawable.thumbsq_24dp)
-                                    .into(mImgPreview);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                Uri selectedImageUri;
+                if (isCamera) {
+                    picturePath = outputFileUri.getPath();
+                } else {
+                    selectedImageUri = data.getData();
+                    String[] filePath = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(selectedImageUri, filePath, null, null, null);
+                    if(c != null) {
+                        c.moveToFirst();
+                        int columnIndex = c.getColumnIndex(filePath[0]);
+                        picturePath = c.getString(columnIndex);
+                        c.close();
+                    }
+                }
+
+                if(!picturePath.equals("")) {
+                    Server.upload(picturePath, progressBar, new Ajax.Callbacks() {
+                        @Override
+                        public void success(String responseBody) {
+                            Log.v(TAG, "successfully posted");
+                            Log.v(TAG, responseBody);
+
+                            JSONObject json;
+                            try {
+                                json = new JSONObject(responseBody);
+                                mImgInfo = ImageInfo.getImageInfo(json);
+                                Picasso.with(SellItemActivity.this)
+                                        .load(mImgInfo.getLink())
+                                        .placeholder(R.drawable.thumbsq_24dp)
+                                        .into(mImgPreview);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void error(int statusCode, String responseBody, String statusText) {
-                        Log.v(TAG, "Request error");
-                        Toast.makeText(SellItemActivity.this, "Unable to upload the image", Toast.LENGTH_SHORT).show();
-                    }
+                        @Override
+                        public void error(int statusCode, String responseBody, String statusText) {
+                            Log.v(TAG, "Request error");
+                            Toast.makeText(SellItemActivity.this, "Unable to upload the image", Toast.LENGTH_SHORT).show();
+                        }
 
-                });
-
+                    });
+                } else {
+                    Toast.makeText(this, "Photo is not valid!", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

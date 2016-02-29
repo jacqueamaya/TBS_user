@@ -63,7 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         txtUser.setText(getUserFullName());
 
         imgUser.setOnClickListener(this);
-        txtUser.setOnClickListener(this);
     }
 
     @Override
