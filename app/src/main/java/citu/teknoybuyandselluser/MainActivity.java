@@ -127,8 +127,10 @@ public class MainActivity extends AppCompatActivity {
                             "When a buyer buys an item with discount, he will not be awarded with stars. " +
                             "These stars can also be used to get an award which will be coming from the donated items. When a user donates an item, the stars he will receive will be 20% of the stars set by the administrator.\n" +
                             "5.\tIn every transaction, TBS developers will get a 10% share and the remaining 90% will be for the users. When an item has been bought or rented, 10% of the money will go to the TBS developers and 90% will go to the users.  " +
-                            "In case of unreturned rented items on the set expiration date, penalties will be fined to the renters. 10% of the penalty will go to the TBS developers and 90% will go to the user.\n" +
-                            "\nADMINISTRATOR\n" +
+                            "In case of unreturned rented items on the set expiration date, penalties will be fined to the renters. 10% of the penalty will go to the TBS developers and 90% will go to the user. If the user cannot
+                            return the rented item 14 days after its expiration date, the user's account will be blocked. This means that the user cannot make any transactions may it be selling, buying, renting or donating. The user's account
+                            will only be unblocked if he has returned the rented item with its corresponding penalty.\n" +
+                            "\nADMINISTRATOR\n" + 
                             "1.\tThe administrator takes control of the transactions made by the users.\n" +
                             "2.\tThe administrator has the right to approve or deny requested items for sale, for rent and for donation. " +
                             "An item will be approved if it is of good condition and if the information you have entered about the item is true and correct.\n ")
