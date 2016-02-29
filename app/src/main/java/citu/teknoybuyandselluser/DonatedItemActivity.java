@@ -159,9 +159,9 @@ public class DonatedItemActivity extends AppCompatActivity {
 
     private void showAlertDialog() {
         AlertDialog.Builder rentItem = new AlertDialog.Builder(this);
-        rentItem.setTitle("Rent Item Reminder");
+        rentItem.setTitle("Get Donation Reminder");
         rentItem.setMessage(Utils.capitalize(itemName) + ", is now reserved. " +
-                "Please wait within three(3) days for the donor to give the item to TBS Admin. " +
+                "Please get the donation from TBS Admin within three(3) days. " +
                 "Otherwise, your reservation will expire and will be deleted from Reserved Items for Donation list.")
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
