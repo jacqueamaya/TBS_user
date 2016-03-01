@@ -90,7 +90,9 @@ public class RentItemActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Please wait. . .");
 
         EditText txtQuantity = (EditText) findViewById(R.id.txtQuantity);
-        int quantity = Integer.parseInt(txtQuantity.getText().toString());
+        int quantity = 0;
+        if(!"".equals(txtQuantity.getText().toString()))
+            quantity = Integer.parseInt(txtQuantity.getText().toString());
 
         if(quantity <= mQuantity && quantity > 0) {
             data.put(Constants.Item.QUANTITY, quantity + "");
