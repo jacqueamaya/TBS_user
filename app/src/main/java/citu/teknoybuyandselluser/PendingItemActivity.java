@@ -140,46 +140,52 @@ public class PendingItemActivity extends AppCompatActivity {
         String strQuantity = mTxtQuantity.getText().toString().trim();
         String strRentDuration = mTxtRentDuration.getText().toString().trim();
 
-        if(mPurpose.equals("Sell")) {
+        switch (mPurpose) {
+            case "Sell":
 
-            if(!newName.equals("")
-                    && !desc.equals("")
-                    && (mImgInfo != null || !mPicture.equals(""))
-                    && !priceStr.equals("")
-                    && !strQuantity.equals("")) {
-                float price = Float.parseFloat(priceStr);
-                int quantity = Integer.parseInt(strQuantity);
-                editItem(desc, price, quantity, 0);
-            } else {
-                Log.v(TAG,"missing input");
-                Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
-            }
-         } else if(mPurpose.equals("Rent")) {
+                if (!newName.equals("")
+                        && !desc.equals("")
+                        && (mImgInfo != null || !mPicture.equals(""))
+                        && !priceStr.equals("")
+                        && !strQuantity.equals("")) {
+                    priceStr = priceStr.substring(3);
+                    float price = Float.parseFloat(priceStr);
+                    int quantity = Integer.parseInt(strQuantity);
+                    editItem(desc, price, quantity, 0);
+                } else {
+                    Log.v(TAG, "missing input");
+                    Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case "Rent":
 
-            if(!newName.equals("")
-                    && !desc.equals("")
-                    && (mImgInfo != null || !mPicture.equals(""))
-                    && !priceStr.equals("")
-                    && !strQuantity.equals("")
-                    && !strRentDuration.equals("")) {
-                float price = Float.parseFloat(priceStr);
-                int quantity = Integer.parseInt(strQuantity);
-                int rentDuration = Integer.parseInt(strRentDuration);
-                editItem(desc, price, quantity, rentDuration);
-            } else {
-                Log.v(TAG,"missing input");
-                Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            if(!newName.equals("")
-                    && !desc.equals("")
-                    && (mImgInfo != null || !mPicture.equals(""))
-                    && !strQuantity.equals("")) {
-                int quantity = Integer.parseInt(strQuantity);
-                editItem(desc, 0, quantity, 0);
-            } else {
-                Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
-            }
+                if (!newName.equals("")
+                        && !desc.equals("")
+                        && (mImgInfo != null || !mPicture.equals(""))
+                        && !priceStr.equals("")
+                        && !strQuantity.equals("")
+                        && !strRentDuration.equals("")) {
+                    priceStr = priceStr.substring(3);
+                    float price = Float.parseFloat(priceStr);
+                    int quantity = Integer.parseInt(strQuantity);
+                    int rentDuration = Integer.parseInt(strRentDuration.replaceAll("[^0-9]", ""));
+                    editItem(desc, price, quantity, rentDuration);
+                } else {
+                    Log.v(TAG, "missing input");
+                    Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                if (!newName.equals("")
+                        && !desc.equals("")
+                        && (mImgInfo != null || !mPicture.equals(""))
+                        && !strQuantity.equals("")) {
+                    int quantity = Integer.parseInt(strQuantity);
+                    editItem(desc, 0, quantity, 0);
+                } else {
+                    Toast.makeText(PendingItemActivity.this, "Some input parameters are missing", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
@@ -213,7 +219,6 @@ public class PendingItemActivity extends AppCompatActivity {
                         json = new JSONObject(responseBody);
                         if (json.getInt("status") == 201) {
                             //Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
-                            finish();
                             showAlertDialog();
                         } else {
                             Toast.makeText(PendingItemActivity.this, json.getString("statusText"), Toast.LENGTH_SHORT).show();
@@ -306,6 +311,7 @@ public class PendingItemActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
+                        PendingItemActivity.this.finish();
                     }
                 });
         editItem.create().show();
